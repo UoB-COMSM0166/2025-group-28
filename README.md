@@ -13,12 +13,12 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 
 Add a group photo here!
 
-- Group member 1, name, email, role
-- Group member 2, name, email, role
-- Group member 3, name, email, role
-- Group member 4, name, email, role
-- Group member 5, name, email, role
-- Group member 6, name, email, role
+- Luke Remus Elliot, pm24104@bristol.ac.uk, whileLuke, role
+- Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role
+- Matt Matloubi, dv24149@bristol.ac.uk, mattmatloubi, role
+- Yoda Monplub, ds24614@bristol.ac.uk, Yoda-Yothada, role
+- Will Nixon, zk24610@bristol.ac.uk, spockthewok, role
+- Dylan Haye, jk24742@bristol.ac.uk, dxlxnhxxe, role
 
 ## Project Report
 
