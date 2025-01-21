@@ -3,9 +3,10 @@ Games we find inspiring and an overview of their mechanics:
 
 
 ### Tower defense 
-    Standard mechanic: Place towers/units to defend against waves of advancing enemies. Popular examples include BloonsTD.
 
-    Potential twists:     
+Standard mechanic: Place towers/units to defend against waves of advancing enemies. Popular examples include BloonsTD.
+
+Potential twists:     
 
    1)  See Legion TD (warcraft 3 custom map) 
     https://www.youtube.com/watch?v=kws87-KcYaY example gameplay 
@@ -19,7 +20,7 @@ Games we find inspiring and an overview of their mechanics:
     Win by destroying opponent's base 
     Could make two player tug-of-war on same game using same keyboard (e.g. arrows vs WASD)?
 
-    3) See Card Wars https://adventuretime.fandom.com/wiki/Card_Wars_(game) 
+3) See Card Wars https://adventuretime.fandom.com/wiki/Card_Wars_(game) 
     https://www.youtube.com/watch?v=O6h0Xx9nbA0 	(2 min) 
     Card based tower defense board game. Card are either creatures, buildings ∨ spells. 
     Set up a terrain type (swamp, cornfield, jungle etc), of your choice on 4 lanes, if the terrain type matches the type of the creature, you can form strategies around this. 
@@ -32,9 +33,9 @@ Games we find inspiring and an overview of their mechanics:
 
 2D platformer like mario 
 
-    Totally random idea:  
+Totally random idea:  
 
-    Goat simulator, collect coins, upgrade horns,  headbutt children, increase mana meter, summon devil ∨ something – goal is to reach the barn 
+Goat simulator, collect coins, upgrade horns,  headbutt children, increase mana meter, summon devil ∨ something – goal is to reach the barn 
 
 ### Potential Twists/Enhancements:
    1) Something with procedural generation 
