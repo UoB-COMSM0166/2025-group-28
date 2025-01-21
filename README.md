@@ -12,6 +12,7 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 ## Your Group
 
 Add a group photo here!
+![grouppic](https://github.com/user-attachments/assets/ec5b17da-6882-42b0-a55c-42023ebdaffb)
 
 - Luke Remus Elliot, pm24104@bristol.ac.uk, whileLuke, role
 - Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role
