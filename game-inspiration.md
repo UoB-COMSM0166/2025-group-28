@@ -5,6 +5,9 @@ Games we find inspiring and an overview of their mechanics:
 ### Tower defense 
 
 Standard mechanic: Place towers/units to defend against waves of advancing enemies. Popular examples include BloonsTD.
+Standard gameplay: Defensive, typically a resourcing system used to fund towers.
+Should have multiple levels.
+
 
 Potential twists:     
 
@@ -24,21 +27,23 @@ Potential twists:
     https://www.youtube.com/watch?v=O6h0Xx9nbA0 	(2 min) 
     Card based tower defense board game. Card are either creatures, buildings ∨ spells. 
     Set up a terrain type (swamp, cornfield, jungle etc), of your choice on 4 lanes, if the terrain type matches the type of the creature, you can form strategies around this. 
-    Win when opponent has no more creature cards 
-    Plants vs zombies. Everyone should know this one.
+    Win when opponent has no more creature cards
+
+   
+4) Plants vs zombies. Everyone should know this one. Zombies are attacking house, you plant plants which can shoot them using resources.
     Could do twist on this?
 
- 
+  
 ### Other Ideas:
 
-2D platformer like mario 
+2D platformer like mario, twists include playing as platform assets (e.g move platform components rather than character to enable it to pass through).
 
 Totally random idea:  
 
 Goat simulator, collect coins, upgrade horns,  headbutt children, increase mana meter, summon devil ∨ something – goal is to reach the barn 
 
 ### Potential Twists/Enhancements:
-   1) Something with procedural generation 
+   1) Something with procedural generation - applicable for 2D games whith movement e.g. platformer - can go on forever.
     Most obvious choice would be a roguelike 
     E.g. The Binding of Isaac / Nuclear Throne etc. 
     2) Concept of permadeath is interesting to explore, even in other game types as well as roguelikes – bit of a trump card that can instantly make a game way harder (and more fun?) 
