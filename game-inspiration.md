@@ -48,4 +48,6 @@ Goat simulator, collect coins, upgrade horns,  headbutt children, increase mana 
     E.g. The Binding of Isaac / Nuclear Throne etc. 
     2) Concept of permadeath is interesting to explore, even in other game types as well as roguelikes – bit of a trump card that can instantly make a game way harder (and more fun?) 
     3) Two-player within same session (e.g. sharing keyboard)
+   4) Dialogue/interaction with text to build story.
+   5) 
 
