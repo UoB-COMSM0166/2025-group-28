@@ -11,15 +11,15 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 
 ## Your Group
 
-Add a group photo here!
+
 ![grouppic](https://github.com/user-attachments/assets/ec5b17da-6882-42b0-a55c-42023ebdaffb)
 
-- Luke Remus Elliot, pm24104@bristol.ac.uk, whileLuke, role
-- Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role
-- Matt Matloubi, dv24149@bristol.ac.uk, mattmatloubi, role
-- Yoda Monplub, ds24614@bristol.ac.uk, Yoda-Yothada, role
-- Will Nixon, zk24610@bristol.ac.uk, spockthewok, role
-- Dylan Haye, jk24742@bristol.ac.uk, dxlxnhxxe, role
+- Luke Remus Elliot, pm24104@bristol.ac.uk, whileLuke, role (Chrollo)
+- Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role (Julius Caesar)
+- Matt Matloubi, dv24149@bristol.ac.uk, mattmatloubi, role (Sully)
+- Yoda Monplub, ds24614@bristol.ac.uk, Yoda-Yothada, role (Yoda)
+- Will Nixon, zk24610@bristol.ac.uk, spockthewok, role (Tigger/sexy tiger)
+- Dylan Haye, jk24742@bristol.ac.uk, dxlxnhxxe, role (No.5)
 
 ## Project Report
 
