@@ -1,8 +1,8 @@
-#Game Inspirations
+# Game Inspirations
 Games we find inspiring and an overview of their mechanics:
 
 
-###Tower defense 
+### Tower defense 
     Standard mechanic: Place towers/units to defend against waves of advancing enemies. Popular examples include BloonsTD.
 
     Potential twists:     
@@ -28,7 +28,7 @@ Games we find inspiring and an overview of their mechanics:
     Could do twist on this?
 
  
-###Other Ideas:
+### Other Ideas:
 
 2D platformer like mario 
 
@@ -36,7 +36,7 @@ Games we find inspiring and an overview of their mechanics:
 
     Goat simulator, collect coins, upgrade horns,  headbutt children, increase mana meter, summon devil ∨ something – goal is to reach the barn 
 
-###Potential Twists/Enhancements:
+### Potential Twists/Enhancements:
    1) Something with procedural generation 
     Most obvious choice would be a roguelike 
     E.g. The Binding of Isaac / Nuclear Throne etc. 
