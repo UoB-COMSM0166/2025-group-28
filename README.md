@@ -15,7 +15,7 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 ![grouppic](https://github.com/user-attachments/assets/ec5b17da-6882-42b0-a55c-42023ebdaffb)
 
 - Luke Remus Elliot, pm24104@bristol.ac.uk, whileLuke, role (Chrollo)
-- Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role (Julius Caesar)
+- Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role (Julius Caesar (bum version))
 - Matt Matloubi, dv24149@bristol.ac.uk, mattmatloubi, role (Sully)
 - Yoda Monplub, ds24614@bristol.ac.uk, Yoda-Yothada, role (Yoda)
 - Will Nixon, zk24610@bristol.ac.uk, spockthewok, role (Tigger/sexy tiger)
