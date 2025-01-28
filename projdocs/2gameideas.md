@@ -6,6 +6,8 @@
  - Towers end up being/producing units
  - Two-player game with split keyboard controls (or split-screen) - potentially with a 1v1 or co-op mode
  - NPC character writing
+![bloons2d](https://github.com/user-attachments/assets/39ab52de-3239-4284-9947-0087aa77efc7)
+
 
 # 2D Shooter (Game inspiration: Boxhead)
 
@@ -23,5 +25,9 @@
  - Could have bullets bounce off walls/obstacles
  - Bullet or gun power ups can be unlocked (e.g. piercing bullets, bouncing bullets, exploding bullets)
  - Screen shake when hit
+![boxhead](https://github.com/user-attachments/assets/7986a0e1-bd0f-44c6-a887-246324613cfa)
+
 
 18 Jan 2025
+
+
