@@ -8,7 +8,7 @@
  - NPC character writing
  - ![bloons2d](https://github.com/user-attachments/assets/61d1747b-c737-4489-80bc-ca3d0c9073ab)
 
-# 2D Shooter (Game inspiration: Boxhead)
+# 2D Shooter (Game inspiration: Box head)
 
 ### Twist ideas: 
  - Massive bullet recoil to add extra challenge to movement
