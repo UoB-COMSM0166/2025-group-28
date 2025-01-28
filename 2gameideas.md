@@ -7,7 +7,7 @@
  - Two-player game with split keyboard controls (or split-screen) - potentially with a 1v1 or co-op mode
  - NPC character writing
 
-# 2D Shooter (Game inspiration: Box head)
+# 2D Shooter (Game inspiration: Boxhead)
 
 ### Twist ideas: 
  - Massive bullet recoil
@@ -15,7 +15,7 @@
  - Specific different types of enemies with different AI
  - Some enemy attacks can be debuffs like dimming the screen or slowing player movement, rather than damage
  - Two-player game with split keyboard controls (or split-screen) - potentially with a 1v1 or co-op mode
- - Could be an RPG with levels (like Slay the Spire but a shooter)
+ - Could be an RPG with levels (like Slay the Spire but a shooter), or a black ops zombies style survival game, or a mix of both (like L4D)
  - Different terrains and resources
  - NPC character writing
  - Could implement a particle system for the bullets. Hitscan or projectile
