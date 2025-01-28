@@ -1,4 +1,4 @@
-# Tower Defense
+# Tower Defense (Game inspiration:  Bloons TD)
 
 ### Twist Ideas: 
  - Play as the attackers
@@ -7,7 +7,7 @@
  - Two-player game with split keyboard controls (or split-screen) - potentially with a 1v1 or co-op mode
  - NPC character writing
 
-# 2D Shooter
+# 2D Shooter (Game inspiration: Box head)
 
 ### Twist ideas: 
  - Massive bullet recoil
