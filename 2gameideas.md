@@ -18,3 +18,7 @@
  - Could be an RPG with levels (like Slay the Spire but a shooter)
  - Different terrains and resources
  - NPC character writing
+ - Could implement a particle system for the bullets. Hitscan or projectile
+ - Could have bullets bounce off walls/obstacles
+ - Bullet or gun power ups can be unlocked (e.g. piercing bullets, bouncing bullets, exploding bullets)
+ - Screen shake when hit
