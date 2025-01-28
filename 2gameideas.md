@@ -22,3 +22,5 @@
  - Could have bullets bounce off walls/obstacles
  - Bullet or gun power ups can be unlocked (e.g. piercing bullets, bouncing bullets, exploding bullets)
  - Screen shake when hit
+
+18 Jan 2025
