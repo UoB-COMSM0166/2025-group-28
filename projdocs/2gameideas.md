@@ -25,6 +25,7 @@
  - Could have bullets bounce off walls/obstacles
  - Bullet or gun power ups can be unlocked (e.g. piercing bullets, bouncing bullets, exploding bullets)
  - Screen shake when hit
+   
 ![boxhead](https://github.com/user-attachments/assets/7986a0e1-bd0f-44c6-a887-246324613cfa)
 
 
