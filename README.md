@@ -1,6 +1,8 @@
 # 2025-group-28
 2025 COMSM0166 group 28
 
+Please find our Kanban board: https://github.com/orgs/UoB-COMSM0166/projects/102/views/4
+
 ## Your Game
 
 Link to your game [PLAY HERE](https://peteinfo.github.io/COMSM0166-project-template/)
