@@ -1,0 +1,5 @@
+edit link:
+https://lucid.app/lucidchart/b89d5995-8b70-4de5-9a32-46680fb87717/edit?invitationId=inv_b6d952a1-ba3c-4f46-96ee-c2628ded6ab4&page=0_0#
+
+current pic:
+![SmartSelect_20250204_155610_Chrome](https://github.com/user-attachments/assets/e42b2ba8-e984-4dbe-88f7-0edce5c6a2ad)
