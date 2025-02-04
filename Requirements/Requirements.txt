@@ -10,6 +10,28 @@ Epic - Able to use the game fairly with standard colourblind people
 
 -  Under 13s (Will)
 -  Siblings/pairs (Matt)
+User story
+As siblings/a couple/close friends
+We want to be able to play together on the same screen
+So that we can enjoy the game together while on the same device
+
+Acceptance
+Given we are living in the same house/flat
+When we want to play video games
+Then we would be able to play together
+
+User story
+As siblings/a couple/close friends
+We want to be able to play together online
+So that we can enjoy the game together when we both want to play
+
+Acceptance
+Given that we are friends/dating etc
+When we want to play games together online
+Then we can play together
+
+
+
 -  Competitive Gamer (Dylan)
 -  Casual Gamer (Yoda)
 -  On The Go Gamers (Fred)
