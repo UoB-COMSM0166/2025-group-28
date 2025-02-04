@@ -1,1 +1,19 @@
+### Stakholders
+
+-  Colourblind User (Luke)
+Epic - Able to use the game fairly with standard colourblind people
+  
+  - As a red/green colourbind player, I want the option to apply a high-contrast filter to the game. 
+-  AC: Given I am colourblind, I want to be able to easily select a high contrast mode to be able to see the gameplay effectivley.
+- As a colourblind player, I want to be able to see visiual cues beyond colour (shapes, patterns) to be informed of changes in game statuses etc.
+
+
+-  Under 13s (Will)
+-  Siblings/pairs (Matt)
+-  Competitive Gamer (Dylan)
+-  Casual Gamer (Yoda)
+-  On The Go Gamers (Fred)
+
+
+
 
