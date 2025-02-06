@@ -49,9 +49,9 @@ Two games that do this well are *System Shock 2* and *Dead Space*:
 
 <table>
   <tr>
-    <td><img src = "https://static.wikia.nocookie.net/shodan/images/e/ef/Hydroponics_3.png/revision/latest?cb=20160719200257" alt width = "280"></td>
-    <td><img src = "https://static.wikia.nocookie.net/shodan/images/4/43/Basketball_Court.jpg/revision/latest?cb=20160803220727" alt width = "280"></td>
-    <td><img src = "https://static.wikia.nocookie.net/shodan/images/1/1c/EngineeringSS2.png/revision/latest?cb=20160719200114" alt width = "280"></td>
+    <td><img src = "https://static.wikia.nocookie.net/shodan/images/e/ef/Hydroponics_3.png/revision/latest?cb=20160719200257" alt width = "300"></td>
+    <td><img src = "https://static.wikia.nocookie.net/shodan/images/4/43/Basketball_Court.jpg/revision/latest?cb=20160803220727" alt width = "300"></td>
+    <td><img src = "https://static.wikia.nocookie.net/shodan/images/1/1c/EngineeringSS2.png/revision/latest?cb=20160719200114" alt width = "300"></td>
   </tr>
   <tr>
     <td>Hydroponics Deck</td>
@@ -63,6 +63,7 @@ Two games that do this well are *System Shock 2* and *Dead Space*:
 ## Presentation
 ### Perspective
 Another differing opinion within the group is what perspective the game should be played from (e.g. top-down, isometric etc.)
+
 I believe the game's perspective should be similar to that of *The Binding of Isaac*, with a bird's eye view of the room, and a flat 2D sprite of the player facing the camera.
 This way, the player can actually see the cute cat they are playing as (as opposed to just seeing the top of their head).
 
