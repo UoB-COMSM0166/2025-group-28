@@ -3,6 +3,8 @@
 
 Please find our Kanban board: https://github.com/orgs/UoB-COMSM0166/projects/102/views/4
 
+Pinterest Inspiration: https://pin.it/1VpPiL6jl
+
 ## Your Game
 
 Link to your game [PLAY HERE](https://peteinfo.github.io/COMSM0166-project-template/)
