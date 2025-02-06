@@ -1,0 +1,1 @@
+copy-paste the .mermaid file into [mermaid.live](mermaid.live)
