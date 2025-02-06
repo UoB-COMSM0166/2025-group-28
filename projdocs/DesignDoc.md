@@ -98,7 +98,7 @@ on the player instead of dealing damage, such as dimming the screen to reduce vi
 
 Another interesting potential enemy type would be heavily inspired by the [Screecher](https://doomwiki.org/wiki/Screecher) from *Doom Eternal*. This enemy wouldn't necessarily seek to attack the player,
 but would instead act as an obstacle and buff the speed and health of all other enemies in the room if the player were to kill it (it's health should be comically low to maximise the chances of this 
-happening).
+happening). When all other enemies are killed, these enemies should automatically die.
 
 This would add a bit more strategy to the game, and reduce the player's incentive to just aimlessly spray bullets all around the arena.
 ### Loot and Upgrades
@@ -109,7 +109,7 @@ What is yet to be decided is how picking up new weapons will work. Will the play
 
 A potential idea would be to limit the player to only one weapon - upon picking up a new weapon that an enemy has randomly dropped as loot, their current weapon will be discarded and flung in
 a random direction within the room. The player can still go and pick up this discarded weapon to switch back to it, but they will have to be careful, as enemies will be swarming from all sides
-and possibly blocking access to it.
+and possibly blocking access to it. Any weapons discarded by the player should be destroyed once the player moves to the next room.
 
 Another decision to make would be how the random upgrade system works: 
 - When are these awarded? (e.g. loot from enemies, reward for clearing a room, dropped by bosses)
