@@ -7,7 +7,7 @@ Pinterest Inspiration: https://pin.it/1VpPiL6jl
 
 ## Your Game
 
-Link to your game [PLAY HERE](https://peteinfo.github.io/COMSM0166-project-template/)
+Link to your game [PLAY HERE](https://uob-comsm0166.github.io/2025-group-28/)
 
 Your game lives in the [/docs](/docs) folder, and is published using Github pages to the link above.
 
