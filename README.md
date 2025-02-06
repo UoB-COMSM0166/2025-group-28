@@ -24,7 +24,7 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 - Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role (Julius Caesar (bum version))
 - Matt Matloubi, dv24149@bristol.ac.uk, mattmatloubi, role (Sully)
 - Yoda Monplub, ds24614@bristol.ac.uk, Yoda-Yothada, role (Yoda)
-- Will Nixon, zk24610@bristol.ac.uk, spockthewok, role (Tigger/sexy tiger)
+- Will Nixon, zk24610@bristol.ac.uk, spockthewok, role (Sexy tiger)
 - Dylan Haye, jk24742@bristol.ac.uk, dxlxnhxxe, role (No.5)
 
 ## Project Report
@@ -107,7 +107,8 @@ Follwoing our paper protyping session .....
 ### Design
 
 - 15% ~750 words 
-- System architecture. Class diagrams, behavioural diagrams. 
+- System architecture. [Class diagrams](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/class-diagram), behavioural diagrams.
+- [Design documents](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/DesignDoc.md) 
 
 ### Implementation
 
