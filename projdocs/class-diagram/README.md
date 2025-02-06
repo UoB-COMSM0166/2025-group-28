@@ -18,7 +18,7 @@ classDiagram
         +widthHitBox
         +heightHitBox
         +widthModel
-        +HeightModel
+        +heightModel
         +color
         +isActive
         +update()
