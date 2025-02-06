@@ -39,7 +39,7 @@ Two games that do this well are *System Shock 2* and *Dead Space*:
     <td><img src = "https://static.wikia.nocookie.net/deadspace/images/9/9f/Sleep_Block_B.png/revision/latest/scale-to-width-down/1000?cb=20100820121627" alt width = "300"></td>
   </tr>
   <tr>
-    <td>Hyroponics Deck</td>
+    <td>Hydroponics Deck</td>
     <td>Bridge</td>
     <td>Crew Deck</td>
   </tr>
@@ -73,9 +73,9 @@ even have separate sprites to switch to when moving up/down.
 One suggestion for the design of the enemies was to have them as animals that we typically associate to be the 'antagonists' of cats, such as dogs, mice, birds etc.
 
 It was also suggested that these animals be cute like AstroCat, but I believe they should look more aggressive (or potentially mutated), to juxtapose AstroCat's cuteness - perhaps the crew
-of this abandoned spaceship AstroCat is on were infected with some strange alien virus?
+of the abandoned spaceship AstroCat is on were infected with some strange alien virus?
 
-This would help the player differentiate their own character from the enemies - plus, who wants to shoot a cute dog in the face??
+This would help the player visually differentiate their own character from the enemies - plus, who wants to shoot a cute dog in the face??
 ## Gameplay
 ### Rooms
 Each room should act as an arena, either with a static number of enemies placed within, or, more interestingly, waves of enemies should come at the player [from all directions.](https://www.youtube.com/watch?v=DJQ_7jKIm24)
