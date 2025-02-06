@@ -1,2 +1,171 @@
-## draft UML diagram
-![mermaid.live](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/class-diagram/UML.mermaid)
+```mermaid
+
+classDiagram
+    class Game {
+        +currentRoom
+        +player
+        +gameState
+        +setup()
+        +update()
+        +draw()
+        +handleInput()
+    }
+
+    class GameObject {
+        <<abstract>>
+        +pos
+        +vel
+        +widthHitBox
+        +heightHitBox
+        +widthModel
+        +HeightModel
+        +color
+        +isActive
+        +update()
+        +draw()
+    }
+
+    class Sprite {
+        <<abstract>>
+        +health
+        +speed
+        +direction
+        +activeEffects
+        +move()
+        +isColliding(Sprite)
+        +takeDamage(amount)
+        +draw()
+    }
+
+    class Player {
+        +fireRate
+        +lastShot
+        +inventory
+        +shoot()
+        +pickupItem()
+        +handleInput()
+    }
+
+    class Mob {
+        <<abstract>>
+        +behaviorType
+        +damage
+        +followPlayer()
+        +attack()
+        +applyDifficulty(Level.getDifficulty)
+    }
+
+    class Dog {
+        +type
+        +biteAtPlayer()
+    }
+
+    class Mouse {
+        +mouseAbility
+        +useAbility()
+    }
+
+    class Item {
+        +effect
+        +isPickedUp
+        +apply(player)
+    }
+
+    class Projectile {
+        +damage
+        +lifetime
+        +update()
+        +checkCollisions()
+    }
+
+    class Room {
+        +width
+        +height
+        +mobs
+        +items
+        +doors
+        +tiles
+        +update()
+        +draw(RoomType)
+        +addMob()
+        +removMob()
+    }
+
+    class Door {
+        +isOpen
+        +direction
+        +targetRoom
+        +open()
+        +close()
+    }
+
+    class Tile {
+        +isWalkable
+        +isDestructible
+        +draw()
+    }
+
+    class Wall {
+        +isWalkable = false
+        +isDestructible
+        +draw()
+    }
+
+
+
+    class Level {
+        +number
+        +rooms
+        +currentRoom
+        +isCleared
+        +difficultyMultiplier
+        +generateRooms()
+        +connectRooms()
+        +moveToRoom(direction)
+        +checkClear()
+        +getDifficulty()
+    }
+
+    class RoomType {
+        <<Enumeration>>
+        +ARMOURY
+        +CARGOBAY
+        +ENGINEERINGBAY
+        +CANTEEN
+        +BARRACKS
+        +HANGAR
+        +BRIDGE
+
+    }
+
+    class Weapon {
+
+    }
+
+    class Potion {
+
+    }
+
+    Game *-- Level
+    Game *-- Player
+    Level *-- Room
+    Room *-- Door
+    Room o-- Mob
+    Room o-- Item
+    GameObject <|-- Sprite
+    Sprite <|-- Player
+    Sprite <|-- Mob
+    Sprite <|-- Item
+    Sprite <|-- Projectile
+    Mob <|-- Dog
+    Mob <|-- Mouse
+    Player o-- Projectile
+    Room o-- RoomType
+    GameObject <|-- Tile
+    Tile <|-- Wall
+    Room o-- Tile
+    Item <|-- Weapon
+    Item <|-- Potion
+
+```
+  
