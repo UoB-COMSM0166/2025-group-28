@@ -210,12 +210,12 @@ async function registerGame() {
 }
 async function registerSelf() {
   const { error } = await _supabase.from("player").insert({
-    id: ac.id,
+    id: muultiplayer_player_number,
     xpos: ac.position.x,
     ypos: ac.position.y,
     variant: 1,
     state: 1,
-    game: 902, //default test game constant instance
+    game: 99022, //default test game constant instance
   });
 }
 
