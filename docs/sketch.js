@@ -18,7 +18,7 @@ let mass_lookup = [];
 let size_lookup = [];
 
 let multiplayer = false;
-let muultiplayer_player_number;
+let muultiplayer_player_number = 1;
 
 class Asteroid {
   constructor(x, y, t) {
@@ -88,10 +88,11 @@ function preload() {
 async function checkForSecondPlayer() {
   //check if player is present in current game. If so, join game as player 2 and listen for player 1's changes
   // player 1 should switch to multiplayer mode
-  const { data, error } = await _supabase.from("player").selelect("id").eq(1);
+  const { data, error } = await _supabase.from("player").select("id").eq(1);
 
   if (data != null) {
     console.log("data found");
+    muultiplayer_player_number = 2;
   }
 }
 function setup() {
@@ -111,7 +112,7 @@ function setup() {
   // ac2 = new AstroCat(100, 100, 10, 2);
 
   // registerGame();
-  //registerSelf();
+  registerSelf();
 
   checkForSecondPlayer();
 
