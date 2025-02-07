@@ -37,7 +37,9 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 - +
 
 ### Requirements 
-Our initial two game ideas were based on a tower defence game, or a 2D shooter game. For our 2D shooter game we took inspiration from [INSERT GAME INFO], and for our tower defence game, we took inspiration from [GAME INFO]. For twists, we thought about inverting some of teh established rules of play - for example playable towers, recoil from weapons impacting position/health, and as a challenge for both genres, we were taken by the idea of allowing two players to play, either on the same computer or remotley.
+Our initial two game ideas were based on a tower defence game, or a 2D shooter game. For our 2D shooter game we took inspiration from the Binding of Isaac [INSERT GAME INFO], and for our tower defence game, we took inspiration from [GAME INFO]. For twists, we thought about inverting some of the established rules of play - for example playable towers, recoil from weapons impacting position/health, and as a challenge for both genres, the idea of allowing two players to play, either on the same computer or over the internet.
+
+We paper-prototyped our takes on the these two genres - both themed around a cat in space (the space environment allows us the most freedom in terms of fun new game mechanics/physics). Despite going in to the session with the tower-defence game most developed, the prototyping of our 2D shooter game flowed more readily  and also recieved the most positive feedback from our test users
 
 [what we did for reqs, pp etc.]
 
@@ -96,7 +98,7 @@ Then we can play together
   - As a user who games on the go, I want the game to function offline with as many feautures as possible, so I can enjoy the game where I have no internet connection.
 
 
-Follwoing our paper protyping session .....
+Follwoing our paper protyping session and our requirement gathering, we held several workshops to refine the game design in terms of both story/aesthetics, and also finalsing our twist.
 
 
 
