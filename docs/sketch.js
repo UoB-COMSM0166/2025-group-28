@@ -88,7 +88,7 @@ function preload() {
 function setup() {
   //fb_setup();
 
-  console.log("Supabase Instance: ", supabase);
+  //console.log("Supabase Instance: ", supabase);
 
   // TEST - test game instance id: 902 -
 
@@ -102,10 +102,11 @@ function setup() {
   // ac2 = new AstroCat(100, 100, 10, 2);
 
   // registerGame();
-  checkForSecondPlayer();
-  registerSelf();
+  // checkForSecondPlayer();
+  // registerSelf();
 
   astroDistro();
+
   backgroundDistro();
   backdropDistro();
   createAlien();
@@ -118,14 +119,15 @@ const handleInserts = (payload) => {
 function draw() {
   background(10, 11, 28);
   let gravity = createVector(0, 0.1 * -1);
-  supabase
+  /* supabase
     .channel("player")
     .on(
       "postgres_changes",
       { event: "UPDATE", schema: "public", table: "player" },
       handleInserts
-    )
-    .subscribe();
+  )
+    
+    .subscribe();*/
 
   for (let item of scenery) {
     if (navVec != null) {
@@ -139,7 +141,7 @@ function draw() {
   ac.applyForce(gravity);
   ac.display();
   ac.update();
-  reportState();
+  //reportState();
 
   for (let a of aliens) {
     if (navVec != null) {
@@ -185,7 +187,7 @@ function keyPressed() {
   }
 }
 
-async function reportState() {
+/*async function reportState() {
   const { error } = await supabase
     .from("player")
     .update({ xpos: ac.position.x, ypos: ac.position.y })
@@ -207,7 +209,7 @@ async function registerSelf() {
     state: 1,
     game: 99022, //default test game constant instance
   });
-}
+}*/
 
 class AstroCat {
   constructor(x, y, a, v) {
@@ -245,7 +247,7 @@ function createAlien() {
   aliens[0] = alien;
 }
 
-async function checkForSecondPlayer() {
+/*async function checkForSecondPlayer() {
   //check if player is present in current game. If so, join game as player 2 and listen for player 1's changes
   // player 1 should switch to multiplayer mode
   const { data, error } = await supabase.from("player").select("id").eq(1);
@@ -254,4 +256,4 @@ async function checkForSecondPlayer() {
     console.log("data found");
     muultiplayer_player_number = 2;
   }
-}
+}*/
