@@ -112,9 +112,8 @@ function setup() {
   // ac2 = new AstroCat(100, 100, 10, 2);
 
   // registerGame();
-  registerSelf();
-
   checkForSecondPlayer();
+  registerSelf();
 
   astroDistro();
   backgroundDistro();
