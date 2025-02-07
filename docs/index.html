@@ -4,10 +4,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
       const { createClient } = supabase;
-      var _supabase = createClient(
-        "https://qbskpzbiplgajfziblgc.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFic2twemJpcGxnYWpmemlibGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4Njk2NDMsImV4cCI6MjA1NDQ0NTY0M30.TQfj7apafZ-UZd5Cvq0qXvAsPMM-KU6md1UtQ5exu9s"
-      );
+      const supabaseUrl = "https://qbskpzbiplgajfziblgc.supabase.co";
+      const supabaseKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFic2twemJpcGxnYWpmemlibGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg4Njk2NDMsImV4cCI6MjA1NDQ0NTY0M30.TQfj7apafZ-UZd5Cvq0qXvAsPMM-KU6md1UtQ5exu9s";
+      const supabase = createClient(supabaseUrl, supabaseKey);
 
       console.log("Supabase Instance: ", _supabase);
     </script>
