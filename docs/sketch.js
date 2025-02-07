@@ -118,7 +118,7 @@ const handleInserts = (payload) => {
 
 function draw() {
   background(10, 11, 28);
-  let gravity = createVector(0, 0.1 * -1);
+  let gravity = createVector(0, 0.1 * 1);
   /* supabase
     .channel("player")
     .on(
@@ -131,8 +131,8 @@ function draw() {
 
   for (let item of scenery) {
     if (navVec != null) {
-      item.applyForce(navVec);
-      item.applyForce(gravity);
+      //  item.applyForce(navVec);
+      //item.applyForce(gravity);
     }
     item.update();
 
@@ -147,7 +147,7 @@ function draw() {
     if (navVec != null) {
       a.applyForce(navVec);
     }
-    //   a.applyForce(createVector(-10, 0));
+    a.applyForce(createVector(-10, 0));
     a.update();
     a.display();
   }
@@ -164,26 +164,26 @@ function keyPressed() {
     // shotFired();
   }
   if (key === "d") {
-    // ac.applyForce(createVector(100, 0));
-    navVec = createVector(-10, 0);
+    ac.applyForce(createVector(100, 0));
+    //navVec = createVector(-10, 0);
   }
 
   if (keyCode == RIGHT_ARROW) {
-    // ac.applyForce(createVector(100, 0));
-    navVec = createVector(-10, 0);
+    ac.applyForce(createVector(100, 0));
+    //navVec = createVector(-10, 0);
   }
 
   if (key === "a") {
-    // ac.applyForce(createVector(-100, 0));
-    navVec = createVector(10, 0);
+    ac.applyForce(createVector(-100, 0));
+    // navVec = createVector(10, 0);
   }
   if (key === "s") {
-    // ac.applyForce(createVector(0, 100));
-    navVec = createVector(0, -10);
+    ac.applyForce(createVector(0, 100));
+    //navVec = createVector(0, -10);
   }
   if (key === "w") {
-    //  ac.applyForce(createVector(0, -100));
-    navVec = createVector(0, 10);
+    ac.applyForce(createVector(0, -100));
+    //navVec = createVector(0, 10);
   }
 }
 
