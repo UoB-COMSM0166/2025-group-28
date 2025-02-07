@@ -1,5 +1,3 @@
-// Create a single supabase client for interacting with your database
-
 let player;
 let player2;
 let ac;
@@ -118,7 +116,7 @@ function draw() {
     .channel("player")
     .on(
       "postgres_changes",
-      { event: "INSERT", schema: "public", table: "player" },
+      { event: "UPDATE", schema: "public", table: "player" },
       handleInserts
     )
     .subscribe();
