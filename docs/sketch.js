@@ -17,6 +17,9 @@ let asset_lookup = [];
 let mass_lookup = [];
 let size_lookup = [];
 
+let multiplayer = false;
+let muultiplayer_player_number;
+
 class Asteroid {
   constructor(x, y, t) {
     this.position = createVector(x, y);
@@ -82,10 +85,21 @@ function preload() {
   alien = loadImage("alien.png");
 }
 
+async function checkForSecondPlayer() {
+  //check if player is present in current game. If so, join game as player 2 and listen for player 1's changes
+  // player 1 should switch to multiplayer mode
+  const { data, error } = await _supabase.from("player").selelect("id").eq(1);
+
+  if (data != null) {
+    console.log("data found");
+  }
+}
 function setup() {
   //fb_setup();
 
   console.log("Supabase Instance: ", _supabase);
+
+  // TEST - test game instance id: 902 -
 
   createCanvas(1000, 600);
 
@@ -98,6 +112,8 @@ function setup() {
 
   // registerGame();
   //registerSelf();
+
+  checkForSecondPlayer();
 
   astroDistro();
   backgroundDistro();
@@ -194,12 +210,12 @@ async function registerGame() {
 }
 async function registerSelf() {
   const { error } = await _supabase.from("player").insert({
-    id: 2,
+    id: ac.id,
     xpos: ac.position.x,
     ypos: ac.position.y,
     variant: 1,
     state: 1,
-    game: 902,
+    game: 902, //default test game constant instance
   });
 }
 
@@ -210,6 +226,9 @@ class AstroCat {
     this.velocity = createVector(0, 0);
     this.acceleration = createVector(0, 0);
     this.variant = v;
+
+    // used to identify player in DB for multiplayer
+    this.id = random(1, 256);
   }
   update() {
     this.velocity.add(this.acceleration);
