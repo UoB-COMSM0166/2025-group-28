@@ -88,7 +88,7 @@ function preload() {
 function setup() {
   //fb_setup();
 
-  console.log("Supabase Instance: ", _supabase);
+  console.log("Supabase Instance: ", supabase);
 
   // TEST - test game instance id: 902 -
 
@@ -118,7 +118,7 @@ const handleInserts = (payload) => {
 function draw() {
   background(10, 11, 28);
   let gravity = createVector(0, 0.1 * -1);
-  _supabase
+  supabase
     .channel("player")
     .on(
       "postgres_changes",
@@ -186,20 +186,20 @@ function keyPressed() {
 }
 
 async function reportState() {
-  const { error } = await _supabase
+  const { error } = await supabase
     .from("player")
     .update({ xpos: ac.position.x, ypos: ac.position.y })
     .eq("id", 1);
 }
 async function registerGame() {
-  const { error } = await _supabase.from("game").insert({
+  const { error } = await supabase.from("game").insert({
     id: 902,
     level: 0,
     mode: 2,
   });
 }
 async function registerSelf() {
-  const { error } = await _supabase.from("player").insert({
+  const { error } = await supabase.from("player").insert({
     id: muultiplayer_player_number,
     xpos: ac.position.x,
     ypos: ac.position.y,
@@ -248,7 +248,7 @@ function createAlien() {
 async function checkForSecondPlayer() {
   //check if player is present in current game. If so, join game as player 2 and listen for player 1's changes
   // player 1 should switch to multiplayer mode
-  const { data, error } = await _supabase.from("player").select("id").eq(1);
+  const { data, error } = await supabase.from("player").select("id").eq(1);
 
   if (data != null) {
     console.log("data found");
