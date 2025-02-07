@@ -85,16 +85,6 @@ function preload() {
   alien = loadImage("alien.png");
 }
 
-async function checkForSecondPlayer() {
-  //check if player is present in current game. If so, join game as player 2 and listen for player 1's changes
-  // player 1 should switch to multiplayer mode
-  const { data, error } = await _supabase.from("player").select("id").eq(1);
-
-  if (data != null) {
-    console.log("data found");
-    muultiplayer_player_number = 2;
-  }
-}
 function setup() {
   //fb_setup();
 
@@ -253,4 +243,15 @@ class AstroCat {
 function createAlien() {
   let alien = new Alien(1400, 300, 1);
   aliens[0] = alien;
+}
+
+async function checkForSecondPlayer() {
+  //check if player is present in current game. If so, join game as player 2 and listen for player 1's changes
+  // player 1 should switch to multiplayer mode
+  const { data, error } = await _supabase.from("player").select("id").eq(1);
+
+  if (data != null) {
+    console.log("data found");
+    muultiplayer_player_number = 2;
+  }
 }
