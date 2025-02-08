@@ -85,6 +85,8 @@ function createWallL2(roomLayout, w, h, x, y) {
 function addWalls(roomLayout, numWalls) {
   for (var i = 0; i < numWalls; i++) {
     var wallVar = floor(random(0, 8));
+    // Buffer of 3 to prevent walls spawning touching outer wall
+    // Basic solution to stop random walls blocking the door
     var x = floor(random(3, roomWidth - 3));
     var y = floor(random(3, roomHeight - 3));
     if (wallVar == wallVariants.SQR) {
@@ -108,14 +110,18 @@ function addDoor(roomLayout) {
   var y = floor(random(2, roomHeight - 2));
   if (doorPos < 0.5) {
     if (x < (roomWidth - 1) / 2) {
+      // Put door on left side of room
       x = 0;
     } else {
+      // Put door on right side of room
       x = roomWidth - 1;
     }
   } else {
     if (y < (roomHeight - 1) / 2) {
+      // Put door at top of room
       y = 0;
     } else {
+      // Put door at bottom of room
       y = roomHeight - 1;
     }
   }
