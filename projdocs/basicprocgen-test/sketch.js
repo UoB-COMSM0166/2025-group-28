@@ -106,6 +106,7 @@ function addWalls(roomLayout, numWalls) {
 
 function addDoor(roomLayout) {
   var doorPos = random();
+  // Buffer of 2 to stop doors spawning in corners of room
   var x = floor(random(2, roomWidth - 2));
   var y = floor(random(2, roomHeight - 2));
   if (doorPos < 0.5) {
