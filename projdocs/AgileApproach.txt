@@ -1,3 +1,0 @@
-*Agile Approach*
-
-* Test update from vscode * 
