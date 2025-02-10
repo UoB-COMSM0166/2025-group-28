@@ -5,6 +5,7 @@ class Room {
       this.mobs = [];
       this.items = [];
       this.door = new Door();
+      this.tiles = []; // 2d array of tiles;
    }
 
    checkClear() {
@@ -23,4 +24,7 @@ class Room {
          this.mobs.push(newMob);
       }
    }
+
+   
+
 }

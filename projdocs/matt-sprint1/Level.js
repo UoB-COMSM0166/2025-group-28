@@ -4,7 +4,7 @@ class Level {
       this.roomsRemaining = 5; // this should be a randomly generated num between say 3 and 6..
       this.currentRoom = new Room();
       this.isCleared = false; // should be publicly accessible from Game?
-      this.difficultyMultiplier = 1 * (levelNum * .02);
+      this.difficultyMultiplier = 1;
    }
 
    // if currentRoom.isCleared() then call the 3 methods below in order
@@ -21,6 +21,14 @@ class Level {
    goToNextRoom() {
       // if player is within certain range of door
       this.currentRoom = new Room();
+   }
+
+   nextLevel() {
+      this.levelNum++;
+      this.roomsRemaining = 5;
+      this.goToNextRoom();
+      this.isCleared = false;
+      this.difficultyMultiplier += 0.02;
    }
 
    
