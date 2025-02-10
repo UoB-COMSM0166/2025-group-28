@@ -20,6 +20,10 @@ const wallVariants = Object.freeze({
   L2: 2
 });
 
+function preload() {
+
+}  
+
 function setup() {
   noStroke();
   createCanvas(400, 400);
