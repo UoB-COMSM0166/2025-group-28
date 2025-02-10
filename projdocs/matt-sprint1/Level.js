@@ -30,9 +30,4 @@ class Level {
       this.isCleared = false;
       this.difficultyMultiplier += 0.02;
    }
-
-   
-
-
-
 }
