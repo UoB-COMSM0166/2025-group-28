@@ -133,7 +133,7 @@ class Room {
 
    addDoor(roomLayout) {
      let doorPos = random();
-     // Buffer of 2 to stop doors spawning in corners of room
+     // doorBuffer stops doors spawning in corners of room
      let x = floor(random(doorBuffer, roomWidth - doorBuffer));
      let y = floor(random(doorBuffer, roomHeight - doorBuffer));
      if (doorPos < 0.5) {
