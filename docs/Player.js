@@ -1,6 +1,6 @@
 class Player extends Sprite {
-   constructor(x, y, player_x) {
-      this.player = player_x;
+   constructor(x, y /*, player_x*/) {
+      //this.player = player_x;
       super(x, y, 100); 
       this.widthHitbox = 30
       this.heightHitbox = 50
@@ -19,7 +19,7 @@ class Player extends Sprite {
    move() {
       //Player movement using WASD
       this.velocity.set(0, 0);
-      if(player_x == PLAYER_1){
+      //if(player_x == PLAYER_1){
          if (keyIsDown(65)) { // A key
             this.velocity.x = -this.speed;
             this.direction = createVector(-1, 0);
@@ -40,8 +40,8 @@ class Player extends Sprite {
          if (this.velocity.x !== 0 && this.velocity.y !== 0) {
          this.velocity.setMag(this.speed);
          }
-      }
-      if(player_x == PLAYER_2){
+      //}
+      /*if(player_x == PLAYER_2){
          if (keyIsDown(LEFT_ARROW)) { 
             this.velocity.x = -this.speed;
             this.direction = createVector(-1, 0);
@@ -62,7 +62,7 @@ class Player extends Sprite {
          if (this.velocity.x !== 0 && this.velocity.y !== 0) {
          this.velocity.setMag(this.speed);
          }
-      }
+      }*/
 
       super.update();
    }
