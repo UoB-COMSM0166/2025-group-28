@@ -3,8 +3,8 @@ class GameObject{
     this.position = createVector(x,y);
     this.velocity = createVector(0,0);
     
-    this.widthHitbox = 40
-    this.heightHitbox = 60
+    this.widthHitbox = 30
+    this.heightHitbox = 50
     
     this.widthModel = 40
     this.heightModel = 60
@@ -19,6 +19,16 @@ class GameObject{
       // We can potentially add friction, gravity, walls
     }
   }
+  isColliding(otherGameObject) {
+    // Check if two game objects' hitboxes overlap
+    return (
+      this.position.x - this.widthHitbox/2 < otherGameObject.position.x + otherGameObject.widthHitbox/2 &&
+      this.position.x + this.widthHitbox/2 > otherGameObject.position.x - otherGameObject.widthHitbox/2 &&
+      this.position.y - this.heightHitbox/2 < otherGameObject.position.y + otherGameObject.heightHitbox/2 &&
+      this.position.y + this.heightHitbox/2 > otherGameObject.position.y - otherGameObject.heightHitbox/2
+    );
+  }
+  
   draw(){
     if(this.isActive){
       fill(this.color);

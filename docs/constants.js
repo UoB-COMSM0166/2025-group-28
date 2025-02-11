@@ -20,6 +20,11 @@ const wallVariants = Object.freeze({
   L2: 2,
 });
 
+const playerNumber = Object.freeze({
+  PLAYER_1: 0,
+  PLAYER_2: 1,
+});
+
 function preload() {
   tileImg = loadImage("assets/tile.png");
   doorImg = loadImage("assets/door.png");
