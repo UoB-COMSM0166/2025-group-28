@@ -21,7 +21,7 @@ const wallVariants = Object.freeze({
 });
 
 function preload() {
-   tileImg = loadImage("assets/tile.png");
-   doorImg = loadImage("assets/door.png");
-   astrocat = loadImage("assets/astrocat.png");
+  tileImg = loadImage("assets/tile.png");
+  doorImg = loadImage("assets/door.png");
+  astrocat = loadImage("assets/astrocat.png");
  }
