@@ -3,8 +3,8 @@ class GameObject{
     this.position = createVector(x,y);
     this.velocity = createVector(0,0);
     
-    this.widthHitbox = 40
-    this.heightHitbox = 60
+    this.widthHitbox = 30
+    this.heightHitbox = 50
     
     this.widthModel = 40
     this.heightModel = 60

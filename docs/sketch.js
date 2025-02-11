@@ -9,7 +9,7 @@ function setup() {
 
   newRoom = new Room();
   newRoom.initRoom();
-  player = new Sprite(astrocat, 400, 300);
+  player = new Player(astrocat, 400, 300);
 
   game = new Game(newRoom, player);
 
@@ -17,7 +17,7 @@ function setup() {
   button.position(0, roomHeight * tileSize + 10);
   button.mousePressed(() => {
     newRoom.initRoom();
-    player = new Sprite(astrocat, 400, 300);
+    player = new Player(astrocat, 400, 300);
     game.playerChange(player);
   });
 }

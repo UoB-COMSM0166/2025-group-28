@@ -38,10 +38,7 @@ class Sprite extends GameObject {
 
     // Applies the movement
     super.update();
-<<<<<<< HEAD
-      }
-  
-=======
+
   }
 
   isColliding(otherGameObject) {
@@ -58,7 +55,6 @@ class Sprite extends GameObject {
     );
   }
 
->>>>>>> origin/main
   takeDamage(amount) {
     this.health -= amount;
 
@@ -74,21 +70,28 @@ class Sprite extends GameObject {
       // Draw sprite first
       image(
         this.img,
-        this.position.x,
-        this.position.y,
+        this.position.x - this.widthModel / 2,
+        this.position.y - this.heightModel / 2,
         this.widthModel,
         this.heightModel
+      );
+      fill(0, 200, 0, 100);
+      rect(
+        this.position.x - this.widthHitbox / 2, 
+        this.position.y - this.heightHitbox / 2, 
+        this.widthHitbox, 
+        this.heightHitbox
       );
 
       // Health bar calculations
       const healthBarWidth = this.widthModel * 0.6;
       const healthBarHeight = 5;
       const healthPercentage = this.health / this.maxHealth;
-      const yOffset = 10; // Space between sprite and health bar
+      const yOffset = 6; // Space between sprite and health bar
 
       // Calculate center positions
-      const spriteCenterX = this.position.x + this.widthModel / 2;
-      const spriteTop = this.position.y;
+      const spriteCenterX = this.position.x;
+      const spriteTop = this.position.y - this.heightModel / 2;
 
       // Health bar positioning
       const healthBarX = spriteCenterX - healthBarWidth / 2;
@@ -106,6 +109,14 @@ class Sprite extends GameObject {
         healthBarWidth * healthPercentage,
         healthBarHeight
       );
+      //this.updateHealth();
     }
   }
+
+  updateHealth(){
+    //Test: Pressing space damages the Player
+    if (keyIsDown(32)) { // Space key
+       this.takeDamage(1);
+    }
+ }
 }
