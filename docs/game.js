@@ -24,6 +24,7 @@ class Game {
     for (let s of this.sprites) {
       s.update();
     }
+    this.player1.updateHealth();
     this.player1.update();
   }
 
