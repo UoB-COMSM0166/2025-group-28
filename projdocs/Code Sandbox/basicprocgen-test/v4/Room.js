@@ -131,7 +131,7 @@ class Room {
      }
    }
 
-   addDoor(roomLayout) {
+   addDoor() {
      let doorPos = random();
      // doorBuffer stops doors spawning in corners of room
      let x = floor(random(doorBuffer, roomWidth - doorBuffer));
@@ -156,7 +156,7 @@ class Room {
      this.roomLayout[y][x] = new Tile(tileTypes.DOOR);
    }
 
-   drawRoom(roomLayout) {
+   drawRoom() {
      for (let j = 0; j < this.roomLayout.length; j++){
        for (let i = 0; i < this.roomLayout[j].length; i++) {
          if (this.roomLayout[j][i].type == tileTypes.WALL) {
