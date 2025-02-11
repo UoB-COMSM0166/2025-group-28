@@ -38,7 +38,6 @@ class Sprite extends GameObject {
 
     // Applies the movement
     super.update();
-
   }
 
   isColliding(otherGameObject) {
@@ -77,9 +76,9 @@ class Sprite extends GameObject {
       );
       fill(0, 200, 0, 100);
       rect(
-        this.position.x - this.widthHitbox / 2, 
-        this.position.y - this.heightHitbox / 2, 
-        this.widthHitbox, 
+        this.position.x - this.widthHitbox / 2,
+        this.position.y - this.heightHitbox / 2,
+        this.widthHitbox,
         this.heightHitbox
       );
 
@@ -113,10 +112,11 @@ class Sprite extends GameObject {
     }
   }
 
-  updateHealth(){
+  updateHealth() {
     //Test: Pressing space damages the Player
-    if (keyIsDown(32)) { // Space key
-       this.takeDamage(1);
+    if (keyIsDown(32)) {
+      // Space key
+      this.takeDamage(1);
     }
- }
+  }
 }
