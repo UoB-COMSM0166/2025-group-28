@@ -19,6 +19,16 @@ class GameObject{
       // We can potentially add friction, gravity, walls
     }
   }
+  isColliding(otherGameObject) {
+    // Check if two game objects' hitboxes overlap
+    return (
+      this.position.x - this.widthHitbox/2 < otherGameObject.position.x + otherGameObject.widthHitbox/2 &&
+      this.position.x + this.widthHitbox/2 > otherGameObject.position.x - otherGameObject.widthHitbox/2 &&
+      this.position.y - this.heightHitbox/2 < otherGameObject.position.y + otherGameObject.heightHitbox/2 &&
+      this.position.y + this.heightHitbox/2 > otherGameObject.position.y - otherGameObject.heightHitbox/2
+    );
+  }
+  
   draw(){
     if(this.isActive){
       fill(this.color);

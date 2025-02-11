@@ -38,16 +38,6 @@ class Sprite extends GameObject {
     super.update();
       }
   
-  isColliding(otherSprite) {
-    // Check if two sprites' hitboxes overlap
-    return (
-      this.position.x - this.widthHitbox/2 < otherSprite.position.x + otherSprite.widthHitbox/2 &&
-      this.position.x + this.widthHitbox/2 > otherSprite.position.x - otherSprite.widthHitbox/2 &&
-      this.position.y - this.heightHitbox/2 < otherSprite.position.y + otherSprite.heightHitbox/2 &&
-      this.position.y + this.heightHitbox/2 > otherSprite.position.y - otherSprite.heightHitbox/2
-    );
-  }
-  
   takeDamage(amount) {
     this.health -= amount;
     
