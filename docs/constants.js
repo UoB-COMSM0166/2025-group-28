@@ -8,10 +8,26 @@ var floorColour = "white";
 var wallColour = "black";
 var doorColour = "brown";
 
+var playerA;
+var playerB;
+
+const GameStates = Object.freeze({
+  ACTIVE: 0,
+  PAUSE: 1,
+  OVER: 2,
+});
+
 const tileTypes = Object.freeze({
   FLOOR: 0,
   WALL: 1,
   DOOR: 2,
+});
+
+const MoveDirections = Object.freeze({
+  LEFT: 0,
+  RIGHT: 1,
+  UP: 2,
+  DOWN: 3,
 });
 
 const wallVariants = Object.freeze({
