@@ -2,7 +2,7 @@ class Player extends Sprite {
    constructor(x, y) {
       super(x, y, 100); 
       this.color = color(0, 100, 255);
-      this.speed = 6; // Slightly faster than base sprites
+      this.speed = 5; // Slightly faster than base sprites
       this.attackDamage = 50;
       this.fireRate = 0.5; // Seconds
       this.lastShot = 0; // Seconds

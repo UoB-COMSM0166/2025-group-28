@@ -1,4 +1,6 @@
 # 2025-group-28
+# AstroCat
+
 2025 COMSM0166 group 28
 
 Please find our Kanban board: https://github.com/orgs/UoB-COMSM0166/projects/102/views/4
@@ -7,7 +9,7 @@ Agile Ways of Working document: https://github.com/UoB-COMSM0166/2025-group-28/b
 
 Pinterest Inspiration: https://pin.it/1VpPiL6jl
 
-Wireframe: https://github.com/UoB-COMSM0166/2025-group-28/blob/3f3c3ca929cc181585613bf577db2ca15de0e3cc/projdocs/Wireframe.md
+Wireframe: https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/Wireframe.md
 
 ## Your Game
 
