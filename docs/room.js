@@ -34,7 +34,7 @@ class Room {
       for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
         this.roomLayout[y][x] = new Tile(tileTypes.WALL);
       }
-      x-=w;
+      x -= w;
     }
   }
 
@@ -47,7 +47,7 @@ class Room {
           this.roomLayout[y][x] = new Tile(tileTypes.WALL);
         }
       }
-      x-=w;
+      x -= w;
     }
   }
 
@@ -60,7 +60,7 @@ class Room {
           this.roomLayout[y][x] = new Tile(tileTypes.WALL);
         }
       }
-      x-=w;
+      x -= w;
     }
   }
 
