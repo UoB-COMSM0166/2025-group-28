@@ -3,7 +3,7 @@ var roomWidth = 50;
 var tileSize = 16;
 var doorBuffer = 5;
 var wallBuffer = 4;
-var step = 6;
+var step = 4;
 
 var playerA;
 var playerB;
