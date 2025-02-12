@@ -160,15 +160,40 @@ class Room {
      for (let j = 0; j < this.roomLayout.length; j++){
        for (let i = 0; i < this.roomLayout[j].length; i++) {
          if (this.roomLayout[j][i].type == tileTypes.WALL) {
-            image(wallImg, tileSize * i, tileSize * j, tileSize, tileSize);
+           image(wallImg, tileSize * i, tileSize * j, tileSize, tileSize);
          } else if (this.roomLayout[j][i].type == tileTypes.DOOR) {
-            fill(doorColour);
-            rect(tileSize * i, tileSize * j, tileSize, tileSize);
-            //image(doorImg, tileSize * i, tileSize * j, tileSize, tileSize);
+           this.rotateDoor(i, j);
          } else {
-            image(tileImg, tileSize * i, tileSize * j, tileSize, tileSize);
+           image(tileImg, tileSize * i, tileSize * j, tileSize, tileSize);
          }
        }
+     }
+   }
+  
+   rotateDoor(x, y) {
+     angleMode(DEGREES);
+     if (x == 1) {
+       push();
+       imageMode(CENTER);
+       translate(tileSize / 2, tileSize / 2);
+       rotate(270);
+       image(doorImg, -tileSize * y, tileSize * x, tileSize, tileSize);
+       pop();
+     } else if (x == roomWidth - 2) {
+       push();
+       imageMode(CENTER);
+       translate(tileSize / 2, tileSize / 2);
+       rotate(90);
+       image(doorImg, tileSize * y, -tileSize * x, tileSize, tileSize);
+       pop();
+     } else if (y == roomHeight - 2) {
+       push();
+       scale(1, -1);
+       y++;
+       image(doorImg, tileSize * x, -tileSize * y, tileSize, tileSize);
+       pop();
+     } else {
+       image(doorImg, tileSize * x,tileSize * y, tileSize, tileSize);
      }
    }
   
