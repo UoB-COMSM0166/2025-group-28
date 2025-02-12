@@ -1,12 +1,9 @@
-var roomHeight = 30;
-var roomWidth = 40;
-var tileSize = 20;
-var doorBuffer = 2;
-var wallBuffer = 3;
+var roomHeight = 37;
+var roomWidth = 50;
+var tileSize = 16;
+var doorBuffer = 5;
+var wallBuffer = 4;
 var step = 6;
-var floorColour = "white";
-var wallColour = "black";
-var doorColour = "brown";
 
 var playerA;
 var playerB;
@@ -43,6 +40,7 @@ const playerNumber = Object.freeze({
 
 function preload() {
   tileImg = loadImage("assets/tile.png");
+  wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/door.png");
   astrocat = loadImage("assets/astrocat.png");
 }
