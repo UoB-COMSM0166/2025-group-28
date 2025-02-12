@@ -59,7 +59,7 @@ We paper-prototyped our takes on the these two genres - both themed around a cat
 ///link to pp video///
 
 
-![pp](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/Requirements/Untitled.gif)
+![pp](Requirements/Untitled.gif)
 
 
 [what we did for reqs, pp etc.]
