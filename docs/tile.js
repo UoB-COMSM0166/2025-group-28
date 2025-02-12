@@ -6,7 +6,6 @@ class Tile {
     } else {
       this.isWalkable = false;
     }
-    this.widthModel = tileSize;
-    this.heightModel = tileSize;
+
   }
 }
