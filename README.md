@@ -11,7 +11,7 @@ Weclome to AstroCat! Here are some key resources elsewhere in our repo to sink y
 Our Kanban board can be found [here](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4).
 
 Other docs to explore:
-- Our [Agile Methodology documentation](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/AgileApproach.md)
+- Our [Agile Methodology documentation](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Guides%20%26%20Methodologies/AgileApproach.md)
 - Our [coding House Style guide]
 - [Project Wireframe](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/Wireframe.md)
 - The AstroCat [Pinterest Board](https://pin.it/1VpPiL6jl)
