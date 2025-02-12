@@ -57,6 +57,7 @@ For our 2D shooter game we took inspiration from the Binding of Isaac [INSERT GA
 We paper-prototyped our takes on the these two genres - both themed around a cat in space (the space environment allows us the most freedom in terms of fun new game mechanics/physics). Despite going in to the session with the tower-defence game most developed, the prototyping of our 2D shooter game flowed more readily  and also recieved the most positive feedback from our test users.
 
 ///link to pp video///
+[]!(https://github.com/UoB-COMSM0166/2025-group-28/blob/main/Requirements/Untitled.gif)
 
 [what we did for reqs, pp etc.]
 
