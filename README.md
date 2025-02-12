@@ -130,8 +130,8 @@ Follwoing our paper protyping session and our requirement gathering, we held sev
 ### Design
 
 - 15% ~750 words 
-- System architecture. [Class diagrams](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/class-diagram), behavioural diagrams.
-- [Design documents](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/DesignDoc.md) 
+- System architecture. [Class diagrams](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/Design%20Artefacts/class-diagram), behavioural diagrams.
+- [Design documents](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/DesignDoc.md) 
 
 ### Implementation
 
