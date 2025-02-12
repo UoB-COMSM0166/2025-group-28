@@ -1,13 +1,23 @@
 # 2025-group-28
+# AstroCat
+
 2025 COMSM0166 group 28
 
-Please find our Kanban board: https://github.com/orgs/UoB-COMSM0166/projects/102/views/4
 
-Agile Ways of Working document: https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/AgileApproach.md
 
-Pinterest Inspiration: https://pin.it/1VpPiL6jl
+## Quick Links
+Weclome to AstroCat! Here are some key resources elsewhere in our repo to sink your paws in to:
 
-Wireframe: https://github.com/UoB-COMSM0166/2025-group-28/blob/3f3c3ca929cc181585613bf577db2ca15de0e3cc/projdocs/Wireframe.md
+Our Kanban board can be found [here](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4).
+
+Other docs to explore:
+- Our [Agile Methodology documentation](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Guides%20%26%20Methodologies/AgileApproach.md)
+- Our [coding House Style guide]
+- [Project Wireframe](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/Wireframe.md)
+- The AstroCat [Pinterest Board](https://pin.it/1VpPiL6jl)
+
+
+
 
 ## Your Game
 
@@ -23,10 +33,10 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 ![grouppic](https://github.com/user-attachments/assets/ec5b17da-6882-42b0-a55c-42023ebdaffb)
 
 - Luke Remus Elliot, pm24104@bristol.ac.uk, whileLuke, role (Chrollo)
-- Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role (Julius Caesar (bum version))
+- Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role (Julius Caesar)
 - Matt Matloubi, dv24149@bristol.ac.uk, mattmatloubi, role (Sully)
 - Yoda Monplub, ds24614@bristol.ac.uk, Yoda-Yothada, role (Yoda)
-- Will Nixon, zk24610@bristol.ac.uk, spockthewok, role (Sexy tiger)
+- Will Nixon, zk24610@bristol.ac.uk, spockthewok, role (tiger/tigger)
 - Dylan Haye, jk24742@bristol.ac.uk, dxlxnhxxe, role (No.5)
 
 ## Project Report
@@ -39,11 +49,18 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 - +
 
 ### Requirements 
-Our initial two game ideas were based on a tower defence game, or a 2D shooter game. For our 2D shooter game we took inspiration from the Binding of Isaac [INSERT GAME INFO], and for our tower defence game, we took inspiration from [GAME INFO]. For twists, we thought about inverting some of the established rules of play - for example playable towers, recoil from weapons impacting position/health, and as a challenge for both genres, the idea of allowing two players to play, either on the same computer or over the internet.
+
+Our initial two game ideas were based on a tower defence game, or a 2D shooter game. 
+
+For our 2D shooter game we took inspiration from the Binding of Isaac [INSERT GAME INFO], and for our tower defence game, we took inspiration from [GAME INFO]. For twists, we thought about inverting some of the established rules of play - for example playable towers, recoil from weapons impacting position/health, and as a challenge for both genres, the idea of allowing two players to play, either on the same computer or over the internet.
 
 We paper-prototyped our takes on the these two genres - both themed around a cat in space (the space environment allows us the most freedom in terms of fun new game mechanics/physics). Despite going in to the session with the tower-defence game most developed, the prototyping of our 2D shooter game flowed more readily  and also recieved the most positive feedback from our test users.
 
 ///link to pp video///
+
+
+![pp](Requirements/Untitled.gif)
+
 
 [what we did for reqs, pp etc.]
 
@@ -113,8 +130,8 @@ Follwoing our paper protyping session and our requirement gathering, we held sev
 ### Design
 
 - 15% ~750 words 
-- System architecture. [Class diagrams](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/class-diagram), behavioural diagrams.
-- [Design documents](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/DesignDoc.md) 
+- System architecture. [Class diagrams](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/Design%20Artefacts/class-diagram), behavioural diagrams.
+- [Design documents](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/DesignDoc.md) 
 
 ### Implementation
 
