@@ -26,7 +26,7 @@ class Room {
     }
     this.addDoor();
     this.scanRoom();
-    this.drawRoom();
+    this.draw();
   }
 
   createWallSQR(w, h, x, y) {
@@ -156,7 +156,7 @@ class Room {
      this.roomLayout[y][x] = new Tile(tileTypes.DOOR);
    }
 
-   drawRoom() {
+   draw() {
      for (let j = 0; j < this.roomLayout.length; j++){
        for (let i = 0; i < this.roomLayout[j].length; i++) {
          if (this.roomLayout[j][i].type == tileTypes.WALL) {
@@ -193,7 +193,7 @@ class Room {
        image(doorImg, tileSize * x, -tileSize * y, tileSize, tileSize);
        pop();
      } else {
-       image(doorImg, tileSize * x,tileSize * y, tileSize, tileSize);
+       image(doorImg, tileSize * x, tileSize * y, tileSize, tileSize);
      }
    }
   
