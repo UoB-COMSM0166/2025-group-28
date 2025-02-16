@@ -1,11 +1,14 @@
-class Tile {
-  constructor(type) {
-    this.type = type;
-    if (type == tileTypes.FLOOR) {
-      this.isWalkable = true;
-    } else {
-      this.isWalkable = false;
-    }
+class Tile extends GameObject {
 
+  constructor(type, x, y) {
+    super();
+    this.type = type;
+    if (type == tileTypes.WALL) {
+      this.widthHitbox = tileSize;
+      this.heightHitbox = tileSize;
+      this.position.x = tileSize * x;
+      this.position.y = tileSize * y;
+    }
   }
+
 }

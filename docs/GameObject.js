@@ -1,35 +1,42 @@
 class GameObject{
-  constructor(x, y){
+  constructor(x, y) {
     this.position = createVector(x,y);
     this.velocity = createVector(0,0);
-    
+
     this.widthHitbox = 40
     this.heightHitbox = 60
-    
+
     this.widthModel = 40
     this.heightModel = 60
-    
+
     this.color = color(40, 100, 40);
     this.isActive = true;
   }
+
   update(){
     if(this.isActive){
       this.position.add(this.velocity);
-      
+
       // We can potentially add friction, gravity, walls
     }
   }
 
-  collidesWith(other) {
-    // Check if the hitboxes of the two objects overlap
-    return (
-        this.position.x < other.position.x + other.widthHitbox &&
-        this.position.x + this.widthHitbox > other.position.x &&
-        this.position.y < other.position.y + other.heightHitbox &&
-        this.position.y + this.heightHitbox > other.position.y
-    );
+  isColliding(x, y, w, h, collidables) {
+    for (let i = 0; i < collidables.length; i++) {
+      let collidable = collidables[i];
+      if (
+        // Width & height / 2 to account for how AstroCat is drawn :/
+        x + (w / 2) > collidable.position.x &&
+        x < collidable.position.x + collidable.widthHitbox &&
+        y + (h / 2) > collidable.position.y &&
+        y < collidable.position.y + collidable.heightHitbox
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
-  
+
   draw(){
     if(this.isActive){
       fill(this.color);
