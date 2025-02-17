@@ -12,7 +12,7 @@ Our Kanban board can be found [here](https://github.com/orgs/UoB-COMSM0166/proje
 
 Other docs to explore:
 - Our [Agile Methodology documentation](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Guides%20%26%20Methodologies/AgileApproach.md)
-- Our [coding House Style guide]
+- Our [coding House Style guide](https://github.com/UoB-COMSM0166/2025-group-28/blob/0b117a29b753fcb3a977b6115e14fc687edeecb2/projdocs/Guides%20%26%20Methodologies/HouseStyle.md)
 - [Project Wireframe](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/Wireframe.md)
 - The AstroCat [Pinterest Board](https://pin.it/1VpPiL6jl)
 
@@ -50,9 +50,12 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 
 ### Requirements 
 
-Our initial two game ideas were based on a tower defence game, or a 2D shooter game. 
+Our first game idea was inspired by tower-defence games (such as >>>[perosn who knows about games]<<<), with potential twists on this game mechanic being the ability to control the towers as opposed to just the players. Our second idea was inspired by room-based 2D-shooter games, principally 'Binding of Isaac', with the twist based on playing with relations health/resources/difficulty. A requirement we agreed on from the outset was that our game should be playbale by two users on the same keyboard to provide a single-screen 'co-op' mode.
 
-For our 2D shooter game we took inspiration from the Binding of Isaac [INSERT GAME INFO], and for our tower defence game, we took inspiration from [GAME INFO]. For twists, we thought about inverting some of the established rules of play - for example playable towers, recoil from weapons impacting position/health, and as a challenge for both genres, the idea of allowing two players to play, either on the same computer or over the internet.
+
+| ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
+| :--: | :--: |
+| *'Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
 
 We paper-prototyped our takes on the these two genres - both themed around a cat in space (the space environment allows us the most freedom in terms of fun new game mechanics/physics). Despite going in to the session with the tower-defence game most developed, the prototyping of our 2D shooter game flowed more readily  and also recieved the most positive feedback from our test users.
 
