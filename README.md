@@ -70,7 +70,19 @@ We paper-prototyped our takes on the these two genres - both themed around a cat
 
 
 
-Stakholders and Users
+## Stakholders and Users
+
+
+
+| User Profile  | Requirements | Evaluation |
+| :--: | :--: | :--: |
+| Colourblind User | Epic: As a colourblind player, I want to apply to be able to play AstroCat effectivley, being able to distinguish between players, objects, and HUD components.<br>User Story A: As a colourblind player, I want to able to toggle a high-contrast mode to make the game easier to see. <br>User Story B: As a colourblind player, I want to be informed of game state changes by visual cues (shapes, movement) other than colour. | 
+| Siblings/Friends | Epic: As a user, I want to play the same game with my friends. <br> Usser Story A: As a pair of users, we want to play a game of AstroCat on the same computer sharing the same I/O devices. <br> User Story B: As a user, I want to be able to play AstroCat with another person remotley (online two-player coop). |
+| Competitive Gamer | Epic: As a competive user, I want to be able to monitor and enhance my performance. <br> User Story A: As a competive gamer, I want to be able to see my performance stats at the end of each game. <br> User Story A: As a competive gamer, I want to be able to see my performance stats at the end of each game. <br> User Story B: As a competive gamer, I want the opption to the change key-mappings to enable me to optimise my performance.
+
+## Feasibility Studies
+
+For some feautures that came out of our requirments
 
 ##  Colourblind User (Luke)
 Epic - Able to use the game fairly with standard colourblind people
@@ -140,7 +152,10 @@ Follwoing our paper protyping session and our requirement gathering, we held sev
 
 - 15% ~750 words
 
-- Describe implementation of your game, in particular highlighting the three areas of challenge in developing your game. 
+- Describe implementation of your game, in particular highlighting the three areas of challenge in developing your game.
+- Collisions engine
+- Getting the hang of branches/control whilst being agile
+- 
 
 ### Evaluation
 
