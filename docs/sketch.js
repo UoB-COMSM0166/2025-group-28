@@ -11,9 +11,9 @@ function setup() {
   newRoom = new Room();
   newRoom.initRoom();
 
-  playerA = new Player(astrocat, 400, 300, playerNumber.PLAYER_1);
-  playerB = new Player(astrocat, 500, 300, playerNumber.PLAYER_2);
-  testMob = new Mob(dogMob, 600, 350);
+  playerA = new Player(astrocat, 200, 300, playerNumber.PLAYER_1);
+  playerB = new Player(astrocat, 300, 300, playerNumber.PLAYER_2);
+  testMob = new Mob(dogMob, 700, 350);
 
   game = new Game(newRoom, playerA, playerB);
 
