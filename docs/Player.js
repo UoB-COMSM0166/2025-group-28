@@ -77,6 +77,14 @@ class Player extends Sprite {
     super.update();
   }
 
+  isCollidingWith(mob){
+    return(this.position.x < mob.position.x + mob.widthHitbox && 
+       this.position.x + this.widthHitbox > mob.position.x &&  
+       this.position.y < mob.position.y + mob.heightHitbox &&
+       this.position.y + this.heightHitbox > mob.position.y
+    );
+  }
+
   shootProjectile() {
     let projectile = new Projectile(bullet);
     projectile.direction = this.direction;

@@ -1,5 +1,5 @@
 class Sprite extends GameObject {
-  constructor(img, x, y, maxHealth = 100) {
+  constructor(img, x, y, maxHealth) {
     super(x, y);
 
     this.maxHealth = maxHealth;
