@@ -85,19 +85,19 @@ class Player extends Sprite {
     );
   }
 
-  shootProjectile() {
-    let projectile = new Projectile(bullet);
-    projectile.direction = this.direction;
-    //projectile.type = bullet;
-    //projectile.velocity = 4;
-    //projectile.widthModel = 10;
-    //projectile.heightModel = 4;
-    projectile.initLocation =
-      (this.position.x - this.widthModel / 2,
-      this.position.y - this.heightModel / 2,
-      projectile.widthModel,
-      projectile.heightModel);
-  }
+  // shootProjectile() {
+  //   let projectile = new Projectile(bullet);
+  //   projectile.direction = this.direction;
+  //   //projectile.type = bullet;
+  //   //projectile.velocity = 4;
+  //   //projectile.widthModel = 10;
+  //   //projectile.heightModel = 4;
+  //   projectile.initLocation =
+  //     (this.position.x - this.widthModel / 2,
+  //     this.position.y - this.heightModel / 2,
+  //     projectile.widthModel,
+  //     projectile.heightModel);
+  // }
 
   pickupItem() {}
 }

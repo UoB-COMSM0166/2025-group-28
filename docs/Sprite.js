@@ -13,6 +13,7 @@ class Sprite extends GameObject {
     // Effects like taking damage, speed boost/reduction, etc.
     this.activeEffects = []; // An array of effect type, effect duration, effect strength, etc.
     this.originalColor = this.color;
+    this.isActive = true;
   }
 
   move() {
@@ -77,6 +78,7 @@ class Sprite extends GameObject {
     if (this.health <= 0) {
       this.health = 0;
       this.isActive = false;
+      console.log("Sprite is dead");
     }
   }
 

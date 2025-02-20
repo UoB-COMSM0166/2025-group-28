@@ -2,6 +2,7 @@
 let game;
 let asset_astrocat;
 let newRoom;
+let testMob;
 
 function setup() {
   noStroke();
@@ -36,7 +37,10 @@ function draw() {
     game.draw();
   }
 
-  if(player.isCollidingWith(mob)){
-    player.takeDamage(mob.attackDamage);
+  if(playerA.isCollidingWith(testMob)){
+    playerA.takeDamage(testMob.attackDamage);
+  }
+  if(playerB.isCollidingWith(testMob)){
+    playerB.takeDamage(testMob.attackDamage);
   }
 }

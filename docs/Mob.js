@@ -8,11 +8,8 @@ class Mob extends Sprite{
 
         this.color = color(0, 255, 100);
         this.attackDamage = 30;
-        this.fireRate = 0.5; // Seconds
-        this.lastShot = 0; // Seconds
-
-        this.maxHealth = maxHealth;
-        this.health = maxHealth;
+        this.fireRate = 0.5; //Seconds
+        this.lastShot = 0; //Seconds
 
         this.img = img;
         
@@ -20,49 +17,58 @@ class Mob extends Sprite{
         this.direction = createVector(-1, 0); //Mob starts facing left
     }
 
-    draw(){
+    update(){
+        if(!this.isActive){
+            return;
+        }
         let nearestPlayer = this.findNearestPlayer();
         if(nearestPlayer){
             this.moveTowards(nearestPlayer);
         }
+        else{
+            this.velocity.set(0, 0);
+        }
+        super.update();
     }
 
     moveTowards(player){
         this.velocity.set(0, 0);
-        //Move towards the nearest player
-        let x_dist = this.position.x - player.position.x;
-        let y_dist = this.position.y - player.position.y;
-        let distance = sqrt(x_dist * x_dist + y_dist * y_dist);
-        this.velocity.x = - (x_dist / distance) * this.speed;
-        this.velocity.y = - (y_dist / distance) * this.speed;
-        this.direction = createVector(x_dist, y_dist);
+        //Moves smoothly towards whichever player is nearest
+        let xDirection = player.position.x - this.position.x;
+        let yDirection = player.position.y - this.position.y;
+        this.velocity.x = xDirection * this.speed;
+        this.velocity.y = yDirection * this.speed;
+        this.direction = createVector(xDirection, yDirection);
         // Normalises diagonal movement
         if (this.velocity.x !== 0 && this.velocity.y !== 0) {
             this.velocity.setMag(this.speed);
-        
+
         }
     }
     findDistanceToPlayer(player){
-        let x_dist = abs(this.position.x - player.position.x);
-        let y_dist = abs(this.position.y - player.position.y);
-        let distance = sqrt(x_dist * x_dist + y_dist * y_dist);
+        let xDirection = this.position.x - player.position.x;
+        let yDirection = this.position.y - player.position.y;
+        let distance = sqrt(xDirection * xDirection + yDirection * yDirection);
         return distance;
     }
 
     findNearestPlayer(){
-        let nearestPlayer = null;
-        let smallestDistance = 1000000;
-        for(let player of players){
-            let distance = this.findDistanceToPlayer(player);
-            if(distance < smallestDistance){
-                smallestDistance = distance;
-                nearestPlayer = player;
-            }
+        if(!playerA.isActive && !playerB.isActive){
+            return null;
         }
-        return nearestPlayer;
+        if(!playerA.isActive && playerB.isActive){
+            return playerB;
+        }
+        if(playerA.isActive && !playerB.isActive){
+            return playerA;
+        }
+        let distanceToPlayerA = this.findDistanceToPlayer(playerA);
+        let distanceToPlayerB = this.findDistanceToPlayer(playerB);
+        if(distanceToPlayerA < distanceToPlayerB){
+            return playerA;
+        }
+        else{ 
+            return playerB;
+        }
     }
 }
-//(square root (Mob.x - player.x ) + square root (Mob.y - player.y) ) ^2;
-//if(Mob.isCollidingWith(Player)){
-//    Player.takeDamage(attackDamage);
-//}
