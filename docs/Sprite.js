@@ -13,7 +13,6 @@ class Sprite extends GameObject {
     // Effects like taking damage, speed boost/reduction, etc.
     this.activeEffects = []; // An array of effect type, effect duration, effect strength, etc.
     this.originalColor = this.color;
-    this.isActive = true;
   }
 
   move() {
