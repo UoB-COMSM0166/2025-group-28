@@ -17,8 +17,8 @@ class Game {
     this.spritesP1.push(this.player2);
     this.spritesP2.push(this.player1);
     this.sprites.push(testMob);
-    this.spritesP1.push(testMob);
-    this.spritesP2.push(testMob);
+    this.collidablesP1.push(testMob);
+    this.collidablesP2.push(testMob);
     // this.addWallCollisions();
     //this.sprites.push(this.player2);
     this.halt = false;
