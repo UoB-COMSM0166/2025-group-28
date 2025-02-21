@@ -12,7 +12,7 @@ Our Kanban board can be found [here](https://github.com/orgs/UoB-COMSM0166/proje
 
 Other docs to explore:
 - Our [Agile Methodology documentation](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Guides%20%26%20Methodologies/AgileApproach.md)
-- Our [coding House Style guide]
+- Our [coding House Style guide](https://github.com/UoB-COMSM0166/2025-group-28/blob/0b117a29b753fcb3a977b6115e14fc687edeecb2/projdocs/Guides%20%26%20Methodologies/HouseStyle.md)
 - [Project Wireframe](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/Wireframe.md)
 - The AstroCat [Pinterest Board](https://pin.it/1VpPiL6jl)
 
@@ -50,9 +50,12 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 
 ### Requirements 
 
-Our initial two game ideas were based on a tower defence game, or a 2D shooter game. 
+Our first game idea was inspired by tower-defence games (such as >>>[perosn who knows about games]<<<), with potential twists on this game mechanic being the ability to control the towers as opposed to just the players. Our second idea was inspired by room-based 2D-shooter games, principally 'Binding of Isaac', with the twist based on playing with relations health/resources/difficulty. A requirement we agreed on from the outset was that our game should be playbale by two users on the same keyboard to provide a single-screen 'co-op' mode.
 
-For our 2D shooter game we took inspiration from the Binding of Isaac [INSERT GAME INFO], and for our tower defence game, we took inspiration from [GAME INFO]. For twists, we thought about inverting some of the established rules of play - for example playable towers, recoil from weapons impacting position/health, and as a challenge for both genres, the idea of allowing two players to play, either on the same computer or over the internet.
+
+| ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
+| :--: | :--: |
+| *'Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
 
 We paper-prototyped our takes on the these two genres - both themed around a cat in space (the space environment allows us the most freedom in terms of fun new game mechanics/physics). Despite going in to the session with the tower-defence game most developed, the prototyping of our 2D shooter game flowed more readily  and also recieved the most positive feedback from our test users.
 
@@ -67,14 +70,23 @@ We paper-prototyped our takes on the these two genres - both themed around a cat
 
 
 
-Stakholders and Users
+## Stakholders and Users
 
-##  Colourblind User (Luke)
-Epic - Able to use the game fairly with standard colourblind people
-  
-  - As a red/green colourbind player, I want the option to apply a high-contrast filter to the game. 
--  AC: Given I am colourblind, I want to be able to easily select a high contrast mode to be able to see the gameplay effectivley.
-- As a colourblind player, I want to be able to see visiual cues beyond colour (shapes, patterns) to be informed of changes in game statuses etc.
+We want everybody to experience AstroCat, so we thought about our game from the persepective of different user profiles, each with different needs and wants. We evaluate the user stories based on need, timeframe, and techncial complexity (e.g. through feasibility studies in our Sandbox), and create corresponding epics/stories in our Backlog, to waiting to be candidates for future sprints if we have the resources:
+
+
+| User Profile  | Requirements | Evaluation |
+| :--: | :--: | :--: |
+| Colourblind User | Epic: As a colourblind player, I want to apply to be able to play AstroCat effectivley, being able to distinguish between players, objects, and HUD components.<br>User Story A: As a colourblind player, I want to able to toggle a high-contrast mode to make the game easier to see. <br>User Story B: As a colourblind player, I want to be informed of game state changes by visual cues (shapes, movement) other than colour. | [Epic: Visual Accessibility Options](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=98543333&issue=UoB-COMSM0166%7C2025-group-28%7C55)
+| Siblings/Friends | Epic: As a user, I want to play the same game with my friends. <br> User Story A: As a pair of users, we want to play a game of AstroCat on the same computer sharing the same I/O devices. <br> User Story B: As a user, I want to be able to play AstroCat with another person remotley (online two-player coop). | MVP inclides [Co-Op multiplayer epic](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) <br> Feasiability test for online multiplayer conducted - potentially include post-MVP delivery. 
+| Competitive Gamer | Epic: As a competive user, I want to be able to monitor and enhance my performance. <br> User Story A: As a competive gamer, I want to be able to see my performance stats at the end of each game. <br> User Story A: As a competive gamer, I want to be able to see my performance stats at the end of each game. <br> User Story B: As a competive gamer, I want the opption to the change key-mappings to enable me to optimise my performance. |
+| Casual Gamer | Epic: As a casual gamer, I want a game that can be played casually - in short bursts, engaging without requiring my full attention, and playable e.g. at night/in bed. <br> User Story A: As a casual gamer, I want a game mode (e.g. surivial/easy) that enables me to enjoy the gameplay without worrying about progression. <br> User Story B: As a casual gamer, I want a game mode that has a softer colours/soundscape, to enable me to play relaxingly in the evening before I go to bed, without compromising my sleep.|
+
+## Feasibility Studies
+
+For some feautures that came out of our requirments
+
+
 
 
 ## Under 13s (Will)
@@ -84,16 +96,8 @@ AC: Given I am playing the game,
 User Story: Given I am a parent of a child who plays the game, I want to be able to use  prohibit objectionable content on the game, to stop my child being able to see nasty stuff. 
 
  
- ## Siblings/pairs (Matt)
-User story
-As siblings/a couple/close friends
-We want to be able to play together on the same screen
-So that we can enjoy the game together while on the same device
 
-Acceptance
-Given we are living in the same house/flat
-When we want to play video games
-Then we would be able to play together
+
 
 User story
 As siblings/a couple/close friends
@@ -137,7 +141,10 @@ Follwoing our paper protyping session and our requirement gathering, we held sev
 
 - 15% ~750 words
 
-- Describe implementation of your game, in particular highlighting the three areas of challenge in developing your game. 
+- Describe implementation of your game, in particular highlighting the three areas of challenge in developing your game.
+- Collisions engine
+- Getting the hang of branches/control whilst being agile
+- 
 
 ### Evaluation
 

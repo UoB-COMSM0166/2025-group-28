@@ -39,37 +39,6 @@ class Sprite extends GameObject {
     super.update();
   }
 
-  haltIfColliding(otherGameObjects) {
-    for (let other of otherGameObjects) {
-        if (this.collidesWith(other)) {
-            const overlap = 1; // small value to prevent sticking
-            if (this.velocity.x > 0) {
-                this.position.x = other.position.x - this.widthHitbox - overlap;
-            } else if (this.velocity.x < 0) {
-                this.position.x = other.position.x + other.widthHitbox + overlap;
-            }
-            if (this.velocity.y > 0) {
-                this.position.y = other.position.y - this.heightHitbox - overlap;
-            } else if (this.velocity.y < 0) {
-                this.position.y = other.position.y + other.heightHitbox + overlap;
-            }
-        }
-    }
-  }
-
-  // haltIfColliding(otherGameObjects) {
-  //   for (let other of otherGameObjects) {
-  //     if (this.collidesWith(other) == true) {
-  //       this.velocity.x = 0;
-  //       this.velocity.y = 0;
-  //     }
-  //   }
-  // }
-
-
-
-
-
   takeDamage(amount) {
     this.health -= amount;
 
