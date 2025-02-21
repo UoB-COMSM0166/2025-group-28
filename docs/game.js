@@ -9,12 +9,24 @@ class Game {
     this.player1 = player_1;
     this.player2 = player_2;
     this.sprites.concat(room.mobs).concat(room.items);
+
+    this.spritesP1.concat(room.mobs).concat(room.items);
+    this.spritesP2.concat(room.mobs).concat(room.items);
+    this.spritesP1.push(this.player2);
+    this.spritesP2.push(this.player1);
+    this.sprites.push(testMob);
+    this.spritesP1.push(testMob);
+    this.spritesP2.push(testMob);
+    // this.addWallCollisions();
+    //this.sprites.push(this.player2);
+    this.halt = false;
     this.collidablesP1.concat(room.mobs).concat(room.items);
     this.collidablesP2.concat(room.mobs).concat(room.items);
     this.collidablesP1.push(this.player2);
     this.collidablesP2.push(this.player1);
     this.addWallCollisions();
     this.sprites.push(this.player2);
+
   }
 
   // FOR NOW - when a sprite is created it is registered to the game, so it is included in draw/update call

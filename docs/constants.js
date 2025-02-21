@@ -43,4 +43,5 @@ function preload() {
   wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/door.png");
   astrocat = loadImage("assets/astrocat.png");
+  dogMob = loadImage("assets/dog.png");
 }
