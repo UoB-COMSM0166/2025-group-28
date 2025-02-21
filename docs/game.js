@@ -4,6 +4,8 @@ class Game {
     this.currentRoom = room;
     this.gameState = GameStates.ACTIVE;
     this.sprites = [];
+    this.spritesP1 = [];
+    this.spritesP2 = [];
     this.collidablesP1 = []; // this currently holds things that are "collidable"
     this.collidablesP2 = []; // this currently holds things that are "collidable"
     this.player1 = player_1;
