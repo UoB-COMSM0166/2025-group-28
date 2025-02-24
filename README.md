@@ -84,7 +84,13 @@ We want everybody to experience AstroCat, so we thought about our game from the 
 
 ## Feasibility Studies
 
-For some feautures that came out of our requirments
+For some feautures that came out of our requirments gathering, we conducted feasibility studies in parallel to our MVP development to assess whether these feautures were technically possible within the timeframe and tech stack avaialble to us. Below are the feautures we experimented with and our assesment of their possibility. We have a 'Sandbox' folder to store this experimental code.
+
+| Feauture | Study Details | Outcome |
+| :--: | :--: | :--: |
+| Co-op local multiplayer | Tested how p5.js would handle executing two sets of keyboard gameplay commands in parralel to move two sprites and <br> whether this would cause lag/overload the update() function and reduce the FPS | Platform is able to handle two parralel sets of gameplay inputs with no observable degradation of performance, <br> co-op local multiplayer included in MVP |
+| Online multiplayer | Integrated a BaaS (backend-as-a-service) connection and used realtime database to track positions of players and reflect these on other client | We found it was possible to integrate a Supabase database and track changes, challenges would be <br> (a) avoiding rate-limiting by rationing position updates <br> (b) creating and manahing multiple 2-player online sessions <br> (c) mirroring behaviour of AI/environment across clients. Will be explored further if time permits. |
+| Procedural graphics generation | We experimented with algorithmicly generating different 'rooms'. | This proved feasible and was included in the MVP | 
 
 
 
