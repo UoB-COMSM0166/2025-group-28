@@ -19,7 +19,6 @@ class Game {
     this.sprites.push(testMob);
     this.collidablesP1.push(testMob);
     this.collidablesP2.push(testMob);
-    // this.addWallCollisions();
     //this.sprites.push(this.player2);
     this.halt = false;
     this.collidablesP1.concat(room.mobs).concat(room.items);
@@ -27,7 +26,7 @@ class Game {
     this.collidablesP1.push(this.player2);
     this.collidablesP2.push(this.player1);
     this.addWallCollisions();
-    this.sprites.push(this.player2);
+    // this.sprites.push(this.player2);
 
   }
 
@@ -59,15 +58,17 @@ class Game {
   }
 
   update() {
-    // similar for projectiles
+    for (let p of this.player1.projectilesFired) {
+      p.update();
+    }
+    for (let p of this.player2.projectilesFired) {
+      p.update();
+    }
+
     for (let s of this.sprites) {
       s.update();
     }
-
-    this.player2.updateHealth();
     this.player2.update();
-
-    this.player1.updateHealth();
     this.player1.update();
   }
 
@@ -77,12 +78,35 @@ class Game {
     for (let s of this.sprites) {
       s.draw();
     }
-    this.player1.collidables = this.collidablesP1;
-    this.player1.move();
-    this.player2.collidables = this.collidablesP2;
-    this.player2.move();
+    for (let p of this.player1.projectilesFired) {
+      p.draw();
+    }
+    for (let p of this.player2.projectilesFired) {
+      p.draw();
+    }
+
+    this.player1.moveAndFire();
+    this.player2.moveAndFire();
 
     this.player1.draw();
     this.player2.draw();
+
+    // projectile collision checking - i think this ultimately needs be a loop within a loop check for a mob array
+    for (let i = this.player1.projectilesFired.length - 1; i >= 0; i--) {
+      if (this.player1.projectilesFired[i].isCollidingWith(testMob)) {
+        this.player1.projectilesFired.splice(i, 1);
+        testMob.takeDamage(this.player1.attackDamage);
+      }
+    }
+    for (let i = this.player2.projectilesFired.length - 1; i >= 0; i--) {
+      if (this.player2.projectilesFired[i].isCollidingWith(testMob)) {
+        this.player2.projectilesFired.splice(i, 1);
+        testMob.takeDamage(this.player1.attackDamage);
+      }
+    }
+
   }
+
+
 }
+

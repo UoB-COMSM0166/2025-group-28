@@ -21,6 +21,7 @@ class GameObject{
     }
   }
 
+  //is this being used?
   isColliding(x, y, w, h, collidables) {
     for (let i = 0; i < collidables.length; i++) {
       let collidable = collidables[i];
@@ -35,6 +36,14 @@ class GameObject{
       }
     }
     return false;
+  }
+
+  isCollidingWith(mob){
+    return(this.position.x < mob.position.x + mob.widthHitbox && 
+       this.position.x + this.widthHitbox > mob.position.x &&  
+       this.position.y < mob.position.y + mob.heightHitbox &&
+       this.position.y + this.heightHitbox > mob.position.y
+    );
   }
 
   draw(){

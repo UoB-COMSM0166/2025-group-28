@@ -36,10 +36,8 @@ function setup() {
 }
 
 function draw() {
-  // background(50, 11, 28);
 
   if (game.gameState == GameStates.ACTIVE) {
-    //console.log("drawing");
     game.update();
     game.draw();
   }
@@ -50,4 +48,5 @@ function draw() {
   if(playerB.isCollidingWith(testMob)){
     playerB.takeDamage(testMob.attackDamage);
   }
+
 }
