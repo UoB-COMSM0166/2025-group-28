@@ -98,11 +98,11 @@ class Sprite extends GameObject {
     }
   }
 
-  updateHealth() {
-    //Test: Pressing space damages the Player
-    if (keyIsDown(32)) {
-      // Space key
-      this.takeDamage(1);
-    }
-  }
+  // updateHealth() {
+  //   //Test: Pressing space damages the Player
+  //   if (keyIsDown(32)) {
+  //     // Space key
+  //     this.takeDamage(1);
+  //   }
+  // }
 }
