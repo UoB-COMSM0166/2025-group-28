@@ -13,7 +13,7 @@ class Mob extends Sprite{
 
         this.img = img;
         
-        this.speed = 3; //Slightly slower than players
+        this.speed = 2; //Slightly slower than players
         this.direction = createVector(-1, 0); //Mob starts facing left
     }
 
