@@ -3,7 +3,7 @@
 ## A: Syntactical Conventions
 
 **1 Indentation**
-- Code should be indented within every new scope by 3 spaces.
+- Code should be indented within every new scope by 2 spaces.
 
 **2 Brackets**
 
