@@ -48,5 +48,4 @@ function draw() {
   if(playerB.isCollidingWith(testMob)){
     playerB.takeDamage(testMob.attackDamage);
   }
-
 }

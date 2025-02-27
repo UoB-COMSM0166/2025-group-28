@@ -85,8 +85,11 @@ class Game {
       p.draw();
     }
 
-    this.player1.moveAndFire();
-    this.player2.moveAndFire();
+    this.player1.move();
+    this.player2.move();
+
+    this.player1.fire();
+    this.player2.fire()
 
     this.player1.draw();
     this.player2.draw();
