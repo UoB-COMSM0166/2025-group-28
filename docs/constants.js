@@ -37,6 +37,7 @@ const playerNumber = Object.freeze({
   PLAYER_1: 0,
   PLAYER_2: 1,
 });
+let menuBacking;
 
 function preload() {
   tileImg = loadImage("assets/tile.png");
@@ -45,4 +46,16 @@ function preload() {
   astrocat = loadImage("assets/astrocat.png");
   dogMob = loadImage("assets/dog.png");
   bullet = loadImage("assets/bullet.png");
+  gameFont = loadFont("assets/LuckiestGuy-Regular.ttf");
+  // menuanimated = loadImage("assets/acbackground.gif");
 }
+
+// HTML <img> paths (no need to preload):
+
+let singlePlayerIcon = "assets/SP3.png";
+let coopIcon = "assets/TP3.png";
+let helpIcon = "assets/HP3.png";
+let menuimg = "assets/acbackground.gif";
+
+let pageWidth = 800;
+let pageHeight = 600;
