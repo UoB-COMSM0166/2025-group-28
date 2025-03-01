@@ -8,32 +8,41 @@ class Projectile extends GameObject { // maybe extend game object to avoid the h
    }
 
    update() {
-      this.position.add(this.velocity);
+      // Deactive the projectile if it leaves the room boundaries for performance reasons ;)
+      if (this.position.x < tileSize || this.position.x > roomWidth * tileSize ||
+         this.position.y < tileSize || this.position.y > roomHeight * tileSize) {
+         this.isActive = false;
+      }
+      if (this.isActive) {
+         this.position.add(this.velocity);
+      }
    }
 
    draw() {
-      // Proper circle rendering with fill and stroke
-      push();
-      translate(this.position.x, this.position.y);
-      imageMode(CENTER);
-      //not used yet, trying to rotate the bullets by 45 degrees depending on the angle 
-      // const directionAngles = {
-      //     "UP": -90,
-      //     "DOWN": 90,
-      //     "LEFT": 180,
-      //     "RIGHT": 0,
-      //     "UP-RIGHT": -45,
-      //     "UP-LEFT": -135,
-      //     "DOWN-RIGHT": 45,
-      //     "DOWN-LEFT": 135,
-      // };
-   
-      // 
-      // let angle = directionAngles[this.lastDirection] || 0; // Default to 0 if not found
-      // rotate(radians(angle));
-   
-      image(bullet, 0, 0, 150, 150);
-      pop();
+      if (this.isActive) {
+         // Proper circle rendering with fill and stroke
+         push();
+         translate(this.position.x, this.position.y);
+         imageMode(CENTER);
+         //not used yet, trying to rotate the bullets by 45 degrees depending on the angle
+         // const directionAngles = {
+         //     "UP": -90,
+         //     "DOWN": 90,
+         //     "LEFT": 180,
+         //     "RIGHT": 0,
+         //     "UP-RIGHT": -45,
+         //     "UP-LEFT": -135,
+         //     "DOWN-RIGHT": 45,
+         //     "DOWN-LEFT": 135,
+         // };
+
+         //
+         // let angle = directionAngles[this.lastDirection] || 0; // Default to 0 if not found
+         // rotate(radians(angle));
+
+         image(bullet, 0, 0, 150, 150);
+         pop();
+      }
    }
 
 }

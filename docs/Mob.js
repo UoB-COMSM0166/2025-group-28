@@ -1,4 +1,5 @@
 class Mob extends Sprite {
+
   constructor(img, x, y) {
     super(img, x, y, 50);
     this.widthHitbox = 30;
@@ -35,14 +36,28 @@ class Mob extends Sprite {
     //Moves smoothly towards whichever player is nearest
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;
-    this.velocity.x = xDirection * this.speed;
-    this.velocity.y = yDirection * this.speed;
     this.direction = createVector(xDirection, yDirection);
+    if (!this.isColliding(this.position.x, this.position.y, this.widthHitbox, this.heightHitbox, this.collidables)) {
+      this.velocity.x = xDirection * this.speed;
+      this.velocity.y = yDirection * this.speed;
+    } else {
+      if (this.direction.x > 0) {
+        this.position.x -= pushback;
+      } else if (this.direction.x < 0) {
+        this.position.x += pushback;
+      }
+      if (this.direction.y > 0) {
+        this.position.y -= pushback;
+      } else if (this.direction.y < 0) {
+        this.position.y += pushback;
+      }
+    }
     // Normalises diagonal movement
     if (this.velocity.x !== 0 && this.velocity.y !== 0) {
       this.velocity.setMag(this.speed);
     }
   }
+
   findDistanceToPlayer(player) {
     let xDirection = this.position.x - player.position.x;
     let yDirection = this.position.y - player.position.y;
@@ -72,4 +87,5 @@ class Mob extends Sprite {
       return playerA;
     }
   }
+
 }

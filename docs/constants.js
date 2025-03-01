@@ -1,9 +1,12 @@
+// Room generation constants
 var roomHeight = 37;
 var roomWidth = 50;
 var tileSize = 16;
-var doorBuffer = 5;
-var wallBuffer = 6;
+var doorBuffer = 5; // To prevent door spawning too close to edges of room
+var wallBuffer = 6; // To prevent wall shapes spawning too close to outer walls
 var step = 4;
+// Collision constants
+var pushback = 1; // Prevents sticking
 
 var playerA;
 var playerB;
