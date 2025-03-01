@@ -21,6 +21,9 @@ class Player extends Sprite {
   }
 
   move() {
+    if (!this.isActive) {
+      return;
+    }
     // Player movement using WASD / arrow keys
     this.velocity.set(0, 0);
 

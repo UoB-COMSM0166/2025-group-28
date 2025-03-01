@@ -32,6 +32,9 @@ class Mob extends Sprite {
   }
 
   moveTowards(player) {
+    if (!player.isActive) {
+      return;
+    }
     this.velocity.set(0, 0);
     //Moves smoothly towards whichever player is nearest
     let xDirection = player.position.x - this.position.x;
