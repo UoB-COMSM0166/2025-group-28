@@ -1,4 +1,5 @@
 class Sprite extends GameObject {
+
   constructor(img, x, y, maxHealth) {
     super(x, y);
 
@@ -13,28 +14,30 @@ class Sprite extends GameObject {
     // Effects like taking damage, speed boost/reduction, etc.
     this.activeEffects = []; // An array of effect type, effect duration, effect strength, etc.
     this.originalColor = this.color;
+    this.collidables = []; // this holds things that are "collidable"
   }
 
   move() {
     // Updates the velocity based on the direction and speed
     this.velocity.set(0, 0);
     if (keyIsDown(LEFT_ARROW)) {
-        this.velocity.x = -this.speed;
+      this.velocity.x = -this.speed;
     }
     if (keyIsDown(RIGHT_ARROW)) {
-        this.velocity.x = this.speed;
+      this.velocity.x = this.speed;
     }
     if (keyIsDown(UP_ARROW)) {
-        this.velocity.y = -this.speed;
+      this.velocity.y = -this.speed;
     }
     if (keyIsDown(DOWN_ARROW)) {
-        this.velocity.y = this.speed;
+      this.velocity.y = this.speed;
     }
 
     // Makes speed feel smooth when moving diagonally
     if (this.velocity.x !== 0 && this.velocity.y !== 0) {
-        this.velocity.setMag(this.speed);
+      this.velocity.setMag(this.speed);
     }
+
     // Applies the movement (if no collision)
     super.update();
   }
@@ -53,20 +56,22 @@ class Sprite extends GameObject {
   draw() {
     if (this.isActive) {
       // Draw sprite first
-      image(
-        this.img,
-        this.position.x - this.widthModel / 2,
-        this.position.y - this.heightModel / 2,
-        this.widthModel,
-        this.heightModel
-      );
-      fill(0, 200, 0, 100);
-      rect(
-        this.position.x - this.widthHitbox / 2,
-        this.position.y - this.heightHitbox / 2,
-        this.widthHitbox,
-        this.heightHitbox
-      );
+      push();
+      translate(this.position.x, this.position.y);
+      scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
+      image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
+      pop();
+
+      if (debug) {
+        // TESTING - draw collision boxes
+        fill(0, 200, 0, 100);
+        rect(
+          this.position.x - this.widthHitbox / 2,
+          this.position.y - this.heightHitbox / 2,
+          this.widthHitbox,
+          this.heightHitbox
+        );
+      }
 
       // Health bar calculations
       const healthBarWidth = this.widthModel * 0.6;
@@ -94,6 +99,9 @@ class Sprite extends GameObject {
         healthBarWidth * healthPercentage,
         healthBarHeight
       );
+
+
+
       //this.updateHealth();
     }
   }
@@ -105,4 +113,5 @@ class Sprite extends GameObject {
   //     this.takeDamage(1);
   //   }
   // }
+
 }

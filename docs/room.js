@@ -29,6 +29,7 @@ class Room {
     this.draw();
   }
 
+  // Creates square wall pattern
   createWallSQR(w, h, x, y) {
     for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
       for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
@@ -38,6 +39,7 @@ class Room {
     }
   }
 
+  // Creates 'L' shaped wall pattern
   createWallL1(w, h, x, y) {
     for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
       for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
@@ -51,6 +53,7 @@ class Room {
     }
   }
 
+  // Creates a different 'L' shaped wall pattern
   createWallL2(w, h, x, y) {
     for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
       for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
@@ -64,6 +67,7 @@ class Room {
     }
   }
 
+  // Incrementally steps through the room and decides how many walls to place
   scanRoom() {
     for (let y = wallBuffer; y < roomHeight - wallBuffer; y += step) {
       for (let x = wallBuffer; x < roomWidth - wallBuffer; x += step) {
@@ -90,7 +94,7 @@ class Room {
           this.createWallL2(this.getRanW(wallVariants.L2),
                             this.getRanH(wallVariants.L2), x, y);
         }
-        // Small square wall
+        // Create small square wall
         else {
           this.createWallSQR(2, 2, x, y);
         }
@@ -98,6 +102,7 @@ class Room {
     }
   }
 
+  // Get random width for wall shape
   getRanW(wallVariant) {
     if (wallVariant == wallVariants.SQR) {
       return floor(random(2, 4));
@@ -106,6 +111,7 @@ class Room {
     }
   }
 
+  // Get random height for wall shape
   getRanH(wallVariant) {
     if (wallVariant == wallVariants.SQR) {
       return floor(random(2, 4));
@@ -114,6 +120,7 @@ class Room {
     }
   }
 
+  // Probability of adding a wall
   rollDice() {
     let wallChance = random(0, 2);
     if (wallChance < 0.30) {
@@ -122,6 +129,8 @@ class Room {
     return false;
   }
 
+  // Adds an offset to the placement of the wall shape within the room
+  // (To prevent rooms looking too symmetrical)
   addOffset(pos) {
     let offset = floor(random(0, wallBuffer));
     if (pos < roomWidth - step && pos < roomHeight - step) {
@@ -161,14 +170,16 @@ class Room {
       for (let i = 0; i < roomWidth; i++) {
         if (this.roomLayout[j][i].type == tileTypes.WALL) {
           image(wallImg, tileSize * i, tileSize * j, tileSize, tileSize);
-          // TESTING - draw collision box
-          fill(0, 200, 0, 100);
-          rect(
-            this.roomLayout[j][i].position.x,
-            this.roomLayout[j][i].position.y,
-            this.roomLayout[j][i].widthHitbox,
-            this.roomLayout[j][i].heightHitbox
-          );
+          if (debug) {
+            // TESTING - draw collision box
+            fill(0, 200, 0, 100);
+            rect(
+              this.roomLayout[j][i].position.x,
+              this.roomLayout[j][i].position.y,
+              this.roomLayout[j][i].widthHitbox,
+              this.roomLayout[j][i].heightHitbox
+            );
+          }
         } else if (this.roomLayout[j][i].type == tileTypes.DOOR) {
           this.rotateDoor(i, j);
         } else {

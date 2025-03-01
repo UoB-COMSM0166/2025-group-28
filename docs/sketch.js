@@ -6,6 +6,7 @@ let testMob;
 
 let coop = false;
 let inGame = false;
+let debug = false;
 let menuBack;
 let sp_button;
 let coop_button;
@@ -73,12 +74,12 @@ function gameSetUp() {
     }
 
     testMob = new Mob(dogMob, 600, 350);
-    game.playerChange(player);
 
     // Temp way to reset contents of collidables arrays
     // (otherwise old wall collisions will persist on new room)
-    game = new Game(newRoom, playerA, playerB);
-    //game.playerChange(Player);
+    game = new Game(newRoom, playerA, playerB, coop);
+
+    game.playerChange(Player);
   });
 }
 function setup() {
@@ -120,6 +121,14 @@ function keyPressed() {
       } else {
         loop();
         game.gameState = GameStates.ACTIVE;
+      }
+    }
+    // 192 = ` (key under Esc)
+    if (keyCode == 192) {
+      if (!debug) {
+        debug = true;
+      } else {
+        debug = false;
       }
     }
   }

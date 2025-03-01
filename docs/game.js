@@ -1,34 +1,30 @@
 class Game {
+
   constructor(room, player_1, player_2, coop) {
     //this.lvl_num = lvlNum;
     this.currentRoom = room;
     this.gameState = GameStates.ACTIVE;
     this.sprites = [];
     this.spritesP1 = [];
-    this.collidablesP1 = []; // this currently holds things that are "collidable"
+    this.player1 = player_1;
+    this.sprites.concat(room.mobs).concat(room.items);
+    this.spritesP1.concat(room.mobs).concat(room.items);
+    this.sprites.push(testMob);
+    this.player1.collidables.push(testMob);
+    this.player1.collidables.concat(room.mobs).concat(room.items);
     if (coop) {
-      this.collidablesP2 = []; // this currently holds things that are "collidable"
       this.player2 = player_2;
       this.spritesP2 = [];
       this.spritesP2.concat(room.mobs).concat(room.items);
       this.spritesP2.push(this.player1);
       this.spritesP1.push(this.player2);
-      this.collidablesP2.push(testMob);
-      this.collidablesP2.concat(room.mobs).concat(room.items);
-      this.collidablesP1.push(this.player2);
+      this.player2.collidables.push(testMob);
+      this.player2.collidables.concat(room.mobs).concat(room.items);
+      this.player1.collidables.push(this.player2);
+      this.player2.collidables.push(this.player1);
     }
-    this.player1 = player_1;
-    this.sprites.concat(room.mobs).concat(room.items);
-
-    this.spritesP1.concat(room.mobs).concat(room.items);
-
-    this.sprites.push(testMob);
-    this.collidablesP1.push(testMob);
-    //this.sprites.push(this.player2);
     this.halt = false;
-    this.collidablesP1.concat(room.mobs).concat(room.items);
     this.addWallCollisions();
-    // this.sprites.push(this.player2);
   }
 
   // FOR NOW - when a sprite is created it is registered to the game, so it is included in draw/update call
@@ -39,9 +35,10 @@ class Game {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
         if (this.currentRoom.roomLayout[j][i].type == tileTypes.WALL) {
-          this.collidablesP1.push(this.currentRoom.roomLayout[j][i]);
+          this.player1.collidables.push(this.currentRoom.roomLayout[j][i]);
+          testMob.collidables.push(this.currentRoom.roomLayout[j][i]);
           if (coop) {
-            this.collidablesP2.push(this.currentRoom.roomLayout[j][i]);
+            this.player2.collidables.push(this.currentRoom.roomLayout[j][i]);
           }
         }
       }
@@ -96,9 +93,11 @@ class Game {
     }
 
     this.player1.move();
+
     if (coop) {
       this.player2.move();
     }
+
     this.player1.fire();
 
     if (coop) {
@@ -127,4 +126,5 @@ class Game {
       }
     }
   }
+
 }

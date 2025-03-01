@@ -1,4 +1,5 @@
 class Player extends Sprite {
+
   constructor(img, x, y, player_x) {
     super(img, x, y, 100);
     this.widthHitbox = 30;
@@ -14,16 +15,17 @@ class Player extends Sprite {
     this.fireRate = 0.5; // Seconds between shots
     this.lastShot = 0; // Timestamp of last shot
     this.inventory = [];
-    this.collidables = [];
     this.direction = createVector(-1, 0); // Character starts facing right
     this.projectilesFired = []; // holds live projectiles in game
     this.fireCooldown = 500; // Cooldown between shots
   }
 
   move() {
+    if (!this.isActive) {
+      return;
+    }
     // Player movement using WASD / arrow keys
     this.velocity.set(0, 0);
-    let pushback = 1; // To prevent sticking
 
     //movement logic for PLAYER_1
     if (this.player === playerNumber.PLAYER_1) {
@@ -138,25 +140,19 @@ class Player extends Sprite {
       this.direction = this.velocity.copy().normalize();
     }
 
-    // Stops the player moving outside the outer walls (just in case)
-    this.position.x = constrain(this.position.x, tileSize * 2.5,
-                                (roomWidth * tileSize) - tileSize * 2.5);
-    this.position.y = constrain(this.position.y, tileSize * 2.5,
-                                (roomHeight * tileSize) - tileSize * 2.5);
-
     super.update();
   }
 
   fire() {
     let currentTime = millis();
-    if (currentTime - this.lastShot > this.fireRate * 250) {
+    if (this.isActive && currentTime - this.lastShot > this.fireRate * 250) {
         if (this.player === playerNumber.PLAYER_1 && keyIsDown(32)) { // SPACE key for player 1
             let projectile = new Projectile(this.position.x, this.position.y, this.direction.x, this.direction.y, this.lastDirection);
             projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
             this.projectilesFired.push(projectile);
             this.lastShot = currentTime;
         }
-        if (this.player === playerNumber.PLAYER_2 && keyIsDown(13)) { // ENTER key for player 2
+        if (this.isActive && this.player === playerNumber.PLAYER_2 && keyIsDown(13)) { // ENTER key for player 2
             let projectile = new Projectile(this.position.x, this.position.y, this.direction.x, this.direction.y, this.lastDirection);
             projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
             this.projectilesFired.push(projectile);
@@ -165,23 +161,6 @@ class Player extends Sprite {
     }
   }
 
-  draw() {
-    if (this.isActive) {
-      fill(255, 0, 0, 100);
-      noStroke();
-      rect(
-        this.position.x - this.widthHitbox / 2, 
-        this.position.y - this.heightHitbox / 2, 
-        this.widthHitbox, 
-        this.heightHitbox
-      );
-      push();
-      translate(this.position.x, this.position.y);
-      scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
-      image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
-      pop();  
-    }  
-  }
-
   pickupItem() {}
+
 }
