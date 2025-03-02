@@ -19,12 +19,14 @@ let difficultyButton;
 function gameSwitch(starting) {
   // Used to switch between game start/menu
   if (starting) {
-    gameSetUp();
     sp_button.remove();
     coop_button.remove();
     menuBack.remove();
     stng_button.remove();
+    difficultyButton.remove();
     inGame = true;
+    gameSetUp();
+    loop();
   }
 }
 function singlePlayerStart() {

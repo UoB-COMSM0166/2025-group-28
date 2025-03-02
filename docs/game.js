@@ -1,6 +1,6 @@
 class Game {
 
-  constructor(room, player_1, player_2, coop, difficultyLevel = difficultyLevels.NORMAL) {
+  constructor(room, player_1, player_2, coop, difficultyLevel /*= difficultyLevels.NORMAL*/) {
     //this.lvl_num = lvlNum;
     this.currentRoom = room;
     this.gameState = GameStates.ACTIVE;
