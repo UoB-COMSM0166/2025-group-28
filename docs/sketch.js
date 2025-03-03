@@ -16,6 +16,17 @@ let difficulty = difficultyLevels.NORMAL;
 let difficultyNames = ["Easy", "Normal", "Hard"];
 let difficultyButton;
 
+function setup() {
+  noStroke();
+  rectMode(CORNER);
+  createCanvas(800, 600);
+  if (inGame) {
+    gameSetUp();
+  } else {
+    renderMenu();
+  }
+}
+
 function gameSwitch(starting) {
   // Used to switch between game start/menu
   if (starting) {
@@ -56,11 +67,11 @@ function renderMenu() {
   stng_button.position(pageWidth * 0.75, pageHeight * 0.75);
   stng_button.size(150, 200);
 
-  difficultyButton = createButton(difficultyNames[difficulty]);
-  difficultyButton.position(pageWidth / 2 - 50, pageHeight * 0.6);
+  difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
+  difficultyButton.position(pageWidth / 2 + 10, pageHeight * 0.62);
   difficultyButton.mouseClicked(changeDifficulty);
   difficultyButton.class('menu-button');
-  difficultyButton.style('background-color', '#4CAF50');
+  difficultyButton.style('background-color', '#00AAA0');
   difficultyButton.style('color', 'white'); 
   difficultyButton.style('padding', '15px 32px'); 
   difficultyButton.style('font-size', '16px');
@@ -73,7 +84,7 @@ function changeDifficulty() {
   else {
     difficulty = 0;
   }
-  difficultyButton.html(difficultyNames[difficulty]);
+  difficultyButton.html("Difficulty: " + difficultyNames[difficulty]);
 }
 
 function gameSetUp() {
@@ -106,16 +117,6 @@ function gameSetUp() {
 
     game.playerChange(Player);
   });
-}
-function setup() {
-  noStroke();
-  rectMode(CORNER);
-  createCanvas(800, 600);
-  if (inGame) {
-    gameSetUp();
-  } else {
-    renderMenu();
-  }
 }
 
 function draw() {
