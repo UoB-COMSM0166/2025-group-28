@@ -12,15 +12,32 @@ let sp_button;
 let coop_button;
 let stng_button;
 
+let difficulty = difficultyLevels.NORMAL;
+let difficultyNames = ["Easy", "Normal", "Hard"];
+let difficultyButton;
+
+function setup() {
+  noStroke();
+  rectMode(CORNER);
+  createCanvas(800, 600);
+  if (inGame) {
+    gameSetUp();
+  } else {
+    renderMenu();
+  }
+}
+
 function gameSwitch(starting) {
   // Used to switch between game start/menu
   if (starting) {
-    gameSetUp();
     sp_button.remove();
     coop_button.remove();
     menuBack.remove();
     stng_button.remove();
+    difficultyButton.remove();
     inGame = true;
+    gameSetUp();
+    loop();
   }
 }
 function singlePlayerStart() {
@@ -49,6 +66,25 @@ function renderMenu() {
   stng_button = createImg(helpIcon);
   stng_button.position(pageWidth * 0.75, pageHeight * 0.75);
   stng_button.size(150, 200);
+
+  difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
+  difficultyButton.position(pageWidth / 2 + 10, pageHeight * 0.62);
+  difficultyButton.mouseClicked(changeDifficulty);
+  difficultyButton.class('menu-button');
+  difficultyButton.style('background-color', '#00AAA0');
+  difficultyButton.style('color', 'white'); 
+  difficultyButton.style('padding', '15px 32px'); 
+  difficultyButton.style('font-size', '16px');
+}
+
+function changeDifficulty() {
+  if (difficulty < difficultyNames.length - 1){
+    difficulty = difficulty + 1
+  }
+  else {
+    difficulty = 0;
+  }
+  difficultyButton.html("Difficulty: " + difficultyNames[difficulty]);
 }
 
 function gameSetUp() {
@@ -62,7 +98,7 @@ function gameSetUp() {
   }
   testMob = new Mob(dogMob, 700, 350);
 
-  game = new Game(newRoom, playerA, playerB, coop);
+  game = new Game(newRoom, playerA, playerB, coop, difficulty);
 
   let button = createButton("Generate New Room");
   button.position(0, roomHeight * tileSize + 10);
@@ -77,20 +113,10 @@ function gameSetUp() {
 
     // Temp way to reset contents of collidables arrays
     // (otherwise old wall collisions will persist on new room)
-    game = new Game(newRoom, playerA, playerB, coop);
+    game = new Game(newRoom, playerA, playerB, coop, difficulty);
 
     game.playerChange(Player);
   });
-}
-function setup() {
-  noStroke();
-  rectMode(CORNER);
-  createCanvas(800, 600);
-  if (inGame) {
-    gameSetUp();
-  } else {
-    renderMenu();
-  }
 }
 
 function draw() {

@@ -40,6 +40,20 @@ const playerNumber = Object.freeze({
   PLAYER_1: 0,
   PLAYER_2: 1,
 });
+
+const difficultyLevels = Object.freeze({
+  EASY: 0,
+  NORMAL: 1,
+  HARD: 2
+})
+
+const difficultySettings = [
+  { spawnRate: 10000, maxMobs: 4, mobHealth: 50, mobSpeed: 0.8, mobDamage: 2 },   // Easy mode
+  { spawnRate: 7000, maxMobs: 8, mobHealth: 60, mobSpeed: 1, mobDamage: 3 },    // Normal mode
+  { spawnRate: 4000, maxMobs: 12, mobHealth: 70, mobSpeed: 1.2, mobDamage: 4 }, // Hard mode
+]
+
+
 let menuBacking;
 
 function preload() {
