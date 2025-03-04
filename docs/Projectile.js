@@ -9,8 +9,8 @@ class Projectile extends GameObject { // maybe extend game object to avoid the h
 
    update() {
       // Deactive the projectile if it leaves the room boundaries for performance reasons ;)
-      if (this.position.x < tileSize || this.position.x > roomWidth * tileSize ||
-         this.position.y < tileSize || this.position.y > roomHeight * tileSize) {
+      if (this.position.x < tileSize || this.position.x > roomWidth * tileSize - tileSize ||
+         this.position.y < tileSize || this.position.y > roomHeight * tileSize - tileSize) {
          this.isActive = false;
       }
       if (this.isActive) {
