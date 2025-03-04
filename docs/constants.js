@@ -1,9 +1,12 @@
+// Room generation constants
 var roomHeight = 37;
 var roomWidth = 50;
 var tileSize = 16;
-var doorBuffer = 5;
-var wallBuffer = 6;
+var doorBuffer = 5; // To prevent door spawning too close to edges of room
+var wallBuffer = 6; // To prevent wall shapes spawning too close to outer walls
 var step = 4;
+// Collision constants
+var pushback = 1; // Prevents sticking
 
 var playerA;
 var playerB;
@@ -37,6 +40,20 @@ const playerNumber = Object.freeze({
   PLAYER_1: 0,
   PLAYER_2: 1,
 });
+
+const difficultyLevels = Object.freeze({
+  EASY: 0,
+  NORMAL: 1,
+  HARD: 2
+})
+
+const difficultySettings = [
+  { spawnRate: 10000, maxMobs: 4, mobHealth: 50, mobSpeed: 0.8, mobDamage: 2 },   // Easy mode
+  { spawnRate: 7000, maxMobs: 8, mobHealth: 60, mobSpeed: 1, mobDamage: 3 },    // Normal mode
+  { spawnRate: 4000, maxMobs: 12, mobHealth: 70, mobSpeed: 1.2, mobDamage: 4 }, // Hard mode
+]
+
+
 let menuBacking;
 
 function preload() {

@@ -1,34 +1,36 @@
 class Game {
-  constructor(room, player_1, player_2, coop) {
+
+  constructor(room, player_1, player_2, coop, difficultyLevel = difficultyLevels.NORMAL) {
     //this.lvl_num = lvlNum;
     this.currentRoom = room;
     this.gameState = GameStates.ACTIVE;
     this.sprites = [];
     this.spritesP1 = [];
-    this.collidablesP1 = []; // this currently holds things that are "collidable"
+    this.player1 = player_1;
+    this.difficulty = difficultyLevel;
+    this.difficultySettings = difficultySettings[this.difficulty];
+    this.lastSpawnTime = 0;
+    this.sprites.concat(room.mobs).concat(room.items);
+    this.spritesP1.concat(room.mobs).concat(room.items);
+    this.mobs = [];
+    this.mobs.push(testMob);
+    this.currentRoom.mobs = this.mobs;
+    this.sprites.push(testMob);
+    this.player1.collidables.push(testMob);
+    this.player1.collidables.concat(room.mobs).concat(room.items);
     if (coop) {
-      this.collidablesP2 = []; // this currently holds things that are "collidable"
       this.player2 = player_2;
       this.spritesP2 = [];
       this.spritesP2.concat(room.mobs).concat(room.items);
       this.spritesP2.push(this.player1);
       this.spritesP1.push(this.player2);
-      this.collidablesP2.push(testMob);
-      this.collidablesP2.concat(room.mobs).concat(room.items);
-      this.collidablesP1.push(this.player2);
+      this.player2.collidables.push(testMob);
+      this.player2.collidables.concat(room.mobs).concat(room.items);
+      this.player1.collidables.push(this.player2);
+      this.player2.collidables.push(this.player1);
     }
-    this.player1 = player_1;
-    this.sprites.concat(room.mobs).concat(room.items);
-
-    this.spritesP1.concat(room.mobs).concat(room.items);
-
-    this.sprites.push(testMob);
-    this.collidablesP1.push(testMob);
-    //this.sprites.push(this.player2);
     this.halt = false;
-    this.collidablesP1.concat(room.mobs).concat(room.items);
     this.addWallCollisions();
-    // this.sprites.push(this.player2);
   }
 
   // FOR NOW - when a sprite is created it is registered to the game, so it is included in draw/update call
@@ -39,14 +41,85 @@ class Game {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
         if (this.currentRoom.roomLayout[j][i].type == tileTypes.WALL) {
-          this.collidablesP1.push(this.currentRoom.roomLayout[j][i]);
+          this.player1.collidables.push(this.currentRoom.roomLayout[j][i]);
+          testMob.collidables.push(this.currentRoom.roomLayout[j][i]);
           if (coop) {
-            this.collidablesP2.push(this.currentRoom.roomLayout[j][i]);
+            this.player2.collidables.push(this.currentRoom.roomLayout[j][i]);
           }
         }
       }
     }
   }
+
+  spawnMob(){
+    if (this.mobs.length >= this.difficultySettings.maxMobs){
+      return;
+    }
+    let spawnX, spawnY;
+    let validSpawn = false;
+    let spawnAttempts = 0;
+    while (!validSpawn && spawnAttempts < 100) {
+      spawnX = random(tileSize * 3, (roomWidth - 3) * tileSize)
+      spawnY = random(tileSize * 3, (roomHeight - 3) * tileSize);
+
+      // Checking if the spawn is inside a wall
+      let insideWall = false;
+      for (let j = 0; j < roomHeight; j++) {
+        for (let i = 0; i < roomWidth; i++) {
+          if (this.currentRoom.roomLayout[j][i].type === tileTypes.WALL) {
+            let wallX = this.currentRoom.roomLayout[j][i].position.x;
+            let wallY = this.currentRoom.roomLayout[j][i].position.y;
+            let wallWidth = this.currentRoom.roomLayout[j][i].widthHitbox;
+            let wallHeight = this.currentRoom.roomLayout[j][i].heightHitbox;
+            
+            if (spawnX > wallX && spawnX < wallX + wallWidth && 
+                spawnY > wallY && spawnY < wallY + wallHeight) {
+              insideWall = true;
+              break;
+            }
+          }
+        }
+        if(insideWall) {
+          break;
+        }
+      }
+      let distanceFromP1 = dist(spawnX, spawnY, this.player1.position.x, this.player1.position.y);
+      let distanceFromP2 = Infinity;
+      if (coop){
+        let distanceFromP2 = dist(spawnX, spawnY, this.player2.position.x, this.player2.position.y);
+      }
+      if (!insideWall && distanceFromP1 > 150 && distanceFromP2 > 150) {
+        validSpawn = true;
+        break;
+      }
+      spawnAttempts++;
+    }
+
+    if (validSpawn) {
+      let newMob = new Mob(dogMob, spawnX, spawnY);
+      newMob.health = this.difficultySettings.mobHealth;
+      newMob.maxHealth = this.difficultySettings.mobHealth;
+      newMob.speed = this.difficultySettings.mobSpeed;
+      newMob.attackDamage = this.difficultySettings.mobDamage;
+      for (let j = 0; j < roomHeight; j++) {
+        for (let i = 0; i < roomWidth; i++) {
+          if (this.currentRoom.roomLayout[j][i].type === tileTypes.WALL) {
+            newMob.collidables.push(this.currentRoom.roomLayout[j][i]);
+          }
+        }
+      }
+      this.sprites.push(newMob);
+      this.mobs.push(newMob);
+      this.player1.collidables.push(newMob);
+      if (coop) {
+        this.player2.collidables.push(newMob);
+      }
+      this.currentRoom.mobs = this.mobs;
+    }
+  }
+
+
+
 
   processInput() {
     console.log();
@@ -77,6 +150,34 @@ class Game {
       this.player2.update();
     }
     this.player1.update();
+    let currentTime = millis();
+    if (this.gameState === GameStates.ACTIVE && currentTime - this.lastSpawnTime > this.difficultySettings.spawnRate) {
+      this.spawnMob();
+      this.lastSpawnTime = currentTime;
+    }
+    for (let i = 0; i < this.mobs.length - 1; i++) {
+      if (!this.mobs[i].isActive) {
+        // Remove dead mob from player collidables
+        let index = this.player1.collidables.indexOf(this.mobs[i]);
+        if (index != -1) {
+          this.player1.collidables.splice(index, 1);
+        }
+        if (coop) {
+          index = this.player2.collidables.indexOf(this.mobs[i]);
+          if (index != -1) {
+            this.player2.collidables.splice(index, 1);
+          }
+        }
+        // Remove dead mob from sprites array
+        index = this.sprites.indexOf(this.mobs[i]);
+        if (index > -1) {
+          this.sprites.splice(index, 1);
+        }
+        // Remove dead mob from mobs array
+        this.mobs.splice(i, 1);
+      }
+    }
+    this.currentRoom.mobs = this.mobs;
   }
 
   draw() {
@@ -96,9 +197,11 @@ class Game {
     }
 
     this.player1.move();
+
     if (coop) {
       this.player2.move();
     }
+
     this.player1.fire();
 
     if (coop) {
@@ -113,17 +216,40 @@ class Game {
 
     // projectile collision checking - i think this ultimately needs be a loop within a loop check for a mob array
     for (let i = this.player1.projectilesFired.length - 1; i >= 0; i--) {
-      if (this.player1.projectilesFired[i].isCollidingWith(testMob)) {
+      let projectileHit = false;
+      for (let mob of this.mobs) {
+        if (this.player1.projectilesFired[i].isCollidingWith(mob)) {
+          mob.takeDamage(this.player1.attackDamage);
+          projectileHit = true;
+          break;
+        }
+      }
+      if (projectileHit) {
         this.player1.projectilesFired.splice(i, 1);
-        testMob.takeDamage(this.player1.attackDamage);
       }
     }
     if (coop) {
       for (let i = this.player2.projectilesFired.length - 1; i >= 0; i--) {
-        if (this.player2.projectilesFired[i].isCollidingWith(testMob)) {
-          this.player2.projectilesFired.splice(i, 1);
-          testMob.takeDamage(this.player1.attackDamage);
+        let projectileHit = false;
+        for (let mob of this.mobs) {
+          if (this.player2.projectilesFired[i].isCollidingWith(mob)) {
+            mob.takeDamage(this.player2.attackDamage);
+            projectileHit = true;
+            break;
+          }
         }
+        if (projectileHit) {
+          this.player2.projectilesFired.splice(i, 1);
+        }
+      }
+    }
+    for (let mob of this.mobs) {
+      if (this.player1.isCollidingWith(mob)) {
+        this.player1.takeDamage(mob.attackDamage * 0.5); // Can be balanced here or in constants.js
+      }
+      
+      if (coop && this.player2.isCollidingWith(mob)) {
+        this.player2.takeDamage(mob.attackDamage * 0.5); // Can be balanced here or in constants.js
       }
     }
   }
