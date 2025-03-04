@@ -48,9 +48,9 @@ const difficultyLevels = Object.freeze({
 });
 
 const difficultySettings = [
-  { spawnRate: 7600, maxMobs: 3, mobHealth: 50, mobSpeed: 0.8, mobDamage: 100 }, // Easy mode
-  { spawnRate: 6200, maxMobs: 5, mobHealth: 55, mobSpeed: 1, mobDamage: 100 }, // Normal mode
-  { spawnRate: 4800, maxMobs: 7, mobHealth: 60, mobSpeed: 1.2, mobDamage: 100 }, // Hard mode
+  { spawnRate: 9000, maxMobs: 2, mobHealth: 50, mobSpeed: 0.8, mobDamage: 100 }, // Easy mode
+  { spawnRate: 7000, maxMobs: 4, mobHealth: 55, mobSpeed: 1, mobDamage: 100 }, // Normal mode
+  { spawnRate: 4800, maxMobs: 6, mobHealth: 60, mobSpeed: 1.2, mobDamage: 100 }, // Hard mode
 ];
 
 let menuBacking;
