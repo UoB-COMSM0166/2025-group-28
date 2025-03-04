@@ -14,6 +14,8 @@ let stng_button;
 
 let difficulty = difficultyLevels.NORMAL;
 let difficultyNames = ["Easy", "Normal", "Hard"];
+let difficultyTints = ["#4d63445A", "#a6aba45A", "#ba29225A"];
+let diffTint = difficultyTints[1];
 let difficultyButton;
 
 function setup() {
@@ -52,38 +54,47 @@ function coopPlayerStart() {
 function renderMenu() {
   menuBack = createImg(menuimg);
   menuBack.position(0, 0);
+  menuBack.size(pageWidth, pageHeight);
 
   sp_button = createImg(singlePlayerIcon);
-  sp_button.position(pageWidth / 4, pageHeight * 0.75);
-  sp_button.size(150, 200);
+  sp_button.position(pageWidth / 9, pageHeight * 0.62);
+  sp_button.size(120, 170);
   sp_button.mouseClicked(singlePlayerStart);
 
   coop_button = createImg(coopIcon);
-  coop_button.position(pageWidth / 2, pageHeight * 0.75);
-  coop_button.size(150, 200);
+  coop_button.position(pageWidth / 3 + 75, pageHeight * 0.62);
+  coop_button.size(120, 170);
   coop_button.mouseClicked(coopPlayerStart);
 
   stng_button = createImg(helpIcon);
-  stng_button.position(pageWidth * 0.75, pageHeight * 0.75);
-  stng_button.size(150, 200);
+  stng_button.position(pageWidth * 0.75, pageHeight * 0.62);
+  stng_button.size(120, 170);
 
   difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
-  difficultyButton.position(pageWidth / 2 + 10, pageHeight * 0.62);
+  difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.9);
   difficultyButton.mouseClicked(changeDifficulty);
-  difficultyButton.class('menu-button');
-  difficultyButton.style('background-color', '#00AAA0');
-  difficultyButton.style('color', 'white'); 
-  difficultyButton.style('padding', '15px 32px'); 
-  difficultyButton.style('font-size', '16px');
+  difficultyButton.size(160, 55);
+  difficultyButton.class("menu-button");
+  difficultyButton.style("background-color", diffTint);
+  difficultyButton.style("color", "white");
+  difficultyButton.style("padding", "10px 10px");
+  difficultyButton.style("font-size", "20px");
+  difficultyButton.style("font-family", "LuckiestGuy-Regular");
+  difficultyButton.style("border", "none");
+  difficultyButton.style("text-align", "center");
+  difficultyButton.style("vertical-align", "middle");
+  difficultyButton.style("border-radius", "10%");
 }
 
 function changeDifficulty() {
-  if (difficulty < difficultyNames.length - 1){
-    difficulty = difficulty + 1
-  }
-  else {
+  if (difficulty < difficultyNames.length - 1) {
+    difficulty = difficulty + 1;
+    diffTint = difficultyTints[difficulty];
+  } else {
     difficulty = 0;
+    diffTint = difficultyTints[difficulty];
   }
+  difficultyButton.style("background-color", diffTint);
   difficultyButton.html("Difficulty: " + difficultyNames[difficulty]);
 }
 
