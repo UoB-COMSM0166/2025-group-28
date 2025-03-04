@@ -11,7 +11,7 @@ class Player extends Sprite {
     this.heightModel = 60;
     this.color = color(0, 100, 255);
     this.speed = 3; // Slightly faster than base sprites
-    this.attackDamage = 2;
+    this.attackDamage = 5;
     this.fireRate = 0.5; // Seconds between shots
     this.lastShot = 0; // Timestamp of last shot
     this.inventory = [];
