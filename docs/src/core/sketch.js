@@ -2,7 +2,6 @@
 let game;
 let asset_astrocat;
 let newRoom;
-let testMob;
 
 let coop = false;
 let inGame = false;
@@ -52,25 +51,33 @@ function coopPlayerStart() {
 }
 
 function renderMenu() {
+  let menuContainer = createDiv();
+  menuContainer.id('menuContainer');
+  menuContainer.size(pageWidth, pageHeight);
+
   menuBack = createImg(menuimg);
-  menuBack.position(0, 0);
+  menuBack.parent(menuContainer);
   menuBack.size(pageWidth, pageHeight);
 
   sp_button = createImg(singlePlayerIcon);
+  sp_button.parent(menuContainer);
   sp_button.position(pageWidth / 9, pageHeight * 0.62);
   sp_button.size(120, 170);
   sp_button.mouseClicked(singlePlayerStart);
 
   coop_button = createImg(coopIcon);
+  coop_button.parent(menuContainer);
   coop_button.position(pageWidth / 3 + 75, pageHeight * 0.62);
   coop_button.size(120, 170);
   coop_button.mouseClicked(coopPlayerStart);
 
   stng_button = createImg(helpIcon);
+  stng_button.parent(menuContainer);
   stng_button.position(pageWidth * 0.75, pageHeight * 0.62);
   stng_button.size(120, 170);
 
   difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
+  difficultyButton.parent(menuContainer);
   difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.9);
   difficultyButton.mouseClicked(changeDifficulty);
   difficultyButton.size(160, 55);
@@ -107,7 +114,6 @@ function gameSetUp() {
   if (coop) {
     playerB = new Player(astrocat, 300, 300, playerNumber.PLAYER_2);
   }
-  testMob = new Mob(dogMob, 700, 350);
 
   game = new Game(newRoom, playerA, playerB, coop, difficulty);
 
@@ -119,8 +125,6 @@ function gameSetUp() {
     if (coop) {
       playerB = new Player(astrocat, 500, 300, playerNumber.PLAYER_2);
     }
-
-    testMob = new Mob(dogMob, 600, 350);
 
     // Temp way to reset contents of collidables arrays
     // (otherwise old wall collisions will persist on new room)
@@ -135,16 +139,6 @@ function draw() {
     if (game.gameState == GameStates.ACTIVE) {
       game.update();
       game.draw();
-    }
-
-    if (playerA.isCollidingWith(testMob)) {
-      playerA.takeDamage(testMob.attackDamage);
-    }
-
-    if (coop) {
-      if (playerB.isCollidingWith(testMob)) {
-        playerB.takeDamage(testMob.attackDamage);
-      }
     }
   }
 }

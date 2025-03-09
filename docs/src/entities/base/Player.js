@@ -131,6 +131,19 @@ class Player extends Sprite {
       }
     }
 
+    // Constrain the player's position within the room boundaries
+    this.position.x = constrain(this.position.x, tileSize * 2 + this.widthHitbox / 2, (roomWidth * tileSize) - tileSize * 2 - this.widthHitbox / 2);
+    this.position.y = constrain(this.position.y, tileSize * 2 + this.heightHitbox / 2, (roomHeight * tileSize) - tileSize * 2 - this.heightHitbox / 2);
+
+    // Apply knockback force gradually
+    if (this.knockbackForce.mag() > 0) {
+      this.position.add(this.knockbackForce);
+      this.knockbackForce.mult(0.9);
+      if (this.knockbackForce.mag() < 0.1) {
+        this.knockbackForce.set(0, 0); // Stop knockback when force is very small
+      }
+    }
+
     // Normalizes diagonal movement
     if (this.velocity.x !== 0 && this.velocity.y !== 0) {
       this.velocity.setMag(this.speed);
@@ -158,6 +171,16 @@ class Player extends Sprite {
             this.projectilesFired.push(projectile);
             this.lastShot = currentTime;
         }
+    }
+  }
+
+  // Adds i-frames after taking damage - in player class as not needed for mobs
+  makeInvincible() {
+    if (!this.isInvincible) {
+      this.isInvincible = true;
+      this.invincibilityStartTime = millis();
+      this.lastFlashTime = millis();
+      this.isFlashing = true;
     }
   }
 

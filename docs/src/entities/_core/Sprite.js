@@ -15,8 +15,19 @@ class Sprite extends GameObject {
     this.activeEffects = []; // An array of effect type, effect duration, effect strength, etc.
     this.originalColor = this.color;
     this.collidables = []; // this holds things that are "collidable"
+
+    // Properties for i-frames/flashing effect
+    this.isInvincible = false;
+    this.invincibilityDuration = 1000; // 1 second of invincibility
+    this.invincibilityStartTime = 0;
+    this.flashInterval = 100; // Flash every 100ms
+    this.lastFlashTime = 0;
+    this.isFlashing = false;
+
+    this.knockbackForce = createVector(0, 0); // stores remaining knockback force
   }
 
+  ///*** Is this even needed? Player and mob have their own movement methods which override this ***///
   move() {
     // Updates the velocity based on the direction and speed
     this.velocity.set(0, 0);
@@ -42,25 +53,50 @@ class Sprite extends GameObject {
     super.update();
   }
 
-  takeDamage(amount) {
-    this.health -= amount;
+  calculateKnockbackDirection(sourceX, sourceY) {
+    let knockbackDirection = createVector(this.position.x - sourceX, this.position.y - sourceY);
+    knockbackDirection.normalize();
+    return knockbackDirection;
+  }
 
+  applyKnockback(sourceX, sourceY) {
+    let knockbackDirection = this.calculateKnockbackDirection(sourceX, sourceY);
+    this.knockbackForce = p5.Vector.mult(knockbackDirection, knockbackForce);
+  }
+
+  takeDamage(amount) {
+    if (!this.isInvincible) {
+      this.health -= amount;
+    }
     // Checks if the sprite is dead
     if (this.health <= 0) {
       this.health = 0;
       this.isActive = false;
-      console.log("Sprite is dead");
     }
   }
 
   draw() {
     if (this.isActive) {
-      // Draw sprite first
-      push();
-      translate(this.position.x, this.position.y);
-      scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
-      image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
-      pop();
+      // Handle flashing effect
+      if (this.isInvincible) {
+        let currentTime = millis();
+        if (currentTime - this.invincibilityStartTime > this.invincibilityDuration) {
+          this.isInvincible = false;
+          this.isFlashing = false;
+        } else if (currentTime - this.lastFlashTime > this.flashInterval) {
+          this.isFlashing = !this.isFlashing;
+          this.lastFlashTime = currentTime;
+        }
+      }
+
+      // Draw sprite only if not flashing
+      if (!this.isFlashing) {
+        push();
+        translate(this.position.x, this.position.y);
+        scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
+        image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
+        pop();
+      }
 
       if (debug) {
         // TESTING - draw collision boxes
@@ -99,19 +135,7 @@ class Sprite extends GameObject {
         healthBarWidth * healthPercentage,
         healthBarHeight
       );
-
-
-
-      //this.updateHealth();
     }
   }
-
-  // updateHealth() {
-  //   //Test: Pressing space damages the Player
-  //   if (keyIsDown(32)) {
-  //     // Space key
-  //     this.takeDamage(1);
-  //   }
-  // }
 
 }

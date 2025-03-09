@@ -1,11 +1,17 @@
 html, body {
   height: 100%;
-}
-
-body {
   margin: 0;
   background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#menuContainer {
+  margin-left: -800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
