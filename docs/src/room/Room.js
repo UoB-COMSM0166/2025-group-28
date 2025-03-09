@@ -181,6 +181,7 @@ class Room {
             );
           }
         } else if (this.roomLayout[j][i].type == tileTypes.DOOR) {
+          image(wallImg, tileSize * i, tileSize * j, tileSize, tileSize);
           this.rotateDoor(i, j);
         } else {
           image(tileImg, tileSize * i, tileSize * j, tileSize, tileSize);

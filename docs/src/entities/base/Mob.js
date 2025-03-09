@@ -59,6 +59,14 @@ class Mob extends Sprite {
     if (this.velocity.x !== 0 && this.velocity.y !== 0) {
       this.velocity.setMag(this.speed);
     }
+    // Apply knockback force gradually
+    if (this.knockbackForce.mag() > 0) {
+      this.position.add(this.knockbackForce);
+      this.knockbackForce.mult(0.9); // Reduce knockback force gradually
+      if (this.knockbackForce.mag() < 0.1) {
+        this.knockbackForce.set(0, 0); // Stop knockback when force is very small
+      }
+    }
   }
 
   findDistanceToPlayer(player) {

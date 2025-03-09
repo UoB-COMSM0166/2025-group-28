@@ -8,6 +8,8 @@ var step = 4;
 // Collision constants
 var pushback = 1; // Prevents sticking
 
+var knockbackForce = 5;
+
 var playerA;
 var playerB;
 
@@ -47,11 +49,11 @@ const difficultyLevels = Object.freeze({
   HARD: 2,
 });
 
-const difficultySettings = [
-  { spawnRate: 9000, maxMobs: 2, mobHealth: 50, mobSpeed: 0.8, mobDamage: 100 }, // Easy mode
-  { spawnRate: 6000, maxMobs: 4, mobHealth: 60, mobSpeed: 1.1, mobDamage: 100 }, // Normal mode
-  { spawnRate: 4800, maxMobs: 6, mobHealth: 60, mobSpeed: 1.2, mobDamage: 100 }, // Hard mode
-];
+const difficultySettings = Object.freeze([
+  { spawnRate: 9000, maxMobs: 2, mobHealth: 50, mobSpeed: 0.8, mobDamage: 15 }, // Easy mode
+  { spawnRate: 6000, maxMobs: 4, mobHealth: 60, mobSpeed: 1.1, mobDamage: 30 }, // Normal mode
+  { spawnRate: 4800, maxMobs: 6, mobHealth: 60, mobSpeed: 1.2, mobDamage: 45 }, // Hard mode
+]);
 
 let menuBacking;
 
