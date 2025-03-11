@@ -17,6 +17,8 @@ let difficultyTints = ["#4d63445A", "#a6aba45A", "#ba29225A"];
 let diffTint = difficultyTints[1];
 let difficultyButton;
 
+let gameCount = 1;
+
 function setup() {
   noStroke();
   rectMode(CORNER);
@@ -128,10 +130,12 @@ function gameSetUp() {
 
     // Temp way to reset contents of collidables arrays
     // (otherwise old wall collisions will persist on new room)
+    // ok this is interesting, im going to go along with this with the room progression code by using some global vars to not fuck way everything is structured - matt
     game = new Game(newRoom, playerA, playerB, coop, difficulty);
 
     game.playerChange(Player);
   });
+
 }
 
 function draw() {
@@ -139,6 +143,16 @@ function draw() {
     if (game.gameState == GameStates.ACTIVE) {
       game.update();
       game.draw();
+    }
+    if (game.mobsRemaining == 0) {
+      let button = createButton("Enter Next Room");
+      button.position(500, roomHeight * tileSize + 10);
+      button.mousePressed(() => {
+        gameCount += 1;
+        newRoom = new Room();
+        newRoom.initRoom();
+        game = new Game(newRoom, playerA, playerB, coop, difficulty);
+      });
     }
   }
 }

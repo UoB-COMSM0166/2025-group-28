@@ -1,7 +1,6 @@
 class Game {
 
   constructor(room, player_1, player_2, coop, difficultyLevel = difficultyLevels.NORMAL) {
-    //this.lvl_num = lvlNum;
     this.currentRoom = room;
     this.gameState = GameStates.ACTIVE;
     this.sprites = [];
@@ -10,19 +9,20 @@ class Game {
     this.difficulty = difficultyLevel;
     this.difficultySettings = difficultySettings[this.difficulty];
     this.lastSpawnTime = 0;
-    this.sprites.concat(room.mobs).concat(room.items);
-    this.spritesP1.concat(room.mobs).concat(room.items);
+    //this.sprites.concat(room.mobs).concat(room.items); im not sure if this is adding anything
+    //this.spritesP1.concat(room.mobs).concat(room.items);
     this.mobs = [];
-    this.currentRoom.mobs = this.mobs;
-    this.player1.collidables.concat(room.mobs).concat(room.items);
+    this.mobsRemaining = this.difficultySettings.totalMobs
+    //this.currentRoom.mobs = this.mobs;
+    //this.player1.collidables.concat(room.mobs).concat(room.items);
     this.addWallCollisions(this.player1);
     if (coop) {
       this.player2 = player_2;
       this.spritesP2 = [];
-      this.spritesP2.concat(room.mobs).concat(room.items);
+      //this.spritesP2.concat(room.mobs).concat(room.items);
       this.spritesP2.push(this.player1);
       this.spritesP1.push(this.player2);
-      this.player2.collidables.concat(room.mobs).concat(room.items);
+      //this.player2.collidables.concat(room.mobs).concat(room.items);
       this.player1.collidables.push(this.player2);
       this.player2.collidables.push(this.player1);
       this.addWallCollisions(this.player2);
@@ -86,7 +86,7 @@ class Game {
       if (coop) {
         this.player2.collidables.push(newMob);
       }
-      this.currentRoom.mobs = this.mobs;
+      //this.currentRoom.mobs = this.mobs;
     }
   }
 
@@ -162,9 +162,10 @@ class Game {
         }
         // Remove dead mob from mobs array
         this.mobs.splice(i, 1);
+        this.mobsRemaining -= 1;
       }
     }
-    this.currentRoom.mobs = this.mobs;
+    //this.currentRoom.mobs = this.mobs;
   }
 
   draw() {
