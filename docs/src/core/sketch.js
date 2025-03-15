@@ -1,7 +1,10 @@
 /* GLOBAL CONSTANTS */
 let game;
 let asset_astrocat;
-let newRoom;
+
+let playerA;
+let playerB;
+let roomButton = null;
 
 let coop = false;
 let inGame = false;
@@ -108,50 +111,27 @@ function changeDifficulty() {
 }
 
 function gameSetUp() {
-  loop();
-  newRoom = new Room();
-  newRoom.initRoom();
-
   playerA = new Player(astrocat, 200, 300, playerNumber.PLAYER_1);
   if (coop) {
     playerB = new Player(astrocat, 300, 300, playerNumber.PLAYER_2);
   }
-
-  game = new Game(newRoom, playerA, playerB, coop, difficulty);
-
-  let button = createButton("Generate New Room");
-  button.position(0, roomHeight * tileSize + 10);
-  button.mousePressed(() => {
-    newRoom.initRoom();
-    playerA = new Player(astrocat, 400, 300, playerNumber.PLAYER_1);
-    if (coop) {
-      playerB = new Player(astrocat, 500, 300, playerNumber.PLAYER_2);
-    }
-
-    // Temp way to reset contents of collidables arrays
-    // (otherwise old wall collisions will persist on new room)
-    // ok this is interesting, im going to go along with this with the room progression code by using some global vars to not fuck way everything is structured - matt
-    game = new Game(newRoom, playerA, playerB, coop, difficulty);
-
-    game.playerChange(Player);
-  });
-
+  game = new Game(difficulty);
 }
 
 function draw() {
   if (inGame) {
     if (game.gameState == GameStates.ACTIVE) {
-      game.update();
+      // game.draw calls room.draw and update
       game.draw();
     }
-    if (game.mobsRemaining == 0) {
-      let button = createButton("Enter Next Room");
-      button.position(500, roomHeight * tileSize + 10);
-      button.mousePressed(() => {
+    if (game.currentRoom.isCleared == true && !roomButton) {
+      roomButton = createButton("Enter Next Room");
+      roomButton.position(500, roomHeight * tileSize + 10);
+      roomButton.mousePressed(() => {
         gameCount += 1;
-        newRoom = new Room();
-        newRoom.initRoom();
-        game = new Game(newRoom, playerA, playerB, coop, difficulty);
+        game.nextRoom();
+        roomButton.remove();
+        roomButton = null;
       });
     }
   }

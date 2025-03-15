@@ -10,8 +10,7 @@ var pushback = 1; // Prevents sticking
 
 var knockbackForce = 5;
 
-var playerA;
-var playerB;
+
 
 const GameStates = Object.freeze({
   ACTIVE: 0,
