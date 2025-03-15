@@ -1,11 +1,31 @@
 class Room {
 
-  constructor() {
+  constructor(difficultySettings) {
     this.roomType = 0; // doesn't exist for now
+    this.difficultySettings = difficultySettings;
     this.isCleared = false;
     this.mobs = [];
     this.items = [];
     this.roomLayout = []; // 2d array of tiles
+    this.mobsRemaining = difficultySettings.totalMobs;
+    this.lastSpawnTime = 0;
+    this.initRoom();
+    this.addWallCollisions(playerA);
+    if (coop) {
+      playerA.collidables.push(playerB);
+      playerB.collidables.push(playerA);
+      this.addWallCollisions(playerB);
+    }
+  }
+
+  destroyRoom() {
+    this.mobs.length = 0;
+    this.items.length = 0;
+    this.roomLayout.length = 0;
+    playerA.collidables.length = 0;
+    if (coop) {
+      playerB.collidables.length = 0;
+    }
   }
 
   initRoom() {
@@ -24,9 +44,8 @@ class Room {
       }
       this.roomLayout.push(roomTiles);
     }
-    this.addDoor();
     this.scanRoom();
-    this.draw();
+    this.addDoor();
   }
 
   // Creates square wall pattern
@@ -165,6 +184,60 @@ class Room {
     this.roomLayout[y][x] = new Tile(tileTypes.DOOR);
   }
 
+  update() {
+    for (let i = this.mobs.length - 1; i >= 0; i--) {
+      if (!this.mobs[i].isActive) {
+        let index = playerA.collidables.indexOf(this.mobs[i]);
+        if (index != -1) {
+          playerA.collidables.splice(index, 1);
+        }
+        if (coop) {
+          index = playerB.collidables.indexOf(this.mobs[i]);
+          if (index != -1) {
+            playerB.collidables.splice(index, 1);
+          }
+        }
+        this.mobs.splice(i, 1);
+        this.mobsRemaining -= 1;
+        console.log(this.mobsRemaining);
+      }
+    }
+    
+
+    if (this.mobsRemaining <= 0) {
+      this.isCleared = true;
+      this.mobs.length = 0;
+    }
+    //projectiles
+    for (let p of playerA.projectilesFired) {
+      p.update();
+    }
+    if (coop) {
+      for (let p of playerB.projectilesFired) {
+        p.update();
+      }
+    }
+
+    //mobs
+    for (let m of this.mobs) {
+      m.update();
+    }
+
+    //players
+    playerA.update();
+    if (coop) {
+      playerB.update();
+    }
+  }
+
+  spawnMobWrapper() {
+    let currentTime = millis();
+    if (currentTime - this.lastSpawnTime > this.difficultySettings.spawnRate) {
+      this.spawnMob();
+      this.lastSpawnTime = currentTime;
+    }
+  }
+
   draw() {
     for (let j = 0; j < roomHeight; j++){
       for (let i = 0; i < roomWidth; i++) {
@@ -188,6 +261,83 @@ class Room {
         }
       }
     }
+
+    for (let m of this.mobs) {
+      m.draw();
+    }
+
+    for (let p of playerA.projectilesFired) {
+      p.draw();
+    }
+    if (coop) {
+      for (let p of playerB.projectilesFired) {
+        p.draw();
+      }
+    }
+
+    playerA.move();
+
+    if (coop) {
+      playerB.move();
+    }
+
+    playerA.fire();
+
+    if (coop) {
+      playerB.fire();
+    }
+
+    playerA.draw();
+
+    if (coop) {
+      playerB.draw();
+    }
+
+    // collision checking
+    for (let i = playerA.projectilesFired.length - 1; i >= 0; i--) {
+      let projectileHit = false;
+      for (let mob of this.mobs) {
+        if (playerA.projectilesFired[i].isCollidingWith(mob)) {
+          mob.takeDamage(playerA.attackDamage);
+          projectileHit = true;
+          break;
+        }
+      }
+      if (projectileHit) {
+        playerA.projectilesFired.splice(i, 1);
+      }
+    }
+    if (coop) {
+      for (let i = playerB.projectilesFired.length - 1; i >= 0; i--) {
+        let projectileHit = false;
+        for (let mob of this.mobs) {
+          if (playerB.projectilesFired[i].isCollidingWith(mob)) {
+            mob.takeDamage(playerB.attackDamage);
+            projectileHit = true;
+            break;
+          }
+        }
+        if (projectileHit) {
+          playerB.projectilesFired.splice(i, 1);
+        }
+      }
+    }
+    for (let mob of this.mobs) {
+      if (playerA.isCollidingWith(mob)) {
+        playerA.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
+        playerA.applyKnockback(mob.position.x, mob.position.y);
+        mob.applyKnockback(playerA.position.x, playerA.position.y);
+        playerA.makeInvincible();
+      }
+
+      if (coop && playerB.isCollidingWith(mob)) {
+        playerB.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
+        playerB.applyKnockback(mob.position.x, mob.position.y);
+        mob.applyKnockback(playerB.position.x, playerB.position.y);
+        playerB.makeInvincible();
+      }
+    }
+
   }
 
   rotateDoor(x, y) {
@@ -217,21 +367,76 @@ class Room {
     }
   }
 
-  // checkClear() {
-  //   let cleared = true;
-  //   for (let mob of this.mobs) {
-  //     if (mob.isDead() == false) { // isDead method doesn't exist atm
-  //       cleared = true;
-  //     }
-  //   }
-  //   if (cleared == true) this.isCleared = true;
-  // }
+  addWallCollisions(object) {
+    for (let j = 0; j < roomHeight; j++) {
+      for (let i = 0; i < roomWidth; i++) {
+        if (this.roomLayout[j][i].type == tileTypes.WALL) {
+          object.collidables.push(this.roomLayout[j][i]);
+        }
+      }
+    }
+  }
 
-  // generateMobs(numOfMobs) {
-  //   for (let i = 0; i < numOfMobs; i++) {
-  //     let newMob = new Mob(); // class deosnt exist rn
-  //       this.mobs.push(newMob);
-  //   }
-  // }
+  spawnMob() {
+    if (this.mobs.length >= this.difficultySettings.maxMobs || this.mobs.length >= this.mobsRemaining || this.isCleared) {
+      return;
+    }
 
+    let spawnX, spawnY;
+    let validSpawn = false;
+    let spawnAttempts = 0;
+    while (!validSpawn && spawnAttempts < 100) {
+      spawnX = random(tileSize * 3, ((roomWidth * tileSize) - (tileSize * 3)));
+      spawnY = random(tileSize * 3, ((roomHeight * tileSize) - (tileSize * 3)));
+
+      // Checking if the spawn is inside a wall
+      let insideWall = this.checkInsideWall(spawnX, spawnY);
+      if (insideWall) {
+          break;
+      }
+
+      let distanceFromP1 = dist(spawnX, spawnY, playerA.position.x, playerA.position.y);
+      let distanceFromP2 = Infinity;
+      if (coop){
+        distanceFromP2 = dist(spawnX, spawnY, playerB.position.x, playerB.position.y);
+      }
+      if (!insideWall && distanceFromP1 > 150 && distanceFromP2 > 150) {
+        validSpawn = true;
+        break;
+      }
+      spawnAttempts++;
+    }
+
+    if (validSpawn) {
+      let newMob = new Mob(dogMob, spawnX, spawnY);
+      newMob.health = this.difficultySettings.mobHealth;
+      newMob.maxHealth = this.difficultySettings.mobHealth;
+      newMob.speed = this.difficultySettings.mobSpeed;
+      newMob.attackDamage = this.difficultySettings.mobDamage;
+      this.addWallCollisions(newMob);
+      this.mobs.push(newMob);
+      playerA.collidables.push(newMob);
+      if (coop) {
+        playerB.collidables.push(newMob);
+      }
+    }
+  }
+
+  checkInsideWall(x, y) {
+    for (let j = 0; j < roomHeight; j++) {
+      for (let i = 0; i < roomWidth; i++) {
+        if (this.roomLayout[j][i].type === tileTypes.WALL) {
+          let wallX = this.roomLayout[j][i].position.x;
+          let wallY = this.roomLayout[j][i].position.y;
+          let wallWidth = this.roomLayout[j][i].widthHitbox;
+          let wallHeight = this.roomLayout[j][i].heightHitbox;
+
+          if (x > wallX && x < wallX + wallWidth && y > wallY && y < wallY + wallHeight) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 }
