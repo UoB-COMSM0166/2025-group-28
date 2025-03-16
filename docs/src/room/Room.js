@@ -19,9 +19,6 @@ class Room {
   }
 
   destroyRoom() {
-    this.mobs.length = 0;
-    this.items.length = 0;
-    this.roomLayout.length = 0;
     playerA.collidables.length = 0;
     if (coop) {
       playerB.collidables.length = 0;
@@ -199,7 +196,6 @@ class Room {
         }
         this.mobs.splice(i, 1);
         this.mobsRemaining -= 1;
-        console.log(this.mobsRemaining);
       }
     }
     
@@ -288,10 +284,33 @@ class Room {
     }
 
     playerA.draw();
+    
+    const barWidth = 200;
+    const barHeight = 20;
+    const padding = 10;
+    
+    playerA.drawPlayerHeatBar(
+      width / 4 - barWidth / 2, 
+      height - barHeight - padding, 
+      barWidth, 
+      barHeight,
+      playerA.fireCooldown / 200,
+      "PLAYER A"
+    );
 
     if (coop) {
       playerB.draw();
+      playerB.drawPlayerHeatBar(
+        width / 4 - barWidth / 2 + 400, 
+        height - barHeight - padding, 
+        barWidth, 
+        barHeight,
+        playerB.fireCooldown / 200,
+        "PLAYER B"
+      );
     }
+
+
 
     // collision checking
     for (let i = playerA.projectilesFired.length - 1; i >= 0; i--) {
@@ -323,14 +342,14 @@ class Room {
       }
     }
     for (let mob of this.mobs) {
-      if (playerA.isCollidingWith(mob)) {
+      if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
         playerA.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerA.position.x, playerA.position.y);
         playerA.makeInvincible();
       }
 
-      if (coop && playerB.isCollidingWith(mob)) {
+      if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         playerB.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
         playerB.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerB.position.x, playerB.position.y);
@@ -413,7 +432,7 @@ class Room {
       newMob.maxHealth = this.difficultySettings.mobHealth;
       newMob.speed = this.difficultySettings.mobSpeed;
       newMob.attackDamage = this.difficultySettings.mobDamage;
-      this.addWallCollisions(newMob);
+      //this.addWallCollisions(newMob);
       this.mobs.push(newMob);
       playerA.collidables.push(newMob);
       if (coop) {

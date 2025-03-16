@@ -12,12 +12,13 @@ class Player extends Sprite {
     this.color = color(0, 100, 255);
     this.speed = 3; // Slightly faster than base sprites
     this.attackDamage = 5;
-    this.fireRate = 0.5; // Seconds between shots
+    this.fireRate = 200; // ms between shots
     this.lastShot = 0; // Timestamp of last shot
     this.inventory = [];
     this.direction = createVector(-1, 0); // Character starts facing right
     this.projectilesFired = []; // holds live projectiles in game
-    this.fireCooldown = 500; // Cooldown between shots
+    this.fireCooldown = 0; // Cooldown between shots
+    this.fireOverheat = false;
   }
 
   move() {
@@ -26,6 +27,9 @@ class Player extends Sprite {
     }
     // Player movement using WASD / arrow keys
     this.velocity.set(0, 0);
+    if (this.fireCooldown > 0) {
+      this.fireCooldown -= 0.5;
+    }
 
     //movement logic for PLAYER_1
     if (this.player === playerNumber.PLAYER_1) {
@@ -157,22 +161,97 @@ class Player extends Sprite {
   }
 
   fire() {
+    if (this.fireOverheat && this.fireCooldown < 80) {
+      this.fireOverheat = false;
+    }
     let currentTime = millis();
-    if (this.isActive && currentTime - this.lastShot > this.fireRate * 250) {
+    if (this.isActive && !this.fireOverheat && (currentTime - this.lastShot) > this.fireRate) {
         if (this.player === playerNumber.PLAYER_1 && keyIsDown(32)) { // SPACE key for player 1
             let projectile = new Projectile(this.position.x, this.position.y, this.direction.x, this.direction.y, this.lastDirection);
             projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
             this.projectilesFired.push(projectile);
             this.lastShot = currentTime;
+            this.fireCooldown += 20;
+            console.log(this.fireCooldown);
+            if (this.fireCooldown > 200) {
+              this.fireOverheat = true;
+            }
+
         }
         if (this.isActive && this.player === playerNumber.PLAYER_2 && keyIsDown(13)) { // ENTER key for player 2
             let projectile = new Projectile(this.position.x, this.position.y, this.direction.x, this.direction.y, this.lastDirection);
             projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
             this.projectilesFired.push(projectile);
             this.lastShot = currentTime;
+            this.fireCooldown += 20
+            console.log(this.fireCooldown);
+            if (this.fireCooldown > 200) {
+              this.fireOverheat = true;
+            }
         }
     }
   }
+
+  drawPlayerHeatBar(x, y, width, height, value, label) {
+    if (!this.isActive) return;
+    stroke(150);
+    strokeWeight(2);
+    noFill();
+    rect(x, y, width, height, 5);
+  
+    const fillWidth = constrain(value * width, 0, width);
+    
+    let fillColor;
+    if (this.fireOverheat) {
+      // causes the bar to flash when overheated
+      if (frameCount % 20 < 10) {
+        fillColor = color(255, 0, 0);  // red
+      } else {
+        fillColor = color(255, 150, 0);  // orange
+      }
+    } else {
+      // goes from green to yellow to red as heat increases
+      if (value < 0.5) {
+        let greenAmount = map(value, 0, 0.5, 255, 255);
+        let redAmount = map(value, 0, 0.5, 0, 255);
+        fillColor = color(redAmount, greenAmount, 0);
+      } else {
+        let greenAmount = map(value, 0.5, 1, 255, 0);
+        fillColor = color(255, greenAmount, 0);
+      }
+    }
+    
+    noStroke();
+    fill(fillColor);
+    rect(x, y, fillWidth, height, 5);
+    
+    
+    // warning text if close to overheating
+    if (value > 0.75 && !this.fireOverheat) {
+      fill(70, 0, 0);
+      textAlign(CENTER, CENTER);
+      textSize(12);
+      textStyle(BOLD);
+      text("WARNING!", x + width/2, y + height/2);
+    }
+    
+    // overheat text
+    if (this.fireOverheat) {
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textSize(12);
+      textStyle(BOLD);
+      text("OVERHEATED!", x + width/2, y + height/2);
+    }
+    
+    // label
+    fill(255);
+    textAlign(CENTER);
+    textSize(14);
+    text(label, x + width/2, y - 10);
+  }
+
+  
 
   // Adds i-frames after taking damage - in player class as not needed for mobs
   makeInvincible() {
