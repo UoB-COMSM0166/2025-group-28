@@ -1,5 +1,4 @@
 class Room {
-
   constructor(difficultySettings) {
     this.roomType = 0; // doesn't exist for now
     this.difficultySettings = difficultySettings;
@@ -30,8 +29,16 @@ class Room {
     for (let j = 0; j < roomHeight; j++) {
       let roomTiles = [];
       for (let i = 0; i < roomWidth; i++) {
-        if (j == 0 || i == 0 || j == 1 || i == 1 || j  == roomHeight - 1 ||
-            i == roomWidth - 1 || j == roomHeight - 2 || i == roomWidth - 2) {
+        if (
+          j == 0 ||
+          i == 0 ||
+          j == 1 ||
+          i == 1 ||
+          j == roomHeight - 1 ||
+          i == roomWidth - 1 ||
+          j == roomHeight - 2 ||
+          i == roomWidth - 2
+        ) {
           let newWall = new Tile(tileTypes.WALL, i, j);
           roomTiles.push(newWall);
         } else {
@@ -101,14 +108,26 @@ class Room {
       let shouldAddWall = this.rollDice();
       if (shouldAddWall) {
         if (wallVar > 74) {
-          this.createWallSQR(this.getRanW(wallVariants.SQR),
-                            this.getRanH(wallVariants.SQR), x, y);
+          this.createWallSQR(
+            this.getRanW(wallVariants.SQR),
+            this.getRanH(wallVariants.SQR),
+            x,
+            y
+          );
         } else if (wallVar > 54) {
-          this.createWallL1(this.getRanW(wallVariants.L1),
-                            this.getRanH(wallVariants.L1), x, y);
+          this.createWallL1(
+            this.getRanW(wallVariants.L1),
+            this.getRanH(wallVariants.L1),
+            x,
+            y
+          );
         } else if (wallVar > 34) {
-          this.createWallL2(this.getRanW(wallVariants.L2),
-                            this.getRanH(wallVariants.L2), x, y);
+          this.createWallL2(
+            this.getRanW(wallVariants.L2),
+            this.getRanH(wallVariants.L2),
+            x,
+            y
+          );
         }
         // Create small square wall
         else {
@@ -122,7 +141,10 @@ class Room {
   getRanW(wallVariant) {
     if (wallVariant == wallVariants.SQR) {
       return floor(random(2, 4));
-    } else if (wallVariant == wallVariants.L1 || wallVariant == wallVariants.L2) {
+    } else if (
+      wallVariant == wallVariants.L1 ||
+      wallVariant == wallVariants.L2
+    ) {
       return floor(random(2, 5));
     }
   }
@@ -131,7 +153,10 @@ class Room {
   getRanH(wallVariant) {
     if (wallVariant == wallVariants.SQR) {
       return floor(random(2, 4));
-    } else if (wallVariant == wallVariants.L1 || wallVariant == wallVariants.L2) {
+    } else if (
+      wallVariant == wallVariants.L1 ||
+      wallVariant == wallVariants.L2
+    ) {
       return floor(random(2, 6));
     }
   }
@@ -139,7 +164,7 @@ class Room {
   // Probability of adding a wall
   rollDice() {
     let wallChance = random(0, 2);
-    if (wallChance < 0.30) {
+    if (wallChance < 0.3) {
       return true;
     }
     return false;
@@ -198,7 +223,6 @@ class Room {
         this.mobsRemaining -= 1;
       }
     }
-    
 
     if (this.mobsRemaining <= 0) {
       this.isCleared = true;
@@ -235,7 +259,7 @@ class Room {
   }
 
   draw() {
-    for (let j = 0; j < roomHeight; j++){
+    for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
         if (this.roomLayout[j][i].type == tileTypes.WALL) {
           image(wallImg, tileSize * i, tileSize * j, tileSize, tileSize);
@@ -284,15 +308,15 @@ class Room {
     }
 
     playerA.draw();
-    
+
     const barWidth = 200;
     const barHeight = 20;
     const padding = 10;
-    
+
     playerA.drawPlayerHeatBar(
-      width / 4 - barWidth / 2, 
-      height - barHeight - padding, 
-      barWidth, 
+      width / 4 - barWidth / 2,
+      height - barHeight - padding,
+      barWidth,
       barHeight,
       playerA.fireCooldown / 200,
       "PLAYER A"
@@ -301,16 +325,14 @@ class Room {
     if (coop) {
       playerB.draw();
       playerB.drawPlayerHeatBar(
-        width / 4 - barWidth / 2 + 400, 
-        height - barHeight - padding, 
-        barWidth, 
+        width / 4 - barWidth / 2 + 400,
+        height - barHeight - padding,
+        barWidth,
         barHeight,
         playerB.fireCooldown / 200,
         "PLAYER B"
       );
     }
-
-
 
     // collision checking
     for (let i = playerA.projectilesFired.length - 1; i >= 0; i--) {
@@ -356,7 +378,6 @@ class Room {
         playerB.makeInvincible();
       }
     }
-
   }
 
   rotateDoor(x, y) {
@@ -397,7 +418,11 @@ class Room {
   }
 
   spawnMob() {
-    if (this.mobs.length >= this.difficultySettings.maxMobs || this.mobs.length >= this.mobsRemaining || this.isCleared) {
+    if (
+      this.mobs.length >= this.difficultySettings.maxMobs ||
+      this.mobs.length >= this.mobsRemaining ||
+      this.isCleared
+    ) {
       return;
     }
 
@@ -405,19 +430,29 @@ class Room {
     let validSpawn = false;
     let spawnAttempts = 0;
     while (!validSpawn && spawnAttempts < 100) {
-      spawnX = random(tileSize * 3, ((roomWidth * tileSize) - (tileSize * 3)));
-      spawnY = random(tileSize * 3, ((roomHeight * tileSize) - (tileSize * 3)));
+      spawnX = random(tileSize * 3, roomWidth * tileSize - tileSize * 3);
+      spawnY = random(tileSize * 3, roomHeight * tileSize - tileSize * 3);
 
       // Checking if the spawn is inside a wall
       let insideWall = this.checkInsideWall(spawnX, spawnY);
       if (insideWall) {
-          break;
+        break;
       }
 
-      let distanceFromP1 = dist(spawnX, spawnY, playerA.position.x, playerA.position.y);
+      let distanceFromP1 = dist(
+        spawnX,
+        spawnY,
+        playerA.position.x,
+        playerA.position.y
+      );
       let distanceFromP2 = Infinity;
-      if (coop){
-        distanceFromP2 = dist(spawnX, spawnY, playerB.position.x, playerB.position.y);
+      if (coop) {
+        distanceFromP2 = dist(
+          spawnX,
+          spawnY,
+          playerB.position.x,
+          playerB.position.y
+        );
       }
       if (!insideWall && distanceFromP1 > 150 && distanceFromP2 > 150) {
         validSpawn = true;
@@ -427,7 +462,7 @@ class Room {
     }
 
     if (validSpawn) {
-      let newMob = new Mob(dogMob, spawnX, spawnY);
+      let newMob = new Mob(dogmob_gif, spawnX, spawnY);
       newMob.health = this.difficultySettings.mobHealth;
       newMob.maxHealth = this.difficultySettings.mobHealth;
       newMob.speed = this.difficultySettings.mobSpeed;
@@ -450,7 +485,12 @@ class Room {
           let wallWidth = this.roomLayout[j][i].widthHitbox;
           let wallHeight = this.roomLayout[j][i].heightHitbox;
 
-          if (x > wallX && x < wallX + wallWidth && y > wallY && y < wallY + wallHeight) {
+          if (
+            x > wallX &&
+            x < wallX + wallWidth &&
+            y > wallY &&
+            y < wallY + wallHeight
+          ) {
             return true;
           }
         }

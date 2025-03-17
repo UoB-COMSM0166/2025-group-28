@@ -1,11 +1,10 @@
 class Mob extends Sprite {
-
   constructor(img, x, y) {
     super(img, x, y, 50);
-    this.widthHitbox = 30;
-    this.heightHitbox = 50;
-    this.widthModel = 40;
-    this.heightModel = 60;
+    this.widthHitbox = 55;
+    this.heightHitbox = 65;
+    this.widthModel = 80;
+    this.heightModel = 80;
 
     this.color = color(0, 255, 100);
     this.attackDamage = 30;
@@ -40,7 +39,15 @@ class Mob extends Sprite {
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;
     this.direction = createVector(xDirection, yDirection);
-    if (!this.isColliding(this.position.x, this.position.y, this.widthHitbox, this.heightHitbox, this.collidables)) {
+    if (
+      !this.isColliding(
+        this.position.x,
+        this.position.y,
+        this.widthHitbox,
+        this.heightHitbox,
+        this.collidables
+      )
+    ) {
       this.velocity.x = xDirection * this.speed;
       this.velocity.y = yDirection * this.speed;
     } else {
@@ -98,5 +105,4 @@ class Mob extends Sprite {
       return playerA;
     }
   }
-
 }
