@@ -81,7 +81,6 @@ class Player extends Sprite {
           this.img.setFrame(1);
           this.startFrame = 1;
           this.endFrame = 5;
-          //  this.img.play();
         }
         if (
           !this.isColliding(
@@ -107,7 +106,6 @@ class Player extends Sprite {
           this.img.setFrame(13);
           this.startFrame = 13;
           this.endFrame = 17;
-          //  this.img.play();
         }
 
         if (
@@ -133,7 +131,6 @@ class Player extends Sprite {
           this.img.setFrame(7);
           this.startFrame = 7;
           this.endFrame = 13;
-          //  this.img.play();
         }
 
         if (
@@ -158,6 +155,13 @@ class Player extends Sprite {
     //movement logic for PLAYER_2
     if (this.player == playerNumber.PLAYER_2) {
       if (keyIsDown(LEFT_ARROW)) {
+        if (this.lastDirection != "LEFT") {
+          this.img.setFrame(1);
+          this.startFrame = 1;
+          this.endFrame = 5;
+          //  this.img.play();
+        }
+
         if (
           !this.isColliding(
             this.position.x - this.speed,
@@ -177,6 +181,12 @@ class Player extends Sprite {
         }
       }
       if (keyIsDown(RIGHT_ARROW)) {
+        if (this.lastDirection != "RIGHT") {
+          this.img.setFrame(1);
+          this.startFrame = 1;
+          this.endFrame = 5;
+        }
+
         if (
           !this.isColliding(
             this.position.x + this.speed,
@@ -196,6 +206,12 @@ class Player extends Sprite {
         }
       }
       if (keyIsDown(UP_ARROW)) {
+        if (this.lastDirection != "UP") {
+          this.img.setFrame(13);
+          this.startFrame = 13;
+          this.endFrame = 17;
+        }
+
         if (
           !this.isColliding(
             this.position.x,
@@ -214,6 +230,11 @@ class Player extends Sprite {
         }
       }
       if (keyIsDown(DOWN_ARROW)) {
+        if (this.lastDirection != "DOWN") {
+          this.img.setFrame(7);
+          this.startFrame = 7;
+          this.endFrame = 13;
+        }
         // Down arrow (move down)
         if (
           !this.isColliding(
@@ -306,6 +327,11 @@ class Player extends Sprite {
         this.player === playerNumber.PLAYER_2 &&
         keyIsDown(13)
       ) {
+        if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
+          this.img.setFrame(0);
+        } else {
+          this.img.setFrame(6);
+        }
         // ENTER key for player 2
         let projectile = new Projectile(
           this.position.x,
