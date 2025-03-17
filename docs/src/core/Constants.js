@@ -48,6 +48,7 @@ const difficultyLevels = Object.freeze({
 
 const difficultySettings = Object.freeze([
   {
+    playerDamage: 20,
     spawnRate: 4000,
     maxMobs: 2,
     mobHealth: 50,
@@ -56,20 +57,22 @@ const difficultySettings = Object.freeze([
     totalMobs: 3,
   }, // Easy mode
   {
+    playerDamage: 10,
     spawnRate: 6000,
     maxMobs: 4,
-    mobHealth: 60,
+    mobHealth: 75,
     mobSpeed: 1.1,
-    mobDamage: 30,
-    totalMobs: 8,
+    mobDamage: 25,
+    totalMobs: 6,
   }, // Normal mode
   {
+    playerDamage: 10,
     spawnRate: 4800,
     maxMobs: 6,
-    mobHealth: 60,
-    mobSpeed: 1.2,
-    mobDamage: 45,
-    totalMobs: 10,
+    mobHealth: 100,
+    mobSpeed: 1.5,
+    mobDamage: 35,
+    totalMobs: 8,
   }, // Hard mode
 ]);
 
