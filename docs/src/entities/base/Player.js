@@ -10,7 +10,7 @@ class Player extends Sprite {
     this.heightModel = 70;
     this.color = color(0, 100, 255);
     this.speed = 3; // Slightly faster than base sprites
-    this.attackDamage = 5;
+    this.attackDamage = difficultySettings[difficulty].playerDamage;
     this.fireRate = 200; // ms between shots
     this.lastShot = 0; // Timestamp of last shot
     this.inventory = [];
@@ -21,16 +21,31 @@ class Player extends Sprite {
     this.img.setFrame(7);
     this.startFrame = 7;
     this.endFrame = 9;
+    this.slowTimer = 0;
 
     this.justFired = false;
     this.c;
     // this.img.pause();
   }
 
+  overheatSlow() {
+    if (this.fireOverheat) {
+      if (this.slowTimer == 0) this.speed = .8;
+      else if (this.slowTimer == 50) this.speed = 1.1;
+      else if (this.slowTimer == 100) this.speed = 1.4;
+      else if (this.slowTimer == 150) this.speed = 1.8;
+      else if (this.slowTimer == 200) this.speed = 2.4;
+      else if (this.slowTimer > 200) this.speed = 3;
+      this.slowTimer++;
+      console.log(this.slowTimer);
+    }
+  }
+
   move() {
     if (!this.isActive) {
       return;
     }
+    this.overheatSlow();
 
     // Player movement using WASD / arrow keys
     this.velocity.set(0, 0);
@@ -291,6 +306,7 @@ class Player extends Sprite {
   fire() {
     if (this.fireOverheat && this.fireCooldown < 80) {
       this.fireOverheat = false;
+      this.slowTimer = 0;
     }
     let currentTime = millis();
     if (
