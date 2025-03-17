@@ -115,7 +115,7 @@ function changeDifficulty() {
 function gameSetUp() {
   playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
   if (coop) {
-    playerB = new Player(astrocat_gif, 300, 300, playerNumber.PLAYER_2);
+    playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
   }
   game = new Game(difficulty);
 }

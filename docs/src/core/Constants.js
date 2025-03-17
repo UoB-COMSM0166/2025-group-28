@@ -86,6 +86,7 @@ function preload() {
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
+  astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
 
   // menuanimated = loadImage("assets/acbackground.gif");
 }
