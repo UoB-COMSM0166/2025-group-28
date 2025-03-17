@@ -1,14 +1,13 @@
 class Player extends Sprite {
-
   constructor(img, x, y, player_x) {
     super(img, x, y, 100);
-    this.widthHitbox = 30;
-    this.heightHitbox = 50;
+    this.widthHitbox = 60;
+    this.heightHitbox = 60;
 
     this.player = player_x;
 
-    this.widthModel = 40;
-    this.heightModel = 60;
+    this.widthModel = 70;
+    this.heightModel = 70;
     this.color = color(0, 100, 255);
     this.speed = 3; // Slightly faster than base sprites
     this.attackDamage = 5;
@@ -19,27 +18,57 @@ class Player extends Sprite {
     this.projectilesFired = []; // holds live projectiles in game
     this.fireCooldown = 0; // Cooldown between shots
     this.fireOverheat = false;
+    this.img.setFrame(7);
+    this.startFrame = 7;
+    this.endFrame = 9;
+
+    this.justFired = false;
+    this.c;
+    // this.img.pause();
   }
 
   move() {
     if (!this.isActive) {
       return;
     }
+
     // Player movement using WASD / arrow keys
     this.velocity.set(0, 0);
     if (this.fireCooldown > 0) {
       this.fireCooldown -= 0.5;
     }
 
+    if (this.img.getCurrentFrame() == this.endFrame) {
+      this.img.setFrame(this.startFrame);
+    }
+
     //movement logic for PLAYER_1
     if (this.player === playerNumber.PLAYER_1) {
       // A key
+
       if (keyIsDown(65)) {
-        if (!this.isColliding(this.position.x - this.speed, this.position.y,
-                              this.widthHitbox, this.heightHitbox, this.collidables)) {
+        if (this.lastDirection != "LEFT") {
+          this.img.setFrame(1);
+          this.startFrame = 1;
+          this.endFrame = 5;
+          //  this.img.play();
+        }
+        if (
+          !this.isColliding(
+            this.position.x - this.speed,
+            this.position.y,
+            this.widthHitbox,
+            this.heightHitbox,
+            this.collidables
+          )
+        ) {
           this.velocity.x = -this.speed;
-          this.direction = createVector(-1, 0); // Facing left
-          this.scaleX = 1; // Flip sprite to face left
+
+          // Instead of flipping we set the gif to frames 0->5
+          //this.img.setFrame(1);
+
+          this.direction = createVector(1, 0); // Facing left
+          this.scaleX = -1; // Flip sprite to face left
           this.lastDirection = "LEFT";
         } else {
           this.velocity.x = 0;
@@ -48,11 +77,24 @@ class Player extends Sprite {
       }
       // D key
       if (keyIsDown(68)) {
-        if (!this.isColliding(this.position.x + this.speed, this.position.y,
-                              this.widthHitbox, this.heightHitbox, this.collidables)) {
+        if (this.lastDirection != "RIGHT") {
+          this.img.setFrame(1);
+          this.startFrame = 1;
+          this.endFrame = 5;
+          //  this.img.play();
+        }
+        if (
+          !this.isColliding(
+            this.position.x + this.speed,
+            this.position.y,
+            this.widthHitbox,
+            this.heightHitbox,
+            this.collidables
+          )
+        ) {
           this.velocity.x = this.speed;
-          this.direction = createVector(1, 0); // Facing right
-          this.scaleX = -1; // Reset sprite to face right
+          this.direction = createVector(-1, 0); // Facing right
+          this.scaleX = 1; // Reset sprite to face right
           this.lastDirection = "RIGHT";
         } else {
           this.velocity.x = 0;
@@ -61,8 +103,22 @@ class Player extends Sprite {
       }
       // W key
       if (keyIsDown(87)) {
-        if (!this.isColliding(this.position.x, this.position.y - this.speed,
-                              this.widthHitbox, this.heightHitbox, this.collidables)) {
+        if (this.lastDirection != "UP") {
+          this.img.setFrame(13);
+          this.startFrame = 13;
+          this.endFrame = 17;
+          //  this.img.play();
+        }
+
+        if (
+          !this.isColliding(
+            this.position.x,
+            this.position.y - this.speed,
+            this.widthHitbox,
+            this.heightHitbox,
+            this.collidables
+          )
+        ) {
           this.velocity.y = -this.speed;
           this.direction = createVector(0, -1);
           this.lastDirection = "UP";
@@ -73,8 +129,22 @@ class Player extends Sprite {
       }
       // S key
       if (keyIsDown(83)) {
-        if (!this.isColliding(this.position.x, this.position.y + this.speed,
-                              this.widthHitbox, this.heightHitbox, this.collidables)) {
+        if (this.lastDirection != "DOWN") {
+          this.img.setFrame(7);
+          this.startFrame = 7;
+          this.endFrame = 13;
+          //  this.img.play();
+        }
+
+        if (
+          !this.isColliding(
+            this.position.x,
+            this.position.y + this.speed,
+            this.widthHitbox,
+            this.heightHitbox,
+            this.collidables
+          )
+        ) {
           this.velocity.y = this.speed;
           this.direction = createVector(0, 1);
           this.lastDirection = "DOWN";
@@ -88,11 +158,18 @@ class Player extends Sprite {
     //movement logic for PLAYER_2
     if (this.player == playerNumber.PLAYER_2) {
       if (keyIsDown(LEFT_ARROW)) {
-        if (!this.isColliding(this.position.x - this.speed, this.position.y,
-                              this.widthHitbox, this.heightHitbox, this.collidables)) {
+        if (
+          !this.isColliding(
+            this.position.x - this.speed,
+            this.position.y,
+            this.widthHitbox,
+            this.heightHitbox,
+            this.collidables
+          )
+        ) {
           this.velocity.x = -this.speed;
-          this.direction = createVector(-1, 0); // Facing left
-          this.scaleX = 1; // Flip sprite to face left
+          this.direction = createVector(1, 0); // Facing left
+          this.scaleX = -1; // Flip sprite to face left
           this.lastDirection = "LEFT";
         } else {
           this.velocity.x = 0;
@@ -100,11 +177,18 @@ class Player extends Sprite {
         }
       }
       if (keyIsDown(RIGHT_ARROW)) {
-        if (!this.isColliding(this.position.x + this.speed, this.position.y,
-                              this.widthHitbox, this.heightHitbox, this.collidables)) {
+        if (
+          !this.isColliding(
+            this.position.x + this.speed,
+            this.position.y,
+            this.widthHitbox,
+            this.heightHitbox,
+            this.collidables
+          )
+        ) {
           this.velocity.x = this.speed;
-          this.direction = createVector(1, 0); // Facing right
-          this.scaleX = -1; // Reset sprite to face right
+          this.direction = createVector(-1, 0); // Facing right
+          this.scaleX = 1; // Reset sprite to face right
           this.lastDirection = "RIGHT";
         } else {
           this.velocity.x = 0;
@@ -112,8 +196,15 @@ class Player extends Sprite {
         }
       }
       if (keyIsDown(UP_ARROW)) {
-        if (!this.isColliding(this.position.x, this.position.y - this.speed,
-                              this.widthHitbox, this.heightHitbox, this.collidables)) {
+        if (
+          !this.isColliding(
+            this.position.x,
+            this.position.y - this.speed,
+            this.widthHitbox,
+            this.heightHitbox,
+            this.collidables
+          )
+        ) {
           this.velocity.y = -this.speed;
           this.direction = createVector(0, -1);
           this.lastDirection = "UP";
@@ -122,9 +213,17 @@ class Player extends Sprite {
           this.position.y += pushback;
         }
       }
-      if (keyIsDown(DOWN_ARROW)) { // Down arrow (move down)
-        if (!this.isColliding(this.position.x, this.position.y + this.speed,
-                              this.widthHitbox, this.heightHitbox, this.collidables)) {
+      if (keyIsDown(DOWN_ARROW)) {
+        // Down arrow (move down)
+        if (
+          !this.isColliding(
+            this.position.x,
+            this.position.y + this.speed,
+            this.widthHitbox,
+            this.heightHitbox,
+            this.collidables
+          )
+        ) {
           this.velocity.y = this.speed;
           this.direction = createVector(0, 1);
           this.lastDirection = "DOWN";
@@ -136,8 +235,16 @@ class Player extends Sprite {
     }
 
     // Constrain the player's position within the room boundaries
-    this.position.x = constrain(this.position.x, tileSize * 2 + this.widthHitbox / 2, (roomWidth * tileSize) - tileSize * 2 - this.widthHitbox / 2);
-    this.position.y = constrain(this.position.y, tileSize * 2 + this.heightHitbox / 2, (roomHeight * tileSize) - tileSize * 2 - this.heightHitbox / 2);
+    this.position.x = constrain(
+      this.position.x,
+      tileSize * 2 + this.widthHitbox / 2,
+      roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2
+    );
+    this.position.y = constrain(
+      this.position.y,
+      tileSize * 2 + this.heightHitbox / 2,
+      roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2
+    );
 
     // Apply knockback force gradually
     if (this.knockbackForce.mag() > 0) {
@@ -165,30 +272,57 @@ class Player extends Sprite {
       this.fireOverheat = false;
     }
     let currentTime = millis();
-    if (this.isActive && !this.fireOverheat && (currentTime - this.lastShot) > this.fireRate) {
-        if (this.player === playerNumber.PLAYER_1 && keyIsDown(32)) { // SPACE key for player 1
-            let projectile = new Projectile(this.position.x, this.position.y, this.direction.x, this.direction.y, this.lastDirection);
-            projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
-            this.projectilesFired.push(projectile);
-            this.lastShot = currentTime;
-            this.fireCooldown += 20;
-            console.log(this.fireCooldown);
-            if (this.fireCooldown > 200) {
-              this.fireOverheat = true;
-            }
-
+    if (
+      this.isActive &&
+      !this.fireOverheat &&
+      currentTime - this.lastShot > this.fireRate
+    ) {
+      if (this.player === playerNumber.PLAYER_1 && keyIsDown(32)) {
+        this.justFired = true;
+        if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
+          this.img.setFrame(0);
+        } else {
+          this.img.setFrame(6);
         }
-        if (this.isActive && this.player === playerNumber.PLAYER_2 && keyIsDown(13)) { // ENTER key for player 2
-            let projectile = new Projectile(this.position.x, this.position.y, this.direction.x, this.direction.y, this.lastDirection);
-            projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
-            this.projectilesFired.push(projectile);
-            this.lastShot = currentTime;
-            this.fireCooldown += 20
-            console.log(this.fireCooldown);
-            if (this.fireCooldown > 200) {
-              this.fireOverheat = true;
-            }
+        // SPACE key for player 1
+        let projectile = new Projectile(
+          this.position.x,
+          this.position.y,
+          this.direction.x,
+          this.direction.y,
+          this.lastDirection
+        );
+        projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
+        this.projectilesFired.push(projectile);
+        this.lastShot = currentTime;
+        this.fireCooldown += 20;
+        console.log(this.fireCooldown);
+        if (this.fireCooldown > 200) {
+          this.fireOverheat = true;
         }
+      }
+      if (
+        this.isActive &&
+        this.player === playerNumber.PLAYER_2 &&
+        keyIsDown(13)
+      ) {
+        // ENTER key for player 2
+        let projectile = new Projectile(
+          this.position.x,
+          this.position.y,
+          this.direction.x,
+          this.direction.y,
+          this.lastDirection
+        );
+        projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
+        this.projectilesFired.push(projectile);
+        this.lastShot = currentTime;
+        this.fireCooldown += 20;
+        console.log(this.fireCooldown);
+        if (this.fireCooldown > 200) {
+          this.fireOverheat = true;
+        }
+      }
     }
   }
 
@@ -198,16 +332,16 @@ class Player extends Sprite {
     strokeWeight(2);
     noFill();
     rect(x, y, width, height, 5);
-  
+
     const fillWidth = constrain(value * width, 0, width);
-    
+
     let fillColor;
     if (this.fireOverheat) {
       // causes the bar to flash when overheated
       if (frameCount % 20 < 10) {
-        fillColor = color(255, 0, 0);  // red
+        fillColor = color(255, 0, 0); // red
       } else {
-        fillColor = color(255, 150, 0);  // orange
+        fillColor = color(255, 150, 0); // orange
       }
     } else {
       // goes from green to yellow to red as heat increases
@@ -220,38 +354,39 @@ class Player extends Sprite {
         fillColor = color(255, greenAmount, 0);
       }
     }
-    
+
     noStroke();
     fill(fillColor);
     rect(x, y, fillWidth, height, 5);
-    
-    
+
     // warning text if close to overheating
     if (value > 0.75 && !this.fireOverheat) {
       fill(70, 0, 0);
       textAlign(CENTER, CENTER);
-      textSize(12);
-      textStyle(BOLD);
-      text("WARNING!", x + width/2, y + height/2);
+      textSize(14);
+      textFont(gameFont);
+
+      text("WARNING!", x + width / 2, y + height / 2);
     }
-    
+
     // overheat text
     if (this.fireOverheat) {
       fill(255);
       textAlign(CENTER, CENTER);
-      textSize(12);
-      textStyle(BOLD);
-      text("OVERHEATED!", x + width/2, y + height/2);
+      textSize(14);
+      textFont(gameFont);
+
+      text("OVERHEATED!", x + width / 2, y + height / 2);
     }
-    
+
     // label
     fill(255);
     textAlign(CENTER);
     textSize(14);
-    text(label, x + width/2, y - 10);
-  }
+    textFont(gameFont);
 
-  
+    text(label, x + width / 2, y - 10);
+  }
 
   // Adds i-frames after taking damage - in player class as not needed for mobs
   makeInvincible() {
@@ -264,5 +399,4 @@ class Player extends Sprite {
   }
 
   pickupItem() {}
-
 }

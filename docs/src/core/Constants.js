@@ -10,8 +10,6 @@ var pushback = 1; // Prevents sticking
 
 var knockbackForce = 5;
 
-
-
 const GameStates = Object.freeze({
   ACTIVE: 0,
   PAUSE: 1,
@@ -49,9 +47,30 @@ const difficultyLevels = Object.freeze({
 });
 
 const difficultySettings = Object.freeze([
-  { spawnRate: 4000, maxMobs: 2, mobHealth: 50, mobSpeed: 0.8, mobDamage: 15, totalMobs: 3}, // Easy mode
-  { spawnRate: 6000, maxMobs: 4, mobHealth: 60, mobSpeed: 1.1, mobDamage: 30, totalMobs: 8}, // Normal mode
-  { spawnRate: 4800, maxMobs: 6, mobHealth: 60, mobSpeed: 1.2, mobDamage: 45, totalMobs: 10}, // Hard mode
+  {
+    spawnRate: 4000,
+    maxMobs: 2,
+    mobHealth: 50,
+    mobSpeed: 0.8,
+    mobDamage: 15,
+    totalMobs: 3,
+  }, // Easy mode
+  {
+    spawnRate: 6000,
+    maxMobs: 4,
+    mobHealth: 60,
+    mobSpeed: 1.1,
+    mobDamage: 30,
+    totalMobs: 8,
+  }, // Normal mode
+  {
+    spawnRate: 4800,
+    maxMobs: 6,
+    mobHealth: 60,
+    mobSpeed: 1.2,
+    mobDamage: 45,
+    totalMobs: 10,
+  }, // Hard mode
 ]);
 
 let menuBacking;
@@ -64,6 +83,10 @@ function preload() {
   dogMob = loadImage("assets/dog.png");
   bullet = loadImage("assets/bullet.png");
   gameFont = loadFont("assets/LuckiestGuy-Regular.ttf");
+
+  dogmob_gif = loadImage("assets/dogmob_v3.gif");
+  astrocat_gif = loadImage("assets/astrocatM7.gif");
+
   // menuanimated = loadImage("assets/acbackground.gif");
 }
 

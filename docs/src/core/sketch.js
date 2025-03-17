@@ -6,6 +6,8 @@ let playerA;
 let playerB;
 let roomButton = null;
 
+let gameCanvas;
+
 let coop = false;
 let inGame = false;
 let debug = false;
@@ -25,7 +27,7 @@ let gameCount = 1;
 function setup() {
   noStroke();
   rectMode(CORNER);
-  createCanvas(800, 600);
+  gameCanvas = createCanvas(800, 600);
   if (inGame) {
     gameSetUp();
   } else {
@@ -57,7 +59,7 @@ function coopPlayerStart() {
 
 function renderMenu() {
   let menuContainer = createDiv();
-  menuContainer.id('menuContainer');
+  menuContainer.id("menuContainer");
   menuContainer.size(pageWidth, pageHeight);
 
   menuBack = createImg(menuimg);
@@ -111,9 +113,9 @@ function changeDifficulty() {
 }
 
 function gameSetUp() {
-  playerA = new Player(astrocat, 200, 300, playerNumber.PLAYER_1);
+  playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
   if (coop) {
-    playerB = new Player(astrocat, 300, 300, playerNumber.PLAYER_2);
+    playerB = new Player(astrocat_gif, 300, 300, playerNumber.PLAYER_2);
   }
   game = new Game(difficulty);
 }
@@ -142,7 +144,11 @@ function keyPressed() {
     if (keyCode === ESCAPE) {
       if (game.gameState == GameStates.ACTIVE) {
         game.gameState = GameStates.PAUSE;
+        inGame = false;
         noLoop();
+        let pauseBackng = createImg("assets/pauseback.gif");
+        pauseBackng.parent(gameCanvas);
+        pauseBackng.position = (0, 0);
       } else {
         loop();
         game.gameState = GameStates.ACTIVE;
