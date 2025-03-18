@@ -90,9 +90,7 @@ function preload() {
   astrocat = loadImage("assets/astrocat.png");
   dogMob = loadImage("assets/dog.png");
   bullet = loadImage("assets/projectileM1.gif");
-  gameFont = loadFont(
-    "assets/SixtyfourConvergence-Regular-VariableFont_BLED,SCAN,XELA,YELA.ttf"
-  );
+  gameFont = loadFont("assets/ARCADE_I.ttf");
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
