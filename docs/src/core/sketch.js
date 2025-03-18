@@ -10,6 +10,7 @@ let gameCanvas;
 
 let coop = false;
 let inGame = false;
+let childMode = false;
 let debug = false;
 let menuBack;
 let sp_button;
@@ -23,6 +24,11 @@ let diffTint = difficultyTints[1];
 let difficultyButton;
 
 let gameCount = 1;
+
+let fadeAlpha = 0;
+let fadingOut = false;
+let fadingIn = false;
+let transitioning = false;
 
 function setup() {
   noStroke();
@@ -124,18 +130,38 @@ function draw() {
   if (inGame) {
     if (game.gameState == GameStates.ACTIVE) {
       // game.draw calls room.draw and update
+      if (game.currentRoom.isCleared == true) {
+        game.currentRoom.door.isUnlocked = true;
+        game.currentRoom.door.update();
+        if (game.currentRoom.promptActive) {
+          if (keyIsDown(69) && !transitioning) {
+            gameCount += 1;
+            fadingOut = true;
+            transitioning = true;
+          }
+        }
+      }
       game.draw();
     }
-    if (game.currentRoom.isCleared == true && !roomButton) {
-      roomButton = createButton("Enter Next Room");
-      roomButton.position(500, roomHeight * tileSize + 10);
-      roomButton.mousePressed(() => {
-        gameCount += 1;
+    if (fadingOut) {
+      fadeAlpha += 10;
+      if (fadeAlpha >= 255) {
+        fadeAlpha = 255;
+        fadingOut = false;
+        fadingIn = true;
         game.nextRoom();
-        roomButton.remove();
-        roomButton = null;
-      });
+      }
+    } else if (fadingIn) {
+      fadeAlpha -= 10;
+      if (fadeAlpha <= 0) {
+        fadeAlpha = 0;
+        fadingIn = false;
+        transitioning = false;
+      }
     }
+    noStroke();
+    fill(0, fadeAlpha);
+    rect(0, 0, pageWidth, pageHeight);
   }
 }
 

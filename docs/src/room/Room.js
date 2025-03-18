@@ -1,13 +1,16 @@
 class Room {
   constructor(difficultySettings) {
+    this.door = null;
     this.roomType = 0; // doesn't exist for now
     this.difficultySettings = difficultySettings;
     this.isCleared = false;
     this.mobs = [];
     this.items = [];
     this.roomLayout = []; // 2d array of tiles
+    this.bloodParticles = [];
     this.mobsRemaining = difficultySettings.totalMobs;
     this.lastSpawnTime = 0;
+    this.promptActive = false;
     this.initRoom();
     this.addWallCollisions(playerA);
     if (coop) {
@@ -187,13 +190,9 @@ class Room {
     let x = floor(random(doorBuffer, roomWidth - doorBuffer));
     let y = floor(random(doorBuffer, roomHeight - doorBuffer));
     if (doorPos < 0.5) {
-      if (x < (roomWidth - 2) / 2) {
-        // Put door on left side of room
-        x = 1;
-      } else {
-        // Put door on right side of room
-        x = roomWidth - 2;
-      }
+      // Put door on right side of room
+      x = roomWidth - 2;
+      this.door = new Door(x, y);
     } else {
       if (y < (roomHeight - 2) / 2) {
         // Put door at top of room
@@ -202,8 +201,17 @@ class Room {
         // Put door at bottom of room
         y = roomHeight - 2;
       }
+      this.door = new Door(x, y);
     }
-    this.roomLayout[y][x] = new Tile(tileTypes.DOOR);
+  }
+
+  createBloodParticles(x, y, bloodColour) {
+    if (!childMode) {
+      for (let i = 0; i < 20; i++) {
+        // y + 25 = blood stops falling below the object's feet
+        this.bloodParticles.push(new Particle(x, y, y + 25, bloodColour));
+      }
+    }
   }
 
   update() {
@@ -275,9 +283,6 @@ class Room {
               this.roomLayout[j][i].heightHitbox
             );
           }
-        } else if (this.roomLayout[j][i].type == tileTypes.DOOR) {
-          image(wallImg, tileSize * i, tileSize * j, tileSize, tileSize);
-          this.rotateDoor(i, j);
         } else {
           let tiledex = 1;
           if (j % 2 == 0 && i % 2 == 0) {
@@ -291,6 +296,17 @@ class Room {
             tileSize
           );
         }
+      }
+    }
+    this.door.draw();
+
+    // Draw any blood particles after room objects so they appear behind the player/mobs
+    for (let i = 0; i < this.bloodParticles.length; i++) {
+      this.bloodParticles[i].applyGravity();
+      this.bloodParticles[i].update();
+      this.bloodParticles[i].draw();
+      if (this.bloodParticles[i].isFinished()) {
+        this.bloodParticles.splice(i, 1);
       }
     }
 
@@ -352,6 +368,7 @@ class Room {
       for (let mob of this.mobs) {
         if (playerA.projectilesFired[i].isCollidingWith(mob)) {
           mob.takeDamage(playerA.attackDamage);
+          this.createBloodParticles(mob.position.x, mob.position.y, mob.bloodColour);
           projectileHit = true;
           break;
         }
@@ -366,6 +383,7 @@ class Room {
         for (let mob of this.mobs) {
           if (playerB.projectilesFired[i].isCollidingWith(mob)) {
             mob.takeDamage(playerB.attackDamage);
+            this.createBloodParticles(mob.position.x, mob.position.y, mob.bloodColour);
             projectileHit = true;
             break;
           }
@@ -378,6 +396,7 @@ class Room {
     for (let mob of this.mobs) {
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
+        this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
         playerA.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerA.position.x, playerA.position.y);
         playerA.makeInvincible();
@@ -385,37 +404,59 @@ class Room {
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         playerB.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
+        this.createBloodParticles(playerB.position.x, playerB.position.y, playerB.bloodColour);
         playerB.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerB.position.x, playerB.position.y);
         playerB.makeInvincible();
       }
     }
-  }
 
-  rotateDoor(x, y) {
-    angleMode(DEGREES);
-    if (x == 1) {
-      push();
-      imageMode(CENTER);
-      translate(tileSize / 2, tileSize / 2);
-      rotate(270);
-      image(doorImg, -tileSize * y, tileSize * x, tileSize, tileSize);
-      pop();
-    } else if (x == roomWidth - 2) {
-      push();
-      imageMode(CENTER);
-      translate(tileSize / 2, tileSize / 2);
-      rotate(90);
-      image(doorImg, tileSize * y, -tileSize * x, tileSize, tileSize);
-      pop();
-    } else if (y == roomHeight - 2) {
-      push();
-      scale(1, -1);
-      y++;
-      image(doorImg, tileSize * x, -tileSize * y, tileSize, tileSize);
-      pop();
-    } else {
-      image(doorImg, tileSize * x, tileSize * y, tileSize, tileSize);
+    // Handles drawing the 'interact' button prompt if the player is in range of the door
+    // I apologise for how ugly this is
+    if (this.isCleared) {
+      if (this.door.x == roomWidth - 2) { // Door on right side of room
+        if ((playerA.position.x < this.door.position.x &&
+          playerA.position.x > this.door.position.x - tileSize * 8 &&
+          playerA.position.y < this.door.position.y + tileSize * 6 &&
+          playerA.position.y > this.door.position.y - tileSize * 6) ||
+          (coop && playerB.position.x < this.door.position.x &&
+          playerB.position.x > this.door.position.x - tileSize * 8 &&
+          playerB.position.y < this.door.position.y + tileSize * 6 &&
+          playerB.position.y > this.door.position.y - tileSize * 6)) {
+          image(buttonPrompt, this.door.position.x - tileSize * 2, this.door.position.y);
+          this.promptActive = true;
+        } else {
+          this.promptActive = false;
+        }
+      } else if (this.door.y == roomHeight - 2) { // Door at bottom of room
+        if ((playerA.position.x < this.door.position.x + tileSize * 6 &&
+          playerA.position.x > this.door.position.x - tileSize * 6 &&
+          playerA.position.y < this.door.position.y &&
+          playerA.position.y > this.door.position.y - tileSize * 8) ||
+          (coop && playerB.position.x < this.door.position.x + tileSize * 6 &&
+          playerB.position.x > this.door.position.x - tileSize * 6 &&
+          playerB.position.y < this.door.position.y &&
+          playerB.position.y > this.door.position.y - tileSize * 8)) {
+          image(buttonPrompt, this.door.position.x + tileSize + tileSize / 2, this.door.position.y - tileSize * 2);
+          this.promptActive = true;
+        } else {
+          this.promptActive = false;
+        }
+      } else if (this.door.y == 1) { // Door at top of room
+        if ((playerA.position.x < this.door.position.x + tileSize * 6 &&
+          playerA.position.x > this.door.position.x - tileSize * 6 &&
+          playerA.position.y < this.door.position.y + tileSize * 8 &&
+          playerA.position.y > this.door.position.y) ||
+          (coop && playerB.position.x < this.door.position.x + tileSize * 6 &&
+          playerB.position.x > this.door.position.x - tileSize * 6 &&
+          playerB.position.y < this.door.position.y + tileSize * 8 &&
+          playerB.position.y > this.door.position.y)) {
+          image(buttonPrompt, this.door.position.x + tileSize + tileSize / 2, this.door.position.y + tileSize * 2);
+          this.promptActive = true;
+        } else {
+          this.promptActive = false;
+        }
+      }
     }
   }
 
