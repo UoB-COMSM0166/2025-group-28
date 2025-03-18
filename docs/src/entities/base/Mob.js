@@ -3,8 +3,8 @@ class Mob extends Sprite {
     super(img, x, y, 50);
     this.widthHitbox = 55;
     this.heightHitbox = 65;
-    this.widthModel = 80;
-    this.heightModel = 80;
+    this.widthModel = 65;
+    this.heightModel = 65;
 
     this.color = color(0, 255, 100);
     this.attackDamage = 30;
