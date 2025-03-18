@@ -19,7 +19,6 @@ const GameStates = Object.freeze({
 const tileTypes = Object.freeze({
   FLOOR: 0,
   WALL: 1,
-  DOOR: 2,
 });
 
 const MoveDirections = Object.freeze({
@@ -87,9 +86,11 @@ function preload() {
   tileImg = loadImage("assets/tileM1.gif");
   wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/door.png");
+  doorOpenImg = loadImage("assets/door_open.png");
   astrocat = loadImage("assets/astrocat.png");
   dogMob = loadImage("assets/dog.png");
   bullet = loadImage("assets/projectileM1.gif");
+  buttonPrompt = loadImage("assets/button_prompt.png");
   gameFont = loadFont("assets/ARCADE_I.ttf");
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");

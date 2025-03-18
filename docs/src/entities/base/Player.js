@@ -1,8 +1,8 @@
 class Player extends Sprite {
   constructor(img, x, y, player_x) {
     super(img, x, y, 100);
-    this.widthHitbox = 60;
-    this.heightHitbox = 60;
+    this.widthHitbox = 45;
+    this.heightHitbox = 70;
 
     this.player = player_x;
 
@@ -26,6 +26,7 @@ class Player extends Sprite {
     this.justFired = false;
     this.c;
     // this.img.pause();
+    this.bloodColour = color(210, 0, 0, 0);
   }
 
   overheatSlow() {
@@ -37,7 +38,7 @@ class Player extends Sprite {
       else if (this.slowTimer == 200) this.speed = 2.4;
       else if (this.slowTimer > 200) this.speed = 3;
       this.slowTimer++;
-      console.log(this.slowTimer);
+      //console.log(this.slowTimer);
     }
   }
 
@@ -333,7 +334,7 @@ class Player extends Sprite {
         this.projectilesFired.push(projectile);
         this.lastShot = currentTime;
         this.fireCooldown += 20;
-        console.log(this.fireCooldown);
+        //console.log(this.fireCooldown);
         if (this.fireCooldown > 200) {
           this.fireOverheat = true;
         }
