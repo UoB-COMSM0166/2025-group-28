@@ -79,13 +79,18 @@ const difficultySettings = Object.freeze([
 let menuBacking;
 
 function preload() {
-  tileImg = loadImage("assets/tile.png");
+  tile_blue = loadImage("assets/tileb3.png");
+  tile_green = loadImage("assets/tilegreen.png");
+  walltile = loadImage("assets/wall_tile_m3.png");
+  tilecolours = [tile_blue, tile_green];
+
+  tileImg = loadImage("assets/tileM1.gif");
   wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/door.png");
   astrocat = loadImage("assets/astrocat.png");
   dogMob = loadImage("assets/dog.png");
-  bullet = loadImage("assets/bullet.png");
-  gameFont = loadFont("assets/LuckiestGuy-Regular.ttf");
+  bullet = loadImage("assets/projectileM1.gif");
+  gameFont = loadFont("assets/ARCADE_I.ttf");
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");

@@ -92,8 +92,8 @@ function renderMenu() {
   difficultyButton.style("background-color", diffTint);
   difficultyButton.style("color", "white");
   difficultyButton.style("padding", "10px 10px");
-  difficultyButton.style("font-size", "20px");
-  difficultyButton.style("font-family", "LuckiestGuy-Regular");
+  difficultyButton.style("font-size", "12px");
+  difficultyButton.style("font-family", "ARCADE_I");
   difficultyButton.style("border", "none");
   difficultyButton.style("text-align", "center");
   difficultyButton.style("vertical-align", "middle");

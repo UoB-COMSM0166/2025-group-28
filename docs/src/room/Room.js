@@ -259,10 +259,12 @@ class Room {
   }
 
   draw() {
+    let firstFrame = true;
+
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
         if (this.roomLayout[j][i].type == tileTypes.WALL) {
-          image(wallImg, tileSize * i, tileSize * j, tileSize, tileSize);
+          image(walltile, tileSize * i, tileSize * j, tileSize, tileSize);
           if (debug) {
             // TESTING - draw collision box
             fill(0, 200, 0, 100);
@@ -277,7 +279,17 @@ class Room {
           image(wallImg, tileSize * i, tileSize * j, tileSize, tileSize);
           this.rotateDoor(i, j);
         } else {
-          image(tileImg, tileSize * i, tileSize * j, tileSize, tileSize);
+          let tiledex = 1;
+          if (j % 2 == 0 && i % 2 == 0) {
+            tiledex = 0;
+          }
+          image(
+            tilecolours[tiledex],
+            tileSize * i,
+            tileSize * j,
+            tileSize,
+            tileSize
+          );
         }
       }
     }
