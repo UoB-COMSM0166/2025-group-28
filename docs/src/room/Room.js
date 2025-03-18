@@ -479,7 +479,7 @@ class Room {
       newMob.maxHealth = this.difficultySettings.mobHealth;
       newMob.speed = this.difficultySettings.mobSpeed;
       newMob.attackDamage = this.difficultySettings.mobDamage;
-      //this.addWallCollisions(newMob);
+      //this.addWallCollisions(newMob); // adds wall collisions to mobs
       this.mobs.push(newMob);
       playerA.collidables.push(newMob);
       if (coop) {
