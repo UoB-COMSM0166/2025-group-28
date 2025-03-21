@@ -50,28 +50,37 @@ const difficultySettings = Object.freeze([
     playerDamage: 20,
     spawnRate: 4000,
     maxMobs: 2,
-    mobHealth: 50,
-    mobSpeed: 0.8,
-    mobDamage: 15,
-    totalMobs: 3,
+    meleeMobHealth: 50,
+    meleeMobSpeed: 0.8,
+    meleeMobDamage: 15,
+    rangedMobHealth: 50,
+    rangedMobSpeed: 0.5,
+    rangedMobDamage: 10,
+    totalMobs: 3
   }, // Easy mode
   {
     playerDamage: 10,
     spawnRate: 6000,
     maxMobs: 4,
-    mobHealth: 75,
-    mobSpeed: 1.1,
-    mobDamage: 25,
-    totalMobs: 6,
+    meleeMobHealth: 75,
+    meleeMobSpeed: 1.1,
+    meleeMobDamage: 25,
+    rangedMobHealth: 60,
+    rangedMobSpeed: 0.7,
+    rangedMobDamage: 15,
+    totalMobs: 6
   }, // Normal mode
   {
     playerDamage: 10,
     spawnRate: 4800,
     maxMobs: 6,
-    mobHealth: 100,
-    mobSpeed: 1.5,
-    mobDamage: 35,
-    totalMobs: 8,
+    meleeMobHealth: 100,
+    meleeMobSpeed: 1.5,
+    meleeMobDamage: 35,
+    rangedMobHealth: 80,
+    rangedMobSpeed: 1,
+    rangedMobDamage: 20,
+    totalMobs: 8
   }, // Hard mode
 ]);
 
@@ -90,10 +99,12 @@ function preload() {
   astrocat = loadImage("assets/astrocat.png");
   dogMob = loadImage("assets/dog.png");
   bullet = loadImage("assets/projectileM1.gif");
+  fireball = loadImage("assets/fireballAI.png");
   buttonPrompt = loadImage("assets/button_prompt.png");
   gameFont = loadFont("assets/ARCADE_I.ttf");
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
+  rangedmob_gif = loadImage("assets/yellowDogMob.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
 

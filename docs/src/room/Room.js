@@ -236,7 +236,7 @@ class Room {
       this.isCleared = true;
       this.mobs.length = 0;
     }
-    //projectiles
+
     for (let p of playerA.projectilesFired) {
       p.update();
     }
@@ -247,8 +247,14 @@ class Room {
     }
 
     //mobs
-    for (let m of this.mobs) {
-      m.update();
+    for (let mob of this.mobs) {
+      mob.update();
+      if (mob instanceof RangedMob) {
+        mob.fire();
+        for (let p of mob.projectilesFired) {
+          p.update();
+        }
+      }
     }
 
     //players
@@ -310,37 +316,21 @@ class Room {
       }
     }
 
-    for (let m of this.mobs) {
-      m.draw();
-    }
-
-    for (let p of playerA.projectilesFired) {
-      p.draw();
-    }
-    if (coop) {
-      for (let p of playerB.projectilesFired) {
-        p.draw();
-      }
-    }
-
     playerA.move();
-
     if (coop) {
       playerB.move();
     }
 
     playerA.fire();
-
     if (coop) {
       playerB.fire();
     }
-
-    playerA.draw();
 
     const barWidth = 200;
     const barHeight = 20;
     const padding = 10;
 
+    playerA.draw();
     playerA.drawPlayerHeatBar(
       width / 4 - barWidth / 2,
       height - barHeight - padding,
@@ -362,8 +352,9 @@ class Room {
       );
     }
 
-    // collision checking
+    // player collision checking
     for (let i = playerA.projectilesFired.length - 1; i >= 0; i--) {
+      playerA.projectilesFired[i].draw();
       let projectileHit = false;
       for (let mob of this.mobs) {
         if (playerA.projectilesFired[i].isCollidingWith(mob)) {
@@ -379,6 +370,7 @@ class Room {
     }
     if (coop) {
       for (let i = playerB.projectilesFired.length - 1; i >= 0; i--) {
+        playerA.projectilesFired[i].draw();
         let projectileHit = false;
         for (let mob of this.mobs) {
           if (playerB.projectilesFired[i].isCollidingWith(mob)) {
@@ -393,7 +385,11 @@ class Room {
         }
       }
     }
+
+
+    // mob checks
     for (let mob of this.mobs) {
+      mob.draw();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
         this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
@@ -408,6 +404,28 @@ class Room {
         playerB.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerB.position.x, playerB.position.y);
         playerB.makeInvincible();
+      }
+
+      if (mob instanceof RangedMob) {
+        let projectileHit = false;
+        for (let i = mob.projectilesFired.length - 1; i >= 0; i--) {
+          mob.projectilesFired[i].draw();
+          if (mob.projectilesFired[i].isCollidingWith(playerA)) {
+            playerA.takeDamage(mob.attackDamage);
+            this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
+            projectileHit = true;
+          }
+          if (coop) {
+            if (mob.projectilesFired[i].isCollidingWith(playerB)) {
+              playerB.takeDamage(mob.attackDamage);
+              this.createBloodParticles(playerB.position.x, playerB.position.y, playerB.bloodColour);
+              projectileHit = true;
+            }
+          }
+          if (projectileHit) {
+            mob.projectilesFired.splice(i, 1);
+          }
+        }
       }
     }
 
@@ -515,11 +533,14 @@ class Room {
     }
 
     if (validSpawn) {
-      let newMob = new Mob(dogmob_gif, spawnX, spawnY);
-      newMob.health = this.difficultySettings.mobHealth;
-      newMob.maxHealth = this.difficultySettings.mobHealth;
-      newMob.speed = this.difficultySettings.mobSpeed;
-      newMob.attackDamage = this.difficultySettings.mobDamage;
+      let rand = random(1,100);
+      let newMob;
+      if (rand > 60) {
+        newMob = new MeleeMob(dogmob_gif, spawnX, spawnY, this.difficultySettings);
+      } else {
+        newMob = new RangedMob(rangedmob_gif, spawnX, spawnY, this.difficultySettings);
+      }
+
       //this.addWallCollisions(newMob); // adds wall collisions to mobs
       this.mobs.push(newMob);
       playerA.collidables.push(newMob);

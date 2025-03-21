@@ -328,13 +328,13 @@ class Player extends Sprite {
           this.position.y,
           this.direction.x,
           this.direction.y,
-          this.lastDirection
+          10,
+          bullet
         );
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         this.projectilesFired.push(projectile);
         this.lastShot = currentTime;
         this.fireCooldown += 20;
-        //console.log(this.fireCooldown);
         if (this.fireCooldown > 200) {
           this.fireOverheat = true;
         }
@@ -355,13 +355,13 @@ class Player extends Sprite {
           this.position.y,
           this.direction.x,
           this.direction.y,
-          this.lastDirection
+          10,
+          bullet
         );
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         this.projectilesFired.push(projectile);
         this.lastShot = currentTime;
         this.fireCooldown += 20;
-        console.log(this.fireCooldown);
         if (this.fireCooldown > 200) {
           this.fireOverheat = true;
         }
