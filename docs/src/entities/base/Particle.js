@@ -28,7 +28,6 @@ class Particle {
   draw() {
     noStroke();
     fill(red(this.colour), green(this.colour), blue(this.colour), this.lifespan);
-    // Use ellipse instead of rect for more blood-like appearance
     rect(this.position.x, this.position.y, this.size);
   }
 }
