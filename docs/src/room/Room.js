@@ -302,7 +302,6 @@ class Room {
 
     // Draw any blood particles after room objects so they appear behind the player/mobs
     for (let i = 0; i < this.bloodParticles.length; i++) {
-      this.bloodParticles[i].applyGravity();
       this.bloodParticles[i].update();
       this.bloodParticles[i].draw();
       if (this.bloodParticles[i].isFinished()) {
