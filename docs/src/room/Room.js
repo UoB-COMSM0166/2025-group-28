@@ -369,7 +369,7 @@ class Room {
     }
     if (coop) {
       for (let i = playerB.projectilesFired.length - 1; i >= 0; i--) {
-        playerA.projectilesFired[i].draw();
+        playerB.projectilesFired[i].draw();
         let projectileHit = false;
         for (let mob of this.mobs) {
           if (playerB.projectilesFired[i].isCollidingWith(mob)) {
