@@ -1,36 +1,34 @@
 class Particle {
-
   constructor(x, y, maxHeight, colour) {
     this.position = createVector(x, y);
-    this.velocity = p5.Vector.random2D().mult(random(2, 5));
+    // Create more varied initial velocities for a better splatter effect
+    this.velocity = p5.Vector.random2D().mult(random(3, 8));
     this.size = random(2, 7);
-    this.lifespan = 600; // 10 seconds (60 frames per second)
-    this.gravity = createVector(0, 0.3);
-    this.maxHeight = maxHeight;
+    this.lifespan = 700;
     this.colour = colour;
+    // Remove gravity-related properties
+    this.maxHeight = maxHeight; // Keep for compatibility
   }
 
-  applyGravity() {
-    this.velocity.add(this.gravity);
+  update() {
+    // Apply damping to simulate friction/resistance in space
+    this.velocity.mult(random(0.8,0.95));
+    
+    // Move particle according to velocity
+    this.position.add(this.velocity);
+    
+    // Reduce lifespan
+    this.lifespan -= 5;
   }
 
   isFinished() {
     return this.lifespan <= 0;
   }
 
-  update() {
-    this.position.add(this.velocity);
-    if (this.position.y >= this.maxHeight) {
-        this.velocity.x = 0;
-        this.position.y = this.maxHeight;
-    }
-    this.lifespan -= 5;
-  }
-
   draw() {
     noStroke();
     fill(red(this.colour), green(this.colour), blue(this.colour), this.lifespan);
+    // Use ellipse instead of rect for more blood-like appearance
     rect(this.position.x, this.position.y, this.size);
   }
-
 }
