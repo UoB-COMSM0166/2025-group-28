@@ -1,16 +1,15 @@
 class Mob extends Sprite {
-  constructor(img, x, y) {
+  constructor(img, x, y, difficultySettings) {
     super(img, x, y, 50);
     this.widthHitbox = 55;
     this.heightHitbox = 65;
     this.widthModel = 65;
     this.heightModel = 65;
+    this.fireCooldown = 0;
+    this.fireReady = true;
+    this.difficultySettings = difficultySettings
 
     this.color = color(0, 255, 100);
-    this.attackDamage = 30;
-    this.fireRate = 0.5; //Seconds
-    this.lastShot = 0; //Seconds
-
     this.img = img;
 
     this.speed = 1; //Slightly slower than players
@@ -29,7 +28,16 @@ class Mob extends Sprite {
     } else {
       this.velocity.set(0, 0);
     }
+    this.fireUpdate();
     super.update();
+  }
+
+  fireUpdate() {
+    this.fireCooldown += 1;
+    if (this.fireCooldown > 100) {
+      this.fireReady = true;
+      this.fireCooldown = 0;
+    }
   }
 
   moveTowards(player) {
