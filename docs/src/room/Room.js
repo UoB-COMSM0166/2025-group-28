@@ -354,6 +354,10 @@ class Room {
     // player collision checking
     for (let i = playerA.projectilesFired.length - 1; i >= 0; i--) {
       playerA.projectilesFired[i].draw();
+      if (!playerA.projectilesFired[i].isActive) {
+        playerA.projectilesFired.splice(i, 1);
+        continue;
+      }
       let projectileHit = false;
       for (let mob of this.mobs) {
         if (playerA.projectilesFired[i].isCollidingWith(mob)) {
@@ -370,6 +374,10 @@ class Room {
     if (coop) {
       for (let i = playerB.projectilesFired.length - 1; i >= 0; i--) {
         playerB.projectilesFired[i].draw();
+        if (!playerB.projectilesFired[i].isActive) {
+          playerB.projectilesFired.splice(i, 1);
+          continue;
+        }
         let projectileHit = false;
         for (let mob of this.mobs) {
           if (playerB.projectilesFired[i].isCollidingWith(mob)) {
@@ -409,6 +417,10 @@ class Room {
         let projectileHit = false;
         for (let i = mob.projectilesFired.length - 1; i >= 0; i--) {
           mob.projectilesFired[i].draw();
+          if (!mob.projectilesFired[i].isActive) {
+            mob.projectilesFired.splice(i, 1);
+            continue;
+          }
           if (mob.projectilesFired[i].isCollidingWith(playerA)) {
             playerA.takeDamage(mob.attackDamage);
             this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
