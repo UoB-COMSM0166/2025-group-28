@@ -2,7 +2,7 @@ class Mob extends Sprite {
   constructor(img, x, y, difficultySettings) {
     super(img, x, y, 50);
     this.widthHitbox = 55;
-    this.heightHitbox = 65;
+    this.heightHitbox = 55;
     this.widthModel = 65;
     this.heightModel = 65;
     this.fireCooldown = 0;

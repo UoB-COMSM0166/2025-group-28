@@ -424,12 +424,16 @@ class Room {
           if (mob.projectilesFired[i].isCollidingWith(playerA)) {
             playerA.takeDamage(mob.attackDamage);
             this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
+            //playerA.applyKnockback(mob.position.x, mob.position.y);
+            playerA.makeInvincible();
             projectileHit = true;
           }
           if (coop) {
             if (mob.projectilesFired[i].isCollidingWith(playerB)) {
               playerB.takeDamage(mob.attackDamage);
               this.createBloodParticles(playerB.position.x, playerB.position.y, playerB.bloodColour);
+              //playerB.applyKnockback(mob.position.x, mob.position.y);
+              playerB.makeInvincible();
               projectileHit = true;
             }
           }

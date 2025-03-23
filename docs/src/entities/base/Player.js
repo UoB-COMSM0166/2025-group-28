@@ -2,7 +2,7 @@ class Player extends Sprite {
   constructor(img, x, y, player_x) {
     super(img, x, y, 100);
     this.widthHitbox = 45;
-    this.heightHitbox = 70;
+    this.heightHitbox = 60;
 
     this.player = player_x;
 
@@ -305,7 +305,7 @@ class Player extends Sprite {
   }
 
   fire() {
-    if (this.fireOverheat && this.fireCooldown < 80) {
+    if (this.fireOverheat && this.fireCooldown < 90) {
       this.fireOverheat = false;
       this.slowTimer = 0;
     }

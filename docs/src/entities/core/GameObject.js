@@ -45,12 +45,30 @@ class GameObject {
     return false;
   }
 
+  // isCollidingWith(mob) {
+  //   if (mob.isActive) {
+  //     return(this.position.x < mob.position.x + mob.widthHitbox &&
+  //       this.position.x + this.widthHitbox > mob.position.x &&
+  //       this.position.y < mob.position.y + mob.heightHitbox &&
+  //       this.position.y + this.heightHitbox > mob.position.y
+  //     );
+  //   }
+  // }
+
   isCollidingWith(mob) {
     if (mob.isActive) {
-      return(this.position.x < mob.position.x + mob.widthHitbox &&
-        this.position.x + this.widthHitbox > mob.position.x &&
-        this.position.y < mob.position.y + mob.heightHitbox &&
-        this.position.y + this.heightHitbox > mob.position.y
+      // Calculate the top-left corners based on center positions
+      const thisLeft = this.position.x - this.widthHitbox / 2;
+      const thisTop = this.position.y - this.heightHitbox / 2;
+      
+      const mobLeft = mob.position.x - mob.widthHitbox / 2;
+      const mobTop = mob.position.y - mob.heightHitbox / 2;
+      
+      // Now use these adjusted positions in the collision test
+      return(thisLeft < mobLeft + mob.widthHitbox &&
+            thisLeft + this.widthHitbox > mobLeft &&
+            thisTop < mobTop + mob.heightHitbox &&
+            thisTop + this.heightHitbox > mobTop
       );
     }
   }
