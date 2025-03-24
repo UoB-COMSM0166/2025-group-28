@@ -1,6 +1,8 @@
 class RangedMob extends Mob {
   constructor(img, x, y, difficultySettings) {
     super(img, x, y, difficultySettings)
+    this.widthHitbox = 45;
+    this.heightHitbox = 60;
     this.health = difficultySettings.rangedMobHealth;
     this.maxHealth = difficultySettings.rangedMobHealth;
     this.speed = difficultySettings.rangedMobSpeed;
@@ -13,7 +15,7 @@ class RangedMob extends Mob {
   fire() {
     let newProjectile;
     if (this.fireReady == true) {
-        newProjectile = new Projectile(
+        newProjectile = new Projectile (
         this.position.x,
         this.position.y,
         this.velocity.x,
