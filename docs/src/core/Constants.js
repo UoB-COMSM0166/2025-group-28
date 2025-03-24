@@ -101,7 +101,11 @@ function preload() {
   bullet = loadImage("assets/projectileM1.gif");
   fireball = loadImage("assets/fireballAI.png");
   buttonPrompt = loadImage("assets/button_prompt.png");
+  pixelHeart = loadImage("assets/heart.png");
+  pixelEnergy = loadImage("assets/energy.png");
+
   gameFont = loadFont("assets/ARCADE_I.ttf");
+  
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   rangedmob_gif = loadImage("assets/yellowDogMob.gif");

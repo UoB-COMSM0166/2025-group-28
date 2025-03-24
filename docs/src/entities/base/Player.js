@@ -305,7 +305,7 @@ class Player extends Sprite {
   }
 
   fire() {
-    if (this.fireOverheat && this.fireCooldown < 90) {
+    if (this.fireOverheat && this.fireCooldown < 80) {
       this.fireOverheat = false;
       this.slowTimer = 0;
     }

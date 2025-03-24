@@ -215,6 +215,7 @@ class Room {
   }
 
   update() {
+    // checks for dead mobs
     for (let i = this.mobs.length - 1; i >= 0; i--) {
       if (!this.mobs[i].isActive) {
         let index = playerA.collidables.indexOf(this.mobs[i]);
@@ -227,6 +228,7 @@ class Room {
             playerB.collidables.splice(index, 1);
           }
         }
+        this.rollItemDrop(this.mobs[i]);
         this.mobs.splice(i, 1);
         this.mobsRemaining -= 1;
       }
@@ -256,6 +258,24 @@ class Room {
         }
       }
     }
+
+    // items
+    for (let i = this.items.length - 1; i >= 0; i--) {
+      this.items[i].update();
+      this.items[i].draw();
+      if (playerA.isCollidingWith(this.items[i])) {
+        this.applyItemBuff(this.items[i], playerA);
+        this.items.splice(i, 1);
+      }
+      if (coop) {
+        if (playerB.isCollidingWith(this.items[i])) {
+          this.applyItemBuff(this.items[i], playerB);
+          this.items.splice(i, 1);
+        }
+      }
+    }
+    
+    
 
     //players
     playerA.update();
@@ -582,5 +602,30 @@ class Room {
       }
     }
     return false;
+  }
+
+  rollItemDrop(mob) {
+    let roll = random(1,200);
+    let item;
+    if (roll < 35) {
+      item = new Heart(mob.position.x, mob.position.y, pixelHeart);
+      this.items.push(item);
+    } else if (roll >= 35 && roll < 70) {
+      item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
+      this.items.push(item);
+    }
+    
+  }
+
+  applyItemBuff(item, player) {
+    if (item instanceof Heart) {
+      if (player.health < 71) {
+        player.health += 30;
+      } else {
+        player.health = 100;
+      }
+    } else if (item instanceof Energy) {
+      player.fireCooldown = 0;
+    }
   }
 }
