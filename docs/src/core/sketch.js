@@ -95,6 +95,7 @@ function renderMenu() {
   menuBack = createVideo(menuimg);
   menuBack.parent(menuContainer);
   menuBack.size(pageWidth, pageHeight);
+  menuBack.volume(0);
   menuBack.mouseOver(menuStart);
   //menuBack.play();
   //menuBack.loop();
