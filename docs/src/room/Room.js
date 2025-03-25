@@ -215,6 +215,7 @@ class Room {
   }
 
   update() {
+    // checks for dead mobs
     for (let i = this.mobs.length - 1; i >= 0; i--) {
       if (!this.mobs[i].isActive) {
         let index = playerA.collidables.indexOf(this.mobs[i]);
@@ -227,6 +228,7 @@ class Room {
             playerB.collidables.splice(index, 1);
           }
         }
+        this.rollItemDrop(this.mobs[i]);
         this.mobs.splice(i, 1);
         this.mobsRemaining -= 1;
       }
@@ -256,6 +258,24 @@ class Room {
         }
       }
     }
+
+    // items
+    for (let i = this.items.length - 1; i >= 0; i--) {
+      this.items[i].update();
+      this.items[i].draw();
+      if (playerA.isCollidingWith(this.items[i])) {
+        this.applyItemBuff(this.items[i], playerA);
+        this.items.splice(i, 1);
+      }
+      if (coop) {
+        if (playerB.isCollidingWith(this.items[i])) {
+          this.applyItemBuff(this.items[i], playerB);
+          this.items.splice(i, 1);
+        }
+      }
+    }
+    
+    
 
     //players
     playerA.update();
@@ -354,6 +374,10 @@ class Room {
     // player collision checking
     for (let i = playerA.projectilesFired.length - 1; i >= 0; i--) {
       playerA.projectilesFired[i].draw();
+      if (!playerA.projectilesFired[i].isActive) {
+        playerA.projectilesFired.splice(i, 1);
+        continue;
+      }
       let projectileHit = false;
       for (let mob of this.mobs) {
         if (playerA.projectilesFired[i].isCollidingWith(mob)) {
@@ -370,6 +394,10 @@ class Room {
     if (coop) {
       for (let i = playerB.projectilesFired.length - 1; i >= 0; i--) {
         playerB.projectilesFired[i].draw();
+        if (!playerB.projectilesFired[i].isActive) {
+          playerB.projectilesFired.splice(i, 1);
+          continue;
+        }
         let projectileHit = false;
         for (let mob of this.mobs) {
           if (playerB.projectilesFired[i].isCollidingWith(mob)) {
@@ -409,15 +437,21 @@ class Room {
         let projectileHit = false;
         for (let i = mob.projectilesFired.length - 1; i >= 0; i--) {
           mob.projectilesFired[i].draw();
+          if (!mob.projectilesFired[i].isActive) {
+            mob.projectilesFired.splice(i, 1);
+            continue;
+          }
           if (mob.projectilesFired[i].isCollidingWith(playerA)) {
             playerA.takeDamage(mob.attackDamage);
             this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
+            playerA.makeInvincible();
             projectileHit = true;
           }
           if (coop) {
             if (mob.projectilesFired[i].isCollidingWith(playerB)) {
               playerB.takeDamage(mob.attackDamage);
               this.createBloodParticles(playerB.position.x, playerB.position.y, playerB.bloodColour);
+              playerB.makeInvincible();
               projectileHit = true;
             }
           }
@@ -570,5 +604,33 @@ class Room {
       }
     }
     return false;
+  }
+
+  rollItemDrop(mob) {
+    let roll = random(1,200);
+    let item;
+    if (roll < 35) {
+      item = new Heart(mob.position.x, mob.position.y, pixelHeart);
+      this.items.push(item);
+    } else if (roll >= 35 && roll < 70) {
+      item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
+      this.items.push(item);
+    }
+    
+  }
+
+  applyItemBuff(item, player) {
+    if (item instanceof Heart) {
+      if (player.health < 71) {
+        player.health += 30;
+      } else {
+        player.health = 100;
+      }
+    } else if (item instanceof Energy) {
+      player.fireCooldown = 0;
+      player.slowTimer = 0;
+      player.fireOverheat = false;
+      player.speed = 3;
+    }
   }
 }

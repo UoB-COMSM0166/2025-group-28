@@ -5,7 +5,9 @@ class Projectile extends GameObject {
     super(x, y);
     this.position = createVector(x, y);
     this.velocity = createVector(velocityMultiplier * velocityX, velocityMultiplier * velocityY);
-    this.image = image
+    this.image = image;
+    this.widthHitbox = 5;
+    this.heightHitbox = 5;
   }
 
   update() {

@@ -56,7 +56,7 @@ const difficultySettings = Object.freeze([
     rangedMobHealth: 50,
     rangedMobSpeed: 0.5,
     rangedMobDamage: 10,
-    totalMobs: 3
+    totalMobs: 3,
   }, // Easy mode
   {
     playerDamage: 10,
@@ -68,7 +68,7 @@ const difficultySettings = Object.freeze([
     rangedMobHealth: 60,
     rangedMobSpeed: 0.7,
     rangedMobDamage: 15,
-    totalMobs: 6
+    totalMobs: 6,
   }, // Normal mode
   {
     playerDamage: 10,
@@ -80,7 +80,7 @@ const difficultySettings = Object.freeze([
     rangedMobHealth: 80,
     rangedMobSpeed: 1,
     rangedMobDamage: 20,
-    totalMobs: 8
+    totalMobs: 8,
   }, // Hard mode
 ]);
 
@@ -106,6 +106,9 @@ function preload() {
   bullet = loadImage("assets/projectileM1.gif");
   fireball = loadImage("assets/fireballAI.png");
   buttonPrompt = loadImage("assets/button_prompt.png");
+  pixelHeart = loadImage("assets/heart.png");
+  pixelEnergy = loadImage("assets/energy.png");
+
   gameFont = loadFont("assets/ARCADE_I.ttf");
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
@@ -118,10 +121,10 @@ function preload() {
 
 // HTML <img> paths (no need to preload):
 
-let singlePlayerIcon = "assets/SP3.png";
-let coopIcon = "assets/TP3.png";
-let helpIcon = "assets/HP3.png";
-let menuimg = "assets/ac_menu.gif";
+let singlePlayerIcon = "assets/singlepbutton.png";
+let coopIcon = "assets/twopbutton.png";
+let helpIcon = "assets/helpbutton.png";
+let menuimg = "assets/menuback.mp4";
 
-let pageWidth = 800;
-let pageHeight = 600;
+let pageWidth = 900;
+let pageHeight = 750;
