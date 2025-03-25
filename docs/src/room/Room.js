@@ -11,6 +11,7 @@ class Room {
     this.mobsRemaining = difficultySettings.totalMobs;
     this.lastSpawnTime = 0;
     this.promptActive = false;
+    this.currentTileColours;
     this.initRoom();
     this.addWallCollisions(playerA);
     if (coop) {
@@ -28,6 +29,8 @@ class Room {
   }
 
   initRoom() {
+    const tileOptions = [tileColours1, tileColours2, tileColours3];
+    this.currentTileColours = random(tileOptions);
     this.roomLayout = [];
     for (let j = 0; j < roomHeight; j++) {
       let roomTiles = [];
@@ -315,7 +318,7 @@ class Room {
             tiledex = 0;
           }
           image(
-            tilecolours1[tiledex],
+            this.currentTileColours[tiledex],
             tileSize * i,
             tileSize * j,
             tileSize,
