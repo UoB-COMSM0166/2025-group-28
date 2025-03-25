@@ -63,35 +63,65 @@ function coopPlayerStart() {
   gameSwitch(true);
 }
 
+function singlePlayerHover() {
+  sp_button.style("opacity", "1");
+}
+function coopHover() {
+  coop_button.style("opacity", "1");
+}
+function stngHover() {
+  stng_button.style("opacity", "1");
+}
+function singlePlayerEndHover() {
+  sp_button.style("opacity", "0.5");
+}
+function coopEndHover() {
+  coop_button.style("opacity", "0.5");
+}
+function stngEndHover() {
+  stng_button.style("opacity", "0.5");
+}
+
 function renderMenu() {
   let menuContainer = createDiv();
   menuContainer.id("menuContainer");
   menuContainer.size(pageWidth, pageHeight);
 
-  menuBack = createImg(menuimg);
+  menuBack = createVideo(menuimg);
   menuBack.parent(menuContainer);
   menuBack.size(pageWidth, pageHeight);
+  menuBack.play();
+  menuBack.loop();
 
   sp_button = createImg(singlePlayerIcon);
   sp_button.parent(menuContainer);
-  sp_button.position(pageWidth / 9, pageHeight * 0.62);
-  sp_button.size(120, 170);
+  sp_button.position(pageWidth / 3 - 170, pageHeight * 0.62);
+  sp_button.size(170, 120);
   sp_button.mouseClicked(singlePlayerStart);
+  sp_button.style("opacity", "0.5");
+  sp_button.mouseOver(singlePlayerHover);
+  sp_button.mouseOut(singlePlayerEndHover);
 
   coop_button = createImg(coopIcon);
   coop_button.parent(menuContainer);
-  coop_button.position(pageWidth / 3 + 75, pageHeight * 0.62);
-  coop_button.size(120, 170);
+  coop_button.position(pageWidth / 2 - 85, pageHeight * 0.62);
+  coop_button.size(170, 120);
   coop_button.mouseClicked(coopPlayerStart);
+  coop_button.style("opacity", "0.5");
+  coop_button.mouseOver(coopHover);
+  coop_button.mouseOut(coopEndHover);
 
   stng_button = createImg(helpIcon);
   stng_button.parent(menuContainer);
-  stng_button.position(pageWidth * 0.75, pageHeight * 0.62);
-  stng_button.size(120, 170);
+  stng_button.position(pageWidth * 0.66, pageHeight * 0.62);
+  stng_button.size(170, 120);
+  stng_button.style("opacity", "0.5");
+  stng_button.mouseOver(stngHover);
+  stng_button.mouseOut(stngEndHover);
 
   difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
   difficultyButton.parent(menuContainer);
-  difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.9);
+  difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.8);
   difficultyButton.mouseClicked(changeDifficulty);
   difficultyButton.size(160, 55);
   difficultyButton.class("menu-button");
