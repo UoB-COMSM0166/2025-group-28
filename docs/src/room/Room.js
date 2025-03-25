@@ -315,7 +315,7 @@ class Room {
             tiledex = 0;
           }
           image(
-            tilecolours[tiledex],
+            tilecolours1[tiledex],
             tileSize * i,
             tileSize * j,
             tileSize,

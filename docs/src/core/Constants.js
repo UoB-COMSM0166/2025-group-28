@@ -94,7 +94,7 @@ function preload() {
   tile_lightyellow = loadImage("assets/alternatetile5.png");
   tile_darkyellow = loadImage("assets/alternatetile6.png")
   walltile = loadImage("assets/wall_tile_m3.png");
-  tilecolours = [tile_darkgrey, tile_lightgrey];
+  tilecolours1 = [tile_darkgrey, tile_lightgrey];
   tilecolours2 = [tile_darkblue, tile_lightblue];
   tilecolours3 = [tile_darkyellow, tile_lightyellow];
 
