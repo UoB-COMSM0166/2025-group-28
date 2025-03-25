@@ -628,6 +628,7 @@ class Room {
       }
     } else if (item instanceof Energy) {
       player.fireCooldown = 0;
+      player.speed = 3;
     }
   }
 }
