@@ -82,6 +82,11 @@ function stngEndHover() {
   stng_button.style("opacity", "0.5");
 }
 
+function menuStart() {
+  menuBack.play();
+  menuBack.loop();
+}
+
 function renderMenu() {
   let menuContainer = createDiv();
   menuContainer.id("menuContainer");
@@ -90,8 +95,9 @@ function renderMenu() {
   menuBack = createVideo(menuimg);
   menuBack.parent(menuContainer);
   menuBack.size(pageWidth, pageHeight);
-  menuBack.play();
-  menuBack.loop();
+  menuBack.mouseOver(menuStart);
+  //menuBack.play();
+  //menuBack.loop();
 
   sp_button = createImg(singlePlayerIcon);
   sp_button.parent(menuContainer);
