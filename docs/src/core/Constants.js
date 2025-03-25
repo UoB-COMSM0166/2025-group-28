@@ -87,12 +87,17 @@ const difficultySettings = Object.freeze([
 let menuBacking;
 
 function preload() {
-  tile_blue = loadImage("assets/tileb3.png");
-  tile_green = loadImage("assets/tilegreen.png");
+  tile_darkgrey = loadImage("assets/alternatetile1.png");
+  tile_lightgrey = loadImage("assets/alternatetile2.png");
+  tile_darkblue = loadImage("assets/alternatetile3.png");
+  tile_lightblue = loadImage("assets/alternatetile4.png");
+  tile_lightyellow = loadImage("assets/alternatetile5.png");
+  tile_darkyellow = loadImage("assets/alternatetile6.png")
   walltile = loadImage("assets/wall_tile_m3.png");
-  tilecolours = [tile_blue, tile_green];
+  tilecolours = [tile_darkgrey, tile_lightgrey];
+  tilecolours2 = [tile_darkblue, tile_lightblue];
+  tilecolours3 = [tile_darkyellow, tile_lightyellow];
 
-  tileImg = loadImage("assets/tileM1.gif");
   wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/door.png");
   doorOpenImg = loadImage("assets/door_open.png");
