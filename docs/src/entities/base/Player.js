@@ -29,6 +29,34 @@ class Player extends Sprite {
     this.bloodColour = color(210, 0, 0, 0);
   }
 
+  drawPlayerHealthBar(){
+    let playerAHealthBarWidth = 200;
+    let playerAHealthBarX = 50;
+    let playerAHealthBarY = 50;
+    let playerAHealthRatio = playerA.health / playerA.maxHealth;
+    fill(255, 0, 0);
+    rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
+    fill(0, 255, 0);
+    rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth * playerAHealthRatio, 20);
+    stroke(0);
+    noFill();
+    rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
+
+    if (coop){
+        let playerBHealthBarWidth = 200;
+        let playerBHealthBarX = 550;
+        let playerBHealthBarY = 50;
+        let playerBHealthRatio = playerB.health / playerB.maxHealth;
+        fill(255, 0, 0);
+        rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
+        fill(0, 255, 0);
+        rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth * playerBHealthRatio, 20);
+        stroke(0);
+        noFill();
+        rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
+    }
+  }
+
   overheatSlow() {
     if (this.fireOverheat) {
       if (this.slowTimer == 0) this.speed = .8;

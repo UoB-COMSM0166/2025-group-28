@@ -108,33 +108,6 @@ class Sprite extends GameObject {
           this.heightHitbox
         );
       }
-
-      // Health bar calculations
-      const healthBarWidth = this.widthModel * 0.6;
-      const healthBarHeight = 5;
-      const healthPercentage = this.health / this.maxHealth;
-      const yOffset = 6; // Space between sprite and health bar
-
-      // Calculate center positions
-      const spriteCenterX = this.position.x;
-      const spriteTop = this.position.y - this.heightModel / 2;
-
-      // Health bar positioning
-      const healthBarX = spriteCenterX - healthBarWidth / 2;
-      const healthBarY = spriteTop - yOffset - healthBarHeight;
-
-      // Health bar background
-      fill(255, 0, 0);
-      rect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-
-      // Current health
-      fill(0, 255, 0);
-      rect(
-        healthBarX,
-        healthBarY,
-        healthBarWidth * healthPercentage,
-        healthBarHeight
-      );
     }
   }
 

@@ -353,6 +353,7 @@ class Room {
     const padding = 10;
 
     playerA.draw();
+    playerA.drawPlayerHealthBar()
     playerA.drawPlayerHeatBar(
       width / 4 - barWidth / 2,
       height - barHeight - padding,
@@ -364,6 +365,7 @@ class Room {
 
     if (coop) {
       playerB.draw();
+      playerB.drawPlayerHealthBar()
       playerB.drawPlayerHeatBar(
         width / 4 - barWidth / 2 + 400,
         height - barHeight - padding,
@@ -420,6 +422,7 @@ class Room {
     // mob checks
     for (let mob of this.mobs) {
       mob.draw();
+      mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
         this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
