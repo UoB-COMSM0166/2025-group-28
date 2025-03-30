@@ -52,6 +52,7 @@ function gameSwitch(starting) {
     inGame = true;
     gameSetUp();
     loop();
+    theme_a.play();
   }
 }
 function singlePlayerStart() {

@@ -277,8 +277,6 @@ class Room {
         }
       }
     }
-    
-    
 
     //players
     playerA.update();
@@ -353,22 +351,24 @@ class Room {
     const padding = 10;
 
     playerA.draw();
-    playerA.drawPlayerHealthBar()
+    playerA.drawPlayerHealthBar();
     playerA.drawPlayerHeatBar(
       width / 4 - barWidth / 2,
-      height - barHeight - padding,
+      height - barHeight - padding + 20,
       barWidth,
       barHeight,
       playerA.fireCooldown / 200,
       "PLAYER A"
     );
 
+    //text("Room", width / 2, height - 100);
+
     if (coop) {
       playerB.draw();
-      playerB.drawPlayerHealthBar()
+      playerB.drawPlayerHealthBar();
       playerB.drawPlayerHeatBar(
         width / 4 - barWidth / 2 + 400,
-        height - barHeight - padding,
+        height - barHeight - padding - 20,
         barWidth,
         barHeight,
         playerB.fireCooldown / 200,
@@ -387,7 +387,11 @@ class Room {
       for (let mob of this.mobs) {
         if (playerA.projectilesFired[i].isCollidingWith(mob)) {
           mob.takeDamage(playerA.attackDamage);
-          this.createBloodParticles(mob.position.x, mob.position.y, mob.bloodColour);
+          this.createBloodParticles(
+            mob.position.x,
+            mob.position.y,
+            mob.bloodColour
+          );
           projectileHit = true;
           break;
         }
@@ -407,7 +411,11 @@ class Room {
         for (let mob of this.mobs) {
           if (playerB.projectilesFired[i].isCollidingWith(mob)) {
             mob.takeDamage(playerB.attackDamage);
-            this.createBloodParticles(mob.position.x, mob.position.y, mob.bloodColour);
+            this.createBloodParticles(
+              mob.position.x,
+              mob.position.y,
+              mob.bloodColour
+            );
             projectileHit = true;
             break;
           }
@@ -418,14 +426,17 @@ class Room {
       }
     }
 
-
     // mob checks
     for (let mob of this.mobs) {
       mob.draw();
       mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
-        this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
+        this.createBloodParticles(
+          playerA.position.x,
+          playerA.position.y,
+          playerA.bloodColour
+        );
         playerA.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerA.position.x, playerA.position.y);
         playerA.makeInvincible();
@@ -433,7 +444,11 @@ class Room {
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         playerB.takeDamage(mob.attackDamage); // Can be balanced here or in constants.js
-        this.createBloodParticles(playerB.position.x, playerB.position.y, playerB.bloodColour);
+        this.createBloodParticles(
+          playerB.position.x,
+          playerB.position.y,
+          playerB.bloodColour
+        );
         playerB.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerB.position.x, playerB.position.y);
         playerB.makeInvincible();
@@ -449,14 +464,22 @@ class Room {
           }
           if (mob.projectilesFired[i].isCollidingWith(playerA)) {
             playerA.takeDamage(mob.attackDamage);
-            this.createBloodParticles(playerA.position.x, playerA.position.y, playerA.bloodColour);
+            this.createBloodParticles(
+              playerA.position.x,
+              playerA.position.y,
+              playerA.bloodColour
+            );
             playerA.makeInvincible();
             projectileHit = true;
           }
           if (coop) {
             if (mob.projectilesFired[i].isCollidingWith(playerB)) {
               playerB.takeDamage(mob.attackDamage);
-              this.createBloodParticles(playerB.position.x, playerB.position.y, playerB.bloodColour);
+              this.createBloodParticles(
+                playerB.position.x,
+                playerB.position.y,
+                playerB.bloodColour
+              );
               playerB.makeInvincible();
               projectileHit = true;
             }
@@ -471,44 +494,68 @@ class Room {
     // Handles drawing the 'interact' button prompt if the player is in range of the door
     // I apologise for how ugly this is
     if (this.isCleared) {
-      if (this.door.x == roomWidth - 2) { // Door on right side of room
-        if ((playerA.position.x < this.door.position.x &&
-          playerA.position.x > this.door.position.x - tileSize * 8 &&
-          playerA.position.y < this.door.position.y + tileSize * 6 &&
-          playerA.position.y > this.door.position.y - tileSize * 6) ||
-          (coop && playerB.position.x < this.door.position.x &&
-          playerB.position.x > this.door.position.x - tileSize * 8 &&
-          playerB.position.y < this.door.position.y + tileSize * 6 &&
-          playerB.position.y > this.door.position.y - tileSize * 6)) {
-          image(buttonPrompt, this.door.position.x - tileSize * 2, this.door.position.y);
+      if (this.door.x == roomWidth - 2) {
+        // Door on right side of room
+        if (
+          (playerA.position.x < this.door.position.x &&
+            playerA.position.x > this.door.position.x - tileSize * 8 &&
+            playerA.position.y < this.door.position.y + tileSize * 6 &&
+            playerA.position.y > this.door.position.y - tileSize * 6) ||
+          (coop &&
+            playerB.position.x < this.door.position.x &&
+            playerB.position.x > this.door.position.x - tileSize * 8 &&
+            playerB.position.y < this.door.position.y + tileSize * 6 &&
+            playerB.position.y > this.door.position.y - tileSize * 6)
+        ) {
+          image(
+            buttonPrompt,
+            this.door.position.x - tileSize * 2,
+            this.door.position.y
+          );
           this.promptActive = true;
         } else {
           this.promptActive = false;
         }
-      } else if (this.door.y == roomHeight - 2) { // Door at bottom of room
-        if ((playerA.position.x < this.door.position.x + tileSize * 6 &&
-          playerA.position.x > this.door.position.x - tileSize * 6 &&
-          playerA.position.y < this.door.position.y &&
-          playerA.position.y > this.door.position.y - tileSize * 8) ||
-          (coop && playerB.position.x < this.door.position.x + tileSize * 6 &&
-          playerB.position.x > this.door.position.x - tileSize * 6 &&
-          playerB.position.y < this.door.position.y &&
-          playerB.position.y > this.door.position.y - tileSize * 8)) {
-          image(buttonPrompt, this.door.position.x + tileSize + tileSize / 2, this.door.position.y - tileSize * 2);
+      } else if (this.door.y == roomHeight - 2) {
+        // Door at bottom of room
+        if (
+          (playerA.position.x < this.door.position.x + tileSize * 6 &&
+            playerA.position.x > this.door.position.x - tileSize * 6 &&
+            playerA.position.y < this.door.position.y &&
+            playerA.position.y > this.door.position.y - tileSize * 8) ||
+          (coop &&
+            playerB.position.x < this.door.position.x + tileSize * 6 &&
+            playerB.position.x > this.door.position.x - tileSize * 6 &&
+            playerB.position.y < this.door.position.y &&
+            playerB.position.y > this.door.position.y - tileSize * 8)
+        ) {
+          image(
+            buttonPrompt,
+            this.door.position.x + tileSize + tileSize / 2,
+            this.door.position.y - tileSize * 2
+          );
           this.promptActive = true;
         } else {
           this.promptActive = false;
         }
-      } else if (this.door.y == 1) { // Door at top of room
-        if ((playerA.position.x < this.door.position.x + tileSize * 6 &&
-          playerA.position.x > this.door.position.x - tileSize * 6 &&
-          playerA.position.y < this.door.position.y + tileSize * 8 &&
-          playerA.position.y > this.door.position.y) ||
-          (coop && playerB.position.x < this.door.position.x + tileSize * 6 &&
-          playerB.position.x > this.door.position.x - tileSize * 6 &&
-          playerB.position.y < this.door.position.y + tileSize * 8 &&
-          playerB.position.y > this.door.position.y)) {
-          image(buttonPrompt, this.door.position.x + tileSize + tileSize / 2, this.door.position.y + tileSize * 2);
+      } else if (this.door.y == 1) {
+        // Door at top of room
+        if (
+          (playerA.position.x < this.door.position.x + tileSize * 6 &&
+            playerA.position.x > this.door.position.x - tileSize * 6 &&
+            playerA.position.y < this.door.position.y + tileSize * 8 &&
+            playerA.position.y > this.door.position.y) ||
+          (coop &&
+            playerB.position.x < this.door.position.x + tileSize * 6 &&
+            playerB.position.x > this.door.position.x - tileSize * 6 &&
+            playerB.position.y < this.door.position.y + tileSize * 8 &&
+            playerB.position.y > this.door.position.y)
+        ) {
+          image(
+            buttonPrompt,
+            this.door.position.x + tileSize + tileSize / 2,
+            this.door.position.y + tileSize * 2
+          );
           this.promptActive = true;
         } else {
           this.promptActive = false;
@@ -572,12 +619,22 @@ class Room {
     }
 
     if (validSpawn) {
-      let rand = random(1,100);
+      let rand = random(1, 100);
       let newMob;
       if (rand > 60) {
-        newMob = new MeleeMob(dogmob_gif, spawnX, spawnY, this.difficultySettings);
+        newMob = new MeleeMob(
+          dogmob_gif,
+          spawnX,
+          spawnY,
+          this.difficultySettings
+        );
       } else {
-        newMob = new RangedMob(rangedmob_gif, spawnX, spawnY, this.difficultySettings);
+        newMob = new RangedMob(
+          rangedmob_gif,
+          spawnX,
+          spawnY,
+          this.difficultySettings
+        );
       }
 
       //this.addWallCollisions(newMob); // adds wall collisions to mobs
@@ -613,7 +670,7 @@ class Room {
   }
 
   rollItemDrop(mob) {
-    let roll = random(1,200);
+    let roll = random(1, 200);
     let item;
     if (roll < 35) {
       item = new Heart(mob.position.x, mob.position.y, pixelHeart);
@@ -622,7 +679,6 @@ class Room {
       item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
       this.items.push(item);
     }
-    
   }
 
   applyItemBuff(item, player) {

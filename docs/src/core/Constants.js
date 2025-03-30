@@ -86,13 +86,18 @@ const difficultySettings = Object.freeze([
 
 let menuBacking;
 
+let meowSound;
+let acGunSound;
+let gunSound_b;
+let theme_a;
+
 function preload() {
   tile_darkGrey = loadImage("assets/alternatetile1.png");
   tile_lightGrey = loadImage("assets/alternatetile2.png");
   tile_darkBlue = loadImage("assets/alternatetile3.png");
   tile_lightBlue = loadImage("assets/alternatetile4.png");
   tile_darkYellow = loadImage("assets/alternatetile5.png");
-  tile_lightYellow = loadImage("assets/alternatetile6.png")
+  tile_lightYellow = loadImage("assets/alternatetile6.png");
   walltile = loadImage("assets/wall_tile_m3.png");
   tileColours1 = [tile_darkGrey, tile_lightGrey];
   tileColours2 = [tile_darkBlue, tile_lightBlue];
@@ -116,6 +121,12 @@ function preload() {
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
 
+  // sounds
+
+  meowSound = loadSound("assets/cat-meowing-type-02-293290.mp3");
+  acGunSound = loadSound("assets/player_gun.mp3");
+  gunSound_b = loadSound("assets/shot2.mp3");
+  theme_a = loadSound("assets/theme.mp3");
   // menuanimated = loadImage("assets/acbackground.gif");
 }
 
