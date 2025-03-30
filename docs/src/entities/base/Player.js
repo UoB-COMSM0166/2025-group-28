@@ -29,7 +29,7 @@ class Player extends Sprite {
     this.bloodColour = color(210, 0, 0, 0);
   }
 
-  drawPlayerHealthBar(){
+  drawPlayerHealthBar() {
     let playerAHealthBarWidth = 200;
     let playerAHealthBarX = 50;
     let playerAHealthBarY = 50;
@@ -37,29 +37,39 @@ class Player extends Sprite {
     fill(255, 0, 0);
     rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
     fill(0, 255, 0);
-    rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth * playerAHealthRatio, 20);
+    rect(
+      playerAHealthBarX,
+      playerAHealthBarY,
+      playerAHealthBarWidth * playerAHealthRatio,
+      20
+    );
     stroke(0);
     noFill();
     rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
 
-    if (coop){
-        let playerBHealthBarWidth = 200;
-        let playerBHealthBarX = 550;
-        let playerBHealthBarY = 50;
-        let playerBHealthRatio = playerB.health / playerB.maxHealth;
-        fill(255, 0, 0);
-        rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
-        fill(0, 255, 0);
-        rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth * playerBHealthRatio, 20);
-        stroke(0);
-        noFill();
-        rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
+    if (coop) {
+      let playerBHealthBarWidth = 200;
+      let playerBHealthBarX = 550;
+      let playerBHealthBarY = 50;
+      let playerBHealthRatio = playerB.health / playerB.maxHealth;
+      fill(255, 0, 0);
+      rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
+      fill(0, 255, 0);
+      rect(
+        playerBHealthBarX,
+        playerBHealthBarY,
+        playerBHealthBarWidth * playerBHealthRatio,
+        20
+      );
+      stroke(0);
+      noFill();
+      rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
     }
   }
 
   overheatSlow() {
     if (this.fireOverheat) {
-      if (this.slowTimer == 0) this.speed = .8;
+      if (this.slowTimer == 0) this.speed = 0.8;
       else if (this.slowTimer == 50) this.speed = 1.1;
       else if (this.slowTimer == 100) this.speed = 1.4;
       else if (this.slowTimer == 150) this.speed = 1.8;
@@ -351,6 +361,7 @@ class Player extends Sprite {
           this.img.setFrame(6);
         }
         // SPACE key for player 1
+        acGunSound.play();
         let projectile = new Projectile(
           this.position.x,
           this.position.y,
@@ -386,6 +397,8 @@ class Player extends Sprite {
           10,
           bullet
         );
+        gunSound_b.play();
+
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         this.projectilesFired.push(projectile);
         this.lastShot = currentTime;
@@ -461,6 +474,8 @@ class Player extends Sprite {
 
   // Adds i-frames after taking damage - in player class as not needed for mobs
   makeInvincible() {
+    meowSound.play();
+
     if (!this.isInvincible) {
       this.isInvincible = true;
       this.invincibilityStartTime = millis();
