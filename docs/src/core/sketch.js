@@ -7,6 +7,7 @@ let playerB;
 let roomButton = null;
 
 let gameCanvas;
+let themeMusic;
 
 let coop = false;
 let inGame = false;
@@ -52,7 +53,7 @@ function gameSwitch(starting) {
     inGame = true;
     gameSetUp();
     loop();
-    theme_a.play();
+    //theme_a.play();
   }
 }
 function singlePlayerStart() {
@@ -85,7 +86,9 @@ function stngEndHover() {
 
 function menuStart() {
   menuBack.play();
+  themeMusic.play();
   menuBack.loop();
+  themeMusic.loop();
 }
 
 function renderMenu() {
@@ -93,10 +96,11 @@ function renderMenu() {
   menuContainer.id("menuContainer");
   menuContainer.size(pageWidth, pageHeight);
 
+  themeMusic = createAudio("assets/theme.mp3");
+
   menuBack = createVideo(menuimg);
   menuBack.parent(menuContainer);
   menuBack.size(pageWidth, pageHeight);
-  menuBack.volume(0);
   menuBack.mouseOver(menuStart);
   //menuBack.play();
   //menuBack.loop();

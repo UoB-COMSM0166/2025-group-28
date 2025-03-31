@@ -104,15 +104,15 @@ function preload() {
   tileColours3 = [tile_darkYellow, tile_lightYellow];
 
   wallImg = loadImage("assets/wall.png");
-  doorImg = loadImage("assets/door.png");
-  doorOpenImg = loadImage("assets/door_open.png");
+  doorImg = loadImage("assets/spacedoor.gif");
+  doorOpenImg = loadImage("assets/spacedoorOpen.gif");
   astrocat = loadImage("assets/astrocat.png");
   dogMob = loadImage("assets/dog.png");
   bullet = loadImage("assets/projectileM1.gif");
   fireball = loadImage("assets/fireballAI.png");
-  buttonPrompt = loadImage("assets/button_prompt.png");
-  pixelHeart = loadImage("assets/heart.png");
-  pixelEnergy = loadImage("assets/energy.png");
+  buttonPrompt = loadImage("assets/doorprompt.gif");
+  pixelHeart = loadImage("assets/heart.gif");
+  pixelEnergy = loadImage("assets/energy.gif");
 
   gameFont = loadFont("assets/ARCADE_I.ttf");
 
