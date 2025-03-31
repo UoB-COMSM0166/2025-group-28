@@ -270,7 +270,7 @@ class Room {
         this.applyItemBuff(this.items[i], playerA);
         this.items.splice(i, 1);
       }
-      if (coop) {
+      else if (coop) {
         if (playerB.isCollidingWith(this.items[i])) {
           this.applyItemBuff(this.items[i], playerB);
           this.items.splice(i, 1);
@@ -621,7 +621,7 @@ class Room {
     if (validSpawn) {
       let rand = random(1, 100);
       let newMob;
-      if (rand > 60) {
+      if (rand > 50) {
         newMob = new MeleeMob(
           dogmob_gif,
           spawnX,
