@@ -3,7 +3,7 @@ class MeleeMob extends Mob {
     super(img, x, y, difficultySettings)
     this.health = difficultySettings.meleeMobHealth;
     this.maxHealth = difficultySettings.meleeMobHealth;
-    this.speed = difficultySettings.meleeMobSpeed;
+    this.speed = difficultySettings.meleeMobSpeed();
     this.attackDamage = difficultySettings.meleeMobDamage;
   }
 }
