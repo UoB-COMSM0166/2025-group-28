@@ -8,7 +8,8 @@ class RangedMob extends Mob {
     this.speed = difficultySettings.rangedMobSpeed;
     this.attackDamage = difficultySettings.rangedMobDamage;
     this.projectilesFired = [];
-    this.bloodColour = color(255, 215, 80, 255); 
+    this.bloodColour = color(255, 215, 80, 255);
+    this.fireCooldownLimit = 100;
   }
 
 
