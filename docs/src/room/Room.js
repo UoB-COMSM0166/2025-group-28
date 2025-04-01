@@ -254,7 +254,7 @@ class Room {
     //mobs
     for (let mob of this.mobs) {
       mob.update();
-      if (mob instanceof RangedMob) {
+      if (mob instanceof RangedMob || mob instanceof BlinkMob) {
         mob.fire();
         for (let p of mob.projectilesFired) {
           p.update();
@@ -454,7 +454,7 @@ class Room {
         playerB.makeInvincible();
       }
 
-      if (mob instanceof RangedMob) {
+      if (mob instanceof RangedMob || mob instanceof BlinkMob) {
         let projectileHit = false;
         for (let i = mob.projectilesFired.length - 1; i >= 0; i--) {
           mob.projectilesFired[i].draw();
@@ -621,16 +621,23 @@ class Room {
     if (validSpawn) {
       let rand = random(1, 100);
       let newMob;
-      if (rand > 50) {
+      if (rand > 60) {
         newMob = new MeleeMob(
           dogmob_gif,
           spawnX,
           spawnY,
           this.difficultySettings
         );
-      } else {
+      } else if (rand < 60 && rand > 25) {
         newMob = new RangedMob(
           rangedmob_gif,
+          spawnX,
+          spawnY,
+          this.difficultySettings
+        );
+      } else {
+        newMob = new BlinkMob(
+          blinkMobGif,
           spawnX,
           spawnY,
           this.difficultySettings
