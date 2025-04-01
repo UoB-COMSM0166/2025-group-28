@@ -43,7 +43,6 @@ class Player extends Sprite {
       playerAHealthBarWidth * playerAHealthRatio,
       20
     );
-    stroke(0);
     noFill();
     rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
 
@@ -61,7 +60,6 @@ class Player extends Sprite {
         playerBHealthBarWidth * playerBHealthRatio,
         20
       );
-      stroke(0);
       noFill();
       rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
     }

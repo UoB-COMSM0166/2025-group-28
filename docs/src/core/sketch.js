@@ -25,6 +25,8 @@ let diffTint = difficultyTints[1];
 let difficultyButton;
 
 let gameCount = 1;
+let playerADeathCount = 0;
+let playerBDeathCount = 0;
 
 let fadeAlpha = 0;
 let fadingOut = false;
