@@ -354,7 +354,7 @@ class Room {
     playerA.drawPlayerHealthBar();
     playerA.drawPlayerHeatBar(
       width / 4 - barWidth / 2,
-      height - barHeight - padding + 12,
+      height - barHeight - padding,
       barWidth,
       barHeight,
       playerA.fireCooldown / 200,
@@ -368,7 +368,7 @@ class Room {
       playerB.drawPlayerHealthBar();
       playerB.drawPlayerHeatBar(
         width / 4 - barWidth / 2 + 400,
-        height - barHeight - padding - 12,
+        height - barHeight - padding,
         barWidth,
         barHeight,
         playerB.fireCooldown / 200,
