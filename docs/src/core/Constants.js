@@ -56,6 +56,9 @@ const difficultySettings = Object.freeze([
     rangedMobHealth: 50,
     rangedMobSpeed: 0.5,
     rangedMobDamage: 10,
+    blinkMobHealth: 40,
+    blinkMobSpeed: 0,
+    blinkMobDamage: 8,
     totalMobs: 3,
   }, // Easy mode
   {
@@ -68,6 +71,9 @@ const difficultySettings = Object.freeze([
     rangedMobHealth: 60,
     rangedMobSpeed: 0.7,
     rangedMobDamage: 15,
+    blinkMobHealth: 50,
+    blinkMobSpeed: 0,
+    blinkMobDamage: 10,
     totalMobs: 6,
   }, // Normal mode
   {
@@ -80,6 +86,9 @@ const difficultySettings = Object.freeze([
     rangedMobHealth: 80,
     rangedMobSpeed: 1,
     rangedMobDamage: 20,
+    blinkMobHealth: 75,
+    blinkMobSpeed: 0,
+    blinkMobDamage: 15,
     totalMobs: 8,
   }, // Hard mode
 ]);
@@ -118,6 +127,7 @@ function preload() {
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   rangedmob_gif = loadImage("assets/yellowDogMob.gif");
+  blinkMobGif = loadImage("assets/purpleDogMob.gif")
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
 

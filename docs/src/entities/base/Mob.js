@@ -5,8 +5,8 @@ class Mob extends Sprite {
     this.heightHitbox = 55;
     this.widthModel = 65;
     this.heightModel = 65;
-    this.fireCooldown = 0;
-    this.fireReady = true;
+    this.fireCooldown = 50;
+    this.fireReady = false;
     this.difficultySettings = difficultySettings
 
     this.color = color(0, 255, 100);
@@ -63,7 +63,7 @@ class Mob extends Sprite {
 
   fireUpdate() {
     this.fireCooldown += 1;
-    if (this.fireCooldown > 100) {
+    if (this.fireCooldown > this.fireCooldownLimit) {
       this.fireReady = true;
       this.fireCooldown = 0;
     }
