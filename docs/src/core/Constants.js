@@ -54,19 +54,19 @@ const difficultySettings = Object.freeze([
     meleeMobSpeed:() => random(0.6,1.0),
     meleeMobDamage: 7,
     rangedMobHealth: 50,
-    rangedMobSpeed:() => random(0.6,1.0),
+    rangedMobSpeed:() => random(0.5,0.9),
     rangedMobDamage: 5,
     blinkMobHealth: 40,
     blinkMobSpeed: 0,
     blinkMobDamage: 4,
-    totalMobs: 8,
+    totalMobs:() => mobTotalIncrementer(),
   }, // Easy mode
   {
     playerDamage: 10,
     spawnRate: 3000,
     maxMobs: 4,
     meleeMobHealth: 75,
-    meleeMobSpeed:() => random(0.9,1.2),
+    meleeMobSpeed:() => random(0.8,1.2),
     meleeMobDamage: 12,
     rangedMobHealth: 60,
     rangedMobSpeed:() => random(0.7,1.1),
@@ -74,22 +74,22 @@ const difficultySettings = Object.freeze([
     blinkMobHealth: 50,
     blinkMobSpeed: 0,
     blinkMobDamage: 6,
-    totalMobs: 8,
+    totalMobs:() => mobTotalIncrementer(),
   }, // Normal mode
   {
     playerDamage: 10,
-    spawnRate: 2500,
+    spawnRate: 3000,
     maxMobs: 5,
     meleeMobHealth: 100,
-    meleeMobSpeed:() => random(1.2,1.8),
+    meleeMobSpeed:() => random(1.2,1.6),
     meleeMobDamage: 20,
     rangedMobHealth: 80,
-    rangedMobSpeed:() => random(0.8,1.2),
+    rangedMobSpeed:() => random(0.8,1.4),
     rangedMobDamage: 15,
     blinkMobHealth: 75,
     blinkMobSpeed: 0,
     blinkMobDamage: 10,
-    totalMobs: 10,
+    totalMobs: () => mobTotalIncrementer(),
   }, // Hard mode
 ]);
 
@@ -149,3 +149,23 @@ let menuimg = "assets/menuback.mp4";
 
 let pageWidth = 900;
 let pageHeight = 750;
+
+
+function mobTotalIncrementer() {
+  let start = 1
+  if (gameCount < 5) {
+    return start + gameCount
+  } else if (gameCount < 6) {
+    return 5;
+  } else if (gameCount < 8) {
+    return 6;
+  } else if (gameCount < 11) {
+    return 7;
+  } else if (gameCount < 14) {
+    return 8;
+  } else if (gameCount < 18) {
+    return 9;
+  } else {
+    return 10;
+  }
+}

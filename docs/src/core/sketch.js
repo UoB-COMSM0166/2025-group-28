@@ -18,10 +18,10 @@ let sp_button;
 let coop_button;
 let stng_button;
 
-let difficulty = difficultyLevels.NORMAL;
-let difficultyNames = ["Easy", "Normal", "Hard"];
+let difficulty = difficultyLevels.EASY;
+let difficultyNames = ["Kitten", "Hunter", "Apex"];
 let difficultyTints = ["#4d63445A", "#a6aba45A", "#ba29225A"];
-let diffTint = difficultyTints[1];
+let diffTint = difficultyTints[0];
 let difficultyButton;
 
 let gameCount = 1;
