@@ -1,13 +1,10 @@
 class Particle {
-  constructor(x, y, maxHeight, colour) {
+  constructor(x, y, colour) {
     this.position = createVector(x, y);
-    // Create more varied initial velocities for a better splatter effect
     this.velocity = p5.Vector.random2D().mult(random(3, 8));
     this.size = random(2, 7);
-    this.lifespan = 700;
+    this.lifespan = random(650, 750);
     this.colour = colour;
-    // Remove gravity-related properties
-    this.maxHeight = maxHeight; // Keep for compatibility
   }
 
   update() {
