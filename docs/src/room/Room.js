@@ -8,7 +8,7 @@ class Room {
     this.items = [];
     this.roomLayout = []; // 2d array of tiles
     this.bloodParticles = [];
-    this.mobsRemaining = difficultySettings.totalMobs;
+    this.mobsRemaining = difficultySettings.totalMobs();
     this.lastSpawnTime = 0;
     this.promptActive = false;
     this.currentTileColours;
