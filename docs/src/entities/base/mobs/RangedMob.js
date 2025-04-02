@@ -5,7 +5,7 @@ class RangedMob extends Mob {
     this.heightHitbox = 60;
     this.health = difficultySettings.rangedMobHealth;
     this.maxHealth = difficultySettings.rangedMobHealth;
-    this.speed = difficultySettings.rangedMobSpeed;
+    this.speed = difficultySettings.rangedMobSpeed();
     this.attackDamage = difficultySettings.rangedMobDamage;
     this.projectilesFired = [];
     this.bloodColour = color(255, 215, 80, 255);
