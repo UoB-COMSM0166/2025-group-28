@@ -150,7 +150,7 @@ let menuimg = "assets/menuback.mp4";
 let pageWidth = 900;
 let pageHeight = 750;
 
-
+// this realistically sucks but its better than nthing
 function mobTotalIncrementer() {
   let start = 1
   if (gameCount < 5) {
