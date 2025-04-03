@@ -104,15 +104,15 @@ class Player extends Sprite {
           this.endFrame = 5;
           //  this.img.play();
         }
-          this.velocity.x = -this.speed;
+        this.velocity.x = -this.speed;
 
-          // Instead of flipping we set the gif to frames 0->5
-          //this.img.setFrame(1);
+        // Instead of flipping we set the gif to frames 0->5
+        //this.img.setFrame(1);
 
-          this.direction = createVector(1, 0); // Facing left
-          this.scaleX = -1; // Flip sprite to face left
-          this.lastDirection = "LEFT";
-        } 
+        this.direction = createVector(1, 0); // Facing left
+        this.scaleX = -1; // Flip sprite to face left
+        this.lastDirection = "LEFT";
+      }
       // D key
       if (keyIsDown(68)) {
         if (this.lastDirection != "RIGHT") {
@@ -120,10 +120,10 @@ class Player extends Sprite {
           this.startFrame = 1;
           this.endFrame = 5;
         }
-          this.velocity.x = this.speed;
-          this.direction = createVector(-1, 0); // Facing right
-          this.scaleX = 1; // Reset sprite to face right
-          this.lastDirection = "RIGHT";
+        this.velocity.x = this.speed;
+        this.direction = createVector(-1, 0); // Facing right
+        this.scaleX = 1; // Reset sprite to face right
+        this.lastDirection = "RIGHT";
       }
       // W key
       if (keyIsDown(87)) {
@@ -132,10 +132,10 @@ class Player extends Sprite {
           this.startFrame = 13;
           this.endFrame = 17;
         }
-          this.velocity.y = -this.speed;
-          this.direction = createVector(0, -1);
-          this.lastDirection = "UP";
-        }
+        this.velocity.y = -this.speed;
+        this.direction = createVector(0, -1);
+        this.lastDirection = "UP";
+      }
       // S key
       if (keyIsDown(83)) {
         if (this.lastDirection != "DOWN") {
@@ -157,10 +157,10 @@ class Player extends Sprite {
           this.endFrame = 5;
           //  this.img.play();
         }
-          this.velocity.x = -this.speed;
-          this.direction = createVector(1, 0); // Facing left
-          this.scaleX = -1; // Flip sprite to face left
-          this.lastDirection = "LEFT";
+        this.velocity.x = -this.speed;
+        this.direction = createVector(1, 0); // Facing left
+        this.scaleX = -1; // Flip sprite to face left
+        this.lastDirection = "LEFT";
       }
       if (keyIsDown(RIGHT_ARROW)) {
         if (this.lastDirection != "RIGHT") {
@@ -190,9 +190,9 @@ class Player extends Sprite {
           this.endFrame = 13;
         }
         // Down arrow (move down)
-          this.velocity.y = this.speed;
-          this.direction = createVector(0, 1);
-          this.lastDirection = "DOWN";
+        this.velocity.y = this.speed;
+        this.direction = createVector(0, 1);
+        this.lastDirection = "DOWN";
       }
     }
 
@@ -200,8 +200,18 @@ class Player extends Sprite {
     this.position.x = constrain(
       this.position.x,
       tileSize * 2 + this.widthHitbox / 2,
-      roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2
+      roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
     );
+    console.log("-----CONSTR POS X----");
+    console.log(tileSize * 2 + this.widthHitbox / 2);
+    console.log(roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2);
+
+    //console.log("-----CONSTR POS Y----");
+
+    console.log("---------");
+    console.log(this.position.x);
+    console.log(this.position.y);
+
     this.position.y = constrain(
       this.position.y,
       tileSize * 2 + this.heightHitbox / 2,
