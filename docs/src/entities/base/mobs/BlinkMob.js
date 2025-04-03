@@ -10,7 +10,7 @@ class BlinkMob extends Mob {
      this.speed = difficultySettings.blinkMobSpeed;
      this.attackDamage = difficultySettings.blinkMobDamage;
      this.projectilesFired = [];
-     this.bloodColour = color(242, 75, 214, 255); 
+     this.bloodColour = color(135, 20, 103, 255); 
      this.fireCooldownLimit = 175;
    }
 
