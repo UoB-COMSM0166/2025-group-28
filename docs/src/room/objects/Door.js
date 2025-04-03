@@ -1,5 +1,4 @@
 class Door extends GameObject {
-
   constructor(x, y) {
     super();
     this.x = x;
@@ -20,21 +19,41 @@ class Door extends GameObject {
 
   draw() {
     angleMode(DEGREES);
-    if (this.x == roomWidth - 2) { // Door on right side of room
+    if (this.x == roomWidth - 2) {
+      // Door on right side of room
       push();
       imageMode(CENTER);
       translate(tileSize / 2, tileSize / 2);
       rotate(90);
-      image(this.sprite, tileSize * this.y, -tileSize * this.x, tileSize * 4, tileSize);
+      image(
+        this.sprite,
+        tileSize * this.y + arena_offset,
+        -tileSize * this.x + arena_offset,
+        tileSize * 4,
+        tileSize
+      );
       pop();
-    } else if (this.y == roomHeight - 2) { // Door at bottom of room
+    } else if (this.y == roomHeight - 2) {
+      // Door at bottom of room
       push();
       scale(1, -1);
-      image(this.sprite, tileSize * this.x, -tileSize * (this.y + 1), tileSize * 4, tileSize);
+      image(
+        this.sprite,
+        tileSize * this.x + arena_offset,
+        -tileSize * (this.y + 1) - arena_offset,
+        tileSize * 4,
+        tileSize
+      );
       pop();
-    } else if (this.y == 1) { // Door at top of room
-      image(this.sprite, tileSize * this.x, tileSize * this.y, tileSize * 4, tileSize);
+    } else if (this.y == 1) {
+      // Door at top of room
+      image(
+        this.sprite,
+        tileSize * this.x + arena_offset,
+        tileSize * this.y + arena_offset,
+        tileSize * 4,
+        tileSize
+      );
     }
   }
-
 }

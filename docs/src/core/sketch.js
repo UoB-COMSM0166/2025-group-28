@@ -36,7 +36,7 @@ let transitioning = false;
 function setup() {
   noStroke();
   rectMode(CORNER);
-  gameCanvas = createCanvas(800, 600);
+  gameCanvas = createCanvas(900, 800);
   if (inGame) {
     gameSetUp();
   } else {
