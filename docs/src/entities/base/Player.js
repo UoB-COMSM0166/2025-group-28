@@ -199,12 +199,9 @@ class Player extends Sprite {
     // Constrain the player's position within the room boundaries
     this.position.x = constrain(
       this.position.x,
-      tileSize * 2 + this.widthHitbox / 2,
+      tileSize * 2 + this.widthHitbox / 2 + arena_offset,
       roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
     );
-    console.log("-----CONSTR POS X----");
-    console.log(tileSize * 2 + this.widthHitbox / 2);
-    console.log(roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2);
 
     //console.log("-----CONSTR POS Y----");
 
@@ -214,8 +211,11 @@ class Player extends Sprite {
 
     this.position.y = constrain(
       this.position.y,
-      tileSize * 2 + this.heightHitbox / 2,
-      roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2
+      tileSize * 2 + this.heightHitbox / 2 + arena_offset,
+      roomHeight * tileSize -
+        tileSize * 2 -
+        this.heightHitbox / 2 +
+        arena_offset
     );
 
     // Apply knockback force gradually
