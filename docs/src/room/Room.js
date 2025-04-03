@@ -8,7 +8,7 @@ class Room {
     this.items = [];
     this.roomLayout = []; // 2d array of tiles
     this.bloodParticles = [];
-    this.mobsRemaining = difficultySettings.totalMobs;
+    this.mobsRemaining = difficultySettings.totalMobs();
     this.lastSpawnTime = 0;
     this.promptActive = false;
     this.currentTileColours;
@@ -212,7 +212,7 @@ class Room {
     if (!childMode) {
       for (let i = 0; i < 20; i++) {
         // y + 25 = blood stops falling below the object's feet
-        this.bloodParticles.push(new Particle(x, y, y + 25, bloodColour));
+        this.bloodParticles.push(new Particle(x, y, bloodColour));
       }
     }
   }
