@@ -78,15 +78,7 @@ class Mob extends Sprite {
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;
     this.direction = createVector(xDirection, yDirection);
-    if (
-      !this.isColliding(
-        this.position.x,
-        this.position.y,
-        this.widthHitbox,
-        this.heightHitbox,
-        this.collidables
-      )
-    ) {
+    if (!this.isCollidingWith(player)) {
       this.velocity.x = xDirection * this.speed;
       this.velocity.y = yDirection * this.speed;
     } else {

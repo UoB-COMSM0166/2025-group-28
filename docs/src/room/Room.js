@@ -13,19 +13,6 @@ class Room {
     this.promptActive = false;
     this.currentTileColours;
     this.initRoom();
-    this.addWallCollisions(playerA);
-    if (coop) {
-      playerA.collidables.push(playerB);
-      playerB.collidables.push(playerA);
-      this.addWallCollisions(playerB);
-    }
-  }
-
-  destroyRoom() {
-    playerA.collidables.length = 0;
-    if (coop) {
-      playerB.collidables.length = 0;
-    }
   }
 
   initRoom() {
@@ -221,16 +208,6 @@ class Room {
     // checks for dead mobs
     for (let i = this.mobs.length - 1; i >= 0; i--) {
       if (!this.mobs[i].isActive) {
-        let index = playerA.collidables.indexOf(this.mobs[i]);
-        if (index != -1) {
-          playerA.collidables.splice(index, 1);
-        }
-        if (coop) {
-          index = playerB.collidables.indexOf(this.mobs[i]);
-          if (index != -1) {
-            playerB.collidables.splice(index, 1);
-          }
-        }
         this.rollItemDrop(this.mobs[i]);
         this.mobs.splice(i, 1);
         this.mobsRemaining -= 1;
@@ -278,12 +255,57 @@ class Room {
       }
     }
 
+    // handles wall collisions
+    for (let tileArr of this.roomLayout) {
+      for (let tile of tileArr) {
+        if (tile.type == tileTypes.WALL) {
+          this.handleWallCollision(playerA, tile);
+          if (coop) {
+            this.handleWallCollision(playerB, tile);
+          }
+        }
+      }
+    }
     //players
     playerA.update();
     if (coop) {
       playerB.update();
     }
   }
+
+  handleWallCollision(player, wall) {
+    // First, detect if there's a collision
+    if (player.position.x + player.widthHitbox/2 > wall.position.x - wall.widthHitbox/2 && 
+        player.position.x - player.widthHitbox/2 < wall.position.x + wall.widthHitbox/2 &&
+        player.position.y + player.heightHitbox/2 > wall.position.y - wall.heightHitbox/2 &&
+        player.position.y - player.heightHitbox/2 < wall.position.y + wall.heightHitbox/2) {
+      
+      // Find the overlap on each axis
+      let overlapLeft = (player.position.x + player.widthHitbox/2) - (wall.position.x - wall.widthHitbox/2);
+      let overlapRight = (wall.position.x + wall.widthHitbox/2) - (player.position.x - player.widthHitbox/2);
+      let overlapTop = (player.position.y + player.heightHitbox/2) - (wall.position.y - wall.heightHitbox/2);
+      let overlapBottom = (wall.position.y + wall.heightHitbox/2) - (player.position.y - player.heightHitbox/2);
+      
+      // Find the smallest overlap (this is the direction to push out)
+      let minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+      
+      // Push the player out based on the smallest overlap
+      if (minOverlap === overlapLeft) {
+        player.position.x = wall.position.x - wall.widthHitbox/2 - player.widthHitbox/2;
+        player.velocity.x = 0; // Stop horizontal movement
+      } else if (minOverlap === overlapRight) {
+        player.position.x = wall.position.x + wall.widthHitbox/2 + player.widthHitbox/2;
+        player.velocity.x = 0; // Stop horizontal movement
+      } else if (minOverlap === overlapTop) {
+        player.position.y = wall.position.y - wall.heightHitbox/2 - player.heightHitbox/2;
+        player.velocity.y = 0; // Stop vertical movement
+      } else if (minOverlap === overlapBottom) {
+        player.position.y = wall.position.y + wall.heightHitbox/2 + player.heightHitbox/2;
+        player.velocity.y = 0; // Stop vertical movement
+      }
+    }
+  }
+
 
   spawnMobWrapper() {
     let currentTime = millis();
@@ -564,16 +586,6 @@ class Room {
     }
   }
 
-  addWallCollisions(object) {
-    for (let j = 0; j < roomHeight; j++) {
-      for (let i = 0; i < roomWidth; i++) {
-        if (this.roomLayout[j][i].type == tileTypes.WALL) {
-          object.collidables.push(this.roomLayout[j][i]);
-        }
-      }
-    }
-  }
-
   spawnMob() {
     if (
       this.mobs.length >= this.difficultySettings.maxMobs ||
@@ -643,13 +655,7 @@ class Room {
           this.difficultySettings
         );
       }
-
-      //this.addWallCollisions(newMob); // adds wall collisions to mobs
       this.mobs.push(newMob);
-      playerA.collidables.push(newMob);
-      if (coop) {
-        playerB.collidables.push(newMob);
-      }
     }
   }
 
