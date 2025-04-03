@@ -50,13 +50,13 @@ const difficultySettings = Object.freeze([
     playerDamage: 10,
     spawnRate: 3000,
     maxMobs: 4,
-    meleeMobHealth: 60,
+    meleeMobHealth:() => healthCalc(50),
     meleeMobSpeed:() => random(0.6,1.0),
     meleeMobDamage: 7,
-    rangedMobHealth: 50,
+    rangedMobHealth:() => healthCalc(45),
     rangedMobSpeed:() => random(0.5,0.9),
     rangedMobDamage: 5,
-    blinkMobHealth: 40,
+    blinkMobHealth:() => healthCalc(40),
     blinkMobSpeed: 0,
     blinkMobDamage: 4,
     totalMobs:() => mobTotalIncrementer(),
@@ -65,13 +65,13 @@ const difficultySettings = Object.freeze([
     playerDamage: 10,
     spawnRate: 3000,
     maxMobs: 4,
-    meleeMobHealth: 75,
+    meleeMobHealth:() => healthCalc(75),
     meleeMobSpeed:() => random(0.8,1.2),
     meleeMobDamage: 12,
-    rangedMobHealth: 60,
+    rangedMobHealth:() => healthCalc(60),
     rangedMobSpeed:() => random(0.7,1.1),
     rangedMobDamage: 8,
-    blinkMobHealth: 50,
+    blinkMobHealth:() => healthCalc(50),
     blinkMobSpeed: 0,
     blinkMobDamage: 6,
     totalMobs:() => mobTotalIncrementer(),
@@ -80,16 +80,16 @@ const difficultySettings = Object.freeze([
     playerDamage: 10,
     spawnRate: 3000,
     maxMobs: 5,
-    meleeMobHealth: 100,
+    meleeMobHealth:() => healthCalc(100),
     meleeMobSpeed:() => random(1.2,1.6),
     meleeMobDamage: 20,
-    rangedMobHealth: 80,
+    rangedMobHealth:() => healthCalc(80),
     rangedMobSpeed:() => random(0.8,1.4),
     rangedMobDamage: 15,
-    blinkMobHealth: 75,
+    blinkMobHealth:() => healthCalc(75),
     blinkMobSpeed: 0,
     blinkMobDamage: 10,
-    totalMobs: () => mobTotalIncrementer(),
+    totalMobs:() => mobTotalIncrementer(),
   }, // Hard mode
 ]);
 
@@ -168,4 +168,26 @@ function mobTotalIncrementer() {
   } else {
     return 10;
   }
+}
+
+function maxMobsCalc() {
+  if (coop) {
+    if (difficulty == 2) {
+      return 6;
+    }
+    return 5;
+  } else {
+    if (difficulty == 2) {
+      return 5;
+    } else {
+      return 4;
+    }
+  }
+}
+
+function healthCalc(health) {
+  if (coop) {
+    return health * 1.4
+  }
+  return health;
 }

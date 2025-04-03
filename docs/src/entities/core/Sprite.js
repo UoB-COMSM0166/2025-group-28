@@ -14,8 +14,6 @@ class Sprite extends GameObject {
     // Effects like taking damage, speed boost/reduction, etc.
     this.activeEffects = []; // An array of effect type, effect duration, effect strength, etc.
     this.originalColor = this.color;
-    this.collidables = []; // this holds things that are "collidable"
-
     // Properties for i-frames/flashing effect
     this.isInvincible = false;
     this.invincibilityDuration = 1000; // 1 second of invincibility

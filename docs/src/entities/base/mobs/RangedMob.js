@@ -3,8 +3,8 @@ class RangedMob extends Mob {
     super(img, x, y, difficultySettings)
     this.widthHitbox = 45;
     this.heightHitbox = 60;
-    this.health = difficultySettings.rangedMobHealth;
-    this.maxHealth = difficultySettings.rangedMobHealth;
+    this.health = difficultySettings.rangedMobHealth();
+    this.maxHealth = difficultySettings.rangedMobHealth();
     this.speed = difficultySettings.rangedMobSpeed();
     this.attackDamage = difficultySettings.rangedMobDamage;
     this.projectilesFired = [];

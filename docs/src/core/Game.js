@@ -16,7 +16,6 @@ class Game {
   }
 
   nextRoom() {
-    this.currentRoom.destroyRoom();
     this.currentRoom = null;
     this.currentRoom = new Room(this.difficultySettings);
     if (coop) {

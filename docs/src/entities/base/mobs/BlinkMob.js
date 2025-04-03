@@ -5,8 +5,8 @@ class BlinkMob extends Mob {
      this.heightHitbox = 60;
      this.widthModel = 75;
      this.heightModel = 75;
-     this.health = difficultySettings.blinkMobHealth;
-     this.maxHealth = difficultySettings.blinkMobHealth;
+     this.health = difficultySettings.blinkMobHealth();
+     this.maxHealth = difficultySettings.blinkMobHealth();
      this.speed = difficultySettings.blinkMobSpeed;
      this.attackDamage = difficultySettings.blinkMobDamage;
      this.projectilesFired = [];
