@@ -13,6 +13,7 @@ class Room {
     this.promptActive = false;
     this.currentTileColours;
     this.initRoom();
+    this.roomScoreAccumaltor = 0;
   }
 
   initRoom() {
@@ -211,6 +212,7 @@ class Room {
         this.rollItemDrop(this.mobs[i]);
         this.mobs.splice(i, 1);
         this.mobsRemaining -= 1;
+        this.roomScoreAccumaltor += 25;
       }
     }
 
@@ -406,8 +408,8 @@ class Room {
     playerA.draw();
     playerA.drawPlayerHealthBar();
     playerA.drawPlayerHeatBar(
-      width / 4 - barWidth / 2,
-      height - barHeight - padding,
+      width / 4 - 90,
+      height - 80,
       barWidth,
       barHeight,
       playerA.fireCooldown / 200,
@@ -420,8 +422,8 @@ class Room {
       playerB.draw();
       playerB.drawPlayerHealthBar();
       playerB.drawPlayerHeatBar(
-        width / 4 - barWidth / 2 + 400,
-        height - barHeight - padding,
+        width / 4 + 400,
+        height - 80,
         barWidth,
         barHeight,
         playerB.fireCooldown / 200,
@@ -564,8 +566,8 @@ class Room {
         ) {
           image(
             buttonPrompt,
-            this.door.position.x - tileSize * 2,
-            this.door.position.y
+            this.door.position.x - tileSize * 2 + arena_offset,
+            this.door.position.y + arena_offset
           );
           this.promptActive = true;
         } else {

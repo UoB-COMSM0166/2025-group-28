@@ -6,7 +6,9 @@ var doorBuffer = 5; // To prevent door spawning too close to edges of room
 var wallBuffer = 6; // To prevent wall shapes spawning too close to outer walls
 var step = 4;
 
+// Displacement from origin to start drawing room etc. - to centre room in new larger canvas
 var arena_offset = 100;
+
 // Collision constants
 var pushback = 1; // Prevents sticking
 
@@ -132,6 +134,9 @@ function preload() {
   blinkMobGif = loadImage("assets/purpleDogMob.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
+
+  healthbar = loadImage("assets/healthbar.gif");
+  healthbar_b = loadImage("assets/healthbar.gif");
 
   // sounds
 

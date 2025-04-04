@@ -33,10 +33,12 @@ let fadingOut = false;
 let fadingIn = false;
 let transitioning = false;
 
+let frame = 0;
+
 function setup() {
   noStroke();
   rectMode(CORNER);
-  gameCanvas = createCanvas(900, 800);
+  gameCanvas = createCanvas(950, 800);
   if (inGame) {
     gameSetUp();
   } else {
@@ -185,7 +187,23 @@ function draw() {
           }
         }
       }
+
+      // bottom ui block
+
+      fill(0, 0, 0);
+      let footer_backing = rect(100, 690, 800, 50);
       game.draw();
+
+      // top UI block
+      fill(0, 0, 0);
+      let backing = rect(100, 50, 800, 50);
+
+      textSize(28);
+      fill(255, 255, 255);
+      var roomNumber = "Room " + game.roomSeq;
+      text(roomNumber, 200, 80);
+      var scoreNumber = "Score: " + game.score;
+      text(scoreNumber, 750, 80);
     }
     if (fadingOut) {
       fadeAlpha += 10;

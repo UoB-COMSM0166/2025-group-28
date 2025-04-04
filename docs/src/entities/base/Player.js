@@ -34,34 +34,21 @@ class Player extends Sprite {
     let playerAHealthBarX = 50;
     let playerAHealthBarY = 50;
     let playerAHealthRatio = playerA.health / playerA.maxHealth;
-    fill(255, 0, 0);
-    rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
-    fill(0, 255, 0);
-    rect(
-      playerAHealthBarX,
-      playerAHealthBarY,
-      playerAHealthBarWidth * playerAHealthRatio,
-      20
-    );
-    noFill();
-    rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
+    let frame = 13 - Math.round(13 * playerAHealthRatio);
+    let healthgif = image(healthbar, 40, 220);
+    healthbar.pause();
+    healthbar.setFrame(frame);
 
     if (coop) {
       let playerBHealthBarWidth = 200;
       let playerBHealthBarX = 550;
       let playerBHealthBarY = 50;
       let playerBHealthRatio = playerB.health / playerB.maxHealth;
-      fill(255, 0, 0);
-      rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
-      fill(0, 255, 0);
-      rect(
-        playerBHealthBarX,
-        playerBHealthBarY,
-        playerBHealthBarWidth * playerBHealthRatio,
-        20
-      );
-      noFill();
-      rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
+
+      let frame = 13 - Math.round(13 * playerBHealthRatio);
+      let healthgifb = image(healthbar_b, 910, 220);
+      healthbar_b.pause();
+      healthbar_b.setFrame(frame);
     }
   }
 

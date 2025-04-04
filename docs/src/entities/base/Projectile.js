@@ -4,7 +4,10 @@ class Projectile extends GameObject {
   constructor(x, y, velocityX, velocityY, velocityMultiplier, image) {
     super(x, y);
     this.position = createVector(x, y);
-    this.velocity = createVector(velocityMultiplier * velocityX, velocityMultiplier * velocityY);
+    this.velocity = createVector(
+      velocityMultiplier * velocityX,
+      velocityMultiplier * velocityY
+    );
     this.image = image;
     this.widthHitbox = 5;
     this.heightHitbox = 5;
@@ -13,10 +16,10 @@ class Projectile extends GameObject {
   update() {
     // Deactive the projectile if it leaves the room boundaries for performance reasons ;)
     if (
-      this.position.x < tileSize ||
-      this.position.x > roomWidth * tileSize - tileSize ||
-      this.position.y < tileSize ||
-      this.position.y > roomHeight * tileSize - tileSize
+      this.position.x < tileSize + arena_offset ||
+      this.position.x > roomWidth * tileSize - tileSize + arena_offset ||
+      this.position.y < tileSize + arena_offset ||
+      this.position.y > roomHeight * tileSize - tileSize + arena_offset
     ) {
       this.isActive = false;
     }
