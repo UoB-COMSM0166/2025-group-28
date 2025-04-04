@@ -1,10 +1,16 @@
 class Game {
-
   constructor(difficultyLevel = difficultyLevels.NORMAL) {
     this.gameState = GameStates.ACTIVE;
     this.difficulty = difficultyLevel;
     this.difficultySettings = difficultySettings[this.difficulty];
     this.currentRoom = new Room(this.difficultySettings);
+
+    this.meta_score = 0;
+    this.score = 0;
+    this.frameCount = 0;
+    this.timeCounter = 0;
+
+    this.roomSeq = 1;
   }
 
   processInput() {
@@ -16,6 +22,10 @@ class Game {
   }
 
   nextRoom() {
+    this.roomSeq++;
+    this.meta_score += 1000 / this.timeCounter;
+    this.timeCounter = 0;
+
     this.currentRoom = null;
     this.currentRoom = new Room(this.difficultySettings);
     if (coop) {
@@ -27,7 +37,12 @@ class Game {
           playerADeathCount++;
         } else {
           playerB = null;
-          playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
+          playerB = new Player(
+            astrocat_gif_p2,
+            300,
+            300,
+            playerNumber.PLAYER_2
+          );
           playerB.health = 50;
           playerBDeathCount++;
         }
@@ -36,6 +51,11 @@ class Game {
   }
 
   draw() {
+    this.frameCount++;
+    if (this.frameCount % 600 == 0) {
+      this.timeCounter++;
+    }
+    this.score = this.currentRoom.roomScoreAccumaltor + this.meta_score;
     this.currentRoom.draw();
     this.currentRoom.update();
     this.currentRoom.spawnMobWrapper();
