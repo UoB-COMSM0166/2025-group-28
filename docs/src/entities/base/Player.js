@@ -34,34 +34,21 @@ class Player extends Sprite {
     let playerAHealthBarX = 50;
     let playerAHealthBarY = 50;
     let playerAHealthRatio = playerA.health / playerA.maxHealth;
-    fill(255, 0, 0);
-    rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
-    fill(0, 255, 0);
-    rect(
-      playerAHealthBarX,
-      playerAHealthBarY,
-      playerAHealthBarWidth * playerAHealthRatio,
-      20
-    );
-    noFill();
-    rect(playerAHealthBarX, playerAHealthBarY, playerAHealthBarWidth, 20);
+    let frame = 13 - Math.round(13 * playerAHealthRatio);
+    let healthgif = image(healthbar, 40, 220);
+    healthbar.pause();
+    healthbar.setFrame(frame);
 
     if (coop) {
       let playerBHealthBarWidth = 200;
       let playerBHealthBarX = 550;
       let playerBHealthBarY = 50;
       let playerBHealthRatio = playerB.health / playerB.maxHealth;
-      fill(255, 0, 0);
-      rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
-      fill(0, 255, 0);
-      rect(
-        playerBHealthBarX,
-        playerBHealthBarY,
-        playerBHealthBarWidth * playerBHealthRatio,
-        20
-      );
-      noFill();
-      rect(playerBHealthBarX, playerBHealthBarY, playerBHealthBarWidth, 20);
+
+      let frame = 13 - Math.round(13 * playerBHealthRatio);
+      let healthgifb = image(healthbar_b, 910, 220);
+      healthbar_b.pause();
+      healthbar_b.setFrame(frame);
     }
   }
 
@@ -104,15 +91,15 @@ class Player extends Sprite {
           this.endFrame = 5;
           //  this.img.play();
         }
-          this.velocity.x = -this.speed;
+        this.velocity.x = -this.speed;
 
-          // Instead of flipping we set the gif to frames 0->5
-          //this.img.setFrame(1);
+        // Instead of flipping we set the gif to frames 0->5
+        //this.img.setFrame(1);
 
-          this.direction = createVector(1, 0); // Facing left
-          this.scaleX = -1; // Flip sprite to face left
-          this.lastDirection = "LEFT";
-        } 
+        this.direction = createVector(1, 0); // Facing left
+        this.scaleX = -1; // Flip sprite to face left
+        this.lastDirection = "LEFT";
+      }
       // D key
       if (keyIsDown(68)) {
         if (this.lastDirection != "RIGHT") {
@@ -120,10 +107,10 @@ class Player extends Sprite {
           this.startFrame = 1;
           this.endFrame = 5;
         }
-          this.velocity.x = this.speed;
-          this.direction = createVector(-1, 0); // Facing right
-          this.scaleX = 1; // Reset sprite to face right
-          this.lastDirection = "RIGHT";
+        this.velocity.x = this.speed;
+        this.direction = createVector(-1, 0); // Facing right
+        this.scaleX = 1; // Reset sprite to face right
+        this.lastDirection = "RIGHT";
       }
       // W key
       if (keyIsDown(87)) {
@@ -132,10 +119,10 @@ class Player extends Sprite {
           this.startFrame = 13;
           this.endFrame = 17;
         }
-          this.velocity.y = -this.speed;
-          this.direction = createVector(0, -1);
-          this.lastDirection = "UP";
-        }
+        this.velocity.y = -this.speed;
+        this.direction = createVector(0, -1);
+        this.lastDirection = "UP";
+      }
       // S key
       if (keyIsDown(83)) {
         if (this.lastDirection != "DOWN") {
@@ -157,10 +144,10 @@ class Player extends Sprite {
           this.endFrame = 5;
           //  this.img.play();
         }
-          this.velocity.x = -this.speed;
-          this.direction = createVector(1, 0); // Facing left
-          this.scaleX = -1; // Flip sprite to face left
-          this.lastDirection = "LEFT";
+        this.velocity.x = -this.speed;
+        this.direction = createVector(1, 0); // Facing left
+        this.scaleX = -1; // Flip sprite to face left
+        this.lastDirection = "LEFT";
       }
       if (keyIsDown(RIGHT_ARROW)) {
         if (this.lastDirection != "RIGHT") {
@@ -190,22 +177,32 @@ class Player extends Sprite {
           this.endFrame = 13;
         }
         // Down arrow (move down)
-          this.velocity.y = this.speed;
-          this.direction = createVector(0, 1);
-          this.lastDirection = "DOWN";
+        this.velocity.y = this.speed;
+        this.direction = createVector(0, 1);
+        this.lastDirection = "DOWN";
       }
     }
 
     // Constrain the player's position within the room boundaries
     this.position.x = constrain(
       this.position.x,
-      tileSize * 2 + this.widthHitbox / 2,
-      roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2
+      tileSize * 2 + this.widthHitbox / 2 + arena_offset,
+      roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
     );
+
+    //console.log("-----CONSTR POS Y----");
+
+    console.log("---------");
+    console.log(this.position.x);
+    console.log(this.position.y);
+
     this.position.y = constrain(
       this.position.y,
-      tileSize * 2 + this.heightHitbox / 2,
-      roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2
+      tileSize * 2 + this.heightHitbox / 2 + arena_offset,
+      roomHeight * tileSize -
+        tileSize * 2 -
+        this.heightHitbox / 2 +
+        arena_offset
     );
 
     // Apply knockback force gradually

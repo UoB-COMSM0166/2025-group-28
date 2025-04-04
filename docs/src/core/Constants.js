@@ -5,6 +5,10 @@ var tileSize = 16;
 var doorBuffer = 5; // To prevent door spawning too close to edges of room
 var wallBuffer = 6; // To prevent wall shapes spawning too close to outer walls
 var step = 4;
+
+// Displacement from origin to start drawing room etc. - to centre room in new larger canvas
+var arena_offset = 100;
+
 // Collision constants
 var pushback = 1; // Prevents sticking
 
@@ -50,46 +54,46 @@ const difficultySettings = Object.freeze([
     playerDamage: 10,
     spawnRate: 3000,
     maxMobs: 4,
-    meleeMobHealth:() => healthCalc(50),
-    meleeMobSpeed:() => random(0.6,1.0),
+    meleeMobHealth: () => healthCalc(50),
+    meleeMobSpeed: () => random(0.6, 1.0),
     meleeMobDamage: 7,
-    rangedMobHealth:() => healthCalc(45),
-    rangedMobSpeed:() => random(0.5,0.9),
+    rangedMobHealth: () => healthCalc(45),
+    rangedMobSpeed: () => random(0.5, 0.9),
     rangedMobDamage: 5,
-    blinkMobHealth:() => healthCalc(40),
+    blinkMobHealth: () => healthCalc(40),
     blinkMobSpeed: 0,
     blinkMobDamage: 4,
-    totalMobs:() => mobTotalIncrementer(),
+    totalMobs: () => mobTotalIncrementer(),
   }, // Easy mode
   {
     playerDamage: 10,
     spawnRate: 3000,
     maxMobs: 4,
-    meleeMobHealth:() => healthCalc(75),
-    meleeMobSpeed:() => random(0.8,1.2),
+    meleeMobHealth: () => healthCalc(75),
+    meleeMobSpeed: () => random(0.8, 1.2),
     meleeMobDamage: 12,
-    rangedMobHealth:() => healthCalc(60),
-    rangedMobSpeed:() => random(0.7,1.1),
+    rangedMobHealth: () => healthCalc(60),
+    rangedMobSpeed: () => random(0.7, 1.1),
     rangedMobDamage: 8,
-    blinkMobHealth:() => healthCalc(50),
+    blinkMobHealth: () => healthCalc(50),
     blinkMobSpeed: 0,
     blinkMobDamage: 6,
-    totalMobs:() => mobTotalIncrementer(),
+    totalMobs: () => mobTotalIncrementer(),
   }, // Normal mode
   {
     playerDamage: 10,
     spawnRate: 3000,
     maxMobs: 5,
-    meleeMobHealth:() => healthCalc(100),
-    meleeMobSpeed:() => random(1.2,1.6),
+    meleeMobHealth: () => healthCalc(100),
+    meleeMobSpeed: () => random(1.2, 1.6),
     meleeMobDamage: 20,
-    rangedMobHealth:() => healthCalc(80),
-    rangedMobSpeed:() => random(0.8,1.4),
+    rangedMobHealth: () => healthCalc(80),
+    rangedMobSpeed: () => random(0.8, 1.4),
     rangedMobDamage: 15,
-    blinkMobHealth:() => healthCalc(75),
+    blinkMobHealth: () => healthCalc(75),
     blinkMobSpeed: 0,
     blinkMobDamage: 10,
-    totalMobs:() => mobTotalIncrementer(),
+    totalMobs: () => mobTotalIncrementer(),
   }, // Hard mode
 ]);
 
@@ -127,9 +131,12 @@ function preload() {
 
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   rangedmob_gif = loadImage("assets/yellowDogMob.gif");
-  blinkMobGif = loadImage("assets/purpleDogMob.gif")
+  blinkMobGif = loadImage("assets/purpleDogMob.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
+
+  healthbar = loadImage("assets/healthbar.gif");
+  healthbar_b = loadImage("assets/healthbar.gif");
 
   // sounds
 
@@ -152,9 +159,9 @@ let pageHeight = 750;
 
 // this realistically sucks but its better than nthing
 function mobTotalIncrementer() {
-  let start = 1
+  let start = 1;
   if (gameCount < 5) {
-    return start + gameCount
+    return start + gameCount;
   } else if (gameCount < 6) {
     return 5;
   } else if (gameCount < 8) {
@@ -187,7 +194,7 @@ function maxMobsCalc() {
 
 function healthCalc(health) {
   if (coop) {
-    return health * 1.4
+    return health * 1.4;
   }
   return health;
 }

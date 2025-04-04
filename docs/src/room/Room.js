@@ -13,6 +13,7 @@ class Room {
     this.promptActive = false;
     this.currentTileColours;
     this.initRoom();
+    this.roomScoreAccumaltor = 0;
   }
 
   initRoom() {
@@ -186,10 +187,10 @@ class Room {
     } else {
       if (y < (roomHeight - 2) / 2) {
         // Put door at top of room
-        y = 1;
+        y = 1 + arena_offset;
       } else {
         // Put door at bottom of room
-        y = roomHeight - 2;
+        y = roomHeight - 2 + arena_offset;
       }
       this.door = new Door(x, y);
     }
@@ -211,6 +212,7 @@ class Room {
         this.rollItemDrop(this.mobs[i]);
         this.mobs.splice(i, 1);
         this.mobsRemaining -= 1;
+        this.roomScoreAccumaltor += 25;
       }
     }
 
@@ -246,8 +248,7 @@ class Room {
       if (playerA.isCollidingWith(this.items[i])) {
         this.applyItemBuff(this.items[i], playerA);
         this.items.splice(i, 1);
-      }
-      else if (coop) {
+      } else if (coop) {
         if (playerB.isCollidingWith(this.items[i])) {
           this.applyItemBuff(this.items[i], playerB);
           this.items.splice(i, 1);
@@ -275,37 +276,63 @@ class Room {
 
   handleWallCollision(player, wall) {
     // First, detect if there's a collision
-    if (player.position.x + player.widthHitbox/2 > wall.position.x - wall.widthHitbox/2 && 
-        player.position.x - player.widthHitbox/2 < wall.position.x + wall.widthHitbox/2 &&
-        player.position.y + player.heightHitbox/2 > wall.position.y - wall.heightHitbox/2 &&
-        player.position.y - player.heightHitbox/2 < wall.position.y + wall.heightHitbox/2) {
-      
+    if (
+      player.position.x + player.widthHitbox / 2 >
+        wall.position.x - wall.widthHitbox / 2 &&
+      player.position.x - player.widthHitbox / 2 <
+        wall.position.x + wall.widthHitbox / 2 &&
+      player.position.y + player.heightHitbox / 2 >
+        wall.position.y + -wall.heightHitbox / 2 &&
+      player.position.y - player.heightHitbox / 2 <
+        wall.position.y + wall.heightHitbox / 2
+    ) {
+      console.log("collision");
       // Find the overlap on each axis
-      let overlapLeft = (player.position.x + player.widthHitbox/2) - (wall.position.x - wall.widthHitbox/2);
-      let overlapRight = (wall.position.x + wall.widthHitbox/2) - (player.position.x - player.widthHitbox/2);
-      let overlapTop = (player.position.y + player.heightHitbox/2) - (wall.position.y - wall.heightHitbox/2);
-      let overlapBottom = (wall.position.y + wall.heightHitbox/2) - (player.position.y - player.heightHitbox/2);
-      
+      let overlapLeft =
+        player.position.x +
+        player.widthHitbox / 2 -
+        (wall.position.x - wall.widthHitbox / 2);
+      let overlapRight =
+        wall.position.x +
+        wall.widthHitbox / 2 -
+        (player.position.x - player.widthHitbox / 2);
+      let overlapTop =
+        player.position.y +
+        player.heightHitbox / 2 -
+        (wall.position.y - wall.heightHitbox / 2);
+      let overlapBottom =
+        wall.position.y +
+        wall.heightHitbox / 2 -
+        (player.position.y - player.heightHitbox / 2);
+
       // Find the smallest overlap (this is the direction to push out)
-      let minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
-      
+      let minOverlap = Math.min(
+        overlapLeft,
+        overlapRight,
+        overlapTop,
+        overlapBottom
+      );
+
       // Push the player out based on the smallest overlap
       if (minOverlap === overlapLeft) {
-        player.position.x = wall.position.x - wall.widthHitbox/2 - player.widthHitbox/2;
+        player.position.x =
+          wall.position.x - wall.widthHitbox / 2 - player.widthHitbox / 2;
         player.velocity.x = 0; // Stop horizontal movement
       } else if (minOverlap === overlapRight) {
-        player.position.x = wall.position.x + wall.widthHitbox/2 + player.widthHitbox/2;
+        player.position.x =
+          wall.position.x + wall.widthHitbox / 2 + player.widthHitbox / 2;
         player.velocity.x = 0; // Stop horizontal movement
       } else if (minOverlap === overlapTop) {
-        player.position.y = wall.position.y - wall.heightHitbox/2 - player.heightHitbox/2;
+        player.position.y =
+          wall.position.y - wall.heightHitbox / 2 - player.heightHitbox / 2;
         player.velocity.y = 0; // Stop vertical movement
       } else if (minOverlap === overlapBottom) {
-        player.position.y = wall.position.y + wall.heightHitbox/2 + player.heightHitbox/2;
+        player.position.y =
+          wall.position.y + wall.heightHitbox / 2 + player.heightHitbox / 2;
         player.velocity.y = 0; // Stop vertical movement
       }
     }
   }
-
 
   spawnMobWrapper() {
     let currentTime = millis();
@@ -321,7 +348,13 @@ class Room {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
         if (this.roomLayout[j][i].type == tileTypes.WALL) {
-          image(walltile, tileSize * i, tileSize * j, tileSize, tileSize);
+          image(
+            walltile,
+            tileSize * i + arena_offset,
+            tileSize * j + arena_offset,
+            tileSize,
+            tileSize
+          );
           if (debug) {
             // TESTING - draw collision box
             fill(0, 200, 0, 100);
@@ -339,8 +372,8 @@ class Room {
           }
           image(
             this.currentTileColours[tiledex],
-            tileSize * i,
-            tileSize * j,
+            tileSize * i + arena_offset,
+            tileSize * j + arena_offset,
             tileSize,
             tileSize
           );
@@ -375,8 +408,8 @@ class Room {
     playerA.draw();
     playerA.drawPlayerHealthBar();
     playerA.drawPlayerHeatBar(
-      width / 4 - barWidth / 2,
-      height - barHeight - padding,
+      width / 4 - 90,
+      height - 80,
       barWidth,
       barHeight,
       playerA.fireCooldown / 200,
@@ -389,14 +422,16 @@ class Room {
       playerB.draw();
       playerB.drawPlayerHealthBar();
       playerB.drawPlayerHeatBar(
-        width / 4 - barWidth / 2 + 400,
-        height - barHeight - padding,
+        width / 4 + 400,
+        height - 80,
         barWidth,
         barHeight,
         playerB.fireCooldown / 200,
         "PLAYER B"
       );
     }
+
+    let hud_div = createDiv();
 
     // player collision checking
     for (let i = playerA.projectilesFired.length - 1; i >= 0; i--) {
@@ -531,8 +566,8 @@ class Room {
         ) {
           image(
             buttonPrompt,
-            this.door.position.x - tileSize * 2,
-            this.door.position.y
+            this.door.position.x - tileSize * 2 + arena_offset,
+            this.door.position.y + arena_offset
           );
           this.promptActive = true;
         } else {
@@ -553,8 +588,8 @@ class Room {
         ) {
           image(
             buttonPrompt,
-            this.door.position.x + tileSize + tileSize / 2,
-            this.door.position.y - tileSize * 2
+            this.door.position.x + tileSize + tileSize / 2 + arena_offset,
+            this.door.position.y - tileSize * 2 + arena_offset
           );
           this.promptActive = true;
         } else {
@@ -575,8 +610,8 @@ class Room {
         ) {
           image(
             buttonPrompt,
-            this.door.position.x + tileSize + tileSize / 2,
-            this.door.position.y + tileSize * 2
+            this.door.position.x + tileSize + tileSize / 2 + arena_offset,
+            this.door.position.y + tileSize * 2 + arena_offset
           );
           this.promptActive = true;
         } else {
@@ -599,8 +634,12 @@ class Room {
     let validSpawn = false;
     let spawnAttempts = 0;
     while (!validSpawn && spawnAttempts < 100) {
-      spawnX = random(tileSize * 3, roomWidth * tileSize - tileSize * 3);
-      spawnY = random(tileSize * 3, roomHeight * tileSize - tileSize * 3);
+      spawnX =
+        random(tileSize * 3, roomWidth * tileSize - tileSize * 3) +
+        arena_offset;
+      spawnY =
+        random(tileSize * 3, roomHeight * tileSize - tileSize * 3) +
+        arena_offset;
 
       // Checking if the spawn is inside a wall
       let insideWall = this.checkInsideWall(spawnX, spawnY);
@@ -663,8 +702,8 @@ class Room {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
         if (this.roomLayout[j][i].type === tileTypes.WALL) {
-          let wallX = this.roomLayout[j][i].position.x;
-          let wallY = this.roomLayout[j][i].position.y;
+          let wallX = this.roomLayout[j][i].position.x + arena_offset;
+          let wallY = this.roomLayout[j][i].position.y + arena_offset;
           let wallWidth = this.roomLayout[j][i].widthHitbox;
           let wallHeight = this.roomLayout[j][i].heightHitbox;
 
