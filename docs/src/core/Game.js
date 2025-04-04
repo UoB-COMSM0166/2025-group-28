@@ -55,7 +55,9 @@ class Game {
     if (this.frameCount % 600 == 0) {
       this.timeCounter++;
     }
-    this.score = this.currentRoom.roomScoreAccumaltor + this.meta_score;
+    this.score = Math.round(
+      this.currentRoom.roomScoreAccumaltor + this.meta_score
+    );
     this.currentRoom.draw();
     this.currentRoom.update();
     this.currentRoom.spawnMobWrapper();

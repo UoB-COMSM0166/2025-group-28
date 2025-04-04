@@ -187,10 +187,10 @@ class Room {
     } else {
       if (y < (roomHeight - 2) / 2) {
         // Put door at top of room
-        y = 1;
+        y = 1 + arena_offset;
       } else {
         // Put door at bottom of room
-        y = roomHeight - 2;
+        y = roomHeight - 2 + arena_offset;
       }
       this.door = new Door(x, y);
     }
