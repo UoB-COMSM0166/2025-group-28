@@ -3,7 +3,12 @@ class Game {
     this.gameState = GameStates.ACTIVE;
     this.difficulty = difficultyLevel;
     this.difficultySettings = difficultySettings[this.difficulty];
-    this.currentRoom = new Room(this.difficultySettings);
+    if (pvpMode == false) {
+      this.currentRoom = new Room(this.difficultySettings);
+    } else {
+      this.currentRoom = new PvPRoom();
+    }
+    
 
     this.meta_score = 0;
     this.score = 0;
@@ -60,6 +65,6 @@ class Game {
     );
     this.currentRoom.draw();
     this.currentRoom.update();
-    this.currentRoom.spawnMobWrapper();
+    if (!pvpMode) this.currentRoom.spawnMobWrapper();
   }
 }
