@@ -213,9 +213,7 @@ class PvPRoom {
    
      //players
       playerA.update();
-      if (coop) {
-         playerB.update();
-      }
+      playerB.update();
    }
  
    handleWallCollision(player, wall) {
@@ -300,14 +298,10 @@ class PvPRoom {
       }
   
       playerA.move();
-      if (coop) {
-        playerB.move();
-      }
+      playerB.move();
   
       playerA.fire();
-      if (coop) {
-        playerB.fire();
-      }
+      playerB.fire();
   
       const barWidth = 200;
       const barHeight = 20;
@@ -325,19 +319,17 @@ class PvPRoom {
       );
   
       //text("Room", width / 2, height - 100);
+      playerB.draw();
+      playerB.drawPlayerHealthBar();
+      playerB.drawPlayerHeatBar(
+        width / 4 + 400,
+        height - 80,
+        barWidth,
+        barHeight,
+        playerB.fireCooldown / 200,
+        "PLAYER B"
+      );
   
-      if (coop) {
-        playerB.draw();
-        playerB.drawPlayerHealthBar();
-        playerB.drawPlayerHeatBar(
-          width / 4 + 400,
-          height - 80,
-          barWidth,
-          barHeight,
-          playerB.fireCooldown / 200,
-          "PLAYER B"
-        );
-      }
   
       let hud_div = createDiv();
  

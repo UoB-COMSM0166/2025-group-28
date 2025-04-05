@@ -39,7 +39,7 @@ class Player extends Sprite {
     healthbar.pause();
     healthbar.setFrame(frame);
 
-    if (coop) {
+    if (coop || pvpMode) {
       let playerBHealthBarWidth = 200;
       let playerBHealthBarX = 550;
       let playerBHealthBarY = 50;

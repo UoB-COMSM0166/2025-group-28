@@ -3,7 +3,7 @@ class Game {
     this.gameState = GameStates.ACTIVE;
     this.difficulty = difficultyLevel;
     this.difficultySettings = difficultySettings[this.difficulty];
-    if (pvpMode == true) {
+    if (pvpMode == false) {
       this.currentRoom = new Room(this.difficultySettings);
     } else {
       this.currentRoom = new PvPRoom();
@@ -18,38 +18,36 @@ class Game {
     this.roomSeq = 1;
   }
 
-  processInput() {
-    //console.log();
-
-    if (keyIsDown(LEFT_ARROW)) {
-      // playerB.move(MoveDirections.LEFT);
-    }
-  }
-
   nextRoom() {
     this.roomSeq++;
     this.meta_score += 1000 / this.timeCounter;
     this.timeCounter = 0;
 
     this.currentRoom = null;
-    this.currentRoom = new Room(this.difficultySettings);
-    if (coop) {
-      if (playerA.isActive ^ playerB.isActive) {
-        if (!playerA.isActive) {
-          playerA = null;
-          playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
-          playerA.health = 50;
-          playerADeathCount++;
-        } else {
-          playerB = null;
-          playerB = new Player(
-            astrocat_gif_p2,
-            300,
-            300,
-            playerNumber.PLAYER_2
-          );
-          playerB.health = 50;
-          playerBDeathCount++;
+    if (pvpMode) {
+      this.currentRoom = new PvPRoom();
+      playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
+      playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
+    } else {
+      this.currentRoom = new Room(this.difficultySettings);
+      if (coop) {
+        if (playerA.isActive ^ playerB.isActive) {
+          if (!playerA.isActive) {
+            playerA = null;
+            playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
+            playerA.health = 50;
+            playerADeathCount++;
+          } else {
+            playerB = null;
+            playerB = new Player(
+              astrocat_gif_p2,
+              300,
+              300,
+              playerNumber.PLAYER_2
+            );
+            playerB.health = 50;ß
+            playerBDeathCount++;
+          }
         }
       }
     }
