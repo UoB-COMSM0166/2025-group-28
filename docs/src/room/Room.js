@@ -233,7 +233,7 @@ class Room {
     //mobs
     for (let mob of this.mobs) {
       mob.update();
-      if (mob instanceof RangedMob || mob instanceof BlinkMob) {
+      if (mob instanceof RangedMob || mob instanceof BlinkMob || mob instanceof heartMob) {
         mob.fire();
         for (let p of mob.projectilesFired) {
           p.update();
@@ -511,7 +511,7 @@ class Room {
         playerB.makeInvincible();
       }
 
-      if (mob instanceof RangedMob || mob instanceof BlinkMob) {
+      if (mob instanceof RangedMob || mob instanceof BlinkMob || mob instanceof heartMob) {
         let projectileHit = false;
         for (let i = mob.projectilesFired.length - 1; i >= 0; i--) {
           mob.projectilesFired[i].draw();
@@ -686,14 +686,22 @@ class Room {
           spawnY,
           this.difficultySettings
         );
-      } else {
+      } else if (rand < 25 && rand > 0) {
         newMob = new BlinkMob(
           blinkMobGif,
           spawnX,
           spawnY,
           this.difficultySettings
         );
+      } else {
+        newMob = new heartMob(
+          heartMob_gif,
+          spawnX,
+          spawnY,
+          this.difficultySettings
+        );
       }
+
       this.mobs.push(newMob);
     }
   }

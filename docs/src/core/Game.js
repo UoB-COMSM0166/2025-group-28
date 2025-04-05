@@ -3,7 +3,7 @@ class Game {
     this.gameState = GameStates.ACTIVE;
     this.difficulty = difficultyLevel;
     this.difficultySettings = difficultySettings[this.difficulty];
-    if (pvpMode == false) {
+    if (pvpMode == true) {
       this.currentRoom = new Room(this.difficultySettings);
     } else {
       this.currentRoom = new PvPRoom();

@@ -126,9 +126,11 @@ function preload() {
   buttonPrompt = loadImage("assets/doorprompt.gif");
   pixelHeart = loadImage("assets/heart.gif");
   pixelEnergy = loadImage("assets/energy.gif");
+ 
 
   gameFont = loadFont("assets/ARCADE_I.ttf");
 
+  heartMob_gif = loadImage("assets/HeartMobBossGif.gif")
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   rangedmob_gif = loadImage("assets/yellowDogMob.gif");
   blinkMobGif = loadImage("assets/purpleDogMob.gif");
