@@ -63,6 +63,9 @@ const difficultySettings = Object.freeze([
     blinkMobHealth: () => healthCalc(40),
     blinkMobSpeed: 0,
     blinkMobDamage: 4,
+    heartMobHealth: () => healthCalc(80),
+    heartMobSpeed: () => random(0.6, 1.0),
+    heartMobDamage: 10,
     totalMobs: () => mobTotalIncrementer(),
   }, // Easy mode
   {
@@ -78,6 +81,9 @@ const difficultySettings = Object.freeze([
     blinkMobHealth: () => healthCalc(50),
     blinkMobSpeed: 0,
     blinkMobDamage: 6,
+    heartMobHealth: () => healthCalc(100),
+    heartMobSpeed: () => random(0.8, 1.2),
+    heartMobDamage: 15,
     totalMobs: () => mobTotalIncrementer(),
   }, // Normal mode
   {
@@ -93,6 +99,9 @@ const difficultySettings = Object.freeze([
     blinkMobHealth: () => healthCalc(75),
     blinkMobSpeed: 0,
     blinkMobDamage: 10,
+    heartMobHealth: () => healthCalc(120),
+    heartMobSpeed: () => random(0.6, 1.0),
+    heartMobDamage: 20,
     totalMobs: () => mobTotalIncrementer(),
   }, // Hard mode
 ]);
