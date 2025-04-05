@@ -5,6 +5,7 @@ let asset_astrocat;
 let playerA;
 let playerB;
 let roomButton = null;
+let pvpMode = true;
 
 let gameCanvas;
 let themeMusic;
