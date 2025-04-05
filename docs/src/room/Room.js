@@ -233,6 +233,7 @@ class Room {
     //mobs
     for (let mob of this.mobs) {
       mob.update();
+
       if (mob instanceof RangedMob || mob instanceof BlinkMob || mob instanceof heartMob) {
         mob.fire();
         for (let p of mob.projectilesFired) {
@@ -672,7 +673,7 @@ class Room {
     if (validSpawn) {
       let rand = random(1, 100);
       let newMob;
-      if (rand > 60) {
+      if (rand > 60 && rand < 80) {
         newMob = new MeleeMob(
           dogmob_gif,
           spawnX,
@@ -686,6 +687,7 @@ class Room {
           spawnY,
           this.difficultySettings
         );
+
       } else if (rand < 25 && rand > 0) {
         newMob = new BlinkMob(
           blinkMobGif,
@@ -694,14 +696,13 @@ class Room {
           this.difficultySettings
         );
       } else {
-        newMob = new heartMob(
-          heartMob_gif,
+        newMob = new heartMob_gif(
+          blinkMobGif,
           spawnX,
           spawnY,
           this.difficultySettings
         );
       }
-
       this.mobs.push(newMob);
     }
   }

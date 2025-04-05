@@ -126,7 +126,6 @@ function preload() {
   buttonPrompt = loadImage("assets/doorprompt.gif");
   pixelHeart = loadImage("assets/heart.gif");
   pixelEnergy = loadImage("assets/energy.gif");
- 
 
   gameFont = loadFont("assets/ARCADE_I.ttf");
 
