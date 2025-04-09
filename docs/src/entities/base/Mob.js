@@ -6,6 +6,8 @@ class Mob extends Sprite {
     this.widthModel = 65;
     this.heightModel = 65;
     this.fireCooldown = 50;
+    // Base mob should have fire cooldown limit even if mobs that inherit don't fire due to BuffMob buff
+    this.fireCooldownLimit = 100;
     this.fireReady = false;
     this.difficultySettings = difficultySettings
 
@@ -14,7 +16,6 @@ class Mob extends Sprite {
 
     this.speed = 1; //Slightly slower than players
     this.direction = createVector(-1, 0); //Mob starts facing left
-    // Blood colour
     this.bloodColour = color(150, 225, 75, 0);
   }
 
@@ -33,32 +34,32 @@ class Mob extends Sprite {
   }
 
   drawMobHealthBar(){
-          // Health bar calculations
-          const healthBarWidth = this.widthModel * 0.6;
-          const healthBarHeight = 5;
-          const healthPercentage = this.health / this.maxHealth;
-    
-          // Calculate center positions
-          const yOffset = 6; // Space between sprite and health bar
-          const spriteCenterX = this.position.x;
-          const spriteTop = this.position.y - this.heightModel / 2;
-    
-          // Health bar positioning
-          const healthBarX = spriteCenterX - healthBarWidth / 2;
-          const healthBarY = spriteTop - yOffset - healthBarHeight;
-    
-          // Health bar background
-          fill(255, 0, 0);
-          rect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-    
-          // Current health
-          fill(0, 255, 0);
-          rect(
-            healthBarX,
-            healthBarY,
-            healthBarWidth * healthPercentage,
-            healthBarHeight
-          );
+    // Health bar calculations
+    const healthBarWidth = this.widthModel * 0.6;
+    const healthBarHeight = 5;
+    const healthPercentage = this.health / this.maxHealth;
+
+    // Calculate center positions
+    const yOffset = 6; // Space between sprite and health bar
+    const spriteCenterX = this.position.x;
+    const spriteTop = this.position.y - this.heightModel / 2;
+
+    // Health bar positioning
+    const healthBarX = spriteCenterX - healthBarWidth / 2;
+    const healthBarY = spriteTop - yOffset - healthBarHeight;
+
+    // Health bar background
+    fill(255, 0, 0);
+    rect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+
+    // Current health
+    fill(0, 255, 0);
+    rect(
+      healthBarX,
+      healthBarY,
+      healthBarWidth * healthPercentage,
+      healthBarHeight
+    );
   }
 
   fireUpdate() {
@@ -134,6 +135,29 @@ class Mob extends Sprite {
       }
     } else {
       return playerA;
+    }
+  }
+
+  // For adding/removing BuffMob buff
+  applyBuff() {
+    if (!this.isBuffed) {
+      this.speed *= 1.75;
+      this.attackDamage *= 1.5;
+      this.maxHealth *= 2;
+      this.health *= 2;
+      this.fireCooldownLimit *= 0.5;
+      this.isBuffed = true;
+    }
+  }
+
+  removeBuff() {
+    if (this.isBuffed) {
+      this.speed /= 1.75;
+      this.attackDamage /= 1.5;
+      this.maxHealth /= 2;
+      this.health /= 2;
+      this.fireCooldownLimit /= 0.5;
+      this.isBuffed = false;
     }
   }
 }

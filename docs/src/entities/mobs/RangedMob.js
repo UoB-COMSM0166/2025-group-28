@@ -1,17 +1,15 @@
 class RangedMob extends Mob {
   constructor(img, x, y, difficultySettings) {
-    super(img, x, y, difficultySettings)
+    super(img, x, y, difficultySettings);
     this.widthHitbox = 45;
     this.heightHitbox = 60;
-    this.health = difficultySettings.rangedMobHealth();
-    this.maxHealth = difficultySettings.rangedMobHealth();
-    this.speed = difficultySettings.rangedMobSpeed();
-    this.attackDamage = difficultySettings.rangedMobDamage;
-    this.projectilesFired = [];
+    this.maxHealth = 60 * difficultySettings.mobHealthMult();
+    this.health = this.maxHealth;
+    this.speed = random(0.7, 1.1) * difficultySettings.mobSpeedMult;
+    this.attackDamage = 8 * difficultySettings.mobDamageMult;
     this.bloodColour = color(255, 215, 80, 255);
     this.fireCooldownLimit = 100;
   }
-
 
   fire() {
     let newProjectile;
@@ -22,9 +20,11 @@ class RangedMob extends Mob {
         this.velocity.x,
         this.velocity.y,
         3,
-        fireball
+        fireball,
+        this
       );
-      this.projectilesFired.push(newProjectile);
+      projectileManager.addProjectile(newProjectile);
+      behaviourMonitor.updateTimesMobsFired(1);
       this.fireReady = false;
     }
   }

@@ -5,11 +5,10 @@ class BlinkMob extends Mob {
     this.heightHitbox = 60;
     this.widthModel = 75;
     this.heightModel = 75;
-    this.health = difficultySettings.blinkMobHealth();
-    this.maxHealth = difficultySettings.blinkMobHealth();
-    this.speed = difficultySettings.blinkMobSpeed;
-    this.attackDamage = difficultySettings.blinkMobDamage;
-    this.projectilesFired = [];
+    this.maxHealth = 50 * difficultySettings.mobHealthMult();
+    this.health = this.maxHealth;
+    this.speed = 0;
+    this.attackDamage = 6 * difficultySettings.mobDamageMult;
     this.bloodColour = color(135, 20, 103, 255);
     this.fireCooldownLimit = 175;
   }
@@ -33,10 +32,12 @@ class BlinkMob extends Mob {
           velocityX,
           velocityY,
           3,
-          fireball
+          fireball,
+          this
         );
-        this.projectilesFired.push(newProjectile);
+        projectileManager.addProjectile(newProjectile);
       }
+      behaviourMonitor.updateTimesMobsFired(projectileCount);
       this.fireReady = false;
     }
   }
@@ -45,12 +46,14 @@ class BlinkMob extends Mob {
     let spawnX, spawnY;
     let spawnAttempts = 0;
     while (spawnAttempts < 100) {
-      spawnX =
-        random(tileSize * 3, roomWidth * tileSize - tileSize * 3) +
-        arena_offset;
-      spawnY =
-        random(tileSize * 3, roomHeight * tileSize - tileSize * 3) +
-        arena_offset;
+      spawnX = random(
+        tileSize * 2 + this.widthHitbox / 2 + arena_offset,
+        roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 - arena_offset
+      );
+      spawnY = random(
+        tileSize * 2 + this.heightHitbox / 2 + arena_offset,
+        roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2 - arena_offset
+      );
       let distanceFromP1 = dist(
         spawnX,
         spawnY,

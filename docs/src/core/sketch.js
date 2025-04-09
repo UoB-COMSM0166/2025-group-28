@@ -29,10 +29,15 @@ let gameCount = 1;
 let playerADeathCount = 0;
 let playerBDeathCount = 0;
 
+// Screen fade vars
 let fadeAlpha = 0;
 let fadingOut = false;
 let fadingIn = false;
 let transitioning = false;
+
+// Room transition positioning vars
+let doorPrevPos = null;
+let playerNextX, playerNextY;
 
 let frame = 0;
 
@@ -40,6 +45,10 @@ function setup() {
   noStroke();
   rectMode(CORNER);
   gameCanvas = createCanvas(950, 800);
+  // Prevent the user from right-clicking on the canvas
+  document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
   if (inGame) {
     gameSetUp();
   } else {
@@ -174,8 +183,10 @@ function gameSetUp() {
     if (coop) {
       playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
     }
+    behaviourMonitor = new BehaviourMonitor(difficultySettings[difficulty]);
   }
   game = new Game(difficulty);
+  projectileManager = new ProjectileManager();
 }
 
 function draw() {
@@ -194,29 +205,57 @@ function draw() {
         }
       }
 
-      // bottom ui block
-
-      fill(0, 0, 0);
-      let footer_backing = rect(100, 690, 800, 50);
-      game.draw();
-
       // top UI block
       fill(0, 0, 0);
       let backing = rect(100, 50, 800, 50);
 
+      push();
       textSize(28);
+      textFont(gameFont);
+      textAlign(CENTER);
       fill(255, 255, 255);
       var roomNumber = "Room " + game.roomSeq;
       text(roomNumber, 200, 80);
       var scoreNumber = "Score: " + game.score;
       text(scoreNumber, 750, 80);
+      pop();
+
+      // bottom ui block
+      fill(0, 0, 0);
+      let footer_backing = rect(100, 690, 800, 50);
+
+      // Player heat bars
+      const barWidth = 200;
+      const barHeight = 20;
+      const padding = 10;
+      playerA.drawPlayerHeatBar(
+        width / 4 - 90,
+        height - 80,
+        barWidth,
+        barHeight,
+        playerA.fireCooldown / 200,
+        "PLAYER A"
+      );
+      if (coop) {
+        playerB.drawPlayerHeatBar(
+          width / 4 + 400,
+          height - 80,
+          barWidth,
+          barHeight,
+          playerB.fireCooldown / 200,
+          "PLAYER B"
+        );
+      }
+      game.draw();
     }
+
     if (fadingOut) {
       fadeAlpha += 10;
       if (fadeAlpha >= 255) {
         fadeAlpha = 255;
         fadingOut = false;
         fadingIn = true;
+        game.currentRoom.getPlayerNextPos();
         game.nextRoom();
       }
     } else if (fadingIn) {

@@ -1,7 +1,7 @@
 class Projectile extends GameObject {
   // maybe extend game object to avoid the health sprite mechanic
 
-  constructor(x, y, velocityX, velocityY, velocityMultiplier, image) {
+  constructor(x, y, velocityX, velocityY, velocityMultiplier, image, owner) {
     super(x, y);
     this.position = createVector(x, y);
     this.velocity = createVector(
@@ -11,6 +11,7 @@ class Projectile extends GameObject {
     this.image = image;
     this.widthHitbox = 5;
     this.heightHitbox = 5;
+    this.owner = owner;
   }
 
   update() {

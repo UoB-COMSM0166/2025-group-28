@@ -10,7 +10,7 @@ body {
 }
 
 #menuContainer {
-  margin-left: -800px;
+  margin-left: -900px;
   display: flex;
   flex-direction: column;
   justify-content: center;
