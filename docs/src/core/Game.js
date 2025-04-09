@@ -3,12 +3,11 @@ class Game {
     this.gameState = GameStates.ACTIVE;
     this.difficulty = difficultyLevel;
     this.difficultySettings = difficultySettings[this.difficulty];
-    if (pvpMode == false) {
+    if (!pvpMode) {
       this.currentRoom = new Room(this.difficultySettings);
     } else {
       this.currentRoom = new PvPRoom();
     }
-    
 
     this.meta_score = 0;
     this.score = 0;
@@ -20,7 +19,12 @@ class Game {
 
   nextRoom() {
     this.roomSeq++;
-    this.meta_score += 1000 / this.timeCounter;
+    behaviourMonitor.updateRoomsCleared();
+    // Clear projectile array to stop projectiles fired in previous room from persisting in next room
+    projectileManager.projectilesFired.splice(0, projectileManager.projectilesFired.length);
+    if (this.timeCounter > 0) {
+      this.meta_score += 1000 / this.timeCounter;
+    }
     this.timeCounter = 0;
 
     this.currentRoom = null;
@@ -30,6 +34,10 @@ class Game {
       playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
     } else {
       this.currentRoom = new Room(this.difficultySettings);
+      // Allow spawning buff mob if player has cleared 3+ rooms (only on normal, hard or coop)
+      if ((this.difficulty != difficultyLevels.EASY || coop) && behaviourMonitor.getRoomsCleared() >= 3) {
+        this.currentRoom.canSpawnBuffMob = true;
+      }
       if (coop) {
         if (playerA.isActive ^ playerB.isActive) {
           if (!playerA.isActive) {
@@ -39,16 +47,18 @@ class Game {
             playerADeathCount++;
           } else {
             playerB = null;
-            playerB = new Player(
-              astrocat_gif_p2,
-              300,
-              300,
-              playerNumber.PLAYER_2
-            );
-            playerB.health = 50;ß
+            playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
+            playerB.health = 50;
             playerBDeathCount++;
           }
         }
+      }
+      // Set player positions in room relative to door in previous room
+      playerA.position.x = playerNextX;
+      playerA.position.y = playerNextY;
+      if (coop) {
+        playerB.position.x = playerNextX;
+        playerB.position.y = playerNextY;
       }
     }
   }
@@ -63,6 +73,7 @@ class Game {
     );
     this.currentRoom.draw();
     this.currentRoom.update();
+    projectileManager.update();
     if (!pvpMode) this.currentRoom.spawnMobWrapper();
   }
 }

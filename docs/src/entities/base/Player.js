@@ -10,14 +10,15 @@ class Player extends Sprite {
     this.heightModel = 70;
     this.color = color(0, 100, 255);
     this.speed = 3; // Slightly faster than base sprites
-    this.attackDamage = difficultySettings[difficulty].playerDamage;
+    this.attackDamage = 10 * difficultySettings[difficulty].playerDamageMult;
     this.fireRate = 200; // ms between shots
     this.lastShot = 0; // Timestamp of last shot
     this.inventory = [];
     this.direction = createVector(-1, 0); // Character starts facing right
-    this.projectilesFired = []; // holds live projectiles in game
     this.fireCooldown = 0; // Cooldown between shots
     this.fireOverheat = false;
+    this.heatGain = difficultySettings[difficulty].heatGain;
+    this.heatDecay = difficultySettings[difficulty].heatDecay;
     this.img.setFrame(7);
     this.startFrame = 7;
     this.endFrame = 9;
@@ -27,6 +28,13 @@ class Player extends Sprite {
     this.c;
     // this.img.pause();
     this.bloodColour = color(210, 0, 0, 0);
+    this.lastMeowSoundTime = 0; // For meow sound cooldown
+
+    // For behaviour monitoring
+    this.timesHurt = 0;
+    this.timesHeatLevelHigh = 0;
+    this.timesOverheated = 0;
+    this.itemsUsed = 0;
   }
 
   drawPlayerHealthBar() {
@@ -61,7 +69,6 @@ class Player extends Sprite {
       else if (this.slowTimer == 200) this.speed = 2.4;
       else if (this.slowTimer > 200) this.speed = 3;
       this.slowTimer++;
-      //console.log(this.slowTimer);
     }
   }
 
@@ -74,7 +81,7 @@ class Player extends Sprite {
     // Player movement using WASD / arrow keys
     this.velocity.set(0, 0);
     if (this.fireCooldown > 0) {
-      this.fireCooldown -= 0.5;
+      this.fireCooldown -= this.heatDecay;
     }
 
     if (this.img.getCurrentFrame() == this.endFrame) {
@@ -190,19 +197,10 @@ class Player extends Sprite {
       roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
     );
 
-    //console.log("-----CONSTR POS Y----");
-
-    console.log("---------");
-    console.log(this.position.x);
-    console.log(this.position.y);
-
     this.position.y = constrain(
       this.position.y,
       tileSize * 2 + this.heightHitbox / 2 + arena_offset,
-      roomHeight * tileSize -
-        tileSize * 2 -
-        this.heightHitbox / 2 +
-        arena_offset
+      roomHeight * tileSize -tileSize * 2 - this.heightHitbox / 2 + arena_offset
     );
 
     // Apply knockback force gradually
@@ -251,14 +249,18 @@ class Player extends Sprite {
           this.direction.x,
           this.direction.y,
           10,
-          bullet
+          bullet,
+          this
         );
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
-        this.projectilesFired.push(projectile);
+        projectileManager.addProjectile(projectile);
         this.lastShot = currentTime;
-        this.fireCooldown += 20;
+        this.fireCooldown += this.heatGain;
+        if (this.fireCooldown > 150) this.timesHeatLevelHigh++;
         if (this.fireCooldown > 200) {
+          this.fireCooldown = 200; // Stop heat level going over max
           this.fireOverheat = true;
+          this.timesOverheated++;
         }
       }
       if (
@@ -278,16 +280,20 @@ class Player extends Sprite {
           this.direction.x,
           this.direction.y,
           10,
-          bullet
+          bullet,
+          this
         );
         gunSound_b.play();
 
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
-        this.projectilesFired.push(projectile);
+        projectileManager.addProjectile(projectile);
         this.lastShot = currentTime;
-        this.fireCooldown += 20;
+        this.fireCooldown += this.heatGain;
+        if (this.fireCooldown > 150) this.timesHeatLevelHigh++;
         if (this.fireCooldown > 200) {
+          this.fireCooldown = 200; // Stop heat level going over max
           this.fireOverheat = true;
+          this.timesOverheated++;
         }
       }
     }
@@ -295,6 +301,7 @@ class Player extends Sprite {
 
   drawPlayerHeatBar(x, y, width, height, value, label) {
     if (!this.isActive) return;
+    push();
     stroke(150);
     strokeWeight(2);
     noFill();
@@ -321,7 +328,9 @@ class Player extends Sprite {
         fillColor = color(255, greenAmount, 0);
       }
     }
+    pop();
 
+    push();
     noStroke();
     fill(fillColor);
     rect(x, y, fillWidth, height, 5);
@@ -345,21 +354,27 @@ class Player extends Sprite {
 
       text("OVERHEATED!", x + width / 2, y + height / 2);
     }
+    pop();
 
     // label
+    push();
     fill(255);
     textAlign(CENTER);
     textSize(14);
     textFont(gameFont);
-
     text(label, x + width / 2, y - 10);
+    pop();
   }
 
   // Adds i-frames after taking damage - in player class as not needed for mobs
   makeInvincible() {
-    meowSound.play();
-
+    const meowSoundCooldown = 1500; // 1.5 second cooldown for sound
     if (!this.isInvincible) {
+      if (this.lastMeowSoundTime == 0 || millis() - this.lastMeowSoundTime > meowSoundCooldown) {
+        meowSound.play();
+        this.lastMeowSoundTime = millis();
+      }
+      this.timesHurt++;
       this.isInvincible = true;
       this.invincibilityStartTime = millis();
       this.lastFlashTime = millis();
@@ -368,4 +383,13 @@ class Player extends Sprite {
   }
 
   pickupItem() {}
+
+  // For behaviour monitoring
+  getHighHeatFrequency() {
+    return this.timesHeatLevelHigh / Math.max(1, behaviourMonitor.getRoomsCleared());
+  }
+
+  getOverheatFrequency() {
+    return this.timesOverheated / Math.max(1, behaviourMonitor.getRoomsCleared());
+  }
 }

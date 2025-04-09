@@ -3,8 +3,8 @@ class Door extends GameObject {
     super();
     this.x = x;
     this.y = y;
-    this.position.x = tileSize * x;
-    this.position.y = tileSize * y;
+    this.position.x = (tileSize * x) + arena_offset;
+    this.position.y = (tileSize * y) + arena_offset;
     this.isUnlocked = false;
     this.sprite = doorImg;
   }
@@ -19,7 +19,21 @@ class Door extends GameObject {
 
   draw() {
     angleMode(DEGREES);
-    if (this.x == roomWidth - 2) {
+    if (this.x == 1) {
+      // Door on left side of room
+      push();
+      imageMode(CENTER);
+      translate(tileSize / 2, tileSize / 2);
+      rotate(270);
+      image(
+        this.sprite,
+        -tileSize * this.y - arena_offset,
+        tileSize * this.x + arena_offset,
+        tileSize * 4,
+        tileSize
+      );
+      pop();
+    } else if (this.x == roomWidth + (arena_offset / 9.5)) {
       // Door on right side of room
       push();
       imageMode(CENTER);

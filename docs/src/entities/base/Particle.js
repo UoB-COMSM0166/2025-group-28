@@ -8,12 +8,21 @@ class Particle {
   }
 
   update() {
+    // Deactive any particles that leave the room boundaries
+    if (
+      this.position.x < tileSize + arena_offset ||
+      this.position.x > roomWidth * tileSize - tileSize + arena_offset ||
+      this.position.y < tileSize + arena_offset ||
+      this.position.y > roomHeight * tileSize - tileSize + arena_offset
+    ) {
+      this.lifespan = 0;
+    }
     // Apply damping to simulate friction/resistance in space
     this.velocity.mult(random(0.8,0.95));
-    
+
     // Move particle according to velocity
     this.position.add(this.velocity);
-    
+
     // Reduce lifespan
     this.lifespan -= 5;
   }

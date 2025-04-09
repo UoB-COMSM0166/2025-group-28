@@ -22,6 +22,8 @@ class Sprite extends GameObject {
     this.lastFlashTime = 0;
     this.isFlashing = false;
 
+    this.isBuffed = false;
+
     this.knockbackForce = createVector(0, 0); // stores remaining knockback force
   }
 
@@ -90,9 +92,11 @@ class Sprite extends GameObject {
       // Draw sprite only if not flashing
       if (!this.isFlashing) {
         push();
+        if (this.isBuffed) tint(210, 0, 0, 255); // Apply red tint if buffed
         translate(this.position.x, this.position.y);
         scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
         image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
+        noTint(); // Prevent tint from affecting other sprites
         pop();
       }
 
