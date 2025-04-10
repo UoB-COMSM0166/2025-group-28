@@ -27,32 +27,6 @@ class Sprite extends GameObject {
     this.knockbackForce = createVector(0, 0); // stores remaining knockback force
   }
 
-  ///*** Is this even needed? Player and mob have their own movement methods which override this ***///
-  move() {
-    // Updates the velocity based on the direction and speed
-    this.velocity.set(0, 0);
-    if (keyIsDown(LEFT_ARROW)) {
-      this.velocity.x = -this.speed;
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.velocity.x = this.speed;
-    }
-    if (keyIsDown(UP_ARROW)) {
-      this.velocity.y = -this.speed;
-    }
-    if (keyIsDown(DOWN_ARROW)) {
-      this.velocity.y = this.speed;
-    }
-
-    // Makes speed feel smooth when moving diagonally
-    if (this.velocity.x !== 0 && this.velocity.y !== 0) {
-      this.velocity.setMag(this.speed);
-    }
-
-    // Applies the movement (if no collision)
-    super.update();
-  }
-
   calculateKnockbackDirection(sourceX, sourceY) {
     let knockbackDirection = createVector(this.position.x - sourceX, this.position.y - sourceY);
     knockbackDirection.normalize();
