@@ -145,19 +145,27 @@ class Game {
 
   applySlowMeow(slowActive) {
     let slowFactor;
+    let playerSlowFactor;
     if (slowActive) {
       slowFactor = this.slowMeowMovementSpeed;
+      playerSlowFactor = slowFactor * 1.2;
     } else {
       slowFactor = 1.0;
+      playerSlowFactor = 1.0;
     }
   
     // Slow down players
     if (playerA && playerA.isActive) {
       playerA.originalSpeed = playerA.originalSpeed || playerA.speed;
       if (slowActive) {
-        playerA.speed = playerA.originalSpeed * slowFactor;
+        playerA.speed = playerA.originalSpeed * playerSlowFactor;
+        playerA.originalFireRate = playerA.originalFireRate || playerA.fireRate;
+        playerA.fireRate = playerA.originalFireRate / playerSlowFactor
       } else {
         playerA.speed = playerA.originalSpeed;
+        if (playerA.originalFireRate) {
+          playerA.fireRate = playerA.originalFireRate;
+        }
       }
     }
   
@@ -165,9 +173,14 @@ class Game {
       playerB.originalSpeed = playerB.originalSpeed || playerB.speed;
       
       if (slowActive) {
-        playerB.speed = playerB.originalSpeed * slowFactor;
+        playerB.speed = playerB.originalSpeed * playerSlowFactor;
+        playerB.originalFireRate = playerB.originalFireRate || playerB.fireRate;
+        playerB.fireRate = playerB.originalFireRate / playerSlowFactor
       } else {
         playerB.speed = playerB.originalSpeed;
+        if (playerB.originalFireRate) {
+          playerB.fireRate = playerB.originalFireRate;
+        }
       }
     }
   
@@ -187,19 +200,26 @@ class Game {
   
     // Slow down projectiles
     if (projectileManager && projectileManager.projectilesFired) {
-      for (let proj of projectileManager.projectilesFired) {
-        if (proj && proj.isActive) {
-          if (!proj.originalVelocity) {
-            proj.originalVelocity = proj.velocity.copy();
+      for (let projectile of projectileManager.projectilesFired) {
+        if (projectile && projectile.isActive) {
+          if (!projectile.originalVelocity) {
+            projectile.originalVelocity = projectile.velocity.copy();
           }
   
           if (slowActive) {
-            proj.velocity = p5.Vector.mult(proj.originalVelocity, slowFactor);
+            projectile.velocity = p5.Vector.mult(projectile.originalVelocity, slowFactor);
           } else {
-            proj.velocity = proj.originalVelocity.copy();
+            projectile.velocity = projectile.originalVelocity.copy();
           }
         }
       }
     }
+  }
+}
+
+function applySlowMeowToNewMob(mob) {
+  if (game && game.slowMeowOccuring && mob) {
+    mob.originalSpeed = mob.speed;
+    mob.speed = mob.originalSpeed * game.slowMeowMovementSpeed;
   }
 }

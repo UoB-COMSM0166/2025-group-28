@@ -14,6 +14,7 @@ class BuffMob extends Mob {
     this.target = null;
     this.isIdle = false;
     this.idleTime = null;
+    this.checkIfSlowMeowActive();
   }
 
   update() {

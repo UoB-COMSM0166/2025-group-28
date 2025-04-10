@@ -51,6 +51,13 @@ class Sprite extends GameObject {
     }
   }
 
+  checkIfSlowMeowActive() {
+    if (game && game.slowMeowOccuring) {
+      this.originalSpeed = this.speed;
+      this.speed = this.originalSpeed * game.slowMeowMovementSpeed;
+    }
+  }
+
   draw() {
     if (this.isActive) {
       // Handle flashing effect

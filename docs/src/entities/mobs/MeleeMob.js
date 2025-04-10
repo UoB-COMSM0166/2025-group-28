@@ -5,5 +5,6 @@ class MeleeMob extends Mob {
     this.health = this.maxHealth;
     this.speed = random(0.8, 1.2) * difficultySettings.mobSpeedMult;
     this.attackDamage = 12 * difficultySettings.mobDamageMult;
+    this.checkIfSlowMeowActive();
   }
 }
