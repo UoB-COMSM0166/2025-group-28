@@ -50,12 +50,11 @@ class BuffMob extends Mob {
       }
     }
     if (!this.isIdle && this.target) {
-      this.moveToPosition(this.target.x, this.target.y);
+      this.moveToPosition(this.target);
     }
   }
 
-  moveToPosition(xPos, yPos) {
-    let target = createVector(xPos, yPos);
+  moveToPosition(target) {
     let direction = p5.Vector.sub(target, this.position);
     // Normalise speed
     if (direction.mag() > this.speed) {
