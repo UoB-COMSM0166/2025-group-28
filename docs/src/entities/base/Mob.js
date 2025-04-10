@@ -15,6 +15,7 @@ class Mob extends Sprite {
     this.img = img;
 
     this.speed = 1; //Slightly slower than players
+    this.originalSpeed = this.speed;
     this.direction = createVector(-1, 0); //Mob starts facing left
     this.bloodColour = color(150, 225, 75, 0);
   }

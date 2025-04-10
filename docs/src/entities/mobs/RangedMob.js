@@ -9,17 +9,22 @@ class RangedMob extends Mob {
     this.attackDamage = 8 * difficultySettings.mobDamageMult;
     this.bloodColour = color(255, 215, 80, 255);
     this.fireCooldownLimit = 100;
+    this.checkIfSlowMeowActive();
   }
 
   fire() {
     let newProjectile;
     if (this.fireReady == true) {
-        newProjectile = new Projectile (
+      let projectileSpeed = 3;
+      if (game && game.slowMeowOccuring) {
+        projectileSpeed = 3 / game.slowMeowMovementSpeed;
+      }
+      newProjectile = new Projectile (
         this.position.x,
         this.position.y,
         this.velocity.x,
         this.velocity.y,
-        3,
+        projectileSpeed,
         fireball,
         this
       );

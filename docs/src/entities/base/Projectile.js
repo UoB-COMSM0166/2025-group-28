@@ -12,6 +12,10 @@ class Projectile extends GameObject {
     this.widthHitbox = 5;
     this.heightHitbox = 5;
     this.owner = owner;
+    this.originalVelocity = this.velocity.copy();
+    if (game && game.slowMeowOccuring) {
+      this.velocity = p5.Vector.mult(this.originalVelocity, game.slowMeowMovementSpeed);
+    }
   }
 
   update() {
