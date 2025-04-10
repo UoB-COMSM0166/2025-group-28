@@ -9,6 +9,8 @@ class Sprite extends GameObject {
     this.img = img;
 
     this.speed = 1;
+    this.isSlowed = false;
+    this.originalSpeed = this.speed;
     this.direction = createVector(1, 0); //So the character starts facing right
 
     // Effects like taking damage, speed boost/reduction, etc.

@@ -15,6 +15,14 @@ class Game {
     this.timeCounter = 0;
 
     this.roomSeq = 1;
+
+    this.slowMeowOccuring = false;
+    this.slowMeowStartTime = 0;
+    this.slowMeowDuration = 5000;
+    this.slowMeowMovementSpeed = 0.3;
+    this.slowMeowCooldown = 15000;
+    this.slowMeowLastUsed = 0;
+    this.slowMeowUsable = true;
   }
 
   nextRoom() {
@@ -71,9 +79,127 @@ class Game {
     this.score = Math.round(
       this.currentRoom.roomScoreAccumaltor + this.meta_score
     );
+    this.updateSlowMeow();
     this.currentRoom.draw();
     this.currentRoom.update();
     projectileManager.update();
     if (!pvpMode) this.currentRoom.spawnMobWrapper();
+    if (this.slowMeowOccuring) {
+      this.drawSlowMeow();
+    }
+  }
+
+  drawSlowMeow() {
+    const elapsedTime = millis() - this.slowMeowStartTime;
+    const remainingTime = this.slowMeowDuration - elapsedTime;
+
+    // Colour the screen blue while SlowMeow is occurring
+    push();
+    noStroke();
+
+    const gameAreaX = 100;
+    const gameAreaY = 100; 
+    const gameAreaWidth = 800; 
+    const gameAreaHeight = 590; 
+
+    fill(0, 100, 255, 50);
+    rect(gameAreaX, gameAreaY, gameAreaWidth, gameAreaHeight);
+
+    textAlign(CENTER);
+    textFont(gameFont);
+    textSize(24);
+    fill(255);
+
+    const textY = gameAreaY + 120;
+
+    if (remainingTime > this.slowMeowDuration * 0.7) {
+      text("SLOW MEOW STARTING", width/2, textY);
+    } else if (remainingTime < this.slowMeowDuration * 0.3) {
+      text("SLOW MEOW ENDING", width/2, textY);
+    }
+    pop();
+  }
+
+  activateSlowMeow() {
+    const currentTime = millis();
+    if (this.slowMeowUsable && !this.slowMeowOccuring) {
+      this.slowMeowOccuring = true;
+      this.slowMeowStartTime = currentTime;
+      this.slowMeowUsable = false;
+      this.slowMeowLastUsed = currentTime;
+      this.applySlowMeow(true);
+    }
+  }
+
+  updateSlowMeow() {
+    const currentTime = millis();
+    if (this.slowMeowOccuring && currentTime - this.slowMeowStartTime > this.slowMeowDuration) {
+      this.slowMeowOccuring = false;
+      this.applySlowMeow(false);
+    }
+
+    if (!this.slowMeowUsable && currentTime - this.slowMeowLastUsed > this.slowMeowCooldown) {
+      this.slowMeowUsable = true;
+    }
+  }
+
+  applySlowMeow(slowActive) {
+    let slowFactor;
+    if (slowActive) {
+      slowFactor = this.slowMeowMovementSpeed;
+    } else {
+      slowFactor = 1.0;
+    }
+  
+    // Slow down players
+    if (playerA && playerA.isActive) {
+      playerA.originalSpeed = playerA.originalSpeed || playerA.speed;
+      if (slowActive) {
+        playerA.speed = playerA.originalSpeed * slowFactor;
+      } else {
+        playerA.speed = playerA.originalSpeed;
+      }
+    }
+  
+    if (playerB && playerB.isActive) {
+      playerB.originalSpeed = playerB.originalSpeed || playerB.speed;
+      
+      if (slowActive) {
+        playerB.speed = playerB.originalSpeed * slowFactor;
+      } else {
+        playerB.speed = playerB.originalSpeed;
+      }
+    }
+  
+    // Slow down mobs
+    if (this.currentRoom && this.currentRoom.mobs) {
+      for (let mob of this.currentRoom.mobs) {
+        if (mob && mob.isActive) {
+          mob.originalSpeed = mob.originalSpeed || mob.speed;
+          if (slowActive) {
+            mob.speed = mob.originalSpeed * slowFactor;
+          } else {
+            mob.speed = mob.originalSpeed;
+          }
+        }
+      }
+    }
+  
+    // Slow down projectiles
+    if (projectileManager && projectileManager.projectilesFired) {
+      for (let proj of projectileManager.projectilesFired) {
+        if (proj && proj.isActive) {
+          if (!proj.originalVelocity) {
+            proj.originalVelocity = proj.velocity.copy();
+          }
+  
+          if (slowActive) {
+            proj.velocity = p5.Vector.mult(proj.originalVelocity, slowFactor);
+          } else {
+            proj.velocity = proj.originalVelocity.copy();
+          }
+        }
+      }
+    }
   }
 }
