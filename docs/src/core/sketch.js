@@ -287,9 +287,8 @@ function draw() {
 function keyPressed() {
   if (inGame) {
     if (keyCode === ESCAPE) {
-      if (game.gameState == GameStates.ACTIVE) {
+      if (game.gameState == GameStates.ACTIVE && !transitioning) {
         game.gameState = GameStates.PAUSE;
-        inGame = false;
         noLoop();
         let pauseBackng = createImg("assets/pauseback.gif");
         pauseBackng.parent(gameCanvas);
