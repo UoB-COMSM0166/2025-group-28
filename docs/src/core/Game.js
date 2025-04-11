@@ -98,9 +98,9 @@ class Game {
     noStroke();
 
     const gameAreaX = 100;
-    const gameAreaY = 100; 
-    const gameAreaWidth = 800; 
-    const gameAreaHeight = 590; 
+    const gameAreaY = 100;
+    const gameAreaWidth = 800;
+    const gameAreaHeight = 590;
 
     fill(0, 100, 255, 50);
     rect(gameAreaX, gameAreaY, gameAreaWidth, gameAreaHeight);
@@ -127,6 +127,7 @@ class Game {
       this.slowMeowStartTime = currentTime;
       this.slowMeowUsable = false;
       this.slowMeowLastUsed = currentTime;
+      slowMeowStartSound.play();
       this.applySlowMeow(true);
     }
   }
@@ -152,52 +153,56 @@ class Game {
     } else {
       slowFactor = 1.0;
       playerSlowFactor = 1.0;
+      slowMeowEndSound.play();
     }
-  
+
     // Slow down players
     if (playerA && playerA.isActive) {
-      playerA.originalSpeed = playerA.originalSpeed || playerA.speed;
       if (slowActive) {
         playerA.speed = playerA.originalSpeed * playerSlowFactor;
-        playerA.originalFireRate = playerA.originalFireRate || playerA.fireRate;
-        playerA.fireRate = playerA.originalFireRate / playerSlowFactor
+        playerA.fireRate = playerA.originalFireRate / playerSlowFactor;
+        playerA.heatDecay = 0;
+        playerA.playbackRate = 0.75; // Slows player SFX
       } else {
         playerA.speed = playerA.originalSpeed;
+        playerA.heatDecay = this.difficultySettings.heatDecay;
+        playerA.playbackRate = 1;
         if (playerA.originalFireRate) {
           playerA.fireRate = playerA.originalFireRate;
         }
       }
     }
-  
+
     if (playerB && playerB.isActive) {
-      playerB.originalSpeed = playerB.originalSpeed || playerB.speed;
-      
       if (slowActive) {
         playerB.speed = playerB.originalSpeed * playerSlowFactor;
-        playerB.originalFireRate = playerB.originalFireRate || playerB.fireRate;
-        playerB.fireRate = playerB.originalFireRate / playerSlowFactor
+        playerB.fireRate = playerB.originalFireRate / playerSlowFactor;
+        playerB.heatDecay = 0;
+        playerB.playbackRate = 0.75; // Slows player SFX
       } else {
         playerB.speed = playerB.originalSpeed;
+        playerB.heatDecay = this.difficultySettings.heatDecay;
+        playerB.playbackRate = 1;
         if (playerB.originalFireRate) {
           playerB.fireRate = playerB.originalFireRate;
         }
       }
     }
-  
+
     // Slow down mobs
     if (this.currentRoom && this.currentRoom.mobs) {
       for (let mob of this.currentRoom.mobs) {
         if (mob && mob.isActive) {
-          mob.originalSpeed = mob.originalSpeed || mob.speed;
           if (slowActive) {
-            mob.speed = mob.originalSpeed * slowFactor;
+            mob.checkIfSlowMeowActive()
           } else {
             mob.speed = mob.originalSpeed;
+            mob.isSlowed = false;
           }
         }
       }
     }
-  
+
     // Slow down projectiles
     if (projectileManager && projectileManager.projectilesFired) {
       for (let projectile of projectileManager.projectilesFired) {
@@ -205,7 +210,6 @@ class Game {
           if (!projectile.originalVelocity) {
             projectile.originalVelocity = projectile.velocity.copy();
           }
-  
           if (slowActive) {
             projectile.velocity = p5.Vector.mult(projectile.originalVelocity, slowFactor);
           } else {

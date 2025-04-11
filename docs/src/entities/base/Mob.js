@@ -15,7 +15,6 @@ class Mob extends Sprite {
     this.img = img;
 
     this.speed = 1; //Slightly slower than players
-    this.originalSpeed = this.speed;
     this.direction = createVector(-1, 0); //Mob starts facing left
     this.bloodColour = color(150, 225, 75, 0);
   }
@@ -142,7 +141,9 @@ class Mob extends Sprite {
   // For adding/removing BuffMob buff
   applyBuff() {
     if (!this.isBuffed) {
+      if (!this.isSlowed) this.originalSpeed = this.speed;
       this.speed *= 1.75;
+      this.originalSpeed *= 1.75;
       this.attackDamage *= 1.5;
       this.maxHealth *= 2;
       this.health *= 2;
@@ -154,6 +155,7 @@ class Mob extends Sprite {
   removeBuff() {
     if (this.isBuffed) {
       this.speed /= 1.75;
+      this.originalSpeed /= 1.75;
       this.attackDamage /= 1.5;
       this.maxHealth /= 2;
       this.health /= 2;

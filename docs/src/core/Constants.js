@@ -143,6 +143,8 @@ function preload() {
   // sounds
 
   meowSound = loadSound("assets/cat-meowing-type-02-293290.mp3");
+  slowMeowStartSound = loadSound("assets/slowmeowstart.mp3");
+  slowMeowEndSound = loadSound("assets/slowmeowend.mp3");
   acGunSound = loadSound("assets/player_gun.mp3");
   gunSound_b = loadSound("assets/shot2.mp3");
   theme_a = loadSound("assets/theme.mp3");

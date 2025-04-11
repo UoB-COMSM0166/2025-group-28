@@ -6,6 +6,7 @@ class RangedMob extends Mob {
     this.maxHealth = 60 * difficultySettings.mobHealthMult();
     this.health = this.maxHealth;
     this.speed = random(0.7, 1.1) * difficultySettings.mobSpeedMult;
+    this.originalSpeed = this.speed;
     this.attackDamage = 8 * difficultySettings.mobDamageMult;
     this.bloodColour = color(255, 215, 80, 255);
     this.fireCooldownLimit = 100;
