@@ -216,18 +216,18 @@ function draw() {
       fill(255, 255, 255);
       var roomNumber = "Room " + game.roomSeq;
       text(roomNumber, 200, 80);
-      var scoreNumber = "Score: " + game.score;
-      text(scoreNumber, 750, 80);
+      var scoreNumber = "Score:" + game.score;
+      text(scoreNumber, 760, 80);
 
       if (!game.slowMeowUsable) {
         textSize(16);
         fill(100, 150, 255);
         const cooldownPercent = (millis() - game.slowMeowLastUsed) / game.slowMeowCooldown * 100;
-        text("SLOW MEOW: " + Math.floor(cooldownPercent) + "%", width/2, 80);
+        text("SLOW MEOW:" + Math.floor(cooldownPercent) + "%", width/2, 80);
       } else if (!game.slowMeowOccuring) {
         textSize(16);
         fill(0, 255, 255);
-        text("SLOW MEOW: READY", width/2, 80);
+        text("SLOW MEOW:READY", width/2, 80);
       }
 
       pop();
@@ -311,4 +311,14 @@ function keyPressed() {
       game.activateSlowMeow();
     }
   }
+}
+
+// Used for slowing down sounds in slow mo
+function playSound(sound, rate) {
+  let audioContext = getAudioContext();
+  let source = audioContext.createBufferSource();
+  source.buffer = sound.buffer;
+  source.playbackRate.value = rate;
+  source.connect(audioContext.destination);
+  source.start();
 }

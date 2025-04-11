@@ -13,6 +13,7 @@ class Player extends Sprite {
     this.originalSpeed = this.speed;
     this.attackDamage = 10 * difficultySettings[difficulty].playerDamageMult;
     this.fireRate = 200; // ms between shots
+    this.originalFireRate = this.fireRate;
     this.lastShot = 0; // Timestamp of last shot
     this.inventory = [];
     this.direction = createVector(-1, 0); // Character starts facing right
@@ -24,6 +25,7 @@ class Player extends Sprite {
     this.startFrame = 7;
     this.endFrame = 9;
     this.slowTimer = 0;
+    this.playbackRate = 1; // SFX playback speed (used for slow mo)
 
     this.justFired = false;
     this.c;
@@ -35,7 +37,6 @@ class Player extends Sprite {
     this.timesHurt = 0;
     this.timesHeatLevelHigh = 0;
     this.timesOverheated = 0;
-    this.itemsUsed = 0;
   }
 
   drawPlayerHealthBar() {
@@ -69,7 +70,8 @@ class Player extends Sprite {
       else if (this.slowTimer == 150) this.speed = 1.8;
       else if (this.slowTimer == 200) this.speed = 2.4;
       else if (this.slowTimer > 200) this.speed = 3;
-      this.slowTimer++;
+      if (!game.slowMeowOccuring) this.slowTimer++;
+      this.originalSpeed = this.speed;
     }
   }
 
@@ -243,7 +245,7 @@ class Player extends Sprite {
           this.img.setFrame(6);
         }
         // SPACE key for player 1
-        acGunSound.play();
+        playSound(acGunSound, this.playbackRate);
         let projectile = new Projectile(
           this.position.x,
           this.position.y,
@@ -372,7 +374,7 @@ class Player extends Sprite {
     const meowSoundCooldown = 1500; // 1.5 second cooldown for sound
     if (!this.isInvincible) {
       if (this.lastMeowSoundTime == 0 || millis() - this.lastMeowSoundTime > meowSoundCooldown) {
-        meowSound.play();
+        playSound(meowSound, this.playbackRate);
         this.lastMeowSoundTime = millis();
       }
       this.timesHurt++;

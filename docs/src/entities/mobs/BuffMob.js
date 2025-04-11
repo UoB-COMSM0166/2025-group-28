@@ -8,6 +8,7 @@ class BuffMob extends Mob {
     this.health = this.maxHealth;
     // Very slow to increase chance of stray player bullets hitting mob
     this.speed = 0.2 * difficultySettings.mobSpeedMult;
+    this.originalSpeed = this.speed;
     // Very low damage as mob not intended to 'attack' player
     this.attackDamage = 2 * difficultySettings.mobDamageMult;
     this.bloodColour = color(210, 0, 75, 0);

@@ -8,6 +8,7 @@ class BlinkMob extends Mob {
     this.maxHealth = 50 * difficultySettings.mobHealthMult();
     this.health = this.maxHealth;
     this.speed = 0;
+    this.originalSpeed = this.speed;
     this.attackDamage = 6 * difficultySettings.mobDamageMult;
     this.bloodColour = color(135, 20, 103, 255);
     this.fireCooldownLimit = 175;
