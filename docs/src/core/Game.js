@@ -9,10 +9,9 @@ class Game {
       this.currentRoom = new PvPRoom();
     }
 
-    this.meta_score = 0;
-    this.score = 0;
-    this.frameCount = 0;
-    this.timeCounter = 0;
+    // score variables
+    this.prevScore = 0;
+    this.currScore = 0;
 
     this.roomSeq = 1;
 
@@ -29,11 +28,12 @@ class Game {
     this.roomSeq++;
     behaviourMonitor.updateRoomsCleared();
     // Clear projectile array to stop projectiles fired in previous room from persisting in next room
-    projectileManager.projectilesFired.splice(0, projectileManager.projectilesFired.length);
-    if (this.timeCounter > 0) {
-      this.meta_score += 1000 / this.timeCounter;
-    }
-    this.timeCounter = 0;
+    projectileManager.projectilesFired = [];
+
+    // update scores
+    this.currScore += this.calculateScore();
+    this.prevScore = this.currScore;
+    this.currScore = 0;
 
     this.currentRoom = null;
     if (pvpMode) {
@@ -62,9 +62,11 @@ class Game {
         }
       }
       // Set player positions in room relative to door in previous room
+      playerA.resetOverheat();
       playerA.position.x = playerNextX;
       playerA.position.y = playerNextY;
       if (coop) {
+        playerB.resetOverheat();
         playerB.position.x = playerNextX;
         playerB.position.y = playerNextY;
       }
@@ -72,12 +74,8 @@ class Game {
   }
 
   draw() {
-    this.frameCount++;
-    if (this.frameCount % 600 == 0) {
-      this.timeCounter++;
-    }
-    this.score = Math.round(
-      this.currentRoom.roomScoreAccumaltor + this.meta_score
+    this.currScore = Math.round(
+      this.currentRoom.roomScoreAccumaltor + this.prevScore
     );
     this.updateSlowMeow();
     this.currentRoom.draw();
@@ -87,6 +85,13 @@ class Game {
     if (this.slowMeowOccuring) {
       this.drawSlowMeow();
     }
+  }
+
+  calculateScore() {
+    let bonus = ((this.currentRoom.damageDealt / (this.currentRoom.damageTaken + 10)) * 10) - 120;
+    if (bonus < 0) return 0;
+    if (bonus > 300) return 300;
+    return bonus;
   }
 
   drawSlowMeow() {

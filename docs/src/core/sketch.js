@@ -216,7 +216,7 @@ function draw() {
       fill(255, 255, 255);
       var roomNumber = "Room " + game.roomSeq;
       text(roomNumber, 200, 80);
-      var scoreNumber = "Score:" + game.score;
+      var scoreNumber = "Score:" + game.currScore;
       text(scoreNumber, 760, 80);
 
       if (!game.slowMeowUsable) {
@@ -248,7 +248,7 @@ function draw() {
         playerA.fireCooldown / 200,
         "PLAYER A"
       );
-      if (coop) {
+      if (coop || pvpMode) {
         playerB.drawPlayerHeatBar(
           width / 4 + 400,
           height - 80,

@@ -20,6 +20,10 @@ class Room {
     this.canSpawnBuffMob = false; // Only true if player has survived 3+ rooms & playing on normal/hard/coop
     this.mobBuffActive = false; // Set true once BuffMob is killed, applies buff to all other mobs
 
+    // bonus point vars
+    this.damageTaken = 0;
+    this.damageDealt = 0;
+
     this.initRoom();
   }
 
@@ -459,6 +463,7 @@ class Room {
         for (let mob of this.mobs) {
           if (projectile.isCollidingWith(mob) && projectile.owner instanceof Player) {
             mob.takeDamage(projectile.owner.attackDamage);
+            this.damageDealt += projectile.owner.attackDamage;
             this.createBloodParticles(
               mob.position.x,
               mob.position.y,
@@ -470,6 +475,7 @@ class Room {
         if (projectile.owner instanceof RangedMob || projectile.owner instanceof BlinkMob) {
           if (projectile.isCollidingWith(playerA)) {
             playerA.takeDamage(projectile.owner.attackDamage);
+            this.damageTaken += projectile.owner.attackDamage;
             this.createBloodParticles(
               playerA.position.x,
               playerA.position.y,
@@ -480,6 +486,7 @@ class Room {
           }
           if (coop && projectile.isCollidingWith(playerB)) {
             playerB.takeDamage(projectile.owner.attackDamage);
+            this.damageTaken += projectile.owner.attackDamage;
             this.createBloodParticles(
               playerB.position.x,
               playerB.position.y,
@@ -498,6 +505,7 @@ class Room {
       mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage);
+        this.damageTaken += mob.attackDamage;
         this.createBloodParticles(
           playerA.position.x,
           playerA.position.y,
@@ -510,6 +518,7 @@ class Room {
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         playerB.takeDamage(mob.attackDamage);
+        this.damageTaken += mob.attackDamage;
         this.createBloodParticles(
           playerB.position.x,
           playerB.position.y,
@@ -758,10 +767,7 @@ class Room {
         player.health = 100;
       }
     } else if (item instanceof Energy) {
-      player.fireCooldown = 0;
-      player.slowTimer = 0;
-      player.fireOverheat = false;
-      player.speed = 3;
+        player.resetOverheat();
     }
     player.itemsUsed++;
   }
