@@ -247,6 +247,7 @@ class Player extends Sprite {
       !this.fireOverheat &&
       currentTime - this.lastShot > this.fireRate
     ) {
+      // SPACE key for player 1
       if (this.player === playerNumber.PLAYER_1 && keyIsDown(32)) {
         this.justFired = true;
         if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
@@ -254,8 +255,7 @@ class Player extends Sprite {
         } else {
           this.img.setFrame(6);
         }
-        // SPACE key for player 1
-        playSound(acGunSound, playbackRate);
+        playSound(playerGunSound, playbackRate);
         let projectile = new Projectile(
           this.position.x,
           this.position.y,
@@ -276,17 +276,13 @@ class Player extends Sprite {
           this.timesOverheated++;
         }
       }
-      if (
-        this.isActive &&
-        this.player === playerNumber.PLAYER_2 &&
-        keyIsDown(13)
-      ) {
+      // ENTER key for player 2
+      if (this.player === playerNumber.PLAYER_2 && keyIsDown(13)) {
         if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
           this.img.setFrame(0);
         } else {
           this.img.setFrame(6);
         }
-        // ENTER key for player 2
         let projectile = new Projectile(
           this.position.x,
           this.position.y,
@@ -296,7 +292,7 @@ class Player extends Sprite {
           bullet,
           this
         );
-        playSound(gunSound_b, playbackRate);
+        playSound(playerGunSound, playbackRate);
 
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         projectileManager.addProjectile(projectile);

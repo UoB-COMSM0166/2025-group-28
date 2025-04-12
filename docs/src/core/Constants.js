@@ -144,22 +144,24 @@ function preload() {
   healthbar = loadImage("assets/healthbar.gif");
   healthbar_b = loadImage("assets/healthbar.gif");
 
-  // sounds
+  //// SOUNDS ////
+  // Player
   playerPainSound1 = loadSound("assets/playerpain1.mp3");
   playerPainSound2 = loadSound("assets/playerpain2.mp3");
   playerDeathSound = loadSound("assets/playerdeath.mp3");
+  playerGunSound = loadSound("assets/player_gun.mp3");
+  fireOverheatSound = loadSound("assets/playeroverheat.mp3");
   slowMeowStartSound = loadSound("assets/slowmeowstart.mp3");
   slowMeowEndSound = loadSound("assets/slowmeowend.mp3");
-  acGunSound = loadSound("assets/player_gun.mp3");
-  fireOverheatSound = loadSound("assets/playeroverheat.mp3");
-  gunSound_b = loadSound("assets/shot2.mp3");
-  doorOpenSound = loadSound("assets/dooropen.mp3");
-  itemSound = loadSound("assets/pickupitem.mp3");
+  // Mobs
   blinkMobMoveSound = loadSound("assets/blinkmobmove.mp3");
   buffMobBuffSound = loadSound("assets/buffmobbuff.mp3");
   buffMobDeathSound = loadSound("assets/buffmobdeath.mp3");
+  // Environment
+  doorOpenSound = loadSound("assets/dooropen.mp3");
+  itemSound = loadSound("assets/pickupitem.mp3");
+  // Music
   theme_a = loadSound("assets/theme.mp3");
-  // menuanimated = loadImage("assets/acbackground.gif");
 }
 
 // HTML <img> paths (no need to preload):

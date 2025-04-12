@@ -252,7 +252,7 @@ class Room {
           if (this.mobs.length > 1) { // If other mobs are in room when BuffMob killed
             this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
             this.mobBuffActive = true; // Activate buff to all other mobs
-            buffMobBuffSound.play();
+            buffMobBuffSound.play(); // Doesn't sound good if slowed during slow mo, so play sfx normally
           } else {
             this.roomScoreAccumaltor += 25;
           }
