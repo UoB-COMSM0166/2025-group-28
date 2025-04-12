@@ -78,5 +78,6 @@ class BlinkMob extends Mob {
     }
     this.position.x = spawnX;
     this.position.y = spawnY;
+    playSound(blinkMobMoveSound, playbackRate);
   }
 }

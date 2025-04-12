@@ -246,6 +246,7 @@ class Room {
           if (this.mobs.length > 1) { // If other mobs are in room when BuffMob killed
             this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
             this.mobBuffActive = true; // Activate buff to all other mobs
+            buffMobBuffSound.play();
           } else {
             this.roomScoreAccumaltor += 25;
           }
@@ -470,21 +471,25 @@ class Room {
         if (projectile.owner instanceof RangedMob || projectile.owner instanceof BlinkMob) {
           if (projectile.isCollidingWith(playerA)) {
             playerA.takeDamage(projectile.owner.attackDamage);
-            this.createBloodParticles(
-              playerA.position.x,
-              playerA.position.y,
-              playerA.bloodColour
-            );
+            if (!playerA.isInvincible) {
+              this.createBloodParticles(
+                playerA.position.x,
+                playerA.position.y,
+                playerA.bloodColour
+              );
+            }
             projectile.isActive = false;
             playerA.makeInvincible();
           }
           if (coop && projectile.isCollidingWith(playerB)) {
             playerB.takeDamage(projectile.owner.attackDamage);
-            this.createBloodParticles(
-              playerB.position.x,
-              playerB.position.y,
-              playerB.bloodColour
-            );
+            if (!playerB.isInvincible) {
+              this.createBloodParticles(
+                playerB.position.x,
+                playerB.position.y,
+                playerB.bloodColour
+              );
+            }
             projectile.isActive = false;
             playerB.makeInvincible();
           }
@@ -498,11 +503,13 @@ class Room {
       mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage);
-        this.createBloodParticles(
-          playerA.position.x,
-          playerA.position.y,
-          playerA.bloodColour
-        );
+        if (!playerA.isInvincible) {
+          this.createBloodParticles(
+            playerA.position.x,
+            playerA.position.y,
+            playerA.bloodColour
+          );
+        }
         playerA.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerA.position.x, playerA.position.y);
         playerA.makeInvincible();
@@ -510,11 +517,13 @@ class Room {
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         playerB.takeDamage(mob.attackDamage);
-        this.createBloodParticles(
-          playerB.position.x,
-          playerB.position.y,
-          playerB.bloodColour
-        );
+        if (!playerB.isInvincible) {
+          this.createBloodParticles(
+            playerB.position.x,
+            playerB.position.y,
+            playerB.bloodColour
+          );
+        }
         playerB.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerB.position.x, playerB.position.y);
         playerB.makeInvincible();
@@ -763,7 +772,7 @@ class Room {
       player.fireOverheat = false;
       player.speed = 3;
     }
-    player.itemsUsed++;
+    playSound(itemSound, playbackRate);
   }
 
   // Get the player's position in the next room based on position of door in current room

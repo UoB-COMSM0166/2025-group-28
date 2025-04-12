@@ -18,6 +18,10 @@ var knockbackForce = 5;
 var baseThreatLimit = 10;
 var threatScaleFactor = 2;
 
+var playbackRate = 1; // For adjusting SFX speed in slow mo
+
+var slowMeowGain = 10;
+
 const GameStates = Object.freeze({
   ACTIVE: 0,
   PAUSE: 1,
@@ -141,12 +145,19 @@ function preload() {
   healthbar_b = loadImage("assets/healthbar.gif");
 
   // sounds
-
-  meowSound = loadSound("assets/cat-meowing-type-02-293290.mp3");
+  playerPainSound1 = loadSound("assets/playerpain1.mp3");
+  playerPainSound2 = loadSound("assets/playerpain2.mp3");
+  playerDeathSound = loadSound("assets/playerdeath.mp3");
   slowMeowStartSound = loadSound("assets/slowmeowstart.mp3");
   slowMeowEndSound = loadSound("assets/slowmeowend.mp3");
   acGunSound = loadSound("assets/player_gun.mp3");
+  fireOverheatSound = loadSound("assets/playeroverheat.mp3");
   gunSound_b = loadSound("assets/shot2.mp3");
+  doorOpenSound = loadSound("assets/dooropen.mp3");
+  itemSound = loadSound("assets/pickupitem.mp3");
+  blinkMobMoveSound = loadSound("assets/blinkmobmove.mp3");
+  buffMobBuffSound = loadSound("assets/buffmobbuff.mp3");
+  buffMobDeathSound = loadSound("assets/buffmobdeath.mp3");
   theme_a = loadSound("assets/theme.mp3");
   // menuanimated = loadImage("assets/acbackground.gif");
 }

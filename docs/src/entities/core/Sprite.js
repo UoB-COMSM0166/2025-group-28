@@ -46,6 +46,7 @@ class Sprite extends GameObject {
     if (this.health <= 0) {
       this.health = 0;
       this.isActive = false;
+      if (this.deathSound) playSound(this.deathSound, playbackRate);
     }
   }
 

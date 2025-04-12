@@ -19,19 +19,22 @@ class Player extends Sprite {
     this.direction = createVector(-1, 0); // Character starts facing right
     this.fireCooldown = 0; // Cooldown between shots
     this.fireOverheat = false;
+    this.overheatSoundPlayed = false;
     this.heatGain = difficultySettings[difficulty].heatGain;
     this.heatDecay = difficultySettings[difficulty].heatDecay;
     this.img.setFrame(7);
     this.startFrame = 7;
     this.endFrame = 9;
     this.slowTimer = 0;
-    this.playbackRate = 1; // SFX playback speed (used for slow mo)
 
     this.justFired = false;
     this.c;
     // this.img.pause();
     this.bloodColour = color(210, 0, 0, 0);
+
     this.lastMeowSoundTime = 0; // For meow sound cooldown
+    this.deathSound = playerDeathSound;
+    this.painSound = [playerPainSound1, playerPainSound2];
 
     // For behaviour monitoring
     this.timesHurt = 0;
@@ -227,9 +230,16 @@ class Player extends Sprite {
   }
 
   fire() {
-    if (this.fireOverheat && this.fireCooldown < 80) {
-      this.fireOverheat = false;
-      this.slowTimer = 0;
+    if (this.fireOverheat) {
+      if (!this.overheatSoundPlayed) {
+        playSound(fireOverheatSound, playbackRate);
+        this.overheatSoundPlayed = true;
+      }
+      if (this.fireCooldown < 80) {
+        this.fireOverheat = false;
+        this.slowTimer = 0;
+        this.overheatSoundPlayed = false;
+      }
     }
     let currentTime = millis();
     if (
@@ -245,7 +255,7 @@ class Player extends Sprite {
           this.img.setFrame(6);
         }
         // SPACE key for player 1
-        playSound(acGunSound, this.playbackRate);
+        playSound(acGunSound, playbackRate);
         let projectile = new Projectile(
           this.position.x,
           this.position.y,
@@ -286,7 +296,7 @@ class Player extends Sprite {
           bullet,
           this
         );
-        gunSound_b.play();
+        playSound(gunSound_b, playbackRate);
 
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         projectileManager.addProjectile(projectile);
@@ -373,8 +383,10 @@ class Player extends Sprite {
   makeInvincible() {
     const meowSoundCooldown = 1500; // 1.5 second cooldown for sound
     if (!this.isInvincible) {
-      if (this.lastMeowSoundTime == 0 || millis() - this.lastMeowSoundTime > meowSoundCooldown) {
-        playSound(meowSound, this.playbackRate);
+      if (this.health > 1 && // Check health > 1 to stop pain sound overlapping with death sound
+         (this.lastMeowSoundTime == 0 || millis() - this.lastMeowSoundTime > meowSoundCooldown)) {
+        let randomSound = Math.floor(random(0, this.painSound.length));
+        playSound(this.painSound[randomSound], playbackRate);
         this.lastMeowSoundTime = millis();
       }
       this.timesHurt++;
