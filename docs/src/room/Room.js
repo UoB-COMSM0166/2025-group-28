@@ -321,60 +321,50 @@ class Room {
   }
 
   handleWallCollision(player, wall) {
-    // First, detect if there's a collision
+    // Calculate the boundaries of both objects
+    const playerLeft = player.position.x - player.widthHitbox / 2;
+    const playerRight = player.position.x + player.widthHitbox / 2;
+    const playerTop = player.position.y - player.heightHitbox / 2;
+    const playerBottom = player.position.y + player.heightHitbox / 2;
+    
+    const wallLeft = wall.position.x;
+    const wallRight = wall.position.x + wall.widthHitbox;
+    const wallTop = wall.position.y
+    const wallBottom = wall.position.y + wall.heightHitbox;
+    
+    // Check if there's a collision
     if (
-      player.position.x + player.widthHitbox / 2 >
-        wall.position.x - wall.widthHitbox / 2 &&
-      player.position.x - player.widthHitbox / 2 <
-        wall.position.x + wall.widthHitbox / 2 &&
-      player.position.y + player.heightHitbox / 2 >
-        wall.position.y + -wall.heightHitbox / 2 &&
-      player.position.y - player.heightHitbox / 2 <
-        wall.position.y + wall.heightHitbox / 2
+      playerRight > wallLeft &&
+      playerLeft < wallRight &&
+      playerBottom > wallTop &&
+      playerTop < wallBottom
     ) {
-      // Find the overlap on each axis
-      let overlapLeft =
-        player.position.x +
-        player.widthHitbox / 2 -
-        (wall.position.x - wall.widthHitbox / 2);
-      let overlapRight =
-        wall.position.x +
-        wall.widthHitbox / 2 -
-        (player.position.x - player.widthHitbox / 2);
-      let overlapTop =
-        player.position.y +
-        player.heightHitbox / 2 -
-        (wall.position.y - wall.heightHitbox / 2);
-      let overlapBottom =
-        wall.position.y +
-        wall.heightHitbox / 2 -
-        (player.position.y - player.heightHitbox / 2);
-
-      // Find the smallest overlap (this is the direction to push out)
-      let minOverlap = Math.min(
-        overlapLeft,
-        overlapRight,
-        overlapTop,
-        overlapBottom
-      );
-
-      // Push the player out based on the smallest overlap
+      // Calculate overlaps on each axis
+      const overlapLeft = playerRight - wallLeft;
+      const overlapRight = wallRight - playerLeft;
+      const overlapTop = playerBottom - wallTop;
+      const overlapBottom = wallBottom - playerTop;
+      
+      // Find the minimum overlap
+      const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+      
+      // Resolve collision based on minimum overlap
       if (minOverlap === overlapLeft) {
-        player.position.x =
-          wall.position.x - wall.widthHitbox / 2 - player.widthHitbox / 2;
-        player.velocity.x = 0; // Stop horizontal movement
+        // Colliding from the right side of the wall
+        player.position.x = wallLeft - player.widthHitbox / 2;
+        player.velocity.x = 0;
       } else if (minOverlap === overlapRight) {
-        player.position.x =
-          wall.position.x + wall.widthHitbox / 2 + player.widthHitbox / 2;
-        player.velocity.x = 0; // Stop horizontal movement
+        // Colliding from the left side of the wall
+        player.position.x = wallRight + player.widthHitbox / 2;
+        player.velocity.x = 0;
       } else if (minOverlap === overlapTop) {
-        player.position.y =
-          wall.position.y - wall.heightHitbox / 2 - player.heightHitbox / 2;
-        player.velocity.y = 0; // Stop vertical movement
+        // Colliding from below the wall
+        player.position.y = wallTop - player.heightHitbox / 2;
+        player.velocity.y = 0;
       } else if (minOverlap === overlapBottom) {
-        player.position.y =
-          wall.position.y + wall.heightHitbox / 2 + player.heightHitbox / 2;
-        player.velocity.y = 0; // Stop vertical movement
+        // Colliding from above the wall
+        player.position.y = wallBottom + player.heightHitbox / 2;
+        player.velocity.y = 0;
       }
     }
   }
