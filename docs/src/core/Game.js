@@ -180,9 +180,11 @@ class Game {
     if (slowActive) {
       slowFactor = this.slowMeowMovementSpeed;
       playerSlowFactor = slowFactor * 1.2;
+      playbackRate = 0.75; // Slows SFX
     } else {
       slowFactor = 1.0;
       playerSlowFactor = 1.0;
+      playbackRate = 1;
       slowMeowEndSound.play();
     }
 
@@ -192,11 +194,9 @@ class Game {
         playerA.speed = playerA.originalSpeed * playerSlowFactor;
         playerA.fireRate = playerA.originalFireRate / playerSlowFactor;
         playerA.heatDecay = 0;
-        playerA.playbackRate = 0.75; // Slows player SFX
       } else {
         playerA.speed = playerA.originalSpeed;
         playerA.heatDecay = this.difficultySettings.heatDecay;
-        playerA.playbackRate = 1;
         if (playerA.originalFireRate) {
           playerA.fireRate = playerA.originalFireRate;
         }
@@ -208,11 +208,9 @@ class Game {
         playerB.speed = playerB.originalSpeed * playerSlowFactor;
         playerB.fireRate = playerB.originalFireRate / playerSlowFactor;
         playerB.heatDecay = 0;
-        playerB.playbackRate = 0.75; // Slows player SFX
       } else {
         playerB.speed = playerB.originalSpeed;
         playerB.heatDecay = this.difficultySettings.heatDecay;
-        playerB.playbackRate = 1;
         if (playerB.originalFireRate) {
           playerB.fireRate = playerB.originalFireRate;
         }
@@ -224,7 +222,7 @@ class Game {
       for (let mob of this.currentRoom.mobs) {
         if (mob && mob.isActive) {
           if (slowActive) {
-            mob.checkIfSlowMeowActive()
+            mob.checkIfSlowMeowActive();
           } else {
             mob.speed = mob.originalSpeed;
             mob.isSlowed = false;

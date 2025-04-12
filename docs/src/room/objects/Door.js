@@ -6,12 +6,17 @@ class Door extends GameObject {
     this.position.x = (tileSize * x) + arena_offset;
     this.position.y = (tileSize * y) + arena_offset;
     this.isUnlocked = false;
+    this.soundPlayed = false;
     this.sprite = doorImg;
   }
 
   update() {
     if (this.isUnlocked) {
       this.sprite = doorOpenImg;
+      if (!this.soundPlayed) {
+        playSound(doorOpenSound, playbackRate);
+        this.soundPlayed = true;
+      }
     } else {
       this.sprite = doorImg;
     }

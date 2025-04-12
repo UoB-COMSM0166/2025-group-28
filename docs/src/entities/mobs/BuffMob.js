@@ -15,6 +15,7 @@ class BuffMob extends Mob {
     this.target = null;
     this.isIdle = false;
     this.idleTime = null;
+    this.deathSound = buffMobDeathSound;
     this.checkIfSlowMeowActive();
   }
 
@@ -22,7 +23,7 @@ class BuffMob extends Mob {
     if (!this.isActive) return;
     let nearestPlayer = this.findNearestPlayer();
     // If a player is nearby, move towards them
-    if (nearestPlayer.position.dist(this.position) < 150) {
+    if (nearestPlayer && nearestPlayer.position.dist(this.position) < 150) {
       this.target = nearestPlayer.position.copy();
       this.isIdle = false;
       this.idleTime = null;

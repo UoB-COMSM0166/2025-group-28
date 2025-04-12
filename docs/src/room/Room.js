@@ -252,6 +252,7 @@ class Room {
           if (this.mobs.length > 1) { // If other mobs are in room when BuffMob killed
             this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
             this.mobBuffActive = true; // Activate buff to all other mobs
+            buffMobBuffSound.play(); // Doesn't sound good if slowed during slow mo, so play sfx normally
           } else {
             this.roomScoreAccumaltor += 25;
           }
@@ -322,18 +323,19 @@ class Room {
     }
   }
 
+
   handleWallCollision(player, wall) {
     // Calculate the boundaries of both objects
     const playerLeft = player.position.x - player.widthHitbox / 2;
     const playerRight = player.position.x + player.widthHitbox / 2;
     const playerTop = player.position.y - player.heightHitbox / 2;
     const playerBottom = player.position.y + player.heightHitbox / 2;
-    
+
     const wallLeft = wall.position.x;
     const wallRight = wall.position.x + wall.widthHitbox;
     const wallTop = wall.position.y
     const wallBottom = wall.position.y + wall.heightHitbox;
-    
+
     // Check if there's a collision
     if (
       playerRight > wallLeft &&
@@ -346,10 +348,10 @@ class Room {
       const overlapRight = wallRight - playerLeft;
       const overlapTop = playerBottom - wallTop;
       const overlapBottom = wallBottom - playerTop;
-      
+
       // Find the minimum overlap
       const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
-      
+
       // Resolve collision based on minimum overlap
       if (minOverlap === overlapLeft) {
         // Colliding from the right side of the wall
@@ -469,22 +471,26 @@ class Room {
           if (projectile.isCollidingWith(playerA)) {
             playerA.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP1 += projectile.owner.attackDamage;
-            this.createBloodParticles(
-              playerA.position.x,
-              playerA.position.y,
-              playerA.bloodColour
-            );
+            if (!playerA.isInvincible) {
+              this.createBloodParticles(
+                playerA.position.x,
+                playerA.position.y,
+                playerA.bloodColour
+              );
+            }
             projectile.isActive = false;
             playerA.makeInvincible();
           }
           if (coop && projectile.isCollidingWith(playerB)) {
             playerB.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP2 += projectile.owner.attackDamage;
-            this.createBloodParticles(
-              playerB.position.x,
-              playerB.position.y,
-              playerB.bloodColour
-            );
+            if (!playerB.isInvincible) {
+              this.createBloodParticles(
+                playerB.position.x,
+                playerB.position.y,
+                playerB.bloodColour
+              );
+            }
             projectile.isActive = false;
             playerB.makeInvincible();
           }
@@ -499,11 +505,13 @@ class Room {
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage);
         this.damageTakenP1 += mob.attackDamage;
-        this.createBloodParticles(
-          playerA.position.x,
-          playerA.position.y,
-          playerA.bloodColour
-        );
+        if (!playerA.isInvincible) {
+          this.createBloodParticles(
+            playerA.position.x,
+            playerA.position.y,
+            playerA.bloodColour
+          );
+        }
         playerA.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerA.position.x, playerA.position.y);
         playerA.makeInvincible();
@@ -512,11 +520,13 @@ class Room {
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         playerB.takeDamage(mob.attackDamage);
         this.damageTakenP2 += mob.attackDamage;
-        this.createBloodParticles(
-          playerB.position.x,
-          playerB.position.y,
-          playerB.bloodColour
-        );
+        if (!playerB.isInvincible) {
+          this.createBloodParticles(
+            playerB.position.x,
+            playerB.position.y,
+            playerB.bloodColour
+          );
+        }
         playerB.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerB.position.x, playerB.position.y);
         playerB.makeInvincible();
@@ -762,7 +772,7 @@ class Room {
     } else if (item instanceof Energy) {
         player.resetOverheat();
     }
-    player.itemsUsed++;
+    playSound(itemSound, playbackRate);
   }
 
   // Get the player's position in the next room based on position of door in current room
