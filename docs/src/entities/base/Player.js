@@ -397,7 +397,12 @@ class Player extends Sprite {
     }
   }
 
-  pickupItem() {}
+  resetOverheat() {
+    this.fireCooldown = 0;
+    this.slowTimer = 0;
+    this.fireOverheat = false;
+    this.speed = 3;
+  }
 
   // For behaviour monitoring
   getHighHeatFrequency() {

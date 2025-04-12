@@ -20,6 +20,12 @@ class Room {
     this.canSpawnBuffMob = false; // Only true if player has survived 3+ rooms & playing on normal/hard/coop
     this.mobBuffActive = false; // Set true once BuffMob is killed, applies buff to all other mobs
 
+    // bonus point vars
+    this.damageTakenP1 = 0;
+    this.damageDealtP1 = 0;
+    this.damageTakenP2 = 0;
+    this.damageDealtP2 = 0;
+
     this.initRoom();
   }
 
@@ -317,61 +323,52 @@ class Room {
     }
   }
 
+
   handleWallCollision(player, wall) {
-    // First, detect if there's a collision
+    // Calculate the boundaries of both objects
+    const playerLeft = player.position.x - player.widthHitbox / 2;
+    const playerRight = player.position.x + player.widthHitbox / 2;
+    const playerTop = player.position.y - player.heightHitbox / 2;
+    const playerBottom = player.position.y + player.heightHitbox / 2;
+
+    const wallLeft = wall.position.x;
+    const wallRight = wall.position.x + wall.widthHitbox;
+    const wallTop = wall.position.y
+    const wallBottom = wall.position.y + wall.heightHitbox;
+
+    // Check if there's a collision
     if (
-      player.position.x + player.widthHitbox / 2 >
-        wall.position.x - wall.widthHitbox / 2 &&
-      player.position.x - player.widthHitbox / 2 <
-        wall.position.x + wall.widthHitbox / 2 &&
-      player.position.y + player.heightHitbox / 2 >
-        wall.position.y + -wall.heightHitbox / 2 &&
-      player.position.y - player.heightHitbox / 2 <
-        wall.position.y + wall.heightHitbox / 2
+      playerRight > wallLeft &&
+      playerLeft < wallRight &&
+      playerBottom > wallTop &&
+      playerTop < wallBottom
     ) {
-      // Find the overlap on each axis
-      let overlapLeft =
-        player.position.x +
-        player.widthHitbox / 2 -
-        (wall.position.x - wall.widthHitbox / 2);
-      let overlapRight =
-        wall.position.x +
-        wall.widthHitbox / 2 -
-        (player.position.x - player.widthHitbox / 2);
-      let overlapTop =
-        player.position.y +
-        player.heightHitbox / 2 -
-        (wall.position.y - wall.heightHitbox / 2);
-      let overlapBottom =
-        wall.position.y +
-        wall.heightHitbox / 2 -
-        (player.position.y - player.heightHitbox / 2);
+      // Calculate overlaps on each axis
+      const overlapLeft = playerRight - wallLeft;
+      const overlapRight = wallRight - playerLeft;
+      const overlapTop = playerBottom - wallTop;
+      const overlapBottom = wallBottom - playerTop;
 
-      // Find the smallest overlap (this is the direction to push out)
-      let minOverlap = Math.min(
-        overlapLeft,
-        overlapRight,
-        overlapTop,
-        overlapBottom
-      );
+      // Find the minimum overlap
+      const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
 
-      // Push the player out based on the smallest overlap
+      // Resolve collision based on minimum overlap
       if (minOverlap === overlapLeft) {
-        player.position.x =
-          wall.position.x - wall.widthHitbox / 2 - player.widthHitbox / 2;
-        player.velocity.x = 0; // Stop horizontal movement
+        // Colliding from the right side of the wall
+        player.position.x = wallLeft - player.widthHitbox / 2;
+        player.velocity.x = 0;
       } else if (minOverlap === overlapRight) {
-        player.position.x =
-          wall.position.x + wall.widthHitbox / 2 + player.widthHitbox / 2;
-        player.velocity.x = 0; // Stop horizontal movement
+        // Colliding from the left side of the wall
+        player.position.x = wallRight + player.widthHitbox / 2;
+        player.velocity.x = 0;
       } else if (minOverlap === overlapTop) {
-        player.position.y =
-          wall.position.y - wall.heightHitbox / 2 - player.heightHitbox / 2;
-        player.velocity.y = 0; // Stop vertical movement
+        // Colliding from below the wall
+        player.position.y = wallTop - player.heightHitbox / 2;
+        player.velocity.y = 0;
       } else if (minOverlap === overlapBottom) {
-        player.position.y =
-          wall.position.y + wall.heightHitbox / 2 + player.heightHitbox / 2;
-        player.velocity.y = 0; // Stop vertical movement
+        // Colliding from above the wall
+        player.position.y = wallBottom + player.heightHitbox / 2;
+        player.velocity.y = 0;
       }
     }
   }
@@ -460,6 +457,8 @@ class Room {
         for (let mob of this.mobs) {
           if (projectile.isCollidingWith(mob) && projectile.owner instanceof Player) {
             mob.takeDamage(projectile.owner.attackDamage);
+            if (projectile.owner === playerA) this.damageDealtP1 += projectile.owner.attackDamage;
+            if (projectile.owner === playerB) this.damageDealtP2 += projectile.owner.attackDamage;
             this.createBloodParticles(
               mob.position.x,
               mob.position.y,
@@ -471,6 +470,7 @@ class Room {
         if (projectile.owner instanceof RangedMob || projectile.owner instanceof BlinkMob) {
           if (projectile.isCollidingWith(playerA)) {
             playerA.takeDamage(projectile.owner.attackDamage);
+            this.damageTakenP1 += projectile.owner.attackDamage;
             if (!playerA.isInvincible) {
               this.createBloodParticles(
                 playerA.position.x,
@@ -483,6 +483,7 @@ class Room {
           }
           if (coop && projectile.isCollidingWith(playerB)) {
             playerB.takeDamage(projectile.owner.attackDamage);
+            this.damageTakenP2 += projectile.owner.attackDamage;
             if (!playerB.isInvincible) {
               this.createBloodParticles(
                 playerB.position.x,
@@ -503,6 +504,7 @@ class Room {
       mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage);
+        this.damageTakenP1 += mob.attackDamage;
         if (!playerA.isInvincible) {
           this.createBloodParticles(
             playerA.position.x,
@@ -517,6 +519,7 @@ class Room {
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         playerB.takeDamage(mob.attackDamage);
+        this.damageTakenP2 += mob.attackDamage;
         if (!playerB.isInvincible) {
           this.createBloodParticles(
             playerB.position.x,
@@ -767,10 +770,7 @@ class Room {
         player.health = 100;
       }
     } else if (item instanceof Energy) {
-      player.fireCooldown = 0;
-      player.slowTimer = 0;
-      player.fireOverheat = false;
-      player.speed = 3;
+        player.resetOverheat();
     }
     playSound(itemSound, playbackRate);
   }

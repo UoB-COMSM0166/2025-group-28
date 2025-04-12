@@ -216,8 +216,16 @@ function draw() {
       fill(255, 255, 255);
       var roomNumber = "Room " + game.roomSeq;
       text(roomNumber, 200, 80);
-      var scoreNumber = "Score:" + game.score;
-      text(scoreNumber, 760, 80);
+      if (!coop) {
+        var scoreNumber = "Score:" + game.currScoreP1;
+        text(scoreNumber, 760, 80);
+      } else {
+        textSize(16);
+        var scoreNumber = "Score A:" + game.currScoreP1;
+        text(scoreNumber, 760, 70);
+        var scoreNumber = "Score B:" + game.currScoreP2;
+        text(scoreNumber, 760, 90);
+      }
 
       if (!game.slowMeowUsable) {
         textSize(16);
@@ -248,7 +256,7 @@ function draw() {
         playerA.fireCooldown / 200,
         "PLAYER A"
       );
-      if (coop) {
+      if (coop || pvpMode) {
         playerB.drawPlayerHeatBar(
           width / 4 + 400,
           height - 80,

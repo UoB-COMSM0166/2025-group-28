@@ -9,10 +9,11 @@ class Game {
       this.currentRoom = new PvPRoom();
     }
 
-    this.meta_score = 0;
-    this.score = 0;
-    this.frameCount = 0;
-    this.timeCounter = 0;
+    // score variables
+    this.prevScoreP1 = 0;
+    this.currScoreP1 = 0;
+    this.prevScoreP2 = 0;
+    this.currScoreP2 = 0;
 
     this.roomSeq = 1;
 
@@ -29,11 +30,18 @@ class Game {
     this.roomSeq++;
     behaviourMonitor.updateRoomsCleared();
     // Clear projectile array to stop projectiles fired in previous room from persisting in next room
-    projectileManager.projectilesFired.splice(0, projectileManager.projectilesFired.length);
-    if (this.timeCounter > 0) {
-      this.meta_score += 1000 / this.timeCounter;
+    projectileManager.projectilesFired = [];
+
+    // update scores
+    this.currScoreP1 += this.calculateScore(this.currentRoom.damageDealtP1, this.currentRoom.damageTakenP1);
+    this.prevScoreP1 = this.currScoreP1;
+    this.currScoreP1 = 0;
+
+    if (coop) {
+      this.currScoreP2 += this.calculateScore(this.currentRoom.damageDealtP2, this.currentRoom.damageTakenP2);
+      this.prevScoreP2 = this.currScoreP2;
+      this.currScoreP2 = 0;
     }
-    this.timeCounter = 0;
 
     this.currentRoom = null;
     if (pvpMode) {
@@ -53,18 +61,24 @@ class Game {
             playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
             playerA.health = 50;
             playerADeathCount++;
+            this.prevScoreP1 -= 300;
+            if (this.prevScoreP1 < 0) this.prevScoreP1 = 0;
           } else {
             playerB = null;
             playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
             playerB.health = 50;
             playerBDeathCount++;
+            this.prevScoreP2 -= 300;
+            if (this.prevScoreP2 < 0) this.prevScoreP2 = 0;
           }
         }
       }
       // Set player positions in room relative to door in previous room
+      playerA.resetOverheat();
       playerA.position.x = playerNextX;
       playerA.position.y = playerNextY;
       if (coop) {
+        playerB.resetOverheat();
         playerB.position.x = playerNextX;
         playerB.position.y = playerNextY;
       }
@@ -72,13 +86,14 @@ class Game {
   }
 
   draw() {
-    this.frameCount++;
-    if (this.frameCount % 600 == 0) {
-      this.timeCounter++;
-    }
-    this.score = Math.round(
-      this.currentRoom.roomScoreAccumaltor + this.meta_score
+    this.currScoreP1 = Math.round(
+      this.currentRoom.roomScoreAccumaltor + this.prevScoreP1
     );
+    if (coop) {
+      this.currScoreP2 = Math.round(
+        this.currentRoom.roomScoreAccumaltor + this.prevScoreP2
+      );
+    }
     this.updateSlowMeow();
     this.currentRoom.draw();
     this.currentRoom.update();
@@ -87,6 +102,21 @@ class Game {
     if (this.slowMeowOccuring) {
       this.drawSlowMeow();
     }
+  }
+
+  calculateScore(damageDealt, damageTaken) {
+    if (!coop) {
+      let bonus = ((damageDealt / (damageTaken + 10)) * 10) - 120;
+      if (bonus < 0) return 0;
+      if (bonus > 300) return 300;
+      return bonus;
+    } else {
+      let bonus = ((damageDealt / (damageTaken + 10)) * 10) - 80;
+      if (bonus < 0) return 0;
+      if (bonus > 300) return 300;
+      return bonus;
+    }
+      
   }
 
   drawSlowMeow() {
