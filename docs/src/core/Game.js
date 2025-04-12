@@ -10,8 +10,10 @@ class Game {
     }
 
     // score variables
-    this.prevScore = 0;
-    this.currScore = 0;
+    this.prevScoreP1 = 0;
+    this.currScoreP1 = 0;
+    this.prevScoreP2 = 0;
+    this.currScoreP2 = 0;
 
     this.roomSeq = 1;
 
@@ -31,9 +33,15 @@ class Game {
     projectileManager.projectilesFired = [];
 
     // update scores
-    this.currScore += this.calculateScore();
-    this.prevScore = this.currScore;
-    this.currScore = 0;
+    this.currScoreP1 += this.calculateScore(this.currentRoom.damageDealtP1, this.currentRoom.damageTakenP1);
+    this.prevScoreP1 = this.currScoreP1;
+    this.currScoreP1 = 0;
+
+    if (coop) {
+      this.currScoreP2 += this.calculateScore(this.currentRoom.damageDealtP2, this.currentRoom.damageTakenP2);
+      this.prevScoreP2 = this.currScoreP2;
+      this.currScoreP2 = 0;
+    }
 
     this.currentRoom = null;
     if (pvpMode) {
@@ -53,11 +61,15 @@ class Game {
             playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
             playerA.health = 50;
             playerADeathCount++;
+            this.prevScoreP1 -= 300;
+            if (this.prevScoreP1 < 0) this.prevScoreP1 = 0;
           } else {
             playerB = null;
             playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
             playerB.health = 50;
             playerBDeathCount++;
+            this.prevScoreP2 -= 300;
+            if (this.prevScoreP2 < 0) this.prevScoreP2 = 0;
           }
         }
       }
@@ -74,9 +86,14 @@ class Game {
   }
 
   draw() {
-    this.currScore = Math.round(
-      this.currentRoom.roomScoreAccumaltor + this.prevScore
+    this.currScoreP1 = Math.round(
+      this.currentRoom.roomScoreAccumaltor + this.prevScoreP1
     );
+    if (coop) {
+      this.currScoreP2 = Math.round(
+        this.currentRoom.roomScoreAccumaltor + this.prevScoreP2
+      );
+    }
     this.updateSlowMeow();
     this.currentRoom.draw();
     this.currentRoom.update();
@@ -87,11 +104,19 @@ class Game {
     }
   }
 
-  calculateScore() {
-    let bonus = ((this.currentRoom.damageDealt / (this.currentRoom.damageTaken + 10)) * 10) - 120;
-    if (bonus < 0) return 0;
-    if (bonus > 300) return 300;
-    return bonus;
+  calculateScore(damageDealt, damageTaken) {
+    if (!coop) {
+      let bonus = ((damageDealt / (damageTaken + 10)) * 10) - 120;
+      if (bonus < 0) return 0;
+      if (bonus > 300) return 300;
+      return bonus;
+    } else {
+      let bonus = ((damageDealt / (damageTaken + 10)) * 10) - 80;
+      if (bonus < 0) return 0;
+      if (bonus > 300) return 300;
+      return bonus;
+    }
+      
   }
 
   drawSlowMeow() {

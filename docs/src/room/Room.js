@@ -21,8 +21,10 @@ class Room {
     this.mobBuffActive = false; // Set true once BuffMob is killed, applies buff to all other mobs
 
     // bonus point vars
-    this.damageTaken = 0;
-    this.damageDealt = 0;
+    this.damageTakenP1 = 0;
+    this.damageDealtP1 = 0;
+    this.damageTakenP2 = 0;
+    this.damageDealtP2 = 0;
 
     this.initRoom();
   }
@@ -453,7 +455,8 @@ class Room {
         for (let mob of this.mobs) {
           if (projectile.isCollidingWith(mob) && projectile.owner instanceof Player) {
             mob.takeDamage(projectile.owner.attackDamage);
-            this.damageDealt += projectile.owner.attackDamage;
+            if (projectile.owner === playerA) this.damageDealtP1 += projectile.owner.attackDamage;
+            if (projectile.owner === playerB) this.damageDealtP2 += projectile.owner.attackDamage;
             this.createBloodParticles(
               mob.position.x,
               mob.position.y,
@@ -465,7 +468,7 @@ class Room {
         if (projectile.owner instanceof RangedMob || projectile.owner instanceof BlinkMob) {
           if (projectile.isCollidingWith(playerA)) {
             playerA.takeDamage(projectile.owner.attackDamage);
-            this.damageTaken += projectile.owner.attackDamage;
+            this.damageTakenP1 += projectile.owner.attackDamage;
             this.createBloodParticles(
               playerA.position.x,
               playerA.position.y,
@@ -476,7 +479,7 @@ class Room {
           }
           if (coop && projectile.isCollidingWith(playerB)) {
             playerB.takeDamage(projectile.owner.attackDamage);
-            this.damageTaken += projectile.owner.attackDamage;
+            this.damageTakenP2 += projectile.owner.attackDamage;
             this.createBloodParticles(
               playerB.position.x,
               playerB.position.y,
@@ -495,7 +498,7 @@ class Room {
       mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         playerA.takeDamage(mob.attackDamage);
-        this.damageTaken += mob.attackDamage;
+        this.damageTakenP1 += mob.attackDamage;
         this.createBloodParticles(
           playerA.position.x,
           playerA.position.y,
@@ -508,7 +511,7 @@ class Room {
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         playerB.takeDamage(mob.attackDamage);
-        this.damageTaken += mob.attackDamage;
+        this.damageTakenP2 += mob.attackDamage;
         this.createBloodParticles(
           playerB.position.x,
           playerB.position.y,
