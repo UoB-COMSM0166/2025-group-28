@@ -10,10 +10,10 @@ class Particle {
   update() {
     // Deactive any particles that leave the room boundaries
     if (
-      this.position.x < tileSize + arena_offset ||
-      this.position.x > roomWidth * tileSize - tileSize + arena_offset ||
-      this.position.y < tileSize + arena_offset ||
-      this.position.y > roomHeight * tileSize - tileSize + arena_offset
+      this.position.x < (tileSize * 2) + arena_offset ||
+      this.position.x > roomWidth * tileSize - (tileSize * 2) + arena_offset ||
+      this.position.y < (tileSize * 2) + arena_offset ||
+      this.position.y > roomHeight * tileSize - (tileSize * 2) + arena_offset
     ) {
       this.lifespan = 0;
     }

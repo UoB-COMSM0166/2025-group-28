@@ -1,5 +1,7 @@
 /* GLOBAL CONSTANTS */
 let game;
+let projectileManager;
+let behaviourMonitor;
 let asset_astrocat;
 
 let playerA;
@@ -79,16 +81,24 @@ function gameSwitch(starting) {
   } else {
     inGame = false;
     game = null;
+    projectileManager = null;
+    behaviourMonitor = null;
+    playbackRate = 1;
+    slowMeowGain = 10;
+    slowMeowLoss = slowMeowGain / 2;
     clear();
     renderMenu();
     loop();
   }
 }
+
 function singlePlayerStart() {
   coop = false;
   gameSwitch(true);
 }
+
 function coopPlayerStart() {
+  pvpMode = false;
   coop = true;
   gameSwitch(true);
 }
@@ -102,9 +112,11 @@ function pvpStart() {
 function singlePlayerHover() {
   sp_button.style("opacity", "1");
 }
+
 function coopHover() {
   coop_button.style("opacity", "1");
 }
+
 function stngHover() {
   stng_button.style("opacity", "1");
 }
@@ -116,9 +128,11 @@ function pvpHover() {
 function singlePlayerEndHover() {
   sp_button.style("opacity", "0.5");
 }
+
 function coopEndHover() {
   coop_button.style("opacity", "0.5");
 }
+
 function stngEndHover() {
   stng_button.style("opacity", "0.5");
 }
@@ -186,9 +200,11 @@ function gameOverReturn() {
   game_over_back.remove();
   scoretotal.remove();
   returnToMenu.remove();
+  themeMusic.stop();
 
   gameSwitch(false);
 }
+
 function renderMenu() {
   let menuContainer = createDiv();
   menuContainer.id("menuContainer");
@@ -275,7 +291,8 @@ function gameSetUp() {
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     if (coop) {
       playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
-      slowMeowMax *= 2;
+      slowMeowGain /= 2;
+      slowMeowLoss /= 2;
     }
     behaviourMonitor = new BehaviourMonitor(difficultySettings[difficulty]);
   }
@@ -357,17 +374,16 @@ function draw() {
         if (coop && game.slowMeowLevel == slowMeowMax &&
             playerA.fireOverheat && playerB.fireOverheat) {
           fill(210, 0, 0);
-          text("SLOW MEOW:BLOCKED", width/2 + 20, height - 65);
+          text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 65);
         } else if (!coop && game.slowMeowLevel == slowMeowMax && playerA.fireOverheat) {
           fill(210, 0, 0);
-          text("SLOW MEOW:BLOCKED", width/2 + 20, height - 65);
+          text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 65);
         } else if (!game.slowMeowUsable || game.slowMeowOccurring) {
           fill(100, 150, 255);
-          //const cooldownPercent = (millis() - game.slowMeowLastUsed) / game.slowMeowCooldown * 100;
-          text("SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%", width/2 + 20, height - 65);
+          text("SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%", width / 2 + 20, height - 65);
         } else if (!game.slowMeowOccurring && game.slowMeowUsable) {
           fill(0, 255, 255);
-          text("SLOW MEOW:READY", width/2 + 20, height - 65);
+          text("SLOW MEOW:READY", width / 2 + 20, height - 65);
         }
       }
       pop();
@@ -405,16 +421,17 @@ function draw() {
 function keyPressed() {
   if (inGame) {
     // 'press q to quit'
-    if (keyCode === 81) {
-      if (game.gameState == GameStates.PAUSE) {
+    if (game.gameState == GameStates.PAUSE) {
+      if (keyCode == 81) {
+        themeMusic.stop();
         gameSwitch(false);
       }
     }
 
-    if (keyCode === ESCAPE) {
+    if (keyCode == ESCAPE) {
       if (game.gameState == GameStates.ACTIVE && !transitioning) {
         game.gameState = GameStates.PAUSE;
-
+        push();
         fill("rgba(0, 0, 0, 0.6)");
         let pauseMask = rect(0, 0, pageWidth, pageHeight);
         textSize(38);
@@ -425,7 +442,7 @@ function keyPressed() {
         textSize(19);
         text("Press Q to quit game", 500, 350);
         text("Press ESC to resume", 500, 400);
-
+        pop();
         noLoop();
       } else {
         loop();
@@ -441,7 +458,7 @@ function keyPressed() {
       }
     }
     // SlowMeow gets activated with 'Q' or '/'
-    if (!transitioning && (keyCode === 81 || keyCode === 191)) {
+    if (!transitioning && (keyCode == 81 || keyCode == 191)) {
       game.activateSlowMeow();
     }
   }

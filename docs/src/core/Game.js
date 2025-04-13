@@ -82,12 +82,7 @@ class Game {
             if (this.prevScoreP1 < 0) this.prevScoreP1 = 0;
           } else {
             playerB = null;
-            playerB = new Player(
-              astrocat_gif_p2,
-              300,
-              300,
-              playerNumber.PLAYER_2
-            );
+            playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
             playerB.health = 50;
             playerBDeathCount++;
             this.prevScoreP2 -= 300;
@@ -115,6 +110,7 @@ class Game {
       this.gameState = GameStates.OVER;
     }
   }
+
   draw() {
     this.checkIfGameOver();
     this.currScoreP1 = Math.round(
@@ -229,7 +225,10 @@ class Game {
       this.slowMeowUsable = false;
     }
 
-    if (this.slowMeowOccurring && currentTime - this.slowMeowStartTime > this.slowMeowDuration) {
+    if (
+      this.slowMeowOccurring &&
+      currentTime - this.slowMeowStartTime > this.slowMeowDuration
+    ) {
       this.slowMeowOccurring = false;
       this.applySlowMeow(this.slowMeowOccurring, true);
     }
@@ -297,10 +296,7 @@ class Game {
       for (let projectile of projectileManager.projectilesFired) {
         if (projectile && projectile.isActive) {
           if (slowActive) {
-            projectile.velocity = p5.Vector.mult(
-              projectile.originalVelocity,
-              slowFactor
-            );
+            projectile.velocity = p5.Vector.mult(projectile.originalVelocity, slowFactor);
           } else {
             if (projectile.velocity.mag() < projectile.originalVelocity.mag()) {
               projectile.velocity = projectile.originalVelocity.copy();

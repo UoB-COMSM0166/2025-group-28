@@ -25,7 +25,7 @@ class Projectile extends GameObject {
   }
 
   update() {
-    // Deactive the projectile if it leaves the room boundaries for performance reasons ;)
+    // Deactive the projectile if it leaves the room boundaries
     if (
       this.position.x < (tileSize * 2) + arena_offset ||
       this.position.x > roomWidth * tileSize - (tileSize * 2) + arena_offset ||

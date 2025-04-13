@@ -100,7 +100,7 @@ class Mob extends Sprite {
     }
     // Apply knockback force gradually
     if (this.knockbackVelocity.mag() > 0.1) {
-      if (game.slowMeowOccurring) {
+      if (game.slowMeowOccurring) { // Slow knockback speed if slow meow active
         let adjustedVelocity = p5.Vector.mult(this.knockbackVelocity, game.slowMeowMovementSpeed);
         this.position.add(adjustedVelocity);
         this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowMovementSpeed));
