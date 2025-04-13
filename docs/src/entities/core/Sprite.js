@@ -21,10 +21,12 @@ class Sprite extends GameObject {
     this.flashInterval = 100; // Flash every 100ms
     this.lastFlashTime = 0;
     this.isFlashing = false;
+    this.lastSoundTime = 0;
+    this.soundCooldown = 1500; // 1.5 second cooldown between sounds
 
     this.isBuffed = false;
 
-    this.knockbackForce = createVector(0, 0); // stores remaining knockback force
+    this.knockbackVelocity = createVector(0, 0);
   }
 
   calculateKnockbackDirection(sourceX, sourceY) {
@@ -35,12 +37,19 @@ class Sprite extends GameObject {
 
   applyKnockback(sourceX, sourceY) {
     let knockbackDirection = this.calculateKnockbackDirection(sourceX, sourceY);
-    this.knockbackForce = p5.Vector.mult(knockbackDirection, knockbackForce);
+    this.knockbackVelocity = p5.Vector.mult(knockbackDirection, knockbackForce);
   }
 
   takeDamage(amount) {
     if (!this.isInvincible) {
-      this.health -= amount;
+      if (this.lastSoundTime == 0 || millis() - this.lastSoundTime > this.soundCooldown) {
+        let soundChance = random();
+        if (soundChance < 0.5) {
+          playSound(bloodSound, playbackRate);
+          this.lastSoundTime = millis();
+        }
+      }
+      this.health = Math.max(0, this.health - amount);
     }
     // Checks if the sprite is dead
     if (this.health <= 0) {
@@ -51,7 +60,7 @@ class Sprite extends GameObject {
   }
 
   checkIfSlowMeowActive() {
-    if (game && game.slowMeowOccuring) {
+    if (game && game.slowMeowOccurring) {
       if (this.isSlowed) return;
       if (!this.isBuffed) this.originalSpeed = this.speed;
       this.speed *= game.slowMeowMovementSpeed;

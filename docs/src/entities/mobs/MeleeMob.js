@@ -6,6 +6,7 @@ class MeleeMob extends Mob {
     this.speed = random(0.8, 1.2) * difficultySettings.mobSpeedMult;
     this.originalSpeed = this.speed;
     this.attackDamage = 12 * difficultySettings.mobDamageMult;
+    this.deathSound = meleeMobDeathSound;
     this.checkIfSlowMeowActive();
   }
 }

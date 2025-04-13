@@ -254,11 +254,30 @@ class Room {
             this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
             this.mobBuffActive = true; // Activate buff to all other mobs
             buffMobBuffSound.play(); // Doesn't sound good if slowed during slow mo, so play sfx normally
+            if (!game.slowMeowOccurring) {
+              // Give player a lower value towards their slow meow level for triggering mob buff
+              game.slowMeowLevel = Math.min(
+                slowMeowMax,
+                game.slowMeowLevel + (game.slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult
+              );
+            }
           } else {
             this.roomScoreAccumaltor += 25;
+            if (!game.slowMeowOccurring) {
+              game.slowMeowLevel = Math.min(
+                slowMeowMax,
+                game.slowMeowLevel + game.slowMeowGain * this.difficultySettings.slowMeowGainMult
+              );
+            }
           }
         } else {
           this.roomScoreAccumaltor += 25;
+          if (!game.slowMeowOccurring) {
+            game.slowMeowLevel = Math.min(
+              slowMeowMax,
+              game.slowMeowLevel + game.slowMeowGain * this.difficultySettings.slowMeowGainMult
+            );
+          }
         }
         this.mobs.splice(i, 1);
       }
@@ -453,8 +472,6 @@ class Room {
       playerB.drawPlayerHealthBar();
     }
 
-    //let hud_div = createDiv();
-
     // Projectile collision checking
     for (let projectile of projectileManager.projectilesFired) {
       if (projectile.isActive) {
@@ -490,6 +507,12 @@ class Room {
                 playerA.position.y,
                 playerA.bloodColour
               );
+              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+                game.slowMeowLevel = Math.max(
+                  0,
+                  game.slowMeowLevel - slowMeowLoss * this.difficultySettings.slowMeowLossMult
+                );
+              }
             }
             projectile.isActive = false;
             playerA.makeInvincible();
@@ -503,6 +526,12 @@ class Room {
                 playerB.position.y,
                 playerB.bloodColour
               );
+              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+                game.slowMeowLevel = Math.max(
+                  0,
+                  game.slowMeowLevel - slowMeowLoss * this.difficultySettings.slowMeowLossMult
+                );
+              }
             }
             projectile.isActive = false;
             playerB.makeInvincible();
@@ -524,6 +553,12 @@ class Room {
             playerA.position.y,
             playerA.bloodColour
           );
+          if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+            game.slowMeowLevel = Math.max(
+              0,
+              game.slowMeowLevel - slowMeowLoss * this.difficultySettings.slowMeowLossMult
+            );
+          }
         }
         playerA.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerA.position.x, playerA.position.y);
@@ -539,6 +574,12 @@ class Room {
             playerB.position.y,
             playerB.bloodColour
           );
+          if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+            game.slowMeowLevel = Math.max(
+              0,
+              game.slowMeowLevel - slowMeowLoss * this.difficultySettings.slowMeowLossMult
+            );
+          }
         }
         playerB.applyKnockback(mob.position.x, mob.position.y);
         mob.applyKnockback(playerB.position.x, playerB.position.y);
@@ -816,15 +857,16 @@ class Room {
 
   applyItemBuff(item, player) {
     if (item instanceof Heart) {
-      if (player.health < 71) {
-        player.health += 30;
-      } else {
-        player.health = 100;
-      }
+      if (player.health >= player.maxHealth) itemSound1.play();
+      else itemSound2.play();
+      player.health = Math.min(player.maxHealth, player.health + 30);
     } else if (item instanceof Energy) {
+      if (player.fireCooldown <= 0) itemSound1.play();
+      else itemSound2.play();
+      if (player.fireOverheat) playSound(overheatEndSound, playbackRate);
       player.resetOverheat();
     }
-    playSound(itemSound, playbackRate);
+
   }
 
   // Get the player's position in the next room based on position of door in current room
