@@ -60,7 +60,8 @@ const difficultyLevels = Object.freeze({
 });
 
 const difficultySettings = Object.freeze([
-  { // Easy mode
+  {
+    // Easy mode
     playerDamageMult: 1.0,
     spawnRate: 3000,
     maxMobs: 4,
@@ -76,7 +77,8 @@ const difficultySettings = Object.freeze([
     slowMeowGainMult: 1.5,
     slowMeowLossMult: 1.0,
   },
-  { // Normal mode
+  {
+    // Normal mode
     playerDamageMult: 1.0,
     spawnRate: 3000,
     maxMobs: 4,
@@ -92,7 +94,8 @@ const difficultySettings = Object.freeze([
     slowMeowGainMult: 1.0,
     slowMeowLossMult: 1.0,
   },
-  { // Hard mode
+  {
+    // Hard mode
     playerDamageMult: 1.0,
     spawnRate: 3000,
     maxMobs: 5,
@@ -142,7 +145,7 @@ function preload() {
 
   gameFont = loadFont("assets/ARCADE_I.ttf");
 
-  heartMob_gif = loadImage("assets/HeartMobBossGif.gif")
+  heartMob_gif = loadImage("assets/HeartMobBossGif.gif");
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   rangedmob_gif = loadImage("assets/yellowDogMob.gif");
   blinkMobGif = loadImage("assets/purpleDogMob.gif");
@@ -181,9 +184,11 @@ function preload() {
 // HTML <img> paths (no need to preload):
 
 let singlePlayerIcon = "assets/singlepbutton.png";
-let coopIcon = "assets/twopbutton.png";
+let coopIcon = "assets/coopbutton.png";
+let pvpIcon = "assets/pvpbutton.png";
 let helpIcon = "assets/helpbutton.png";
 let menuimg = "assets/menuback.mp4";
+let gameoverback = "assets/gameover.gif";
 
 let pageWidth = 900;
 let pageHeight = 750;

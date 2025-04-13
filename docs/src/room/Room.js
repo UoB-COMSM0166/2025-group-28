@@ -207,7 +207,7 @@ class Room {
         } else {
           if (doorPrevPos != "left") {
             // Put door on right side of room
-            x = roomWidth + (arena_offset / 9.5);
+            x = roomWidth + arena_offset / 9.5;
             doorPrevPos = "right";
             validDoor = true;
           }
@@ -249,7 +249,8 @@ class Room {
         this.rollItemDrop(this.mobs[i]);
         this.mobsRemaining -= 1;
         if (this.mobs[i] instanceof BuffMob) {
-          if (this.mobs.length > 1) { // If other mobs are in room when BuffMob killed
+          if (this.mobs.length > 1) {
+            // If other mobs are in room when BuffMob killed
             this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
             this.mobBuffActive = true; // Activate buff to all other mobs
             buffMobBuffSound.play(); // Doesn't sound good if slowed during slow mo, so play sfx normally
@@ -342,7 +343,6 @@ class Room {
     }
   }
 
-
   handleWallCollision(player, wall) {
     // Calculate the boundaries of both objects
     const playerLeft = player.position.x - player.widthHitbox / 2;
@@ -352,7 +352,7 @@ class Room {
 
     const wallLeft = wall.position.x;
     const wallRight = wall.position.x + wall.widthHitbox;
-    const wallTop = wall.position.y
+    const wallTop = wall.position.y;
     const wallBottom = wall.position.y + wall.heightHitbox;
 
     // Check if there's a collision
@@ -369,7 +369,12 @@ class Room {
       const overlapBottom = wallBottom - playerTop;
 
       // Find the minimum overlap
-      const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+      const minOverlap = Math.min(
+        overlapLeft,
+        overlapRight,
+        overlapTop,
+        overlapBottom
+      );
 
       // Resolve collision based on minimum overlap
       if (minOverlap === overlapLeft) {
@@ -472,10 +477,15 @@ class Room {
       if (projectile.isActive) {
         projectile.draw();
         for (let mob of this.mobs) {
-          if (projectile.isCollidingWith(mob) && projectile.owner instanceof Player) {
+          if (
+            projectile.isCollidingWith(mob) &&
+            projectile.owner instanceof Player
+          ) {
             mob.takeDamage(projectile.owner.attackDamage);
-            if (projectile.owner === playerA) this.damageDealtP1 += projectile.owner.attackDamage;
-            if (projectile.owner === playerB) this.damageDealtP2 += projectile.owner.attackDamage;
+            if (projectile.owner === playerA)
+              this.damageDealtP1 += projectile.owner.attackDamage;
+            if (projectile.owner === playerB)
+              this.damageDealtP2 += projectile.owner.attackDamage;
             this.createBloodParticles(
               mob.position.x,
               mob.position.y,
@@ -484,7 +494,10 @@ class Room {
             projectile.isActive = false;
           }
         }
-        if (projectile.owner instanceof RangedMob || projectile.owner instanceof BlinkMob) {
+        if (
+          projectile.owner instanceof RangedMob ||
+          projectile.owner instanceof BlinkMob
+        ) {
           if (projectile.isCollidingWith(playerA)) {
             playerA.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP1 += projectile.owner.attackDamage;
@@ -599,22 +612,24 @@ class Room {
         } else {
           this.promptActive = false;
         }
-      } else if (this.door.x == roomWidth + (arena_offset / 9.5)) {
+      } else if (this.door.x == roomWidth + arena_offset / 9.5) {
         // Door on right side of room
         if (
           (playerA.position.x < this.door.position.x &&
-            playerA.position.x > this.door.position.x - (arena_offset * 2) - (tileSize * 8) &&
+            playerA.position.x >
+              this.door.position.x - arena_offset * 2 - tileSize * 8 &&
             playerA.position.y < this.door.position.y + tileSize * 6 &&
             playerA.position.y > this.door.position.y - tileSize * 4) ||
           (coop &&
             playerB.position.x < this.door.position.x &&
-            playerB.position.x > this.door.position.x - (arena_offset * 2) - (tileSize * 8) &&
+            playerB.position.x >
+              this.door.position.x - arena_offset * 2 - tileSize * 8 &&
             playerB.position.y < this.door.position.y + tileSize * 6 &&
             playerB.position.y > this.door.position.y - tileSize * 4)
         ) {
           image(
             buttonPrompt,
-            this.door.position.x - (tileSize * 2) - (arena_offset * 2),
+            this.door.position.x - tileSize * 2 - arena_offset * 2,
             this.door.position.y
           );
           this.promptActive = true;
@@ -725,28 +740,58 @@ class Room {
   chooseMob(spawnX, spawnY) {
     // This is here instead of Constants.js as assets and mobs need initialising before this accesses them
     const mobTypes = Object.freeze([
-      { type: MeleeMob, gif: dogmob_gif, threat: 3, counters: ['defensive'], spawnChance: 1.2 },
-      { type: RangedMob, gif: rangedmob_gif, threat: 5, counters: ['aggressive'], spawnChance: 1 },
-      { type: BlinkMob, gif: blinkMobGif, threat: 10, counters: ['defensive'], spawnChance: 0.8 },
-      { type: BuffMob, gif: heartMob_gif, threat: 0, counters: ['aggressive'], spawnChance: 0.5 }
+      {
+        type: MeleeMob,
+        gif: dogmob_gif,
+        threat: 3,
+        counters: ["defensive"],
+        spawnChance: 1.2,
+      },
+      {
+        type: RangedMob,
+        gif: rangedmob_gif,
+        threat: 5,
+        counters: ["aggressive"],
+        spawnChance: 1,
+      },
+      {
+        type: BlinkMob,
+        gif: blinkMobGif,
+        threat: 10,
+        counters: ["defensive"],
+        spawnChance: 0.8,
+      },
+      {
+        type: BuffMob,
+        gif: heartMob_gif,
+        threat: 0,
+        counters: ["aggressive"],
+        spawnChance: 0.5,
+      },
     ]);
 
     let playerBehaviour = behaviourMonitor.getBehaviourProfile();
-    let behaviourKeys = Object.keys(playerBehaviour).filter(key => playerBehaviour[key]);
+    let behaviourKeys = Object.keys(playerBehaviour).filter(
+      (key) => playerBehaviour[key]
+    );
     /* Filter out buff mob if it can't be spawned, also filter out any mobs whose threat level would exceed
        the threat cap too much */
-    let filteredMobTypes = mobTypes.filter(m => {
-      return ((this.canSpawnBuffMob && this.threatLevel > 0) || m.type !== BuffMob) &&
-             (m.threat + this.threatLevel <= this.threatCap + behaviourMonitor.getRoomsCleared() / 5);
+    let filteredMobTypes = mobTypes.filter((m) => {
+      return (
+        ((this.canSpawnBuffMob && this.threatLevel > 0) ||
+          m.type !== BuffMob) &&
+        m.threat + this.threatLevel <=
+          this.threatCap + behaviourMonitor.getRoomsCleared() / 5
+      );
     });
     if (filteredMobTypes.length == 0) {
       this.threatCapReached = true;
       return;
     }
     let totalWeight = 0;
-    let weightedMobs = filteredMobTypes.map(m => {
+    let weightedMobs = filteredMobTypes.map((m) => {
       let weight = m.spawnChance;
-      if (m.counters.some(counter => behaviourKeys.includes(counter))) {
+      if (m.counters.some((counter) => behaviourKeys.includes(counter))) {
         weight *= 2; // Increase weighting if mob counters player's behaviour
       }
       totalWeight += weight;
@@ -763,7 +808,14 @@ class Room {
         randomNum -= mob.weight;
       }
       if (chosenMob.type == BuffMob) this.canSpawnBuffMob = false;
-      this.mobs.push(new chosenMob.type(chosenMob.gif, spawnX, spawnY, this.difficultySettings));
+      this.mobs.push(
+        new chosenMob.type(
+          chosenMob.gif,
+          spawnX,
+          spawnY,
+          this.difficultySettings
+        )
+      );
       this.threatLevel += chosenMob.threat;
     }
   }
@@ -825,14 +877,14 @@ class Room {
       playerNextY = this.door.position.y;
     }
     // Door on right side of room
-    else if (this.door.x == roomWidth + (arena_offset / 9.5)) {
+    else if (this.door.x == roomWidth + arena_offset / 9.5) {
       playerNextX = 155;
       playerNextY = this.door.position.y;
-    // Door at bottom of room
+      // Door at bottom of room
     } else if (this.door.y == roomHeight - 2) {
       playerNextX = this.door.position.x;
       playerNextY = 165;
-    // Door at top of room
+      // Door at top of room
     } else if (this.door.y == 1) {
       playerNextX = this.door.position.x;
       playerNextY = 635;

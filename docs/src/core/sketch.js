@@ -18,6 +18,11 @@ let menuBack;
 let sp_button;
 let coop_button;
 let stng_button;
+let pvp_button;
+
+let game_over_back;
+let scoretotal;
+let returnToMenu;
 
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
@@ -25,6 +30,7 @@ let difficultyTints = ["#4d63445A", "#a6aba45A", "#ba29225A"];
 let diffTint = difficultyTints[0];
 let difficultyButton;
 
+let gameOver = false;
 let gameCount = 1;
 let playerADeathCount = 0;
 let playerBDeathCount = 0;
@@ -61,13 +67,21 @@ function gameSwitch(starting) {
   if (starting) {
     sp_button.remove();
     coop_button.remove();
+    pvp_button.remove();
     menuBack.remove();
     stng_button.remove();
     difficultyButton.remove();
     inGame = true;
+
     gameSetUp();
     loop();
     //theme_a.play();
+  } else {
+    inGame = false;
+    game = null;
+    clear();
+    renderMenu();
+    loop();
   }
 }
 function singlePlayerStart() {
@@ -76,6 +90,12 @@ function singlePlayerStart() {
 }
 function coopPlayerStart() {
   coop = true;
+  gameSwitch(true);
+}
+
+function pvpStart() {
+  coop = false;
+  pvpMode = true;
   gameSwitch(true);
 }
 
@@ -88,6 +108,11 @@ function coopHover() {
 function stngHover() {
   stng_button.style("opacity", "1");
 }
+
+function pvpHover() {
+  pvp_button.style("opacity", "1");
+}
+
 function singlePlayerEndHover() {
   sp_button.style("opacity", "0.5");
 }
@@ -98,6 +123,10 @@ function stngEndHover() {
   stng_button.style("opacity", "0.5");
 }
 
+function pvpEndHover() {
+  pvp_button.style("opacity", "0.5");
+}
+
 function menuStart() {
   menuBack.play();
   themeMusic.play();
@@ -105,6 +134,61 @@ function menuStart() {
   themeMusic.loop();
 }
 
+function gameoverPlay() {
+  game_over_back.play();
+  game_over_back.loop();
+}
+
+function renderGameOverInterface() {
+  clear();
+  let gameOverContainer = createDiv();
+  gameOverContainer.id("gameover");
+  gameOverContainer.size(pageWidth, pageHeight);
+
+  game_over_back = createImg(gameoverback);
+  game_over_back.parent(gameOverContainer);
+  game_over_back.size(pageWidth, pageHeight);
+  // game_over_back.mouseOver(gameoverPlay);
+
+  let scoretext_p1;
+
+  if (coop) {
+    scoretext_p1 =
+      " Player A: " + game.currScoreP1 + "\n" + "Player B: " + game.currScoreP2;
+  } else {
+    scoretext_p1 = "Total Score: " + game.currScoreP1;
+  }
+
+  scoretotal = createP(scoretext_p1);
+  let xpos = 400 - scoretext_p1.width;
+  scoretotal.position(xpos, 400);
+  scoretotal.parent(gameOverContainer);
+  scoretotal.style("color", "white");
+  scoretotal.style("font-size", "25px");
+  scoretotal.style("font-family", "ARCADE_I");
+  scoretotal.style("text-align", "center");
+  scoretotal.style("vertical-align", "middle");
+
+  returnToMenu = createP("Return to Menu");
+  let rtm_xpos = 400 - returnToMenu.width;
+
+  returnToMenu.position(rtm_xpos, 500);
+  returnToMenu.parent(gameOverContainer);
+  returnToMenu.style("color", "orange");
+  returnToMenu.style("font-size", "18px");
+  returnToMenu.style("font-family", "ARCADE_I");
+  returnToMenu.style("text-align", "center");
+  returnToMenu.style("vertical-align", "middle");
+  returnToMenu.mouseClicked(gameOverReturn);
+}
+
+function gameOverReturn() {
+  game_over_back.remove();
+  scoretotal.remove();
+  returnToMenu.remove();
+
+  gameSwitch(false);
+}
 function renderMenu() {
   let menuContainer = createDiv();
   menuContainer.id("menuContainer");
@@ -121,7 +205,7 @@ function renderMenu() {
 
   sp_button = createImg(singlePlayerIcon);
   sp_button.parent(menuContainer);
-  sp_button.position(pageWidth / 3 - 170, pageHeight * 0.62);
+  sp_button.position(pageWidth / 4 - 170, pageHeight * 0.62);
   sp_button.size(170, 120);
   sp_button.mouseClicked(singlePlayerStart);
   sp_button.style("opacity", "0.5");
@@ -130,16 +214,25 @@ function renderMenu() {
 
   coop_button = createImg(coopIcon);
   coop_button.parent(menuContainer);
-  coop_button.position(pageWidth / 2 - 85, pageHeight * 0.62);
+  coop_button.position(pageWidth / 2 - 190, pageHeight * 0.62);
   coop_button.size(170, 120);
   coop_button.mouseClicked(coopPlayerStart);
   coop_button.style("opacity", "0.5");
   coop_button.mouseOver(coopHover);
   coop_button.mouseOut(coopEndHover);
 
+  pvp_button = createImg(pvpIcon);
+  pvp_button.parent(menuContainer);
+  pvp_button.position(pageWidth / 2 + 25, pageHeight * 0.62);
+  pvp_button.size(170, 120);
+  pvp_button.mouseClicked(pvpStart);
+  pvp_button.style("opacity", "0.5");
+  pvp_button.mouseOver(pvpHover);
+  pvp_button.mouseOut(pvpEndHover);
+
   stng_button = createImg(helpIcon);
   stng_button.parent(menuContainer);
-  stng_button.position(pageWidth * 0.66, pageHeight * 0.62);
+  stng_button.position(pageWidth * 0.75, pageHeight * 0.62);
   stng_button.size(170, 120);
   stng_button.style("opacity", "0.5");
   stng_button.mouseOver(stngHover);
@@ -301,18 +394,39 @@ function draw() {
     noStroke();
     fill(0, fadeAlpha);
     rect(0, 0, pageWidth, pageHeight);
+    if (game.gameState == GameStates.OVER && gameOver == false) {
+      console.log("GAMEOVER");
+      renderGameOverInterface();
+      gameOver = true;
+    }
   }
 }
 
 function keyPressed() {
   if (inGame) {
+    // 'press q to quit'
+    if (keyCode === 81) {
+      if (game.gameState == GameStates.PAUSE) {
+        gameSwitch(false);
+      }
+    }
+
     if (keyCode === ESCAPE) {
       if (game.gameState == GameStates.ACTIVE && !transitioning) {
         game.gameState = GameStates.PAUSE;
+
+        fill("rgba(0, 0, 0, 0.6)");
+        let pauseMask = rect(0, 0, pageWidth, pageHeight);
+        textSize(38);
+        textFont(gameFont);
+        textAlign(CENTER);
+        fill(255, 255, 255);
+        text("Game Paused", 500, 300);
+        textSize(19);
+        text("Press Q to quit game", 500, 350);
+        text("Press ESC to resume", 500, 400);
+
         noLoop();
-        let pauseBackng = createImg("assets/pauseback.gif");
-        pauseBackng.parent(gameCanvas);
-        pauseBackng.position = (0, 0);
       } else {
         loop();
         game.gameState = GameStates.ACTIVE;

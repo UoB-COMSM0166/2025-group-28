@@ -41,12 +41,18 @@ class Game {
     this.applySlowMeow(this.slowMeowOccurring, playSounds);
 
     // update scores
-    this.currScoreP1 += this.calculateScore(this.currentRoom.damageDealtP1, this.currentRoom.damageTakenP1);
+    this.currScoreP1 += this.calculateScore(
+      this.currentRoom.damageDealtP1,
+      this.currentRoom.damageTakenP1
+    );
     this.prevScoreP1 = this.currScoreP1;
     this.currScoreP1 = 0;
 
     if (coop) {
-      this.currScoreP2 += this.calculateScore(this.currentRoom.damageDealtP2, this.currentRoom.damageTakenP2);
+      this.currScoreP2 += this.calculateScore(
+        this.currentRoom.damageDealtP2,
+        this.currentRoom.damageTakenP2
+      );
       this.prevScoreP2 = this.currScoreP2;
       this.currScoreP2 = 0;
     }
@@ -59,7 +65,10 @@ class Game {
     } else {
       this.currentRoom = new Room(this.difficultySettings);
       // Allow spawning buff mob if player has cleared 3+ rooms (only on normal, hard or coop)
-      if ((this.difficulty != difficultyLevels.EASY || coop) && behaviourMonitor.getRoomsCleared() >= 3) {
+      if (
+        (this.difficulty != difficultyLevels.EASY || coop) &&
+        behaviourMonitor.getRoomsCleared() >= 3
+      ) {
         this.currentRoom.canSpawnBuffMob = true;
       }
       if (coop) {
@@ -73,7 +82,12 @@ class Game {
             if (this.prevScoreP1 < 0) this.prevScoreP1 = 0;
           } else {
             playerB = null;
-            playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
+            playerB = new Player(
+              astrocat_gif_p2,
+              300,
+              300,
+              playerNumber.PLAYER_2
+            );
             playerB.health = 50;
             playerBDeathCount++;
             this.prevScoreP2 -= 300;
@@ -93,7 +107,16 @@ class Game {
     }
   }
 
+  checkIfGameOver() {
+    if (
+      (!playerA.isActive && !coop) ||
+      (coop && !playerA.isActive && !playerB.isActive)
+    ) {
+      this.gameState = GameStates.OVER;
+    }
+  }
   draw() {
+    this.checkIfGameOver();
     this.currScoreP1 = Math.round(
       this.currentRoom.roomScoreAccumaltor + this.prevScoreP1
     );
@@ -114,12 +137,12 @@ class Game {
 
   calculateScore(damageDealt, damageTaken) {
     if (!coop) {
-      let bonus = ((damageDealt / (damageTaken + 10)) * 10) - 120;
+      let bonus = (damageDealt / (damageTaken + 10)) * 10 - 120;
       if (bonus < 0) return 0;
       if (bonus > 300) return 300;
       return bonus;
     } else {
-      let bonus = ((damageDealt / (damageTaken + 10)) * 10) - 80;
+      let bonus = (damageDealt / (damageTaken + 10)) * 10 - 80;
       if (bonus < 0) return 0;
       if (bonus > 300) return 300;
       return bonus;
@@ -159,9 +182,9 @@ class Game {
     const textY = gameAreaY + 120;
 
     if (remainingTime > this.slowMeowDuration * 0.7) {
-      text("SLOW MEOW STARTING", width/2, textY);
+      text("SLOW MEOW STARTING", width / 2, textY);
     } else if (remainingTime < this.slowMeowDuration * 0.3) {
-      text("SLOW MEOW ENDING", width/2, textY);
+      text("SLOW MEOW ENDING", width / 2, textY);
     }
     pop();
   }
@@ -274,7 +297,10 @@ class Game {
       for (let projectile of projectileManager.projectilesFired) {
         if (projectile && projectile.isActive) {
           if (slowActive) {
-            projectile.velocity = p5.Vector.mult(projectile.originalVelocity, slowFactor);
+            projectile.velocity = p5.Vector.mult(
+              projectile.originalVelocity,
+              slowFactor
+            );
           } else {
             if (projectile.velocity.mag() < projectile.originalVelocity.mag()) {
               projectile.velocity = projectile.originalVelocity.copy();
