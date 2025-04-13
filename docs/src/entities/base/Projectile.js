@@ -1,6 +1,4 @@
 class Projectile extends GameObject {
-  // maybe extend game object to avoid the health sprite mechanic
-
   constructor(x, y, velocityX, velocityY, velocityMultiplier, image, owner) {
     super(x, y);
     this.position = createVector(x, y);
@@ -8,12 +6,20 @@ class Projectile extends GameObject {
       velocityMultiplier * velocityX,
       velocityMultiplier * velocityY
     );
+    this.originalVelocity = this.velocity.copy();
     this.image = image;
     this.widthHitbox = 5;
     this.heightHitbox = 5;
     this.owner = owner;
-    this.originalVelocity = this.velocity.copy();
-    if (game && game.slowMeowOccuring) {
+    if (game && game.slowMeowOccurring) {
+      // Correct original velocity value for projectiles fired during slow meow state
+      if (this.originalVelocity.equals(this.velocity)) {
+        if (this.velocity.mag() < 1) {
+          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed);
+        } else {
+          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed + 1);
+        }
+      }
       this.velocity = p5.Vector.mult(this.originalVelocity, game.slowMeowMovementSpeed);
     }
   }
@@ -21,10 +27,10 @@ class Projectile extends GameObject {
   update() {
     // Deactive the projectile if it leaves the room boundaries for performance reasons ;)
     if (
-      this.position.x < tileSize + arena_offset ||
-      this.position.x > roomWidth * tileSize - tileSize + arena_offset ||
-      this.position.y < tileSize + arena_offset ||
-      this.position.y > roomHeight * tileSize - tileSize + arena_offset
+      this.position.x < (tileSize * 2) + arena_offset ||
+      this.position.x > roomWidth * tileSize - (tileSize * 2) + arena_offset ||
+      this.position.y < (tileSize * 2) + arena_offset ||
+      this.position.y > roomHeight * tileSize - (tileSize * 2) + arena_offset
     ) {
       this.isActive = false;
     }

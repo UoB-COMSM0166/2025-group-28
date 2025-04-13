@@ -99,11 +99,14 @@ class Mob extends Sprite {
       this.velocity.setMag(this.speed);
     }
     // Apply knockback force gradually
-    if (this.knockbackForce.mag() > 0) {
-      this.position.add(this.knockbackForce);
-      this.knockbackForce.mult(0.9); // Reduce knockback force gradually
-      if (this.knockbackForce.mag() < 0.1) {
-        this.knockbackForce.set(0, 0); // Stop knockback when force is very small
+    if (this.knockbackVelocity.mag() > 0.1) {
+      if (game.slowMeowOccurring) {
+        let adjustedVelocity = p5.Vector.mult(this.knockbackVelocity, game.slowMeowMovementSpeed);
+        this.position.add(adjustedVelocity);
+        this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowMovementSpeed));
+      } else {
+        this.position.add(this.knockbackVelocity);
+        this.knockbackVelocity.mult(0.9);
       }
     }
   }

@@ -32,7 +32,6 @@ class Player extends Sprite {
     // this.img.pause();
     this.bloodColour = color(210, 0, 0, 0);
 
-    this.lastMeowSoundTime = 0; // For meow sound cooldown
     this.deathSound = playerDeathSound;
     this.painSound = [playerPainSound1, playerPainSound2];
 
@@ -73,7 +72,7 @@ class Player extends Sprite {
       else if (this.slowTimer == 150) this.speed = 1.8;
       else if (this.slowTimer == 200) this.speed = 2.4;
       else if (this.slowTimer > 200) this.speed = 3;
-      if (!game.slowMeowOccuring) this.slowTimer++;
+      if (!game.slowMeowOccurring) this.slowTimer++;
       this.originalSpeed = this.speed;
     }
   }
@@ -87,7 +86,7 @@ class Player extends Sprite {
     // Player movement using WASD / arrow keys
     this.velocity.set(0, 0);
     if (this.fireCooldown > 0) {
-      this.fireCooldown -= this.heatDecay;
+      this.fireCooldown = Math.max(0, this.fireCooldown - this.heatDecay);
     }
 
     if (this.img.getCurrentFrame() == this.endFrame) {
@@ -95,7 +94,7 @@ class Player extends Sprite {
     }
 
     //movement logic for PLAYER_1
-    if (this.player === playerNumber.PLAYER_1) {
+    if (this.player == playerNumber.PLAYER_1) {
       // A key
       if (keyIsDown(65)) {
         if (this.lastDirection != "LEFT") {
@@ -210,11 +209,14 @@ class Player extends Sprite {
     );
 
     // Apply knockback force gradually
-    if (this.knockbackForce.mag() > 0) {
-      this.position.add(this.knockbackForce);
-      this.knockbackForce.mult(0.9);
-      if (this.knockbackForce.mag() < 0.1) {
-        this.knockbackForce.set(0, 0); // Stop knockback when force is very small
+    if (this.knockbackVelocity.mag() > 0.1) {
+      if (game.slowMeowOccurring) {
+        let adjustedVelocity = p5.Vector.mult(this.knockbackVelocity, game.slowMeowMovementSpeed);
+        this.position.add(adjustedVelocity);
+        this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowMovementSpeed));
+      } else {
+        this.position.add(this.knockbackVelocity);
+        this.knockbackVelocity.mult(0.9);
       }
     }
 
@@ -238,7 +240,7 @@ class Player extends Sprite {
       if (this.fireCooldown < 80) {
         this.fireOverheat = false;
         this.slowTimer = 0;
-        this.overheatSoundPlayed = false;
+        playSound(overheatEndSound, playbackRate);
       }
     }
     let currentTime = millis();
@@ -247,6 +249,7 @@ class Player extends Sprite {
       !this.fireOverheat &&
       currentTime - this.lastShot > this.fireRate
     ) {
+      if (this.overheatSoundPlayed) this.overheatSoundPlayed = false;
       // SPACE key for player 1
       if (this.player === playerNumber.PLAYER_1 && keyIsDown(32)) {
         this.justFired = true;
@@ -268,10 +271,9 @@ class Player extends Sprite {
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         projectileManager.addProjectile(projectile);
         this.lastShot = currentTime;
-        this.fireCooldown += this.heatGain;
+        this.fireCooldown = Math.min(200, this.fireCooldown + this.heatGain);
         if (this.fireCooldown > 150) this.timesHeatLevelHigh++;
-        if (this.fireCooldown > 200) {
-          this.fireCooldown = 200; // Stop heat level going over max
+        if (this.fireCooldown >= 200) {
           this.fireOverheat = true;
           this.timesOverheated++;
         }
@@ -377,13 +379,10 @@ class Player extends Sprite {
 
   // Adds i-frames after taking damage - in player class as not needed for mobs
   makeInvincible() {
-    const meowSoundCooldown = 1500; // 1.5 second cooldown for sound
     if (!this.isInvincible) {
-      if (this.health > 1 && // Check health > 1 to stop pain sound overlapping with death sound
-         (this.lastMeowSoundTime == 0 || millis() - this.lastMeowSoundTime > meowSoundCooldown)) {
+      if (this.health > 1) { // Check health > 1 to stop pain sound playing with death sound
         let randomSound = Math.floor(random(0, this.painSound.length));
         playSound(this.painSound[randomSound], playbackRate);
-        this.lastMeowSoundTime = millis();
       }
       this.timesHurt++;
       this.isInvincible = true;
@@ -397,7 +396,12 @@ class Player extends Sprite {
     this.fireCooldown = 0;
     this.slowTimer = 0;
     this.fireOverheat = false;
-    this.speed = 3;
+    if (game.slowMeowOccurring) {
+      this.speed = 3 * (game.slowMeowMovementSpeed * 1.2);
+    } else {
+      this.speed = 3;
+    }
+    this.originalSpeed = 3;
   }
 
   // For behaviour monitoring

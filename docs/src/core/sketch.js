@@ -182,6 +182,7 @@ function gameSetUp() {
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     if (coop) {
       playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
+      slowMeowMax *= 2;
     }
     behaviourMonitor = new BehaviourMonitor(difficultySettings[difficulty]);
   }
@@ -199,6 +200,7 @@ function draw() {
         if (game.currentRoom.promptActive) {
           if (keyIsDown(69) && !transitioning) {
             gameCount += 1;
+            roomTransitionSound.play();
             fadingOut = true;
             transitioning = true;
           }
@@ -218,26 +220,14 @@ function draw() {
       text(roomNumber, 200, 80);
       if (!coop) {
         var scoreNumber = "Score:" + game.currScoreP1;
-        text(scoreNumber, 760, 80);
+        text(scoreNumber, 750, 80);
       } else {
         textSize(16);
         var scoreNumber = "Score A:" + game.currScoreP1;
-        text(scoreNumber, 760, 70);
+        text(scoreNumber, 750, 70);
         var scoreNumber = "Score B:" + game.currScoreP2;
-        text(scoreNumber, 760, 90);
+        text(scoreNumber, 750, 90);
       }
-
-      if (!game.slowMeowUsable) {
-        textSize(16);
-        fill(100, 150, 255);
-        const cooldownPercent = (millis() - game.slowMeowLastUsed) / game.slowMeowCooldown * 100;
-        text("SLOW MEOW:" + Math.floor(cooldownPercent) + "%", width/2, 80);
-      } else if (!game.slowMeowOccuring) {
-        textSize(16);
-        fill(0, 255, 255);
-        text("SLOW MEOW:READY", width/2, 80);
-      }
-
       pop();
 
       // bottom ui block
@@ -266,6 +256,28 @@ function draw() {
           "PLAYER B"
         );
       }
+      push();
+      textSize(16);
+      textFont(gameFont);
+      textAlign(CENTER);
+      if (!pvpMode) {
+        if (coop && game.slowMeowLevel == slowMeowMax &&
+            playerA.fireOverheat && playerB.fireOverheat) {
+          fill(210, 0, 0);
+          text("SLOW MEOW:BLOCKED", width/2 + 20, height - 65);
+        } else if (!coop && game.slowMeowLevel == slowMeowMax && playerA.fireOverheat) {
+          fill(210, 0, 0);
+          text("SLOW MEOW:BLOCKED", width/2 + 20, height - 65);
+        } else if (!game.slowMeowUsable || game.slowMeowOccurring) {
+          fill(100, 150, 255);
+          //const cooldownPercent = (millis() - game.slowMeowLastUsed) / game.slowMeowCooldown * 100;
+          text("SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%", width/2 + 20, height - 65);
+        } else if (!game.slowMeowOccurring && game.slowMeowUsable) {
+          fill(0, 255, 255);
+          text("SLOW MEOW:READY", width/2 + 20, height - 65);
+        }
+      }
+      pop();
       game.draw();
     }
 
@@ -314,7 +326,8 @@ function keyPressed() {
         debug = false;
       }
     }
-    if (keyCode === 81 || keyCode === 191) { // SlowMeow gets activated with 'Q' or '/'
+    // SlowMeow gets activated with 'Q' or '/'
+    if (!transitioning && (keyCode === 81 || keyCode === 191)) {
       game.activateSlowMeow();
     }
   }

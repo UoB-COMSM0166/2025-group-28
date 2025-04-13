@@ -21,6 +21,8 @@ var threatScaleFactor = 2;
 var playbackRate = 1; // For adjusting SFX speed in slow mo
 
 var slowMeowGain = 10;
+var slowMeowLoss = slowMeowGain / 2;
+var slowMeowMax = 100;
 
 const GameStates = Object.freeze({
   ACTIVE: 0,
@@ -71,6 +73,8 @@ const difficultySettings = Object.freeze([
     baseDefensiveRating: 5,
     heatGain: 20,
     heatDecay: 0.5,
+    slowMeowGainMult: 1.5,
+    slowMeowLossMult: 1.0,
   },
   { // Normal mode
     playerDamageMult: 1.0,
@@ -85,6 +89,8 @@ const difficultySettings = Object.freeze([
     baseDefensiveRating: 4,
     heatGain: 19,
     heatDecay: 0.55,
+    slowMeowGainMult: 1.0,
+    slowMeowLossMult: 1.0,
   },
   { // Hard mode
     playerDamageMult: 1.0,
@@ -99,6 +105,8 @@ const difficultySettings = Object.freeze([
     baseDefensiveRating: 3,
     heatGain: 18,
     heatDecay: 0.6,
+    slowMeowGainMult: 1.0,
+    slowMeowLossMult: 2.0,
   },
 ]);
 
@@ -151,15 +159,21 @@ function preload() {
   playerDeathSound = loadSound("assets/playerdeath.mp3");
   playerGunSound = loadSound("assets/player_gun.mp3");
   fireOverheatSound = loadSound("assets/playeroverheat.mp3");
+  overheatEndSound = loadSound("assets/playeroverheatend.mp3");
   slowMeowStartSound = loadSound("assets/slowmeowstart.mp3");
   slowMeowEndSound = loadSound("assets/slowmeowend.mp3");
+  slowMeowReadySound = loadSound("assets/slowmeowready.mp3");
   // Mobs
   blinkMobMoveSound = loadSound("assets/blinkmobmove.mp3");
   buffMobBuffSound = loadSound("assets/buffmobbuff.mp3");
   buffMobDeathSound = loadSound("assets/buffmobdeath.mp3");
+  meleeMobDeathSound = loadSound("assets/meleemobdeath.mp3");
   // Environment
+  bloodSound = loadSound("assets/bloodsplat.mp3");
   doorOpenSound = loadSound("assets/dooropen.mp3");
-  itemSound = loadSound("assets/pickupitem.mp3");
+  roomTransitionSound = loadSound("assets/roomtransition.mp3");
+  itemSound1 = loadSound("assets/pickupitem1.mp3");
+  itemSound2 = loadSound("assets/pickupitem2.mp3");
   // Music
   theme_a = loadSound("assets/theme.mp3");
 }
