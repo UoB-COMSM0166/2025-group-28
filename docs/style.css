@@ -9,7 +9,8 @@ body {
   overflow-y: hidden;
 }
 
-#menuContainer {
+#menuContainer,
+#gameover {
   margin-left: -900px;
   display: flex;
   flex-direction: column;

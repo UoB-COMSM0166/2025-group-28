@@ -20,12 +20,17 @@ let coop_button;
 let stng_button;
 let pvp_button;
 
+let game_over_back;
+let scoretotal;
+let returnToMenu;
+
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
 let difficultyTints = ["#4d63445A", "#a6aba45A", "#ba29225A"];
 let diffTint = difficultyTints[0];
 let difficultyButton;
 
+let gameOver = false;
 let gameCount = 1;
 let playerADeathCount = 0;
 let playerBDeathCount = 0;
@@ -71,6 +76,12 @@ function gameSwitch(starting) {
     gameSetUp();
     loop();
     //theme_a.play();
+  } else {
+    inGame = false;
+    game = null;
+    clear();
+    renderMenu();
+    loop();
   }
 }
 function singlePlayerStart() {
@@ -123,6 +134,61 @@ function menuStart() {
   themeMusic.loop();
 }
 
+function gameoverPlay() {
+  game_over_back.play();
+  game_over_back.loop();
+}
+
+function renderGameOverInterface() {
+  clear();
+  let gameOverContainer = createDiv();
+  gameOverContainer.id("gameover");
+  gameOverContainer.size(pageWidth, pageHeight);
+
+  game_over_back = createImg(gameoverback);
+  game_over_back.parent(gameOverContainer);
+  game_over_back.size(pageWidth, pageHeight);
+  // game_over_back.mouseOver(gameoverPlay);
+
+  let scoretext_p1;
+
+  if (coop) {
+    scoretext_p1 =
+      " Player A: " + game.currScoreP1 + "\n" + "Player B: " + game.currScoreP2;
+  } else {
+    scoretext_p1 = "Total Score: " + game.currScoreP1;
+  }
+
+  scoretotal = createP(scoretext_p1);
+  let xpos = 400 - scoretext_p1.width;
+  scoretotal.position(xpos, 400);
+  scoretotal.parent(gameOverContainer);
+  scoretotal.style("color", "white");
+  scoretotal.style("font-size", "25px");
+  scoretotal.style("font-family", "ARCADE_I");
+  scoretotal.style("text-align", "center");
+  scoretotal.style("vertical-align", "middle");
+
+  returnToMenu = createP("Return to Menu");
+  let rtm_xpos = 400 - returnToMenu.width;
+
+  returnToMenu.position(rtm_xpos, 500);
+  returnToMenu.parent(gameOverContainer);
+  returnToMenu.style("color", "orange");
+  returnToMenu.style("font-size", "18px");
+  returnToMenu.style("font-family", "ARCADE_I");
+  returnToMenu.style("text-align", "center");
+  returnToMenu.style("vertical-align", "middle");
+  returnToMenu.mouseClicked(gameOverReturn);
+}
+
+function gameOverReturn() {
+  game_over_back.remove();
+  scoretotal.remove();
+  returnToMenu.remove();
+
+  gameSwitch(false);
+}
 function renderMenu() {
   let menuContainer = createDiv();
   menuContainer.id("menuContainer");
@@ -317,11 +383,23 @@ function draw() {
     noStroke();
     fill(0, fadeAlpha);
     rect(0, 0, pageWidth, pageHeight);
+    if (game.gameState == GameStates.OVER && gameOver == false) {
+      console.log("GAMEOVER");
+      renderGameOverInterface();
+      gameOver = true;
+    }
   }
 }
 
 function keyPressed() {
   if (inGame) {
+    // 'press q to quit'
+    if (keyCode === 81) {
+      if (game.gameState == GameStates.PAUSE) {
+        gameSwitch(false);
+      }
+    }
+
     if (keyCode === ESCAPE) {
       if (game.gameState == GameStates.ACTIVE && !transitioning) {
         game.gameState = GameStates.PAUSE;
@@ -338,9 +416,6 @@ function keyPressed() {
         text("Press ESC to resume", 500, 400);
 
         noLoop();
-        let pauseBackng = createImg("assets/pauseback.gif");
-        pauseBackng.parent(gameCanvas);
-        pauseBackng.position = (0, 0);
       } else {
         loop();
         game.gameState = GameStates.ACTIVE;
