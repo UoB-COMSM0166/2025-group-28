@@ -18,6 +18,7 @@ let menuBack;
 let sp_button;
 let coop_button;
 let stng_button;
+let pvp_button;
 
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
@@ -61,10 +62,12 @@ function gameSwitch(starting) {
   if (starting) {
     sp_button.remove();
     coop_button.remove();
+    pvp_button.remove();
     menuBack.remove();
     stng_button.remove();
     difficultyButton.remove();
     inGame = true;
+
     gameSetUp();
     loop();
     //theme_a.play();
@@ -79,6 +82,12 @@ function coopPlayerStart() {
   gameSwitch(true);
 }
 
+function pvpStart() {
+  coop = false;
+  pvpMode = true;
+  gameSwitch(true);
+}
+
 function singlePlayerHover() {
   sp_button.style("opacity", "1");
 }
@@ -88,6 +97,11 @@ function coopHover() {
 function stngHover() {
   stng_button.style("opacity", "1");
 }
+
+function pvpHover() {
+  pvp_button.style("opacity", "1");
+}
+
 function singlePlayerEndHover() {
   sp_button.style("opacity", "0.5");
 }
@@ -96,6 +110,10 @@ function coopEndHover() {
 }
 function stngEndHover() {
   stng_button.style("opacity", "0.5");
+}
+
+function pvpEndHover() {
+  pvp_button.style("opacity", "0.5");
 }
 
 function menuStart() {
@@ -121,7 +139,7 @@ function renderMenu() {
 
   sp_button = createImg(singlePlayerIcon);
   sp_button.parent(menuContainer);
-  sp_button.position(pageWidth / 3 - 170, pageHeight * 0.62);
+  sp_button.position(pageWidth / 4 - 170, pageHeight * 0.62);
   sp_button.size(170, 120);
   sp_button.mouseClicked(singlePlayerStart);
   sp_button.style("opacity", "0.5");
@@ -130,16 +148,25 @@ function renderMenu() {
 
   coop_button = createImg(coopIcon);
   coop_button.parent(menuContainer);
-  coop_button.position(pageWidth / 2 - 85, pageHeight * 0.62);
+  coop_button.position(pageWidth / 2 - 190, pageHeight * 0.62);
   coop_button.size(170, 120);
   coop_button.mouseClicked(coopPlayerStart);
   coop_button.style("opacity", "0.5");
   coop_button.mouseOver(coopHover);
   coop_button.mouseOut(coopEndHover);
 
+  pvp_button = createImg(pvpIcon);
+  pvp_button.parent(menuContainer);
+  pvp_button.position(pageWidth / 2 + 25, pageHeight * 0.62);
+  pvp_button.size(170, 120);
+  pvp_button.mouseClicked(pvpStart);
+  pvp_button.style("opacity", "0.5");
+  pvp_button.mouseOver(pvpHover);
+  pvp_button.mouseOut(pvpEndHover);
+
   stng_button = createImg(helpIcon);
   stng_button.parent(menuContainer);
-  stng_button.position(pageWidth * 0.66, pageHeight * 0.62);
+  stng_button.position(pageWidth * 0.75, pageHeight * 0.62);
   stng_button.size(170, 120);
   stng_button.style("opacity", "0.5");
   stng_button.mouseOver(stngHover);
@@ -230,12 +257,13 @@ function draw() {
       if (!game.slowMeowUsable) {
         textSize(16);
         fill(100, 150, 255);
-        const cooldownPercent = (millis() - game.slowMeowLastUsed) / game.slowMeowCooldown * 100;
-        text("SLOW MEOW:" + Math.floor(cooldownPercent) + "%", width/2, 80);
+        const cooldownPercent =
+          ((millis() - game.slowMeowLastUsed) / game.slowMeowCooldown) * 100;
+        text("SLOW MEOW:" + Math.floor(cooldownPercent) + "%", width / 2, 80);
       } else if (!game.slowMeowOccuring) {
         textSize(16);
         fill(0, 255, 255);
-        text("SLOW MEOW:READY", width/2, 80);
+        text("SLOW MEOW:READY", width / 2, 80);
       }
 
       pop();
@@ -314,7 +342,8 @@ function keyPressed() {
         debug = false;
       }
     }
-    if (keyCode === 81 || keyCode === 191) { // SlowMeow gets activated with 'Q' or '/'
+    if (keyCode === 81 || keyCode === 191) {
+      // SlowMeow gets activated with 'Q' or '/'
       game.activateSlowMeow();
     }
   }
