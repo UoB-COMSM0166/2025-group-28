@@ -325,6 +325,18 @@ function keyPressed() {
     if (keyCode === ESCAPE) {
       if (game.gameState == GameStates.ACTIVE && !transitioning) {
         game.gameState = GameStates.PAUSE;
+
+        fill("rgba(0, 0, 0, 0.6)");
+        let pauseMask = rect(0, 0, pageWidth, pageHeight);
+        textSize(38);
+        textFont(gameFont);
+        textAlign(CENTER);
+        fill(255, 255, 255);
+        text("Game Paused", 500, 300);
+        textSize(19);
+        text("Press Q to quit game", 500, 350);
+        text("Press ESC to resume", 500, 400);
+
         noLoop();
         let pauseBackng = createImg("assets/pauseback.gif");
         pauseBackng.parent(gameCanvas);
