@@ -561,7 +561,9 @@ class Room {
           }
         }
         playerA.applyKnockback(mob.position.x, mob.position.y);
-        mob.applyKnockback(playerA.position.x, playerA.position.y);
+        if (!(mob instanceof BlinkMob)) {
+          mob.applyKnockback(playerA.position.x, playerA.position.y);
+        }
         playerA.makeInvincible();
       }
 
@@ -582,7 +584,9 @@ class Room {
           }
         }
         playerB.applyKnockback(mob.position.x, mob.position.y);
-        mob.applyKnockback(playerB.position.x, playerB.position.y);
+        if (!mob instanceof BlinkMob) {
+          mob.applyKnockback(playerB.position.x, playerB.position.y);
+        }
         playerB.makeInvincible();
       }
     }
@@ -866,7 +870,6 @@ class Room {
       if (player.fireOverheat) playSound(overheatEndSound, playbackRate);
       player.resetOverheat();
     }
-
   }
 
   // Get the player's position in the next room based on position of door in current room

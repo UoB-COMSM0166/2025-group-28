@@ -20,9 +20,18 @@ class Mob extends Sprite {
   }
 
   update() {
-    if (!this.isActive) {
-      return;
-    }
+    if (!this.isActive) return;
+    // Stops mob moving outside the outer walls
+    this.position.x = constrain(
+      this.position.x,
+      tileSize * 3 + arena_offset,
+      roomWidth * tileSize - tileSize * 3 + arena_offset
+    );
+    this.position.y = constrain(
+      this.position.y,
+      tileSize * 3 + arena_offset,
+      roomHeight * tileSize - tileSize * 3 + arena_offset
+    );
     let nearestPlayer = this.findNearestPlayer();
     if (nearestPlayer) {
       this.moveTowards(nearestPlayer);
@@ -82,17 +91,6 @@ class Mob extends Sprite {
     if (!this.isCollidingWith(player)) {
       this.velocity.x = xDirection * this.speed;
       this.velocity.y = yDirection * this.speed;
-    } else {
-      if (this.direction.x > 0) {
-        this.position.x -= pushback;
-      } else if (this.direction.x < 0) {
-        this.position.x += pushback;
-      }
-      if (this.direction.y > 0) {
-        this.position.y -= pushback;
-      } else if (this.direction.y < 0) {
-        this.position.y += pushback;
-      }
     }
     // Normalises diagonal movement
     if (this.velocity.x !== 0 && this.velocity.y !== 0) {

@@ -36,8 +36,8 @@ class Projectile extends GameObject {
           this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed + 1);
         }
         if (this.owner.isBuffed && this.owner.speed > 0) {
-          this.originalVelocity.x = this.owner.velocity.x * (3 / game.slowMeowMovementSpeed);
-          this.originalVelocity.y = this.owner.velocity.y * (3 / game.slowMeowMovementSpeed);
+          this.originalVelocity.x = this.owner.velocity.x * (this.owner.projectileSpeed / game.slowMeowMovementSpeed);
+          this.originalVelocity.y = this.owner.velocity.y * (this.owner.projectileSpeed / game.slowMeowMovementSpeed);
         }
       }
       this.velocity = p5.Vector.mult(this.originalVelocity, game.slowMeowMovementSpeed);

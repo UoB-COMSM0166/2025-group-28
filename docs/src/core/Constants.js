@@ -9,9 +9,6 @@ var doorBuffer = 6; // To prevent door spawning too close to edges of room
 var wallBuffer = 7; // To prevent wall shapes spawning too close to outer walls
 var step = 4;
 
-// Collision constants
-var pushback = 1; // Prevents sticking
-
 var knockbackForce = 5;
 
 // Room threat scaling constants
