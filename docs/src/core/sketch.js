@@ -20,10 +20,12 @@ let sp_button;
 let coop_button;
 let stng_button;
 let pvp_button;
-
+let menuContainer;
 let game_over_back;
 let scoretotal;
 let returnToMenu;
+
+let settingsMode = true;
 
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
@@ -208,8 +210,43 @@ function gameOverReturn() {
   gameSwitch(false);
 }
 
+function switchToHelp() {
+  settingsMode = false;
+}
+function switchToStngs() {
+  settingsMode = true;
+}
+
+let stng_div;
+let set_back;
+let toggle_settings;
+let toggle_help;
+
+function gotoSettings() {
+  stng_div = createDiv();
+  stng_div.id("settings_content");
+  stng_div.size(pageWidth, pageHeight);
+  stng_div.parent(menuContainer);
+  set_back = createImg(setback);
+  set_back.parent(stng_div);
+  set_back.position(0, 0);
+
+  toggle_settings = createP("Settings");
+  toggle_settings.parent(stng_div);
+  toggle_settings.position(200, 10);
+  toggle_settings.mouseClicked(switchToStngs);
+
+  toggle_help = createP("How to Play");
+  toggle_help.parent(stng_div);
+  toggle_help.position(500, 10);
+  toggle_help.mouseClicked(switchToHelp);
+  if (!settingsMode) {
+    toggle_help.style("color", "orange");
+  }
+}
+
 function renderMenu() {
-  let menuContainer = createDiv();
+  menuContainer = createDiv();
   menuContainer.id("menuContainer");
   menuContainer.size(pageWidth, pageHeight);
 
@@ -256,6 +293,7 @@ function renderMenu() {
   stng_button.style("opacity", "0.5");
   stng_button.mouseOver(stngHover);
   stng_button.mouseOut(stngEndHover);
+  stng_button.mouseClicked(gotoSettings);
 
   difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
   difficultyButton.parent(menuContainer);
@@ -376,16 +414,28 @@ function draw() {
       textFont(gameFont);
       textAlign(CENTER);
       if (!pvpMode) {
-        if (coop && game.slowMeowLevel == slowMeowMax &&
-            playerA.fireOverheat && playerB.fireOverheat) {
+        if (
+          coop &&
+          game.slowMeowLevel == slowMeowMax &&
+          playerA.fireOverheat &&
+          playerB.fireOverheat
+        ) {
           fill(210, 0, 0);
           text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
-        } else if (!coop && game.slowMeowLevel == slowMeowMax && playerA.fireOverheat) {
+        } else if (
+          !coop &&
+          game.slowMeowLevel == slowMeowMax &&
+          playerA.fireOverheat
+        ) {
           fill(210, 0, 0);
           text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
         } else if (!game.slowMeowUsable || game.slowMeowOccurring) {
           fill(100, 150, 255);
-          text("SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%", width / 2 + 20, height - 63);
+          text(
+            "SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%",
+            width / 2 + 20,
+            height - 63
+          );
         } else if (!game.slowMeowOccurring && game.slowMeowUsable) {
           fill(0, 255, 255);
           text("SLOW MEOW:READY", width / 2 + 20, height - 63);
