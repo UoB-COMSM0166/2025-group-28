@@ -2,7 +2,6 @@
 let game;
 let projectileManager;
 let behaviourMonitor;
-let asset_astrocat;
 
 let playerA;
 let playerB;
@@ -80,6 +79,7 @@ function gameSwitch(starting) {
     //theme_a.play();
   } else {
     inGame = false;
+    gameOver = false;
     game = null;
     projectileManager = null;
     behaviourMonitor = null;
@@ -94,6 +94,7 @@ function gameSwitch(starting) {
 
 function singlePlayerStart() {
   coop = false;
+  pvpMode = false;
   gameSwitch(true);
 }
 
@@ -168,7 +169,9 @@ function renderGameOverInterface() {
 
   if (coop) {
     scoretext_p1 =
-      " Player A: " + game.currScoreP1 + "\n" + "Player B: " + game.currScoreP2;
+      "Player A: " + game.currScoreP1 + "\n" + "Player B: " + game.currScoreP2;
+  } else if (pvpMode) {
+    scoretext_p1 = "";
   } else {
     scoretext_p1 = "Total Score: " + game.currScoreP1;
   }
@@ -328,15 +331,17 @@ function draw() {
       fill(255, 255, 255);
       var roomNumber = "Room " + game.roomSeq;
       text(roomNumber, 200, 80);
-      if (!coop) {
-        var scoreNumber = "Score:" + game.currScoreP1;
-        text(scoreNumber, 750, 80);
-      } else {
-        textSize(16);
-        var scoreNumber = "Score A:" + game.currScoreP1;
-        text(scoreNumber, 750, 70);
-        var scoreNumber = "Score B:" + game.currScoreP2;
-        text(scoreNumber, 750, 90);
+      if (!pvpMode) {
+        if (!coop) {
+          var scoreNumber = "Score:" + game.currScoreP1;
+          text(scoreNumber, 750, 80);
+        } else {
+          textSize(16);
+          var scoreNumber = "Score A:" + game.currScoreP1;
+          text(scoreNumber, 750, 70);
+          var scoreNumber = "Score B:" + game.currScoreP2;
+          text(scoreNumber, 750, 90);
+        }
       }
       pop();
 
@@ -374,16 +379,16 @@ function draw() {
         if (coop && game.slowMeowLevel == slowMeowMax &&
             playerA.fireOverheat && playerB.fireOverheat) {
           fill(210, 0, 0);
-          text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 65);
+          text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
         } else if (!coop && game.slowMeowLevel == slowMeowMax && playerA.fireOverheat) {
           fill(210, 0, 0);
-          text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 65);
+          text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
         } else if (!game.slowMeowUsable || game.slowMeowOccurring) {
           fill(100, 150, 255);
-          text("SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%", width / 2 + 20, height - 65);
+          text("SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%", width / 2 + 20, height - 63);
         } else if (!game.slowMeowOccurring && game.slowMeowUsable) {
           fill(0, 255, 255);
-          text("SLOW MEOW:READY", width / 2 + 20, height - 65);
+          text("SLOW MEOW:READY", width / 2 + 20, height - 63);
         }
       }
       pop();
@@ -410,8 +415,7 @@ function draw() {
     noStroke();
     fill(0, fadeAlpha);
     rect(0, 0, pageWidth, pageHeight);
-    if (game.gameState == GameStates.OVER && gameOver == false) {
-      console.log("GAMEOVER");
+    if (game.gameState == GameStates.OVER && !gameOver) {
       renderGameOverInterface();
       gameOver = true;
     }
@@ -458,8 +462,12 @@ function keyPressed() {
       }
     }
     // SlowMeow gets activated with 'Q' or '/'
-    if (!transitioning && (keyCode == 81 || keyCode == 191)) {
-      game.activateSlowMeow();
+    if (game && game.gameState == GameStates.ACTIVE) {
+      if (!transitioning && !pvpMode) {
+        if (keyCode == 81 || keyCode == 191) {
+          game.activateSlowMeow();
+        }
+      }
     }
   }
 }
@@ -471,5 +479,9 @@ function playSound(sound, rate) {
   source.buffer = sound.buffer;
   source.playbackRate.value = rate;
   source.connect(audioContext.destination);
+  // Disconnect after sound ends to prevent memory leaks etc.
+  source.onended = () => {
+    source.disconnect();
+  };
   source.start();
 }

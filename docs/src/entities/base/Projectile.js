@@ -11,20 +11,10 @@ class Projectile extends GameObject {
     this.widthHitbox = 5;
     this.heightHitbox = 5;
     this.owner = owner;
-    if (game && game.slowMeowOccurring) {
-      // Correct original velocity value for projectiles fired during slow meow state
-      if (this.originalVelocity.equals(this.velocity)) {
-        if (this.velocity.mag() < 1) {
-          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed);
-        } else {
-          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed + 1);
-        }
-      }
-      this.velocity = p5.Vector.mult(this.originalVelocity, game.slowMeowMovementSpeed);
-    }
   }
 
   update() {
+    if (!this.isActive) return;
     // Deactive the projectile if it leaves the room boundaries
     if (
       this.position.x < (tileSize * 2) + arena_offset ||
@@ -34,8 +24,23 @@ class Projectile extends GameObject {
     ) {
       this.isActive = false;
     }
-    if (this.isActive) {
-      this.position.add(this.velocity);
+
+    this.position.add(this.velocity);
+
+    if (game && game.slowMeowOccurring) {
+      // Correct original velocity value for projectiles fired during slow meow state
+      if (this.originalVelocity.equals(this.velocity)) {
+        if (this.velocity.mag() < 1) {
+          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed);
+        } else {
+          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed + 1);
+        }
+        if (this.owner.isBuffed && this.owner.speed > 0) {
+          this.originalVelocity.x = this.owner.velocity.x * (this.owner.projectileSpeed / game.slowMeowMovementSpeed);
+          this.originalVelocity.y = this.owner.velocity.y * (this.owner.projectileSpeed / game.slowMeowMovementSpeed);
+        }
+      }
+      this.velocity = p5.Vector.mult(this.originalVelocity, game.slowMeowMovementSpeed);
     }
   }
 

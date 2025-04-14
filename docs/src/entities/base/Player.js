@@ -15,6 +15,7 @@ class Player extends Sprite {
     this.fireRate = 200; // ms between shots
     this.originalFireRate = this.fireRate;
     this.lastShot = 0; // Timestamp of last shot
+    this.projectileSpeed = 10;
     this.inventory = [];
     this.direction = createVector(-1, 0); // Character starts facing right
     this.fireCooldown = 0; // Cooldown between shots
@@ -46,7 +47,7 @@ class Player extends Sprite {
     let playerAHealthBarX = 50;
     let playerAHealthBarY = 50;
     let playerAHealthRatio = playerA.health / playerA.maxHealth;
-    let frame = 13 - Math.round(13 * playerAHealthRatio);
+    let frame = 13 - Math.ceil(13 * playerAHealthRatio);
     let healthgif = image(healthbar, 40, 220);
     healthbar.pause();
     healthbar.setFrame(frame);
@@ -57,7 +58,7 @@ class Player extends Sprite {
       let playerBHealthBarY = 50;
       let playerBHealthRatio = playerB.health / playerB.maxHealth;
 
-      let frame = 13 - Math.round(13 * playerBHealthRatio);
+      let frame = 13 - Math.ceil(13 * playerBHealthRatio);
       let healthgifb = image(healthbar_b, 910, 220);
       healthbar_b.pause();
       healthbar_b.setFrame(frame);
@@ -78,9 +79,7 @@ class Player extends Sprite {
   }
 
   move() {
-    if (!this.isActive) {
-      return;
-    }
+    if (!this.isActive) return;
     this.overheatSlow();
 
     // Player movement using WASD / arrow keys
@@ -264,7 +263,7 @@ class Player extends Sprite {
           this.position.y,
           this.direction.x,
           this.direction.y,
-          10,
+          this.projectileSpeed,
           bullet,
           this
         );
@@ -290,7 +289,7 @@ class Player extends Sprite {
           this.position.y,
           this.direction.x,
           this.direction.y,
-          10,
+          this.projectileSpeed,
           bullet,
           this
         );
@@ -311,7 +310,6 @@ class Player extends Sprite {
   }
 
   drawPlayerHeatBar(x, y, width, height, value, label) {
-    if (!this.isActive) return;
     push();
     stroke(150);
     strokeWeight(2);
