@@ -132,29 +132,19 @@ Following our paper protyping session and our requirement gathering, we held sev
 ## Further Evaluations
 
 ### HCI Evaluation
-(conducted at week 7)
+(conducted at week 7 with 6 participants)
 
-Think Aloud evaluation (5 participants)
-| Frequent Comments (order by frequency descending) | Issue Identified | Fix Implementation |
-| :--: | :--: | :--: |
-| Sticky walls | Collision logix between players and walls need enhancement | https://github.com/UoB-COMSM0166/2025-group-28/issues/50 |
-| Too easy | Need more challenging levels | https://github.com/UoB-COMSM0166/2025-group-28/issues/115 |
-| Only one kind of enemy | Need more type of mobs | https://github.com/UoB-COMSM0166/2025-group-28/issues/112, https://github.com/UoB-COMSM0166/2025-group-28/issues/127 |
-| What is the main twist? | Multiplayer mode enhancement | https://github.com/UoB-COMSM0166/2025-group-28/issues/56 |
+Heuristic Evaluation
+| Interface | Issue | Heuristics | Frequency (0=rare, 4=common) | Impact | Persistence | Severity ((F+I+P)/3) | Our fix |
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| Sticky walls | Collision logic between players and walls need enhancement | flexibility and efficiency of use | 4 | 4 | 3 | 3.67 | https://github.com/UoB-COMSM0166/2025-group-28/issues/50 |
+| Too easy | Need more challenging levels | consistency and standards | 3 | 2 | 4 | 3 | https://github.com/UoB-COMSM0166/2025-group-28/issues/115 |
+| Progress/goal tracking | Need to show health bar, SlowMeaw percentage, and overheating bar | visibility of system status  | 2 | 2 | 4 | 2.67 | https://github.com/UoB-COMSM0166/2025-group-28/issues/137 |
+| Only one kind of enemy | Need more type of mobs, with standardize artwork style | consistency and standards | 1 | 1 | 3 | 1.67 | https://github.com/UoB-COMSM0166/2025-group-28/issues/112, https://github.com/UoB-COMSM0166/2025-group-28/issues/127, https://github.com/UoB-COMSM0166/2025-group-28/issues/54 |
+| Single player keyboard | We are using standard ASWD key to move, but some players might want to use an the arrow keys instead. | recognition rather than recall, user control and freedom | 2 | 2 | 1 | 1.67 | TBC |
+| After death experience | Bugs in game over screen | help users recognise, diagnose and recover from errors | 1 | 1 | 1 | 1 | https://github.com/UoB-COMSM0166/2025-group-28/issues/116 |
+| What is the main twist? | Multiplayer mode enhancement |  |   |   |   |   |
 
-Our application of Nielsen’s 10 principles of heuristic evaluation
-| principles | implementation |
-| :--: | :--: |
-| visibility of system status | Showing health bar, SlowMeaw percentage, and overheating bar https://github.com/UoB-COMSM0166/2025-group-28/issues/137 |
-| match between system and real world | |
-| user control and freedom | TBC: Allowing user to select arrow keys instead of ASWD. |
-| consistency and standards | Standardize artwork style https://github.com/UoB-COMSM0166/2025-group-28/issues/54 |
-| error prevention | |
-| recognition rather than recall | Using standard ASWD key to move. Intuitively shooting in the same direction as the character is facing. |
-| flexibility and efficiency of use | |
-| aesthetic and minimalist design | Clean standardized artwork |
-| help users recognise, diagnose and recover from errors | Implementing game over screen https://github.com/UoB-COMSM0166/2025-group-28/issues/116 |
-| help and documentation | Adding help screen |
 
 
 - 15% ~750 words
