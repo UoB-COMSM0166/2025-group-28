@@ -135,14 +135,15 @@ Following our paper protyping session and our requirement gathering, we held sev
 (conducted at week 7)
 
 Think Aloud evaluation (5 participants)
-| :--: | :--: | :--: |
 | Frequent Comments (order by frequency descending) | Issue Identified | Fix Implementation |
+| :--: | :--: | :--: |
 | Sticky walls | Collision logix between players and walls need enhancement | https://github.com/UoB-COMSM0166/2025-group-28/issues/50 |
 | Too easy | Need more challenging levels | https://github.com/UoB-COMSM0166/2025-group-28/issues/115 |
 | Only one kind of enemy | Need more type of mobs | https://github.com/UoB-COMSM0166/2025-group-28/issues/112, https://github.com/UoB-COMSM0166/2025-group-28/issues/127 |
 | What is the main twist? | Multiplayer mode enhancement | https://github.com/UoB-COMSM0166/2025-group-28/issues/56 |
 
 Our application of Nielsen’s 10 principles of heuristic evaluation
+| principles | implementation |
 | :--: | :--: |
 | visibility of system status | Showing health bar, SlowMeaw percentage, and overheating bar https://github.com/UoB-COMSM0166/2025-group-28/issues/137 |
 | match between system and real world | |
