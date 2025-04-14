@@ -584,7 +584,7 @@ class Room {
           }
         }
         playerB.applyKnockback(mob.position.x, mob.position.y);
-        if (!mob instanceof BlinkMob) {
+        if (!(mob instanceof BlinkMob)) {
           mob.applyKnockback(playerB.position.x, playerB.position.y);
         }
         playerB.makeInvincible();
