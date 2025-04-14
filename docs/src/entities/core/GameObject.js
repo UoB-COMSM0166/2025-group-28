@@ -14,11 +14,10 @@ class GameObject {
   }
 
   update() {
-    if (this.isActive) {
-      this.position.add(this.velocity);
+    if (!this.isActive) return;
 
-      // We can potentially add friction, gravity, walls
-    }
+    this.position.add(this.velocity);
+
     // Stops the object moving outside the outer walls (just in case)
     this.position.x = constrain(
       this.position.x,

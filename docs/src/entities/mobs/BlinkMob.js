@@ -10,6 +10,7 @@ class BlinkMob extends Mob {
     this.speed = 0;
     this.originalSpeed = this.speed;
     this.attackDamage = 6 * difficultySettings.mobDamageMult;
+    this.projectileSpeed = 2;
     this.bloodColour = color(135, 20, 103, 255);
     this.fireCooldownLimit = 175;
     this.checkIfSlowMeowActive();
@@ -20,20 +21,19 @@ class BlinkMob extends Mob {
       this.blink();
       let projectileCount = 9;
       let angleIncrement = (2 * Math.PI) / projectileCount;
-      let projectileSpeed = 2;
 
       for (let i = 0; i < projectileCount; i++) {
         let angle = i * angleIncrement;
 
-        let velocityX = Math.cos(angle) * projectileSpeed;
-        let velocityY = Math.sin(angle) * projectileSpeed;
+        let velocityX = Math.cos(angle) * this.projectileSpeed;
+        let velocityY = Math.sin(angle) * this.projectileSpeed;
 
         let newProjectile = new Projectile(
           this.position.x,
           this.position.y,
           velocityX,
           velocityY,
-          3,
+          this.projectileSpeed + 1,
           fireball,
           this
         );

@@ -20,9 +20,18 @@ class Mob extends Sprite {
   }
 
   update() {
-    if (!this.isActive) {
-      return;
-    }
+    if (!this.isActive) return;
+    // Stops mob moving outside the outer walls
+    this.position.x = constrain(
+      this.position.x,
+      tileSize * 3 + arena_offset,
+      roomWidth * tileSize - tileSize * 3 + arena_offset
+    );
+    this.position.y = constrain(
+      this.position.y,
+      tileSize * 3 + arena_offset,
+      roomHeight * tileSize - tileSize * 3 + arena_offset
+    );
     let nearestPlayer = this.findNearestPlayer();
     if (nearestPlayer) {
       this.moveTowards(nearestPlayer);
@@ -82,28 +91,20 @@ class Mob extends Sprite {
     if (!this.isCollidingWith(player)) {
       this.velocity.x = xDirection * this.speed;
       this.velocity.y = yDirection * this.speed;
-    } else {
-      if (this.direction.x > 0) {
-        this.position.x -= pushback;
-      } else if (this.direction.x < 0) {
-        this.position.x += pushback;
-      }
-      if (this.direction.y > 0) {
-        this.position.y -= pushback;
-      } else if (this.direction.y < 0) {
-        this.position.y += pushback;
-      }
     }
     // Normalises diagonal movement
     if (this.velocity.x !== 0 && this.velocity.y !== 0) {
       this.velocity.setMag(this.speed);
     }
     // Apply knockback force gradually
-    if (this.knockbackForce.mag() > 0) {
-      this.position.add(this.knockbackForce);
-      this.knockbackForce.mult(0.9); // Reduce knockback force gradually
-      if (this.knockbackForce.mag() < 0.1) {
-        this.knockbackForce.set(0, 0); // Stop knockback when force is very small
+    if (this.knockbackVelocity.mag() > 0.1) {
+      if (game.slowMeowOccurring) { // Slow knockback speed if slow meow active
+        let adjustedVelocity = p5.Vector.mult(this.knockbackVelocity, game.slowMeowMovementSpeed);
+        this.position.add(adjustedVelocity);
+        this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowMovementSpeed));
+      } else {
+        this.position.add(this.knockbackVelocity);
+        this.knockbackVelocity.mult(0.9);
       }
     }
   }
