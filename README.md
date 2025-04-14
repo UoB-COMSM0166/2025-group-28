@@ -82,6 +82,39 @@ We want everybody to experience AstroCat, so we thought about our game from the 
 | Competitive Gamer | Epic: As a competitive user, I want to be able to monitor and enhance my performance. <br> User Story A: As a competitive gamer, I want to be able to see my performance stats at the end of each game. <br> User Story A: As a competitive gamer, I want to be able to see my performance stats at the end of each game. <br> User Story B: As a competitive gamer, I want the option to the change key-mappings to enable me to optimise my performance. |
 | Casual Gamer | Epic: As a casual gamer, I want a game that can be played casually - in short bursts, engaging without requiring my full attention, and playable e.g. at night/in bed. <br> User Story A: As a casual gamer, I want a game mode (e.g. survival/easy) that enables me to enjoy the gameplay without worrying about progression. <br> User Story B: As a casual gamer, I want a game mode that has a softer colours/soundscape, to enable me to play relaxingly in the evening before I go to bed, without compromising my sleep.|
 
+
+### Under 13s (Will)
+Epic - have options to disable gore etc./profanity from the game
+User Story: As a 12 year old whose parents are strict about games, I want to be able to play the game in a mode that will not cause me to get in to trouble.
+AC: Given I am playing the game, 
+User Story: Given I am a parent of a child who plays the game, I want to be able to use  prohibit objectionable content on the game, to stop my child being able to see nasty stuff. 
+
+User story
+ - As siblings/a couple/close friends we want to be able to play together online. So that we can enjoy the game together when we both want to play
+
+Acceptance
+Given that we are friends/dating etc
+When we want to play games together online
+Then we can play together
+
+
+###  Competitive Gamer (Dylan)
+User story
+  - As a competitive gamer, I want to be able to see my performance stats at the end of each game.
+  - As a competitive gamer, I want the option to the change key-mappings to enable me to optimise my performance.
+
+### Casual Gamer (Yoda)
+User story
+  - As a gamer who plays the game at night, I would like soft sound/dark theme to be an option, so that the game does not keeo me awake.
+- As a user who enjoys less intense games, I would like a simpler survival/easy mode to enable me to enjoy the gameplay without worrying about progression.
+
+###  On The Go Gamers (Fred)
+User story
+  - As a user who games on my commute, I want the game to be able to be played on a mobile device in portrait mode.
+  - As a user who games on the go, I want the game to function offline with as many feautures as possible, so I can enjoy the game where I have no internet connection.
+
+
+
 ## Feasibility Studies
 
 For some feautures that came out of our requirements gathering, we conducted feasibility studies in parallel to our MVP development to assess whether these features were technically possible within the timeframe and tech stack avaialble to us. Below are the features we experimented with and our assesment of their possibility. We have a 'Sandbox' folder to store this experimental code.
@@ -93,45 +126,34 @@ For some feautures that came out of our requirements gathering, we conducted fea
 | Procedural graphics generation | We experimented with algorithmicly generating different 'rooms'. | This proved feasible and was included in the MVP | 
 
 
-
-
-## Under 13s (Will)
-Epic - have options to disable gore etc./profanity from the game
-User Story: As a 12 year old whose parents are strict about games, I want to be able to play the game in a mode that will not cause me to get in to trouble.
-AC: Given I am playing the game, 
-User Story: Given I am a parent of a child who plays the game, I want to be able to use  prohibit objectionable content on the game, to stop my child being able to see nasty stuff. 
-
- 
-
-
-
-User story
-As siblings/a couple/close friends
-We want to be able to play together online
-So that we can enjoy the game together when we both want to play
-
-Acceptance
-Given that we are friends/dating etc
-When we want to play games together online
-Then we can play together
-
-
-##  Competitive Gamer (Dylan)
-  - As a competitive gamer, I want to be able to see my performance stats at the end of each game.
-  - As a competitive gamer, I want the option to the change key-mappings to enable me to optimise my performance.
-
-## Casual Gamer (Yoda)
-  - As a gamer who plays the game at night, I would like soft sound/dark theme to be an option, so that the game does not keeo me awake.
-- As a user who enjoys less intense games, I would like a simpler survival/easy mode to enable me to enjoy the gameplay without worrying about progression.
-
-##  On The Go Gamers (Fred)
-  - As a user who games on my commute, I want the game to be able to be played on a mobile device in portrait mode.
-  - As a user who games on the go, I want the game to function offline with as many feautures as possible, so I can enjoy the game where I have no internet connection.
-
-
 Following our paper protyping session and our requirement gathering, we held several workshops to refine the game design in terms of both story/aesthetics, and also finalsing our twist.
 
 
+## Further Evaluations
+
+### HCI Evaluation
+(conducted at week 7)
+
+Think Aloud evaluation (5 participants)
+| :--: | :--: | :--: |
+| Frequent Comments (order by frequency descending) | Issue Identified | Fix Implementation |
+| Sticky walls | Collision logix between players and walls need enhancement | https://github.com/UoB-COMSM0166/2025-group-28/issues/50 |
+| Too easy | Need more challenging levels | https://github.com/UoB-COMSM0166/2025-group-28/issues/115 |
+| Only one kind of enemy | Need more type of mobs | https://github.com/UoB-COMSM0166/2025-group-28/issues/112, https://github.com/UoB-COMSM0166/2025-group-28/issues/127 |
+| What is the main twist? | Multiplayer mode enhancement | https://github.com/UoB-COMSM0166/2025-group-28/issues/56 |
+
+Our application of Nielsen’s 10 principles of heuristic evaluation
+| :--: | :--: |
+| visibility of system status | Showing health bar, SlowMeaw percentage, and overheating bar https://github.com/UoB-COMSM0166/2025-group-28/issues/137 |
+| match between system and real world | |
+| user control and freedom | TBC: Allowing user to select arrow keys instead of ASWD. |
+| consistency and standards | Standardize artwork style https://github.com/UoB-COMSM0166/2025-group-28/issues/54 |
+| error prevention | |
+| recognition rather than recall | Using standard ASWD key to move. Intuitively shooting in the same direction as the character is facing. |
+| flexibility and efficiency of use | |
+| aesthetic and minimalist design | Clean standardized artwork |
+| help users recognise, diagnose and recover from errors | Implementing game over screen https://github.com/UoB-COMSM0166/2025-group-28/issues/116 |
+| help and documentation | Adding help screen |
 
 
 - 15% ~750 words
