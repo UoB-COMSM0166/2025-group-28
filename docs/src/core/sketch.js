@@ -80,6 +80,7 @@ function gameSwitch(starting) {
     //theme_a.play();
   } else {
     inGame = false;
+    gameOver = false;
     game = null;
     projectileManager = null;
     behaviourMonitor = null;
