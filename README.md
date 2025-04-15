@@ -162,10 +162,12 @@ NASA TLX Result
 | 8 | 12.5 | 16.67 |
 | 9 | 53.33 | 54.17 |
 | 10 | 38.33 | 48.33 |
+
 The table above is showing raw TLX scores, where the six dimensions are not weighted. To dive in further, our game scored well for Mental and Physical Demand but scored slightly worse in terms of Fustration and Temporal Demand. Which we collected further comments from participants to be implemented further.
 
 SUS Result
 | User ID | EASY | Medium |	
+| :--: | :--: | :--: |
 | 1 | 95 | 72.5 |	
 | 2 | 77.5 | 50 |	
 | 3 | 75 | 62.5 |	
@@ -176,6 +178,7 @@ SUS Result
 | 8 | 100 | 85 |	
 | 9 | 55 | 57.5 |	
 | 10 | 80 | 62.5 |	
+
 Based on studies, SUS score above 68 is considered the average. In our game, 80% of participants rated our game above average in easy mode and 30% did for medium difficulty. Which suggests more room for improvements, especially for medium difficulty.
 
 Using Wilcoxon Signed-Rank Test, both test results got W test statistic of 7.5. With N=10 and significance value of 0.05, our W is below the critical value as shown in the table below. Therefore indicates 95% certainty that the difference in our result is significant. And can be used for further evaluations.
