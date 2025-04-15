@@ -65,11 +65,11 @@ class BlinkMob extends Mob {
     while (spawnAttempts < 100) {
       spawnX = random(
         tileSize * 2 + this.widthHitbox / 2 + arena_offset,
-        roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 - arena_offset
+        roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
       );
       spawnY = random(
         tileSize * 2 + this.heightHitbox / 2 + arena_offset,
-        roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2 - arena_offset
+        roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2 + arena_offset
       );
       let distanceFromP1 = dist(
         spawnX,
