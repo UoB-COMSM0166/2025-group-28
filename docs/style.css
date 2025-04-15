@@ -26,7 +26,8 @@ body {
   font-family: "ARCADE_I";
 }
 
-#settingpanel {
+#settingpanel,
+#howtopanel {
   color: white;
   font-size: 18px;
   font-family: "ARCADE_I";

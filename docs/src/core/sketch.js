@@ -212,14 +212,18 @@ function gameOverReturn() {
 
 function switchToHelp() {
   settingsMode = false;
-  toggle_help.style("color", "orange");
-  toggle_settings.style("color", "white");
+
+  toggle_help.style("background-color", "rgb(255, 109, 0)");
+  toggle_settings.style("background-color", "transparent");
+
   settingpanel.remove();
+  renderHowTo();
 }
 function switchToStngs() {
   settingsMode = true;
-  toggle_help.style("color", "white");
-  toggle_settings.style("color", "orange");
+  toggle_settings.style("background-color", "rgb(255, 109, 0)");
+  toggle_help.style("background-color", "transparent");
+  howtopanel.remove();
   renderSettingPanel();
 }
 
@@ -233,17 +237,31 @@ let arrow;
 let settingpanel;
 
 function switchToWasd() {
-  wasd.style("opacity", 1);
-  arrow.style("opacity", 0.6);
+  wasd.style("border", "2px solid white");
+  arrow.style("border", "none");
 
   switchControl(true);
 }
 
 function switchToArrow() {
-  arrow.style("opacity", 1);
-  wasd.style("opacity", 0.6);
+  arrow.style("border", "2px solid white");
+  wasd.style("border", "none");
 
   switchControl(false);
+}
+
+let howtopanel;
+function renderHowTo() {
+  howtopanel = createDiv();
+  howtopanel.id("howtopanel");
+  howtopanel.size(pageWidth, pageHeight);
+  howtopanel.parent(stng_div);
+
+  let intro = createP(
+    "You are AstroCat. You chased a mouse on to a spaceship. The humans were killed by invading space dogs. Silly humans. You need to fight your way through the endless rooms of rampaging space dogs."
+  );
+  intro.parent(howtopanel);
+  intro.position(20, 80);
 }
 function renderSettingPanel() {
   settingpanel = createDiv();
@@ -255,22 +273,22 @@ function renderSettingPanel() {
   controlLegend.parent(settingpanel);
   controlLegend.position(20, 100);
 
-  let p2control = createP("Player 2 will use <br> non-default key set");
+  let p2control = createP("Player 2 will use <br> non-default controls");
   p2control.parent(settingpanel);
   p2control.position(20, 150);
   p2control.style("font-size", "10px");
 
   wasd = createImg(wasd_icon);
   wasd.parent(settingpanel);
-  wasd.position(320, 80);
+  wasd.position(320, 100);
   wasd.size(150, 160);
   wasd.mouseClicked(switchToWasd);
+  wasd.style("border", "2px solid white");
 
   arrow = createImg(arrow_icon);
   arrow.parent(settingpanel);
-  arrow.position(500, 80);
+  arrow.position(500, 100);
   arrow.size(150, 160);
-  arrow.style("opacity", 0.6);
   arrow.mouseClicked(switchToArrow);
 }
 
@@ -289,14 +307,16 @@ function gotoSettings() {
   let exit = createP("X");
   exit.parent(stng_div);
   exit.position(10, 10);
-  exit.style("color", "red");
+  exit.style("color", "white");
+  exit.style("background-color", "red");
+
   exit.mouseClicked(quitSettings);
 
   toggle_settings = createP("Settings");
   toggle_settings.parent(stng_div);
   toggle_settings.position(200, 10);
   toggle_settings.mouseClicked(switchToStngs);
-  toggle_settings.style("color", "orange");
+  toggle_settings.style("background-color", "rgb(255, 109, 0)");
 
   toggle_help = createP("How to Play");
   toggle_help.parent(stng_div);
