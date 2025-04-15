@@ -21,10 +21,12 @@ let sp_button;
 let coop_button;
 let stng_button;
 let pvp_button;
-
+let menuContainer;
 let game_over_back;
 let scoretotal;
 let returnToMenu;
+
+let settingsMode = true;
 
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
@@ -207,8 +209,125 @@ function gameOverReturn() {
   gameSwitch(false);
 }
 
+function switchToHelp() {
+  settingsMode = false;
+
+  toggle_help.style("background-color", "rgb(255, 109, 0)");
+  toggle_settings.style("background-color", "transparent");
+
+  settingpanel.remove();
+  renderHowTo();
+}
+function switchToStngs() {
+  settingsMode = true;
+  toggle_settings.style("background-color", "rgb(255, 109, 0)");
+  toggle_help.style("background-color", "transparent");
+  howtopanel.remove();
+  renderSettingPanel();
+}
+
+let stng_div;
+let set_back;
+let toggle_settings;
+let toggle_help;
+
+let wasd;
+let arrow;
+let settingpanel;
+
+function switchToWasd() {
+  wasd.style("border", "2px solid white");
+  arrow.style("border", "none");
+
+  switchControl(true);
+}
+
+function switchToArrow() {
+  arrow.style("border", "2px solid white");
+  wasd.style("border", "none");
+
+  switchControl(false);
+}
+
+let howtopanel;
+function renderHowTo() {
+  howtopanel = createDiv();
+  howtopanel.id("howtopanel");
+  howtopanel.size(pageWidth, pageHeight);
+  howtopanel.parent(stng_div);
+
+  let intro = createP(
+    "You are AstroCat. You chased a mouse on to a spaceship. The humans were killed by invading space dogs. Silly humans. You need to fight your way through the endless rooms of rampaging space dogs."
+  );
+  intro.parent(howtopanel);
+  intro.position(20, 80);
+}
+function renderSettingPanel() {
+  settingpanel = createDiv();
+  settingpanel.id("settingpanel");
+  settingpanel.size(pageWidth, pageHeight);
+  settingpanel.parent(stng_div);
+
+  let controlLegend = createP("Default controls");
+  controlLegend.parent(settingpanel);
+  controlLegend.position(20, 100);
+
+  let p2control = createP("Player 2 will use <br> non-default controls");
+  p2control.parent(settingpanel);
+  p2control.position(20, 150);
+  p2control.style("font-size", "10px");
+
+  wasd = createImg(wasd_icon);
+  wasd.parent(settingpanel);
+  wasd.position(320, 100);
+  wasd.size(150, 160);
+  wasd.mouseClicked(switchToWasd);
+  wasd.style("border", "2px solid white");
+
+  arrow = createImg(arrow_icon);
+  arrow.parent(settingpanel);
+  arrow.position(500, 100);
+  arrow.size(150, 160);
+  arrow.mouseClicked(switchToArrow);
+}
+
+function quitSettings() {
+  stng_div.remove();
+}
+function gotoSettings() {
+  stng_div = createDiv();
+  stng_div.id("settings_content");
+  stng_div.size(pageWidth, pageHeight);
+  stng_div.parent(menuContainer);
+  set_back = createImg(setback);
+  set_back.parent(stng_div);
+  set_back.position(0, 0);
+
+  let exit = createP("X");
+  exit.parent(stng_div);
+  exit.position(10, 10);
+  exit.style("color", "white");
+  exit.style("background-color", "red");
+
+  exit.mouseClicked(quitSettings);
+
+  toggle_settings = createP("Settings");
+  toggle_settings.parent(stng_div);
+  toggle_settings.position(200, 10);
+  toggle_settings.mouseClicked(switchToStngs);
+  toggle_settings.style("background-color", "rgb(255, 109, 0)");
+
+  toggle_help = createP("How to Play");
+  toggle_help.parent(stng_div);
+  toggle_help.position(500, 10);
+  toggle_help.mouseClicked(switchToHelp);
+
+  // defualt to setting panel
+  renderSettingPanel();
+}
+
 function renderMenu() {
-  let menuContainer = createDiv();
+  menuContainer = createDiv();
   menuContainer.id("menuContainer");
   menuContainer.size(pageWidth, pageHeight);
 
@@ -255,6 +374,7 @@ function renderMenu() {
   stng_button.style("opacity", "0.5");
   stng_button.mouseOver(stngHover);
   stng_button.mouseOut(stngEndHover);
+  stng_button.mouseClicked(gotoSettings);
 
   difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
   difficultyButton.parent(menuContainer);
@@ -373,16 +493,28 @@ function draw() {
       textFont(gameFont);
       textAlign(CENTER);
       if (!pvpMode) {
-        if (coop && game.slowMeowLevel == slowMeowMax &&
-            playerA.fireOverheat && playerB.fireOverheat) {
+        if (
+          coop &&
+          game.slowMeowLevel == slowMeowMax &&
+          playerA.fireOverheat &&
+          playerB.fireOverheat
+        ) {
           fill(210, 0, 0);
           text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
-        } else if (!coop && game.slowMeowLevel == slowMeowMax && playerA.fireOverheat) {
+        } else if (
+          !coop &&
+          game.slowMeowLevel == slowMeowMax &&
+          playerA.fireOverheat
+        ) {
           fill(210, 0, 0);
           text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
         } else if (!game.slowMeowUsable || game.slowMeowOccurring) {
           fill(100, 150, 255);
-          text("SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%", width / 2 + 20, height - 63);
+          text(
+            "SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%",
+            width / 2 + 20,
+            height - 63
+          );
         } else if (!game.slowMeowOccurring && game.slowMeowUsable) {
           fill(0, 255, 255);
           text("SLOW MEOW:READY", width / 2 + 20, height - 63);

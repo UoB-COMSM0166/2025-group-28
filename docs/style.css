@@ -18,3 +18,17 @@ body {
   align-items: center;
   position: relative;
 }
+
+#settings_content,
+#settingpanel {
+  color: white;
+  font-size: 25px;
+  font-family: "ARCADE_I";
+}
+
+#settingpanel,
+#howtopanel {
+  color: white;
+  font-size: 18px;
+  font-family: "ARCADE_I";
+}
