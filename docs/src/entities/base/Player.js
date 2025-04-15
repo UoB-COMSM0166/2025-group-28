@@ -17,7 +17,8 @@ class Player extends Sprite {
     this.lastShot = 0; // Timestamp of last shot
     this.projectileSpeed = 10;
     this.inventory = [];
-    this.direction = createVector(-1, 0); // Character starts facing right
+    this.direction = createVector(0, 1); // Character starts facing down
+    this.lastDirection = "DOWN";
     this.fireCooldown = 0; // Cooldown between shots
     this.fireOverheat = false;
     this.overheatSoundPlayed = false;
@@ -82,7 +83,6 @@ class Player extends Sprite {
     if (!this.isActive) return;
     this.overheatSlow();
 
-    // Player movement using WASD / arrow keys
     this.velocity.set(0, 0);
     if (this.fireCooldown > 0) {
       this.fireCooldown = Math.max(0, this.fireCooldown - this.heatDecay);
@@ -92,39 +92,16 @@ class Player extends Sprite {
       this.img.setFrame(this.startFrame);
     }
 
-    //movement logic for PLAYER_1
+    let isMoving = false;
+    let movingVertically = false;
+
+    // Movement logic for PLAYER_1
     if (this.player == playerNumber.PLAYER_1) {
-      // A key
-      if (keyIsDown(p1_left)) {
-        if (this.lastDirection != "LEFT") {
-          this.img.setFrame(1);
-          this.startFrame = 1;
-          this.endFrame = 5;
-          //  this.img.play();
-        }
-        this.velocity.x = -this.speed;
-
-        // Instead of flipping we set the gif to frames 0->5
-        //this.img.setFrame(1);
-
-        this.direction = createVector(1, 0); // Facing left
-        this.scaleX = -1; // Flip sprite to face left
-        this.lastDirection = "LEFT";
-      }
-      // D key
-      if (keyIsDown(p1_right)) {
-        if (this.lastDirection != "RIGHT") {
-          this.img.setFrame(1);
-          this.startFrame = 1;
-          this.endFrame = 5;
-        }
-        this.velocity.x = this.speed;
-        this.direction = createVector(-1, 0); // Facing right
-        this.scaleX = 1; // Reset sprite to face right
-        this.lastDirection = "RIGHT";
-      }
+      // Up/down directions are prioritised for diagonal animations to work
       // W key
-      if (keyIsDown(p1_up)) {
+      if (keyIsDown(87)) {
+        isMoving = true;
+        movingVertically = true;
         if (this.lastDirection != "UP") {
           this.img.setFrame(13);
           this.startFrame = 13;
@@ -135,33 +112,35 @@ class Player extends Sprite {
         this.lastDirection = "UP";
       }
       // S key
-      if (keyIsDown(p1_down)) {
+      if (keyIsDown(83)) {
+        isMoving = true;
+        movingVertically = true;
         if (this.lastDirection != "DOWN") {
           this.img.setFrame(7);
           this.startFrame = 7;
-          this.endFrame = 13;
+          this.endFrame = 12;
         }
         this.velocity.y = this.speed;
         this.direction = createVector(0, 1);
         this.lastDirection = "DOWN";
       }
-    }
-    //movement logic for PLAYER_2
-    if (this.player == playerNumber.PLAYER_2) {
-      if (keyIsDown(p2_left)) {
-        if (this.lastDirection != "LEFT") {
+      // A key
+      if (keyIsDown(65)) {
+        isMoving = true;
+        if (!movingVertically && this.lastDirection != "LEFT") {
           this.img.setFrame(1);
           this.startFrame = 1;
           this.endFrame = 5;
-          //  this.img.play();
         }
         this.velocity.x = -this.speed;
         this.direction = createVector(1, 0); // Facing left
         this.scaleX = -1; // Flip sprite to face left
-        this.lastDirection = "LEFT";
+        if (!movingVertically) this.lastDirection = "LEFT";
       }
-      if (keyIsDown(p2_right)) {
-        if (this.lastDirection != "RIGHT") {
+      // D key
+      if (keyIsDown(68)) {
+        isMoving = true;
+        if (!movingVertically && this.lastDirection != "RIGHT") {
           this.img.setFrame(1);
           this.startFrame = 1;
           this.endFrame = 5;
@@ -169,9 +148,15 @@ class Player extends Sprite {
         this.velocity.x = this.speed;
         this.direction = createVector(-1, 0); // Facing right
         this.scaleX = 1; // Reset sprite to face right
-        this.lastDirection = "RIGHT";
+        if (!movingVertically) this.lastDirection = "RIGHT";
       }
-      if (keyIsDown(p2_up)) {
+    }
+    // Movement logic for PLAYER_2
+    if (this.player == playerNumber.PLAYER_2) {
+      // Up/down directions are prioritised for diagonal animations to work
+      if (keyIsDown(UP_ARROW)) {
+        isMoving = true;
+        movingVertically = true;
         if (this.lastDirection != "UP") {
           this.img.setFrame(13);
           this.startFrame = 13;
@@ -181,16 +166,54 @@ class Player extends Sprite {
         this.direction = createVector(0, -1);
         this.lastDirection = "UP";
       }
-      if (keyIsDown(p2_down)) {
+      if (keyIsDown(DOWN_ARROW)) {
+        isMoving = true;
+        movingVertically = true;
         if (this.lastDirection != "DOWN") {
           this.img.setFrame(7);
           this.startFrame = 7;
-          this.endFrame = 13;
+          this.endFrame = 12;
         }
-        // Down arrow (move down)
         this.velocity.y = this.speed;
         this.direction = createVector(0, 1);
         this.lastDirection = "DOWN";
+      }
+      if (keyIsDown(LEFT_ARROW)) {
+        isMoving = true;
+        if (!movingVertically && this.lastDirection != "LEFT") {
+          this.img.setFrame(1);
+          this.startFrame = 1;
+          this.endFrame = 5;
+        }
+        this.velocity.x = -this.speed;
+        this.direction = createVector(1, 0); // Facing left
+        this.scaleX = -1; // Flip sprite to face left
+        if (!movingVertically) this.lastDirection = "LEFT";
+      }
+      if (keyIsDown(RIGHT_ARROW)) {
+        isMoving = true;
+        if (!movingVertically && this.lastDirection != "RIGHT") {
+          this.img.setFrame(1);
+          this.startFrame = 1;
+          this.endFrame = 5;
+        }
+        this.velocity.x = this.speed;
+        this.direction = createVector(-1, 0); // Facing right
+        this.scaleX = 1; // Reset sprite to face right
+        if(!movingVertically) this.lastDirection = "RIGHT";
+      }
+    }
+
+    // Stops sprite animation when player isn't moving
+    if (!isMoving) {
+      if (this.lastDirection === "LEFT") {
+        this.img.setFrame(1);
+      } else if (this.lastDirection === "RIGHT") {
+        this.img.setFrame(1);
+      } else if (this.lastDirection === "UP") {
+        this.img.setFrame(13);
+      } else if (this.lastDirection === "DOWN") {
+        this.img.setFrame(7);
       }
     }
 
@@ -204,20 +227,13 @@ class Player extends Sprite {
     this.position.y = constrain(
       this.position.y,
       tileSize * 2 + this.heightHitbox / 2 + arena_offset,
-      roomHeight * tileSize -
-        tileSize * 2 -
-        this.heightHitbox / 2 +
-        arena_offset
+      roomHeight * tileSize -tileSize * 2 - this.heightHitbox / 2 + arena_offset
     );
 
     // Apply knockback force gradually
     if (this.knockbackVelocity.mag() > 0.1) {
-      if (game.slowMeowOccurring) {
-        // Slow knockback speed if slow meow active
-        let adjustedVelocity = p5.Vector.mult(
-          this.knockbackVelocity,
-          game.slowMeowMovementSpeed
-        );
+      if (game.slowMeowOccurring) { // Slow knockback speed if slow meow active
+        let adjustedVelocity = p5.Vector.mult(this.knockbackVelocity, game.slowMeowMovementSpeed);
         this.position.add(adjustedVelocity);
         this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowMovementSpeed));
       } else {
@@ -257,7 +273,7 @@ class Player extends Sprite {
     ) {
       if (this.overheatSoundPlayed) this.overheatSoundPlayed = false;
       // SPACE key for player 1
-      if (this.player === playerNumber.PLAYER_1 && keyIsDown(p1_shoot)) {
+      if (this.player === playerNumber.PLAYER_1 && keyIsDown(32)) {
         this.justFired = true;
         if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
           this.img.setFrame(0);
@@ -285,7 +301,7 @@ class Player extends Sprite {
         }
       }
       // ENTER key for player 2
-      if (this.player === playerNumber.PLAYER_2 && keyIsDown(p2_shoot)) {
+      if (this.player === playerNumber.PLAYER_2 && keyIsDown(13)) {
         if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
           this.img.setFrame(0);
         } else {
@@ -305,10 +321,9 @@ class Player extends Sprite {
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         projectileManager.addProjectile(projectile);
         this.lastShot = currentTime;
-        this.fireCooldown += this.heatGain;
+        this.fireCooldown = Math.min(200, this.fireCooldown + this.heatGain);
         if (this.fireCooldown > 150) this.timesHeatLevelHigh++;
-        if (this.fireCooldown > 200) {
-          this.fireCooldown = 200; // Stop heat level going over max
+        if (this.fireCooldown >= 200) {
           this.fireOverheat = true;
           this.timesOverheated++;
         }
@@ -385,8 +400,7 @@ class Player extends Sprite {
   // Adds i-frames after taking damage - in player class as not needed for mobs
   makeInvincible() {
     if (!this.isInvincible) {
-      if (this.health > 1) {
-        // Check health > 1 to stop pain sound playing with death sound
+      if (this.health > 1) { // Check health > 1 to stop pain sound playing with death sound
         let randomSound = Math.floor(random(0, this.painSound.length));
         playSound(this.painSound[randomSound], playbackRate);
       }
@@ -412,14 +426,10 @@ class Player extends Sprite {
 
   // For behaviour monitoring
   getHighHeatFrequency() {
-    return (
-      this.timesHeatLevelHigh / Math.max(1, behaviourMonitor.getRoomsCleared())
-    );
+    return this.timesHeatLevelHigh / Math.max(1, behaviourMonitor.getRoomsCleared());
   }
 
   getOverheatFrequency() {
-    return (
-      this.timesOverheated / Math.max(1, behaviourMonitor.getRoomsCleared())
-    );
+    return this.timesOverheated / Math.max(1, behaviourMonitor.getRoomsCleared());
   }
 }

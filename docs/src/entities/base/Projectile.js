@@ -11,19 +11,11 @@ class Projectile extends GameObject {
     this.widthHitbox = 5;
     this.heightHitbox = 5;
     this.owner = owner;
+    this.sparkColour = color(255, 215, 80, 255);
   }
 
   update() {
     if (!this.isActive) return;
-    // Deactive the projectile if it leaves the room boundaries
-    if (
-      this.position.x < (tileSize * 2) + arena_offset ||
-      this.position.x > roomWidth * tileSize - (tileSize * 2) + arena_offset ||
-      this.position.y < (tileSize * 2) + arena_offset ||
-      this.position.y > roomHeight * tileSize - (tileSize * 2) + arena_offset
-    ) {
-      this.isActive = false;
-    }
 
     this.position.add(this.velocity);
 

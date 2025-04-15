@@ -11,10 +11,12 @@ class RangedMob extends Mob {
     this.projectileSpeed = 3;
     this.bloodColour = color(255, 215, 80, 255);
     this.fireCooldownLimit = 100;
+    this.deathSound = rangedMobDeathSound;
     this.checkIfSlowMeowActive();
   }
 
   fire() {
+    if (!this.isActive) return;
     let newProjectile;
     if (this.fireReady == true) {
       newProjectile = new Projectile (
@@ -28,6 +30,7 @@ class RangedMob extends Mob {
       );
       projectileManager.addProjectile(newProjectile);
       behaviourMonitor.updateTimesMobsFired(1);
+      playSound(mobProjectileSound, playbackRate, true);
       this.fireReady = false;
     }
   }

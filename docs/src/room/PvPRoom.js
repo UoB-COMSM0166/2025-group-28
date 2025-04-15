@@ -5,7 +5,7 @@ class PvPRoom {
     this.isCleared = false;
     this.items = [];
     this.roomLayout = []; // 2d array of tiles
-    this.bloodParticles = [];
+    this.particles = [];
     this.lastSpawnTime = 0;
     this.promptActive = false;
     this.currentTileColours;
@@ -153,7 +153,7 @@ class PvPRoom {
   // Probability of adding a wall
   rollAddWall() {
     let wallChance = random(0, 2);
-    if (wallChance < 0.3) {
+    if (wallChance < 0.65) {
       return true;
     }
     return false;
@@ -170,18 +170,35 @@ class PvPRoom {
     }
   }
 
-  createBloodParticles(x, y, bloodColour) {
-    if (!childMode) {
-    let maxParticles = Math.floor(random(5, 20));
-      for (let i = 0; i < maxParticles; i++) {
-        this.bloodParticles.push(new Particle(x, y, bloodColour));
+  createParticles(type = Particle, x, y, colour, velocity = null) {
+    if (childMode && type == Blood) return;
+    let maxParticles;
+    if (type == Spark) {
+      maxParticles = Math.floor(random(3, 7));
+    } else {
+      maxParticles = Math.floor(random(5, 20));
+    }
+    for (let i = 0; i < maxParticles; i++) {
+      if (type == Spark && velocity) {
+        this.particles.push(new Spark(x, y, colour, velocity));
+      } else {
+        this.particles.push(new type(x, y, colour));
       }
     }
   }
 
   update() {
     for (let p of projectileManager.projectilesFired) {
-      p.update();
+      if (
+        p.position.x < (tileSize * 3) + arena_offset ||
+        p.position.x > roomWidth * tileSize - (tileSize * 3) + arena_offset ||
+        p.position.y < (tileSize * 3) + arena_offset ||
+        p.position.y > roomHeight * tileSize - (tileSize * 3) + arena_offset ||
+        (projectileWallCollisions && this.checkInsideWall(p.position.x, p.position.y))
+      ) {
+        this.createParticles(Spark, p.position.x, p.position.y, p.sparkColour, p.velocity);
+        p.isActive = false;
+      } else p.update();
     }
 
     // items
@@ -306,12 +323,12 @@ class PvPRoom {
       }
     }
 
-    // Draw any blood particles after room objects so they appear behind the player/mobs
-    for (let i = 0; i < this.bloodParticles.length; i++) {
-      this.bloodParticles[i].update();
-      this.bloodParticles[i].draw();
-      if (this.bloodParticles[i].isFinished()) {
-        this.bloodParticles.splice(i, 1);
+    // Draw any particles after room objects so they appear behind the player/mobs
+    for (let i = 0; i < this.particles.length; i++) {
+      this.particles[i].update();
+      this.particles[i].draw();
+      if (this.particles[i].isFinished()) {
+        this.particles.splice(i, 1);
       }
     }
 
@@ -324,11 +341,9 @@ class PvPRoom {
     playerA.draw();
     playerA.drawPlayerHealthBar();
 
-    //text("Room", width / 2, height - 100);
     playerB.draw();
     playerB.drawPlayerHealthBar();
 
-    //let hud_div = createDiv();
 
     // pvp bullet collisions
     for (let projectile of projectileManager.projectilesFired) {
@@ -336,7 +351,8 @@ class PvPRoom {
         projectile.draw();
         if (projectile.isCollidingWith(playerB) && projectile.owner == playerA) {
           playerB.takeDamage(playerA.attackDamage);
-          this.createBloodParticles(
+          this.createParticles(
+            Blood,
             playerB.position.x,
             playerB.position.y,
             playerB.bloodColour
@@ -345,7 +361,8 @@ class PvPRoom {
         }
         if (projectile.isCollidingWith(playerA) && projectile.owner == playerB) {
           playerA.takeDamage(playerB.attackDamage);
-          this.createBloodParticles(
+          this.createParticles(
+            Blood,
             playerA.position.x,
             playerA.position.y,
             playerA.bloodColour
@@ -354,5 +371,34 @@ class PvPRoom {
         }
       }
     }
+
+    if (playerA.isCollidingWith(playerB)) {
+      playerA.applyKnockback(playerB.position.x, playerB.position.y);
+      playerB.applyKnockback(playerA.position.x, playerA.position.y);
+    }
   }
+
+  checkInsideWall(x, y) {
+    for (let j = 0; j < roomHeight; j++) {
+      for (let i = 0; i < roomWidth; i++) {
+        if (this.roomLayout[j][i].type === tileTypes.WALL) {
+          let wallX = this.roomLayout[j][i].position.x;
+          let wallY = this.roomLayout[j][i].position.y;
+          let wallWidth = this.roomLayout[j][i].widthHitbox;
+          let wallHeight = this.roomLayout[j][i].heightHitbox;
+
+          if (
+            x > wallX &&
+            x < wallX + wallWidth &&
+            y > wallY &&
+            y < wallY + wallHeight
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
 }
