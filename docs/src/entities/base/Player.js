@@ -293,9 +293,9 @@ class Player extends Sprite {
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         projectileManager.addProjectile(projectile);
         this.lastShot = currentTime;
-        this.fireCooldown = Math.min(200, this.fireCooldown + this.heatGain);
+        this.fireCooldown = Math.min(200 + this.heatGain, this.fireCooldown + this.heatGain);
         if (this.fireCooldown > 150) this.timesHeatLevelHigh++;
-        if (this.fireCooldown >= 200) {
+        if (this.fireCooldown > 200) {
           this.fireOverheat = true;
           this.timesOverheated++;
         }
@@ -321,9 +321,9 @@ class Player extends Sprite {
         projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
         projectileManager.addProjectile(projectile);
         this.lastShot = currentTime;
-        this.fireCooldown = Math.min(200, this.fireCooldown + this.heatGain);
+        this.fireCooldown = Math.min(200 + this.heatGain, this.fireCooldown + this.heatGain);
         if (this.fireCooldown > 150) this.timesHeatLevelHigh++;
-        if (this.fireCooldown >= 200) {
+        if (this.fireCooldown > 200) {
           this.fireOverheat = true;
           this.timesOverheated++;
         }
