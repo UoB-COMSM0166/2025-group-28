@@ -7,7 +7,7 @@ class Room {
     this.mobs = [];
     this.items = [];
     this.roomLayout = []; // 2d array of tiles
-    this.bloodParticles = [];
+    this.particles = [];
     this.mobsRemaining = difficultySettings.totalMobs();
     this.lastSpawnTime = 0;
     this.promptActive = false; // Controls interact prompt for doors
@@ -233,11 +233,19 @@ class Room {
     this.door = new Door(x, y);
   }
 
-  createBloodParticles(x, y, bloodColour) {
-    if (!childMode) {
-      let maxParticles = Math.floor(random(5, 20));
-      for (let i = 0; i < maxParticles; i++) {
-        this.bloodParticles.push(new Particle(x, y, bloodColour));
+  createParticles(type = Particle, x, y, colour, velocity = null) {
+    if (childMode && type == Blood) return;
+    let maxParticles;
+    if (type == Spark) {
+      maxParticles = Math.floor(random(3, 7));
+    } else {
+      maxParticles = Math.floor(random(5, 20));
+    }
+    for (let i = 0; i < maxParticles; i++) {
+      if (type == Spark && velocity) {
+        this.particles.push(new Spark(x, y, colour, velocity));
+      } else {
+        this.particles.push(new type(x, y, colour));
       }
     }
   }
@@ -256,27 +264,18 @@ class Room {
             buffMobBuffSound.play(); // Doesn't sound good if slowed during slow mo, so play sfx normally
             if (!game.slowMeowOccurring) {
               // Give player a lower value towards their slow meow level for triggering mob buff
-              game.slowMeowLevel = Math.min(
-                slowMeowMax,
-                game.slowMeowLevel + (game.slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult
-              );
+              game.slowMeowLevel = Math.min(slowMeowMax, game.slowMeowLevel + (game.slowMeowGain / 2));
             }
           } else {
             this.roomScoreAccumaltor += 25;
             if (!game.slowMeowOccurring) {
-              game.slowMeowLevel = Math.min(
-                slowMeowMax,
-                game.slowMeowLevel + game.slowMeowGain * this.difficultySettings.slowMeowGainMult
-              );
+              game.slowMeowLevel = Math.min(slowMeowMax,game.slowMeowLevel + game.slowMeowGain);
             }
           }
         } else {
           this.roomScoreAccumaltor += 25;
           if (!game.slowMeowOccurring) {
-            game.slowMeowLevel = Math.min(
-              slowMeowMax,
-              game.slowMeowLevel + game.slowMeowGain * this.difficultySettings.slowMeowGainMult
-            );
+            game.slowMeowLevel = Math.min(slowMeowMax, game.slowMeowLevel + game.slowMeowGain);
           }
         }
         this.mobs.splice(i, 1);
@@ -292,7 +291,15 @@ class Room {
     }
 
     for (let p of projectileManager.projectilesFired) {
-      p.update();
+      if (
+        p.position.x < (tileSize * 3) + arena_offset ||
+        p.position.x > roomWidth * tileSize - (tileSize * 3) + arena_offset ||
+        p.position.y < (tileSize * 3) + arena_offset ||
+        p.position.y > roomHeight * tileSize - (tileSize * 3) + arena_offset
+      ) {
+        this.createParticles(Spark, p.position.x, p.position.y, p.sparkColour, p.velocity);
+        p.isActive = false;
+      } else p.update();
     }
 
     //mobs
@@ -445,12 +452,12 @@ class Room {
     }
     this.door.draw();
 
-    // Draw any blood particles after room objects so they appear behind the player/mobs
-    for (let i = 0; i < this.bloodParticles.length; i++) {
-      this.bloodParticles[i].update();
-      this.bloodParticles[i].draw();
-      if (this.bloodParticles[i].isFinished()) {
-        this.bloodParticles.splice(i, 1);
+    // Draw any particles after room objects so they appear behind the player/mobs
+    for (let i = 0; i < this.particles.length; i++) {
+      this.particles[i].update();
+      this.particles[i].draw();
+      if (this.particles[i].isFinished()) {
+        this.particles.splice(i, 1);
       }
     }
 
@@ -486,7 +493,8 @@ class Room {
               this.damageDealtP1 += projectile.owner.attackDamage;
             if (projectile.owner === playerB)
               this.damageDealtP2 += projectile.owner.attackDamage;
-            this.createBloodParticles(
+            this.createParticles(
+              Blood,
               mob.position.x,
               mob.position.y,
               mob.bloodColour
@@ -502,16 +510,14 @@ class Room {
             playerA.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP1 += projectile.owner.attackDamage;
             if (!playerA.isInvincible) {
-              this.createBloodParticles(
+              this.createParticles(
+                Blood,
                 playerA.position.x,
                 playerA.position.y,
                 playerA.bloodColour
               );
               if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(
-                  0,
-                  game.slowMeowLevel - slowMeowLoss * this.difficultySettings.slowMeowLossMult
-                );
+                game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
               }
             }
             projectile.isActive = false;
@@ -521,16 +527,14 @@ class Room {
             playerB.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP2 += projectile.owner.attackDamage;
             if (!playerB.isInvincible) {
-              this.createBloodParticles(
+              this.createParticles(
+                Blood,
                 playerB.position.x,
                 playerB.position.y,
                 playerB.bloodColour
               );
               if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(
-                  0,
-                  game.slowMeowLevel - slowMeowLoss * this.difficultySettings.slowMeowLossMult
-                );
+                game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
               }
             }
             projectile.isActive = false;
@@ -545,49 +549,51 @@ class Room {
       mob.draw();
       mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
-        playerA.takeDamage(mob.attackDamage);
-        this.damageTakenP1 += mob.attackDamage;
-        if (!playerA.isInvincible) {
-          this.createBloodParticles(
-            playerA.position.x,
-            playerA.position.y,
-            playerA.bloodColour
-          );
-          if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-            game.slowMeowLevel = Math.max(
-              0,
-              game.slowMeowLevel - slowMeowLoss * this.difficultySettings.slowMeowLossMult
-            );
-          }
-        }
-        playerA.applyKnockback(mob.position.x, mob.position.y);
         if (!(mob instanceof BlinkMob)) {
+          playerA.takeDamage(mob.attackDamage);
+          this.damageTakenP1 += mob.attackDamage;
+          if (!playerA.isInvincible) {
+            this.createParticles(
+              Blood,
+              playerA.position.x,
+              playerA.position.y,
+              playerA.bloodColour
+            );
+            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
+            }
+          }
+          playerA.applyKnockback(mob.position.x, mob.position.y);
           mob.applyKnockback(playerA.position.x, playerA.position.y);
+          playerA.makeInvincible();
+        } else {
+          mob.blinkCooldown = mob.blinkCooldownLimit;
+          mob.blink();
         }
-        playerA.makeInvincible();
       }
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
-        playerB.takeDamage(mob.attackDamage);
-        this.damageTakenP2 += mob.attackDamage;
-        if (!playerB.isInvincible) {
-          this.createBloodParticles(
-            playerB.position.x,
-            playerB.position.y,
-            playerB.bloodColour
-          );
-          if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-            game.slowMeowLevel = Math.max(
-              0,
-              game.slowMeowLevel - slowMeowLoss * this.difficultySettings.slowMeowLossMult
+        if (!(mob instanceof BlinkMob)) {
+          playerB.takeDamage(mob.attackDamage);
+          this.damageTakenP2 += mob.attackDamage;
+          if (!playerB.isInvincible) {
+            this.createParticles(
+              Blood,
+              playerB.position.x,
+              playerB.position.y,
+              playerB.bloodColour
             );
+            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
+            }
           }
-        }
-        playerB.applyKnockback(mob.position.x, mob.position.y);
-        if (!mob instanceof BlinkMob) {
+          playerB.applyKnockback(mob.position.x, mob.position.y);
           mob.applyKnockback(playerB.position.x, playerB.position.y);
+          playerB.makeInvincible();
+        } else {
+          mob.blinkCooldown = mob.blinkCooldownLimit;
+          mob.blink();
         }
-        playerB.makeInvincible();
       }
     }
 
@@ -708,12 +714,6 @@ class Room {
         random(tileSize * 3, roomHeight * tileSize - tileSize * 3) +
         arena_offset;
 
-      // Checking if the spawn is inside a wall
-      let insideWall = this.checkInsideWall(spawnX, spawnY);
-      if (insideWall) {
-        break;
-      }
-
       let distanceFromP1 = dist(
         spawnX,
         spawnY,
@@ -729,7 +729,7 @@ class Room {
           playerB.position.y
         );
       }
-      if (!insideWall && distanceFromP1 > 150 && distanceFromP2 > 150) {
+      if (distanceFromP1 > 200 && distanceFromP2 > 200) {
         validSpawn = true;
         break;
       }
@@ -749,7 +749,7 @@ class Room {
         gif: dogmob_gif,
         threat: 3,
         counters: ["defensive"],
-        spawnChance: 1.2,
+        spawnChance: 1.1,
       },
       {
         type: RangedMob,
@@ -828,8 +828,8 @@ class Room {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
         if (this.roomLayout[j][i].type === tileTypes.WALL) {
-          let wallX = this.roomLayout[j][i].position.x + arena_offset;
-          let wallY = this.roomLayout[j][i].position.y + arena_offset;
+          let wallX = this.roomLayout[j][i].position.x;
+          let wallY = this.roomLayout[j][i].position.y;
           let wallWidth = this.roomLayout[j][i].widthHitbox;
           let wallHeight = this.roomLayout[j][i].heightHitbox;
 
@@ -850,12 +850,14 @@ class Room {
   rollItemDrop(mob) {
     let roll = random(1, 200);
     let item;
-    if (roll < 35) {
-      item = new Heart(mob.position.x, mob.position.y, pixelHeart);
-      this.items.push(item);
-    } else if (roll >= 35 && roll < 70) {
-      item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
-      this.items.push(item);
+    if (!this.checkInsideWall(mob.position.x, mob.position.y)) {
+      if (roll < 35) {
+        item = new Heart(mob.position.x, mob.position.y, pixelHeart);
+        this.items.push(item);
+      } else if (roll >= 35 && roll < 70) {
+        item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
+        this.items.push(item);
+      }
     }
   }
 
@@ -863,7 +865,7 @@ class Room {
     if (item instanceof Heart) {
       if (player.health >= player.maxHealth) itemSound1.play();
       else itemSound2.play();
-      player.health = Math.min(player.maxHealth, player.health + 30);
+      player.health = Math.min(player.maxHealth, player.health + 20);
     } else if (item instanceof Energy) {
       if (player.fireCooldown <= 0) itemSound1.play();
       else itemSound2.play();

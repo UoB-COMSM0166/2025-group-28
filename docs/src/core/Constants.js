@@ -164,12 +164,16 @@ function preload() {
   slowMeowEndSound = loadSound("assets/slowmeowend.mp3");
   slowMeowReadySound = loadSound("assets/slowmeowready.mp3");
   // Mobs
+  mobProjectileSound = loadSound("assets/mobprojectile.mp3");
+  blinkMobDeathSound = loadSound("assets/blinkmobdeath.mp3");
   blinkMobMoveSound = loadSound("assets/blinkmobmove.mp3");
   buffMobBuffSound = loadSound("assets/buffmobbuff.mp3");
   buffMobDeathSound = loadSound("assets/buffmobdeath.mp3");
   meleeMobDeathSound = loadSound("assets/meleemobdeath.mp3");
+  rangedMobDeathSound = loadSound("assets/rangedmobdeath.mp3");
   // Environment
-  bloodSound = loadSound("assets/bloodsplat.mp3");
+  bloodSound1 = loadSound("assets/bloodsplat1.mp3");
+  bloodSound2 = loadSound("assets/bloodsplat2.mp3");
   doorOpenSound = loadSound("assets/dooropen.mp3");
   roomTransitionSound = loadSound("assets/roomtransition.mp3");
   itemSound1 = loadSound("assets/pickupitem1.mp3");

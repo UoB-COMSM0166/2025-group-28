@@ -24,9 +24,16 @@ class Game {
     this.slowMeowMovementSpeed = 0.3;
     this.slowMeowCooldown = 15000;
     this.slowMeowLastUsed = 0;
-    this.slowMeowGain = slowMeowGain;
     this.slowMeowUsable = false;
     this.slowMeowSoundPlayed = false;
+    this.slowMeowBuffPenalty = false;
+    if (!coop) {
+      this.slowMeowGain = slowMeowGain * this.difficultySettings.slowMeowGainMult;
+      this.slowMeowLoss = slowMeowLoss * this.difficultySettings.slowMeowLossMult;
+    } else if (coop) {
+      this.slowMeowGain = (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
+      this.slowMeowLoss = (slowMeowLoss / 2) * this.difficultySettings.slowMeowLossMult;
+    }
   }
 
   nextRoom() {
@@ -214,9 +221,17 @@ class Game {
     }
 
     if (this.currentRoom.mobBuffActive) {
-      this.slowMeowGain = slowMeowGain / 2;
+      if (!this.slowMeowBuffPenalty) {
+        this.slowMeowGain /= 2
+        this.slowMeowBuffPenalty = true;
+      }
     } else {
-      this.slowMeowGain = slowMeowGain;
+      this.slowMeowBuffPenalty = false;
+      if (!coop) {
+        this.slowMeowGain = slowMeowGain * this.difficultySettings.slowMeowGainMult;
+      } else if (coop) {
+        this.slowMeowGain = (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
+      }
     }
 
     if (!coop && playerA.fireOverheat) {

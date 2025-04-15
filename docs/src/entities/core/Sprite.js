@@ -43,9 +43,8 @@ class Sprite extends GameObject {
   takeDamage(amount) {
     if (!this.isInvincible) {
       if (this.lastSoundTime == 0 || millis() - this.lastSoundTime > this.soundCooldown) {
-        let soundChance = random();
-        if (soundChance < 0.5) {
-          playSound(bloodSound, playbackRate);
+        if (!childMode && this.health - amount > 0) {
+          playSound(bloodSound1, playbackRate, true);
           this.lastSoundTime = millis();
         }
       }
@@ -55,7 +54,14 @@ class Sprite extends GameObject {
     if (this.health <= 0) {
       this.health = 0;
       this.isActive = false;
-      if (this.deathSound) playSound(this.deathSound, playbackRate);
+      if (!childMode) playSound(bloodSound2, playbackRate, true);
+      if (this.deathSound) {
+        if (this instanceof BuffMob && game.currentRoom.mobs.length <= 1) {
+          playSound(this.deathSound, playbackRate, true);
+        } else if (!(this instanceof BuffMob)) {
+          playSound(this.deathSound, playbackRate, true);
+        }
+      }
     }
   }
 
