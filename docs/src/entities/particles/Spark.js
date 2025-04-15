@@ -21,5 +21,4 @@ class Spark extends Particle {
     fill(red(this.colour), green(this.colour), blue(this.colour), this.lifespan);
     rect(this.position.x, this.position.y, this.size);
   }
-
 }

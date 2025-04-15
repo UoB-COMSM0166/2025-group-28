@@ -7,6 +7,7 @@ let playerA;
 let playerB;
 let roomButton = null;
 let pvpMode = false;
+let projectileWallCollisions = false;
 
 let gameCanvas;
 let themeMusic;

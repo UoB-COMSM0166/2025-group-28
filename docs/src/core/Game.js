@@ -113,8 +113,9 @@ class Game {
 
   checkIfGameOver() {
     if (
-      (!playerA.isActive && !coop) ||
-      (coop && !playerA.isActive && !playerB.isActive)
+      (!playerA.isActive && !coop && !pvpMode) ||
+      (coop && !playerA.isActive && !playerB.isActive) ||
+      (pvpMode && !playerA.isActive && !playerB.isActive)
     ) {
       this.gameState = GameStates.OVER;
     }

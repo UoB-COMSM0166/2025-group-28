@@ -194,7 +194,7 @@ class PvPRoom {
         p.position.x > roomWidth * tileSize - (tileSize * 3) + arena_offset ||
         p.position.y < (tileSize * 3) + arena_offset ||
         p.position.y > roomHeight * tileSize - (tileSize * 3) + arena_offset ||
-        this.checkInsideWall(p.position.x, p.position.y)
+        (projectileWallCollisions && this.checkInsideWall(p.position.x, p.position.y))
       ) {
         this.createParticles(Spark, p.position.x, p.position.y, p.sparkColour, p.velocity);
         p.isActive = false;
