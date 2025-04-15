@@ -212,9 +212,15 @@ function gameOverReturn() {
 
 function switchToHelp() {
   settingsMode = false;
+  toggle_help.style("color", "orange");
+  toggle_settings.style("color", "white");
+  settingpanel.remove();
 }
 function switchToStngs() {
   settingsMode = true;
+  toggle_help.style("color", "white");
+  toggle_settings.style("color", "orange");
+  renderSettingPanel();
 }
 
 let stng_div;
@@ -222,6 +228,55 @@ let set_back;
 let toggle_settings;
 let toggle_help;
 
+let wasd;
+let arrow;
+let settingpanel;
+
+function switchToWasd() {
+  wasd.style("opacity", 1);
+  arrow.style("opacity", 0.6);
+
+  switchControl(true);
+}
+
+function switchToArrow() {
+  arrow.style("opacity", 1);
+  wasd.style("opacity", 0.6);
+
+  switchControl(false);
+}
+function renderSettingPanel() {
+  settingpanel = createDiv();
+  settingpanel.id("settingpanel");
+  settingpanel.size(pageWidth, pageHeight);
+  settingpanel.parent(stng_div);
+
+  let controlLegend = createP("Default controls");
+  controlLegend.parent(settingpanel);
+  controlLegend.position(20, 100);
+
+  let p2control = createP("Player 2 will use <br> non-default key set");
+  p2control.parent(settingpanel);
+  p2control.position(20, 150);
+  p2control.style("font-size", "10px");
+
+  wasd = createImg(wasd_icon);
+  wasd.parent(settingpanel);
+  wasd.position(320, 80);
+  wasd.size(150, 160);
+  wasd.mouseClicked(switchToWasd);
+
+  arrow = createImg(arrow_icon);
+  arrow.parent(settingpanel);
+  arrow.position(500, 80);
+  arrow.size(150, 160);
+  arrow.style("opacity", 0.6);
+  arrow.mouseClicked(switchToArrow);
+}
+
+function quitSettings() {
+  stng_div.remove();
+}
 function gotoSettings() {
   stng_div = createDiv();
   stng_div.id("settings_content");
@@ -231,18 +286,25 @@ function gotoSettings() {
   set_back.parent(stng_div);
   set_back.position(0, 0);
 
+  let exit = createP("X");
+  exit.parent(stng_div);
+  exit.position(10, 10);
+  exit.style("color", "red");
+  exit.mouseClicked(quitSettings);
+
   toggle_settings = createP("Settings");
   toggle_settings.parent(stng_div);
   toggle_settings.position(200, 10);
   toggle_settings.mouseClicked(switchToStngs);
+  toggle_settings.style("color", "orange");
 
   toggle_help = createP("How to Play");
   toggle_help.parent(stng_div);
   toggle_help.position(500, 10);
   toggle_help.mouseClicked(switchToHelp);
-  if (!settingsMode) {
-    toggle_help.style("color", "orange");
-  }
+
+  // defualt to setting panel
+  renderSettingPanel();
 }
 
 function renderMenu() {

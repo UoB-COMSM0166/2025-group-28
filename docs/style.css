@@ -19,8 +19,15 @@ body {
   position: relative;
 }
 
-#settings_content {
+#settings_content,
+#settingpanel {
   color: white;
   font-size: 25px;
+  font-family: "ARCADE_I";
+}
+
+#settingpanel {
+  color: white;
+  font-size: 18px;
   font-family: "ARCADE_I";
 }

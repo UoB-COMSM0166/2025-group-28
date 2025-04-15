@@ -1,4 +1,49 @@
 // Displacement from origin to start drawing room etc. - to centre room in new larger canvas
+
+// USER CONFIG - move on refactor
+
+let wasd_control = true;
+
+let p1_up = 87;
+let p1_down = 83;
+let p1_left = 65;
+let p1_right = 68;
+let p1_shoot = 32;
+
+let p2_up = 38;
+let p2_down = 40;
+let p2_left = 37;
+let p2_right = 39;
+let p2_shoot = 13;
+
+function switchControl(is_wasd) {
+  if (is_wasd) {
+    p1_up = 87;
+    p1_down = 83;
+    p1_left = 65;
+    p1_right = 68;
+    p1_shoot = 32;
+
+    p2_up = 38;
+    p2_down = 40;
+    p2_left = 37;
+    p2_right = 39;
+    p2_shoot = 13;
+  } else {
+    p1_up = 38;
+    p1_down = 40;
+    p1_left = 37;
+    p1_right = 39;
+    p1_shoot = 13;
+
+    p2_up = 87;
+    p2_down = 83;
+    p2_left = 65;
+    p2_right = 68;
+    p2_shoot = 32;
+  }
+}
+
 var arena_offset = 100;
 
 // Room generation constants
@@ -187,6 +232,9 @@ let helpIcon = "assets/helpbutton.png";
 let menuimg = "assets/menuback.mp4";
 let gameoverback = "assets/gameover.gif";
 let setback = "assets/setback.png";
+
+let wasd_icon = "assets/wasd_icon.png";
+let arrow_icon = "assets/arrowpad_icon.png";
 
 let pageWidth = 900;
 let pageHeight = 750;
