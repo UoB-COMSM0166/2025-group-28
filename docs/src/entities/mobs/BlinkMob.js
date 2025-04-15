@@ -13,12 +13,25 @@ class BlinkMob extends Mob {
     this.projectileSpeed = 2;
     this.bloodColour = color(135, 20, 103, 255);
     this.fireCooldownLimit = 175;
+    this.blinkCooldown = 50;
+    this.blinkCooldownLimit = 175;
+    this.deathSound = blinkMobDeathSound;
     this.checkIfSlowMeowActive();
   }
 
+  update() {
+    super.update();
+    if (this.blinkCooldown < this.blinkCooldownLimit) {
+      this.blinkCooldown++;
+    }
+  }
+
   fire() {
+    if (!this.isActive) return;
     if (this.fireReady) {
-      this.blink();
+      if (this.blinkCooldown >= this.blinkCooldownLimit) {
+        this.blink();
+      }
       let projectileCount = 9;
       let angleIncrement = (2 * Math.PI) / projectileCount;
 
@@ -40,21 +53,23 @@ class BlinkMob extends Mob {
         projectileManager.addProjectile(newProjectile);
       }
       behaviourMonitor.updateTimesMobsFired(projectileCount);
+      playSound(mobProjectileSound, playbackRate);
       this.fireReady = false;
     }
   }
 
   blink() {
+    if (this.blinkCooldown < this.blinkCooldownLimit) return;
     let spawnX, spawnY;
     let spawnAttempts = 0;
     while (spawnAttempts < 100) {
       spawnX = random(
         tileSize * 2 + this.widthHitbox / 2 + arena_offset,
-        roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 - arena_offset
+        roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
       );
       spawnY = random(
         tileSize * 2 + this.heightHitbox / 2 + arena_offset,
-        roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2 - arena_offset
+        roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2 + arena_offset
       );
       let distanceFromP1 = dist(
         spawnX,
@@ -78,6 +93,7 @@ class BlinkMob extends Mob {
     }
     this.position.x = spawnX;
     this.position.y = spawnY;
-    playSound(blinkMobMoveSound, playbackRate);
+    this.blinkCooldown = 0;
+    playSound(blinkMobMoveSound, playbackRate, true);
   }
 }

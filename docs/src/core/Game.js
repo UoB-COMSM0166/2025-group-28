@@ -1,11 +1,13 @@
 class Game {
   constructor(difficultyLevel = difficultyLevels.NORMAL) {
     this.gameState = GameStates.ACTIVE;
-    this.difficulty = difficultyLevel;
-    this.difficultySettings = difficultySettings[this.difficulty];
     if (!pvpMode) {
+      this.difficulty = difficultyLevel;
+      this.difficultySettings = difficultySettings[this.difficulty];
       this.currentRoom = new Room(this.difficultySettings);
     } else {
+      this.difficulty = difficultyLevels.NORMAL;
+      this.difficultySettings = difficultySettings[this.difficulty];
       this.currentRoom = new PvPRoom();
     }
 
@@ -24,9 +26,16 @@ class Game {
     this.slowMeowMovementSpeed = 0.3;
     this.slowMeowCooldown = 15000;
     this.slowMeowLastUsed = 0;
-    this.slowMeowGain = slowMeowGain;
     this.slowMeowUsable = false;
     this.slowMeowSoundPlayed = false;
+    this.slowMeowBuffPenalty = false;
+    if (!coop) {
+      this.slowMeowGain = slowMeowGain * this.difficultySettings.slowMeowGainMult;
+      this.slowMeowLoss = slowMeowLoss * this.difficultySettings.slowMeowLossMult;
+    } else if (coop) {
+      this.slowMeowGain = (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
+      this.slowMeowLoss = (slowMeowLoss / 2) * this.difficultySettings.slowMeowLossMult;
+    }
   }
 
   nextRoom() {
@@ -104,8 +113,9 @@ class Game {
 
   checkIfGameOver() {
     if (
-      (!playerA.isActive && !coop) ||
-      (coop && !playerA.isActive && !playerB.isActive)
+      (!playerA.isActive && !coop && !pvpMode) ||
+      (coop && !playerA.isActive && !playerB.isActive) ||
+      (pvpMode && !playerA.isActive && !playerB.isActive)
     ) {
       this.gameState = GameStates.OVER;
     }
@@ -214,9 +224,17 @@ class Game {
     }
 
     if (this.currentRoom.mobBuffActive) {
-      this.slowMeowGain = slowMeowGain / 2;
+      if (!this.slowMeowBuffPenalty) {
+        this.slowMeowGain /= 2
+        this.slowMeowBuffPenalty = true;
+      }
     } else {
-      this.slowMeowGain = slowMeowGain;
+      this.slowMeowBuffPenalty = false;
+      if (!coop) {
+        this.slowMeowGain = slowMeowGain * this.difficultySettings.slowMeowGainMult;
+      } else if (coop) {
+        this.slowMeowGain = (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
+      }
     }
 
     if (!coop && playerA.fireOverheat) {

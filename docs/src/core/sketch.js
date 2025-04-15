@@ -7,6 +7,7 @@ let playerA;
 let playerB;
 let roomButton = null;
 let pvpMode = false;
+let projectileWallCollisions = false;
 
 let gameCanvas;
 let themeMusic;
@@ -84,8 +85,6 @@ function gameSwitch(starting) {
     projectileManager = null;
     behaviourMonitor = null;
     playbackRate = 1;
-    slowMeowGain = 10;
-    slowMeowLoss = slowMeowGain / 2;
     clear();
     renderMenu();
     loop();
@@ -294,8 +293,6 @@ function gameSetUp() {
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     if (coop) {
       playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
-      slowMeowGain /= 2;
-      slowMeowLoss /= 2;
     }
     behaviourMonitor = new BehaviourMonitor(difficultySettings[difficulty]);
   }
@@ -473,15 +470,24 @@ function keyPressed() {
 }
 
 // Used for slowing down sounds in slow mo
-function playSound(sound, rate) {
+function playSound(sound, rate, randomVolume = false) {
   let audioContext = getAudioContext();
   let source = audioContext.createBufferSource();
   source.buffer = sound.buffer;
   source.playbackRate.value = rate;
-  source.connect(audioContext.destination);
+  // For volume control
+  let gainNode = audioContext.createGain();
+  if (randomVolume) {
+    gainNode.gain.value = random(0.65, 1);
+  } else {
+    gainNode.gain.value = 1;
+  }
+  source.connect(gainNode);
+  gainNode.connect(audioContext.destination);
   // Disconnect after sound ends to prevent memory leaks etc.
   source.onended = () => {
     source.disconnect();
+    gainNode.disconnect();
   };
   source.start();
 }
