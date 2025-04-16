@@ -20,8 +20,10 @@ class Game {
     this.pvp_count = 1;
     this.roomSeq = 1;
 
-    this.p1_pvp_tally = 0;
-    this.p2_pvp_tally = 0;
+    this.p1PVPTotal = 0;
+    this.p2PVPTotal = 0;
+    this.p1ScoreIncreased = false;
+    this.p2ScoreIncreased = false;
     this.winningPVP;
 
     this.slowMeowLevel = 0;
@@ -51,22 +53,26 @@ class Game {
     this.roomSeq++;
     if (!pvpMode) {
       behaviourMonitor.updateRoomsCleared();
+      // End slow meow to prevent movement speed bugs on room transition
+      if (this.slowMeowOccurring) this.slowMeowLevel = 0;
+      // Slow mo end sound should only play if slow meow was active when moving rooms
+      let playSounds = this.slowMeowOccurring;
+      this.slowMeowOccurring = false;
+      this.applySlowMeow(this.slowMeowOccurring, playSounds);
     }
     // Clear projectile array to stop projectiles fired in previous room from persisting in next room
     projectileManager.projectilesFired = [];
-    // End slow meow to prevent movement speed bugs on room transition
-    if (this.slowMeowOccurring) this.slowMeowLevel = 0;
-    let playSounds = this.slowMeowOccurring; // Slow mo end sound should only play if slow meow was active when moving rooms
-    this.slowMeowOccurring = false;
-    this.applySlowMeow(this.slowMeowOccurring, playSounds);
+    // Update Scores
     if (pvpMode) {
-      console.log(this.currScoreP1);
-
-      this.currScoreP1 = this.p1_pvp_tally;
-      this.currScoreP2 = this.p2_pvp_tally;
-    }
-    // update scores
-    if (!pvpMode) {
+      if (this.currScoreP1 >= 3) {
+        this.p1PVPTotal++;
+      }
+      if (this.currScoreP2 >= 3) {
+        this.p2PVPTotal++;
+      }
+      this.currScoreP1 = 0;
+      this.currScoreP2 = 0;
+    } else {
       this.currScoreP1 += this.calculateScore(
         this.currentRoom.damageDealtP1,
         this.currentRoom.damageTakenP1
@@ -127,26 +133,29 @@ class Game {
         playerB.position.x = playerNextX;
         playerB.position.y = playerNextY;
       }
+    } else {
+      this.currentRoom = new PvPRoom();
+      playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
+      playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
     }
   }
 
   pvpGameCycleCheck() {
-    if (!playerA.isActive || !playerB.isActive) {
-      if (this.roomSeq < pvp_rooms) {
-        if (!playerA.isActive) {
-          this.p2_pvp_tally++;
-        } else {
-          this.p1_pvp_tally++;
+    if (this.currScoreP1 >= 3 || this.currScoreP2 >= 3) {
+      if (this.roomSeq < pvp_rounds && !transitioning) {
+        transitioning = true;
+        setTimeout(() => {
+          fadingOut = true;
+        }, 3000);
+      } else if (this.roomSeq >= pvp_rounds) {
+        if (this.currScoreP1 >= 3 && !this.p1ScoreIncreased) {
+          this.p1PVPTotal++;
+          this.p1ScoreIncreased = true;
         }
-        this.nextRoom();
-      } else {
-        // Game over for PVP
-        if (this.p1_pvp_tally > this.p2_pvp_tally) {
-          this.winningPVP = "Player A";
-        } else {
-          this.winningPVP = "Player B";
+        if (this.currScoreP2 >= 3 && !this.p2ScoreIncreased) {
+          this.p2PVPTotal++;
+          this.p2ScoreIncreased = true;
         }
-        this.gameState = GameStates.OVER;
       }
     }
   }
@@ -155,7 +164,7 @@ class Game {
     if (
       (!playerA.isActive && !coop && !pvpMode) ||
       (coop && !playerA.isActive && !playerB.isActive) ||
-      (pvpMode && (this.currScoreP1 >= 3 || this.currScoreP2 >= 3))
+      (pvpMode && this.roomSeq >= pvp_rounds && this.p1PVPTotal + this.p2PVPTotal >= 3)
     ) {
       setTimeout(() => {
         this.gameState = GameStates.OVER;
@@ -165,6 +174,7 @@ class Game {
   }
 
   draw() {
+    if (pvpMode) this.pvpGameCycleCheck();
     this.checkIfGameOver();
     if (!pvpMode) {
       this.currScoreP1 = Math.round(
@@ -179,13 +189,16 @@ class Game {
       this.currScoreP1 = this.currentRoom.p1Score;
       this.currScoreP2 = this.currentRoom.p2Score;
     }
-    this.updateSlowMeow();
+
     this.currentRoom.draw();
     this.currentRoom.update();
     projectileManager.update();
-    if (!pvpMode) this.currentRoom.spawnMobWrapper();
-    if (this.slowMeowOccurring) {
-      this.drawSlowMeow();
+    if (!pvpMode) {
+      this.updateSlowMeow();
+      this.currentRoom.spawnMobWrapper();
+      if (this.slowMeowOccurring) {
+        this.drawSlowMeow();
+      }
     }
   }
 

@@ -1,9 +1,6 @@
-// Displacement from origin to start drawing room etc. - to centre room in new larger canvas
-
 // USER CONFIG - move on refactor
-
 let wasd_control = true;
-let pvp_rooms = 3; //var for 'best of x' system
+let pvp_rounds = 3; //var for 'best of x' system
 
 let p1_up = 87;
 let p1_down = 83;
@@ -45,6 +42,7 @@ function switchControl(is_wasd) {
   }
 }
 
+// Displacement from origin to start drawing room etc. - to centre room in new larger canvas
 var arena_offset = 100;
 
 // Room generation constants
@@ -181,7 +179,6 @@ function preload() {
   tileColours3 = [tile_darkYellow, tile_lightYellow];
   tileColours4 = [tile_lightTurquoise, tile_darkTurquoise];
   tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
-  
 
   wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/spacedoor.gif");

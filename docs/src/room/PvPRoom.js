@@ -15,6 +15,7 @@ class PvPRoom {
     this.announcerSounds = [pvpAnnouncer1, pvpAnnouncer2,
                             pvpAnnouncer3, pvpAnnouncer4,
                             pvpAnnouncer5, pvpAnnouncer6];
+    this.prevAnnouncement = null;
     this.initRoom();
   }
 
@@ -212,8 +213,12 @@ class PvPRoom {
         this.p2Score++;
         pvpScoreSound.play();
         setTimeout(() => {
-          let randomAnnouncement = Math.floor(random(0, this.announcerSounds.length));
+          let randomAnnouncement;
+          do {
+            randomAnnouncement = Math.floor(random(0, this.announcerSounds.length));
+          } while (randomAnnouncement === this.prevAnnouncement);
           this.announcerSounds[randomAnnouncement].play();
+          this.prevAnnouncement = randomAnnouncement;
         }, 500);
         if (this.p2Score < 3) {
           setTimeout(() => {
@@ -229,8 +234,12 @@ class PvPRoom {
         this.p1Score++;
         pvpScoreSound.play();
         setTimeout(() => {
-          let randomAnnouncement = Math.floor(random(0, this.announcerSounds.length));
+          let randomAnnouncement;
+          do {
+            randomAnnouncement = Math.floor(random(0, this.announcerSounds.length));
+          } while (randomAnnouncement === this.prevAnnouncement);
           this.announcerSounds[randomAnnouncement].play();
+          this.prevAnnouncement = randomAnnouncement;
         }, 500);
         if (this.p1Score < 3) {
           setTimeout(() => {
@@ -327,8 +336,6 @@ class PvPRoom {
   }
 
   draw() {
-    let firstFrame = true;
-
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
         if (this.roomLayout[j][i].type == tileTypes.WALL) {
@@ -385,7 +392,6 @@ class PvPRoom {
 
     playerB.draw();
     playerB.drawPlayerHealthBar();
-
 
     // pvp bullet collisions
     for (let projectile of projectileManager.projectilesFired) {

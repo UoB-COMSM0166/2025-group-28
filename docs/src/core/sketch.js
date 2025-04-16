@@ -58,6 +58,10 @@ function setup() {
   document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
   });
+  // Prevent the user from highlighting text
+  document.addEventListener("selectstart", (event) => {
+    event.preventDefault();
+  });
   if (inGame) {
     gameSetUp();
   } else {
@@ -164,6 +168,7 @@ function renderGameOverInterface() {
   game_over_txt.parent(gameOverContainer);
   game_over_txt.size(pageWidth, pageHeight);
   game_over_txt.position(0, 0);
+  game_over_txt.attribute("draggable", "false");
 
   let scoretext_p1;
   if (coop) {
@@ -171,15 +176,15 @@ function renderGameOverInterface() {
       "Player A: " + game.currScoreP1 + "<br>" + "Player B: " + game.currScoreP2;
   } else if (pvpMode) {
     let winText;
-    if (game.currScoreP1 >= 3 && game.currScoreP2 >= 3) {
+    if (game.p1PVPTotal == game.p2PVPTotal) {
       winText = "<br>" + "It's a tie!";
-    } else if (game.currScoreP1 >= 3) {
+    } else if (game.p1PVPTotal > game.p2PVPTotal) {
       winText = "<br>" + "Player A wins!";
     } else {
       winText = "<br>" + "Player B wins!";
     }
     scoretext_p1 =
-      "Player A: " + game.currScoreP1 + "<br>" + "Player B: " + game.currScoreP2 + winText;
+      "Player A: " + game.p1PVPTotal + "<br>" + "Player B: " + game.p2PVPTotal + winText;
   } else {
     scoretext_p1 = "Total Score: " + game.currScoreP1;
   }
@@ -193,24 +198,10 @@ function renderGameOverInterface() {
   scoretotal.style("font-family", "ARCADE_I");
   scoretotal.style("text-align", "center");
   scoretotal.style("vertical-align", "middle");
-
-  returnToMenu = createP("Return to Menu");
-  let rtm_xpos = 425 - returnToMenu.width;
-
-  returnToMenu.position(rtm_xpos, 525);
-  returnToMenu.parent(gameOverContainer);
-  returnToMenu.style("color", "orange");
-  returnToMenu.style("font-size", "18px");
-  returnToMenu.style("font-family", "ARCADE_I");
-  returnToMenu.style("text-align", "center");
-  returnToMenu.style("vertical-align", "middle");
-  returnToMenu.mouseClicked(gameOverReturn);
 }
 
 function gameOverReturn() {
-  game_over_back.remove();
-  scoretotal.remove();
-  returnToMenu.remove();
+  gameOverContainer.remove();
   if (pvpMode) {
     pvpMusic.stop();
   } else {
@@ -229,6 +220,7 @@ function switchToHelp() {
   settingpanel.remove();
   renderHowTo();
 }
+
 function switchToStngs() {
   settingsMode = true;
   toggle_settings.style("background-color", "rgb(255, 109, 0)");
@@ -265,6 +257,7 @@ function renderHowTo() {
   howtopanel = createDiv();
   howtopanel.id("howtopanel");
   howtopanel.size(pageWidth, pageHeight);
+  howtopanel.attribute("draggable", "false");
   howtopanel.parent(stng_div);
 
   let intro = createP(
@@ -278,6 +271,7 @@ function renderSettingPanel() {
   settingpanel = createDiv();
   settingpanel.id("settingpanel");
   settingpanel.size(pageWidth, pageHeight);
+  settingpanel.attribute("draggable", "false");
   settingpanel.parent(stng_div);
 
   let controlLegend = createP("Default controls");
@@ -295,11 +289,13 @@ function renderSettingPanel() {
   wasd.size(150, 160);
   wasd.mouseClicked(switchToWasd);
   wasd.style("border", "2px solid white");
+  wasd.attribute("draggable", "false");
 
   arrow = createImg(arrow_icon);
   arrow.parent(settingpanel);
   arrow.position(500, 100);
   arrow.size(150, 160);
+  arrow.attribute("draggable", "false");
   arrow.mouseClicked(switchToArrow);
 }
 
@@ -314,24 +310,27 @@ function gotoSettings() {
   set_back = createImg(setback);
   set_back.parent(stng_div);
   set_back.position(0, 0);
+  set_back.attribute("draggable", "false");
 
   let exit = createP("X");
   exit.parent(stng_div);
   exit.position(10, 10);
   exit.style("color", "white");
   exit.style("background-color", "red");
-
+  exit.attribute("draggable", "false");
   exit.mouseClicked(quitSettings);
 
   toggle_settings = createP("Settings");
   toggle_settings.parent(stng_div);
   toggle_settings.position(200, 10);
+  toggle_settings.attribute("draggable", "false");
   toggle_settings.mouseClicked(switchToStngs);
   toggle_settings.style("background-color", "rgb(255, 109, 0)");
 
   toggle_help = createP("How to Play");
   toggle_help.parent(stng_div);
   toggle_help.position(500, 10);
+  toggle_help.attribute("draggable", "false");
   toggle_help.mouseClicked(switchToHelp);
 
   // defualt to setting panel
@@ -346,6 +345,7 @@ function renderMenu() {
   menuBack = createVideo(menuimg);
   menuBack.parent(menuContainer);
   menuBack.size(pageWidth, pageHeight);
+  menuBack.attribute("draggable", "false");
   menuBack.mouseOver(menuStart);
   //menuBack.play();
   //menuBack.loop();
@@ -356,6 +356,7 @@ function renderMenu() {
   sp_button.size(170, 120);
   sp_button.mouseClicked(singlePlayerStart);
   sp_button.style("opacity", "0.5");
+  sp_button.attribute("draggable", "false");
   sp_button.mouseOver(singlePlayerHover);
   sp_button.mouseOut(singlePlayerEndHover);
 
@@ -365,6 +366,7 @@ function renderMenu() {
   coop_button.size(170, 120);
   coop_button.mouseClicked(coopPlayerStart);
   coop_button.style("opacity", "0.5");
+  coop_button.attribute("draggable", "false");
   coop_button.mouseOver(coopHover);
   coop_button.mouseOut(coopEndHover);
 
@@ -374,6 +376,7 @@ function renderMenu() {
   pvp_button.size(170, 120);
   pvp_button.mouseClicked(pvpStart);
   pvp_button.style("opacity", "0.5");
+  pvp_button.attribute("draggable", "false");
   pvp_button.mouseOver(pvpHover);
   pvp_button.mouseOut(pvpEndHover);
 
@@ -382,6 +385,7 @@ function renderMenu() {
   stng_button.position(pageWidth * 0.75, pageHeight * 0.62);
   stng_button.size(170, 120);
   stng_button.style("opacity", "0.5");
+  stng_button.attribute("draggable", "false");
   stng_button.mouseOver(stngHover);
   stng_button.mouseOut(stngEndHover);
   stng_button.mouseClicked(gotoSettings);
@@ -391,6 +395,7 @@ function renderMenu() {
   difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.8);
   difficultyButton.mouseClicked(changeDifficulty);
   difficultyButton.size(160, 55);
+  difficultyButton.attribute("draggable", "false");
   difficultyButton.class("menu-button");
   difficultyButton.style("background-color", diffTint);
   difficultyButton.style("color", "white");
@@ -453,8 +458,6 @@ function draw() {
         }
       }
 
-
-
       // top UI block
       fill(0, 0, 0);
       let backing = rect(100, 50, 800, 50);
@@ -465,6 +468,7 @@ function draw() {
       textAlign(CENTER);
       fill(255, 255, 255);
       var roomNumber;
+      var scoreNumber;
       if (!pvpMode) {
         roomNumber = "Room " + game.roomSeq;
       } else {
@@ -472,14 +476,30 @@ function draw() {
       }
       text(roomNumber, 200, 80);
       if (!coop && !pvpMode) {
-        var scoreNumber = "Score:" + game.currScoreP1;
+        scoreNumber = "Score:" + game.currScoreP1;
         text(scoreNumber, 750, 80);
       } else {
         textSize(16);
-        var scoreNumber = "Score A:" + game.currScoreP1;
-        text(scoreNumber, 750, 70);
-        var scoreNumber = "Score B:" + game.currScoreP2;
-        text(scoreNumber, 750, 90);
+        if (coop) {
+          scoreNumber = "Score A:" + game.currScoreP1;
+          text(scoreNumber, 750, 70);
+          scoreNumber = "Score B:" + game.currScoreP2;
+          text(scoreNumber, 750, 90);
+        } else if (pvpMode) {
+          push();
+          textSize(40);
+          var divider = "|";
+          text(divider, 312, 85);
+          pop();
+          scoreNumber = "Kills A:" + game.currScoreP1;
+          text(scoreNumber, 400, 65);
+          scoreNumber = "Kills B:" + game.currScoreP2;
+          text(scoreNumber, 400, 85);
+          scoreNumber = "Total A:" + game.p1PVPTotal;
+          text(scoreNumber, 825, 65);
+          scoreNumber = "Total B:" + game.p2PVPTotal;
+          text(scoreNumber, 825, 85)
+        }
       }
       pop();
 
@@ -545,26 +565,16 @@ function draw() {
       game.draw();
     }
 
-    if (game.gameState == GameStates.OVER && !gameOver) {
-      fadingOut = true;
-      transitioning = true;
-      gameOver = true;
-    }
-
     if (fadingOut) {
       fadeAlpha += 10;
       if (fadeAlpha >= 255) {
         fadeAlpha = 255;
         fadingOut = false;
         fadingIn = true;
-        if (!pvpMode && game.currentRoom) {
+        if (!pvpMode) {
           game.currentRoom.getPlayerNextPos();
-          game.nextRoom();
         }
-        if (gameOver) {
-          renderGameOverInterface();
-          gameOver = true;
-        }
+        game.nextRoom();
       }
     } else if (fadingIn) {
       fadeAlpha -= 10;
@@ -576,33 +586,37 @@ function draw() {
     }
     noStroke();
     fill(0, fadeAlpha);
-    rect(0, 0, pageWidth, pageHeight);
-
+    rect(0, 0, windowWidth, windowHeight);
+    if (game.gameState == GameStates.OVER && !gameOver) {
+      renderGameOverInterface();
+      gameOver = true;
+    }
   }
 }
 
 function keyPressed() {
   if (inGame) {
+    let music;
+    if (pvpMode) {
+      music = pvpMusic;
+    } else {
+      music = gameMusic;
+    }
     // 'press q to quit'
-    if (game && game.gameState == GameStates.PAUSE) {
-      if (keyCode == 81) {
-        if (!pvpMode) {
-          gameMusic.stop();
-        } else {
-          pvpMusic.stop();
-        }
+    if (game && keyCode == 81) {
+      if (game.gameState == GameStates.PAUSE) {
+        music.stop();
         gameSwitch(false);
+      } else if (game.gameState == GameStates.OVER) {
+        music.stop();
+        gameOverReturn();
       }
     }
 
-    if (keyCode == ESCAPE) {
-      if (game && game.gameState == GameStates.ACTIVE && !transitioning) {
+    if (game && keyCode == ESCAPE) {
+      if (game.gameState == GameStates.ACTIVE && !transitioning) {
         game.gameState = GameStates.PAUSE;
-        if (!pvpMode) {
-          gameMusic.pause();
-        } else {
-          pvpMusic.pause();
-        }
+        music.pause();
         push();
         fill("rgba(0, 0, 0, 0.6)");
         let pauseMask = rect(0, 0, pageWidth, pageHeight);
@@ -619,11 +633,7 @@ function keyPressed() {
       } else {
         loop();
         game.gameState = GameStates.ACTIVE;
-        if (!pvpMode) {
-          gameMusic.play();
-        } else {
-          pvpMusic.play();
-        }
+        music.play();
       }
     }
     // 192 = ` (key under Esc)
