@@ -25,7 +25,7 @@ let menuContainer;
 let game_over_back;
 let scoretotal;
 let returnToMenu;
-
+let gameOverContainer;
 let settingsMode = true;
 
 let difficulty = difficultyLevels.EASY;
@@ -152,20 +152,26 @@ function menuStart() {
 
 function gameoverPlay() {
   game_over_back.play();
-  game_over_back.loop();
+  // game_over_back.loop();
 }
 
 function renderGameOverInterface() {
-  clear();
-  let gameOverContainer = createDiv();
+  //clear();
+
+  push();
+  fill("rgba(0, 0, 0, 0.7)");
+  let pauseMask = rect(0, 0, pageWidth, pageHeight);
+  pop();
+
+  gameOverContainer = createDiv();
   gameOverContainer.id("gameover");
   gameOverContainer.size(pageWidth, pageHeight);
 
   game_over_back = createImg(gameoverback);
   game_over_back.parent(gameOverContainer);
   game_over_back.size(pageWidth, pageHeight);
-  // game_over_back.mouseOver(gameoverPlay);
 
+  // game_over_back.mouseOver(gameoverPlay);
   let scoretext_p1;
 
   if (coop) {
@@ -181,29 +187,15 @@ function renderGameOverInterface() {
   let xpos = 400 - scoretext_p1.width;
   scoretotal.position(xpos, 400);
   scoretotal.parent(gameOverContainer);
-  scoretotal.style("color", "white");
+  scoretotal.style("color", "orange");
   scoretotal.style("font-size", "25px");
   scoretotal.style("font-family", "ARCADE_I");
   scoretotal.style("text-align", "center");
   scoretotal.style("vertical-align", "middle");
-
-  returnToMenu = createP("Return to Menu");
-  let rtm_xpos = 400 - returnToMenu.width;
-
-  returnToMenu.position(rtm_xpos, 500);
-  returnToMenu.parent(gameOverContainer);
-  returnToMenu.style("color", "orange");
-  returnToMenu.style("font-size", "18px");
-  returnToMenu.style("font-family", "ARCADE_I");
-  returnToMenu.style("text-align", "center");
-  returnToMenu.style("vertical-align", "middle");
-  returnToMenu.mouseClicked(gameOverReturn);
 }
 
 function gameOverReturn() {
-  game_over_back.remove();
-  scoretotal.remove();
-  returnToMenu.remove();
+  gameOverContainer.remove();
   themeMusic.stop();
 
   gameSwitch(false);
@@ -554,6 +546,11 @@ function draw() {
 function keyPressed() {
   if (inGame) {
     // 'press q to quit'
+    if (game.gameState == GameStates.OVER) {
+      if (keyCode == 81) {
+        gameOverReturn();
+      }
+    }
     if (game.gameState == GameStates.PAUSE) {
       if (keyCode == 81) {
         themeMusic.stop();

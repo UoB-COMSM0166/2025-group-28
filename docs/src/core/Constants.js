@@ -234,7 +234,9 @@ let coopIcon = "assets/coopbutton.png";
 let pvpIcon = "assets/pvpbutton.png";
 let helpIcon = "assets/helpbutton.png";
 let menuimg = "assets/menuback.mp4";
-let gameoverback = "assets/gameover.gif";
+let gameoverback = "assets/gmoverlay2.gif";
+let gameovermask = "assets/redmask.png";
+
 let setback = "assets/setback.png";
 
 let wasd_icon = "assets/wasd_icon.png";
