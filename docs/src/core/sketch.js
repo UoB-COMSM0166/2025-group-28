@@ -86,6 +86,8 @@ function gameSwitch(starting) {
     game = null;
     projectileManager = null;
     behaviourMonitor = null;
+    coop = false;
+    pvpMode = false;
     playbackRate = 1;
     clear();
     renderMenu();
@@ -170,9 +172,18 @@ function renderGameOverInterface() {
 
   if (coop) {
     scoretext_p1 =
-      "Player A: " + game.currScoreP1 + "\n" + "Player B: " + game.currScoreP2;
+      "Player A: " + game.currScoreP1 + "<br>" + "Player B: " + game.currScoreP2;
   } else if (pvpMode) {
-    scoretext_p1 = "";
+    let winText;
+    if (game.currScoreP1 >= 3 && game.currScoreP2 >= 3) {
+      winText = "<br>" + "It's a tie!";
+    } else if (game.currScoreP1 >= 3) {
+      winText = "<br>" + "Player A wins!";
+    } else {
+      winText = "<br>" + "Player B wins!";
+    }
+    scoretext_p1 =
+      "Player A: " + game.currScoreP1 + "<br>" + "Player B: " + game.currScoreP2 + winText;
   } else {
     scoretext_p1 = "Total Score: " + game.currScoreP1;
   }
@@ -188,9 +199,9 @@ function renderGameOverInterface() {
   scoretotal.style("vertical-align", "middle");
 
   returnToMenu = createP("Return to Menu");
-  let rtm_xpos = 400 - returnToMenu.width;
+  let rtm_xpos = 425 - returnToMenu.width;
 
-  returnToMenu.position(rtm_xpos, 500);
+  returnToMenu.position(rtm_xpos, 525);
   returnToMenu.parent(gameOverContainer);
   returnToMenu.style("color", "orange");
   returnToMenu.style("font-size", "18px");
@@ -204,7 +215,11 @@ function gameOverReturn() {
   game_over_back.remove();
   scoretotal.remove();
   returnToMenu.remove();
-  themeMusic.stop();
+  if (pvpMode) {
+    pvpMusic.stop();
+  } else {
+    gameMusic.stop();
+  }
 
   gameSwitch(false);
 }
@@ -262,6 +277,7 @@ function renderHowTo() {
   intro.parent(howtopanel);
   intro.position(20, 80);
 }
+
 function renderSettingPanel() {
   settingpanel = createDiv();
   settingpanel.id("settingpanel");
@@ -294,6 +310,7 @@ function renderSettingPanel() {
 function quitSettings() {
   stng_div.remove();
 }
+
 function gotoSettings() {
   stng_div = createDiv();
   stng_div.id("settings_content");
@@ -330,8 +347,6 @@ function renderMenu() {
   menuContainer = createDiv();
   menuContainer.id("menuContainer");
   menuContainer.size(pageWidth, pageHeight);
-
-  themeMusic = createAudio("assets/theme.mp3");
 
   menuBack = createVideo(menuimg);
   menuBack.parent(menuContainer);
@@ -406,10 +421,16 @@ function changeDifficulty() {
 }
 
 function gameSetUp() {
+  themeMusic.stop();
   if (pvpMode) {
+    pvpMusic.play();
+    pvpMusic.loop();
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
+
   } else {
+    gameMusic.play();
+    gameMusic.loop();
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     if (coop) {
       playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
@@ -437,6 +458,8 @@ function draw() {
         }
       }
 
+
+
       // top UI block
       fill(0, 0, 0);
       let backing = rect(100, 50, 800, 50);
@@ -448,17 +471,15 @@ function draw() {
       fill(255, 255, 255);
       var roomNumber = "Room " + game.roomSeq;
       text(roomNumber, 200, 80);
-      if (!pvpMode) {
-        if (!coop) {
-          var scoreNumber = "Score:" + game.currScoreP1;
-          text(scoreNumber, 750, 80);
-        } else {
-          textSize(16);
-          var scoreNumber = "Score A:" + game.currScoreP1;
-          text(scoreNumber, 750, 70);
-          var scoreNumber = "Score B:" + game.currScoreP2;
-          text(scoreNumber, 750, 90);
-        }
+      if (!coop && !pvpMode) {
+        var scoreNumber = "Score:" + game.currScoreP1;
+        text(scoreNumber, 750, 80);
+      } else {
+        textSize(16);
+        var scoreNumber = "Score A:" + game.currScoreP1;
+        text(scoreNumber, 750, 70);
+        var scoreNumber = "Score B:" + game.currScoreP2;
+        text(scoreNumber, 750, 90);
       }
       pop();
 
@@ -524,14 +545,26 @@ function draw() {
       game.draw();
     }
 
+    if (game.gameState == GameStates.OVER && !gameOver) {
+      fadingOut = true;
+      transitioning = true;
+      gameOver = true;
+    }
+
     if (fadingOut) {
       fadeAlpha += 10;
       if (fadeAlpha >= 255) {
         fadeAlpha = 255;
         fadingOut = false;
         fadingIn = true;
-        game.currentRoom.getPlayerNextPos();
-        game.nextRoom();
+        if (!pvpMode) {
+          game.currentRoom.getPlayerNextPos();
+          game.nextRoom();
+        }
+        if (gameOver) {
+          renderGameOverInterface();
+          gameOver = true;
+        }
       }
     } else if (fadingIn) {
       fadeAlpha -= 10;
@@ -544,10 +577,7 @@ function draw() {
     noStroke();
     fill(0, fadeAlpha);
     rect(0, 0, pageWidth, pageHeight);
-    if (game.gameState == GameStates.OVER && !gameOver) {
-      renderGameOverInterface();
-      gameOver = true;
-    }
+
   }
 }
 
@@ -556,7 +586,11 @@ function keyPressed() {
     // 'press q to quit'
     if (game.gameState == GameStates.PAUSE) {
       if (keyCode == 81) {
-        themeMusic.stop();
+        if (!pvpMode) {
+          gameMusic.stop();
+        } else {
+          pvpMusic.stop();
+        }
         gameSwitch(false);
       }
     }
@@ -564,6 +598,11 @@ function keyPressed() {
     if (keyCode == ESCAPE) {
       if (game.gameState == GameStates.ACTIVE && !transitioning) {
         game.gameState = GameStates.PAUSE;
+        if (!pvpMode) {
+          gameMusic.pause();
+        } else {
+          pvpMusic.pause();
+        }
         push();
         fill("rgba(0, 0, 0, 0.6)");
         let pauseMask = rect(0, 0, pageWidth, pageHeight);
@@ -580,6 +619,11 @@ function keyPressed() {
       } else {
         loop();
         game.gameState = GameStates.ACTIVE;
+        if (!pvpMode) {
+          gameMusic.play();
+        } else {
+          pvpMusic.play();
+        }
       }
     }
     // 192 = ` (key under Esc)

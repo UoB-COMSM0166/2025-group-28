@@ -67,11 +67,7 @@ class Game {
     }
 
     this.currentRoom = null;
-    if (pvpMode) {
-      this.currentRoom = new PvPRoom();
-      playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
-      playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
-    } else {
+    if (!pvpMode) {
       this.currentRoom = new Room(this.difficultySettings);
       // Allow spawning buff mob if player has cleared 3+ rooms (only on normal, hard or coop)
       if (
@@ -115,21 +111,28 @@ class Game {
     if (
       (!playerA.isActive && !coop && !pvpMode) ||
       (coop && !playerA.isActive && !playerB.isActive) ||
-      (pvpMode && !playerA.isActive && !playerB.isActive)
+      (pvpMode && (this.currScoreP1 >= 3 || this.currScoreP2 >= 3))
     ) {
-      this.gameState = GameStates.OVER;
+      setTimeout(() => {
+        this.gameState = GameStates.OVER;
+      }, 3000);
     }
   }
 
   draw() {
     this.checkIfGameOver();
-    this.currScoreP1 = Math.round(
-      this.currentRoom.roomScoreAccumaltor + this.prevScoreP1
-    );
-    if (coop) {
-      this.currScoreP2 = Math.round(
-        this.currentRoom.roomScoreAccumaltor + this.prevScoreP2
+    if (!pvpMode) {
+      this.currScoreP1 = Math.round(
+        this.currentRoom.roomScoreAccumaltor + this.prevScoreP1
       );
+      if (coop) {
+        this.currScoreP2 = Math.round(
+          this.currentRoom.roomScoreAccumaltor + this.prevScoreP2
+        );
+      }
+    } else {
+      this.currScoreP1 = this.currentRoom.p1Score;
+      this.currScoreP2 = this.currentRoom.p2Score;
     }
     this.updateSlowMeow();
     this.currentRoom.draw();
@@ -142,12 +145,12 @@ class Game {
   }
 
   calculateScore(damageDealt, damageTaken) {
-    if (!coop) {
+    if (!coop && !pvpMode) {
       let bonus = (damageDealt / (damageTaken + 10)) * 10 - 120;
       if (bonus < 0) return 0;
       if (bonus > 300) return 300;
       return bonus;
-    } else {
+    } else if (coop) {
       let bonus = (damageDealt / (damageTaken + 10)) * 10 - 80;
       if (bonus < 0) return 0;
       if (bonus > 300) return 300;
