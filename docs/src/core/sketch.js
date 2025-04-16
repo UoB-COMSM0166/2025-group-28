@@ -557,7 +557,7 @@ function draw() {
         fadeAlpha = 255;
         fadingOut = false;
         fadingIn = true;
-        if (!pvpMode && !game.gameState == GameStates.OVER) {
+        if (!pvpMode && game.currentRoom) {
           game.currentRoom.getPlayerNextPos();
           game.nextRoom();
         }
