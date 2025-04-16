@@ -30,7 +30,7 @@ class Room {
   }
 
   initRoom() {
-    const tileOptions = [tileColours1, tileColours2, tileColours3];
+    const tileOptions = [tileColours1, tileColours2, tileColours3, tileColours4, tileColours5];
     this.currentTileColours = random(tileOptions);
     this.roomLayout = [];
     for (let j = arena_offset; j < arena_offset + roomHeight; j++) {
