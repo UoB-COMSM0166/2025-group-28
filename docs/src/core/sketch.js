@@ -22,7 +22,6 @@ let coop_button;
 let stng_button;
 let pvp_button;
 let menuContainer;
-let game_over_back;
 let scoretotal;
 let returnToMenu;
 let gameOverContainer;
@@ -150,35 +149,27 @@ function menuStart() {
   themeMusic.loop();
 }
 
-function gameoverPlay() {
-  game_over_back.play();
-  // game_over_back.loop();
-}
-
 function renderGameOverInterface() {
-  //clear();
+  // clear();
 
-  push();
   fill("rgba(0, 0, 0, 0.7)");
-  let pauseMask = rect(0, 0, pageWidth, pageHeight);
-  pop();
+  let endMask = rect(0, 0, 950, 800);
 
   gameOverContainer = createDiv();
   gameOverContainer.id("gameover");
   gameOverContainer.size(pageWidth, pageHeight);
 
-  game_over_back = createImg(gameoverback);
-  game_over_back.parent(gameOverContainer);
-  game_over_back.size(pageWidth, pageHeight);
+  let game_over_txt = createImg(gameoverback);
+  game_over_txt.parent(gameOverContainer);
+  game_over_txt.size(pageWidth, pageHeight);
+  game_over_txt.position(0, 0);
 
-  // game_over_back.mouseOver(gameoverPlay);
   let scoretext_p1;
-
   if (coop) {
     scoretext_p1 =
       "Player A: " + game.currScoreP1 + "\n" + "Player B: " + game.currScoreP2;
   } else if (pvpMode) {
-    scoretext_p1 = "";
+    scoretext_p1 = game.winningPVP + " wins!";
   } else {
     scoretext_p1 = "Total Score: " + game.currScoreP1;
   }
@@ -290,7 +281,6 @@ function gotoSettings() {
   stng_div = createDiv();
   stng_div.id("settings_content");
   stng_div.size(pageWidth, pageHeight);
-  stng_div.parent(menuContainer);
   set_back = createImg(setback);
   set_back.parent(stng_div);
   set_back.position(0, 0);
@@ -438,20 +428,38 @@ function draw() {
       textFont(gameFont);
       textAlign(CENTER);
       fill(255, 255, 255);
-      var roomNumber = "Room " + game.roomSeq;
-      text(roomNumber, 200, 80);
+      let xpos2;
+
+      var roomNumber;
       if (!pvpMode) {
-        if (!coop) {
-          var scoreNumber = "Score:" + game.currScoreP1;
-          text(scoreNumber, 750, 80);
-        } else {
-          textSize(16);
-          var scoreNumber = "Score A:" + game.currScoreP1;
-          text(scoreNumber, 750, 70);
-          var scoreNumber = "Score B:" + game.currScoreP2;
-          text(scoreNumber, 750, 90);
-        }
+        roomNumber = "Room " + game.roomSeq;
+      } else {
+        roomNumber = "Room " + game.roomSeq + "/" + pvp_rooms;
       }
+
+      xpos2 = 200;
+      if (pvpMode) {
+        xpos2 = 220;
+      }
+
+      text(roomNumber, xpos2, 80);
+      // if (!pvpMode) {
+      if (!coop) {
+        if (pvpMode) {
+          var scoreNumber = game.currScoreP1 + "-" + game.currScoreP2;
+        } else {
+          var scoreNumber = "Score:" + game.currScoreP1;
+        }
+        text(scoreNumber, 750, 80);
+      } else {
+        textSize(16);
+        var scoreNumber = "Score A:" + game.currScoreP1;
+        text(scoreNumber, 750, 70);
+        var scoreNumber = "Score B:" + game.currScoreP2;
+        text(scoreNumber, 750, 90);
+      }
+      // }
+
       pop();
 
       // bottom ui block

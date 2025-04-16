@@ -3,6 +3,7 @@
 // USER CONFIG - move on refactor
 
 let wasd_control = true;
+let pvp_rooms = 3; //var for 'best of x' system
 
 let p1_up = 87;
 let p1_down = 83;
@@ -161,6 +162,7 @@ let meowSound;
 let acGunSound;
 let gunSound_b;
 let theme_a;
+let gameoverback;
 
 function preload() {
   tile_darkGrey = loadImage("assets/alternatetile1.png");
@@ -229,13 +231,13 @@ function preload() {
 
 // HTML <img> paths (no need to preload):
 
+gameoverback = "assets/gmovertext.gif";
+
 let singlePlayerIcon = "assets/singlepbutton.png";
 let coopIcon = "assets/coopbutton.png";
 let pvpIcon = "assets/pvpbutton.png";
 let helpIcon = "assets/helpbutton.png";
 let menuimg = "assets/menuback.mp4";
-let gameoverback = "assets/gmoverlay2.gif";
-let gameovermask = "assets/redmask.png";
 
 let setback = "assets/setback.png";
 

@@ -8,7 +8,7 @@ body {
   align-items: center;
   overflow-y: hidden;
 }
-
+#settings_content,
 #menuContainer,
 #gameover {
   margin-left: -900px;
