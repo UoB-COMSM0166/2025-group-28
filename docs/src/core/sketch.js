@@ -22,10 +22,9 @@ let coop_button;
 let stng_button;
 let pvp_button;
 let menuContainer;
-let game_over_back;
 let scoretotal;
 let returnToMenu;
-
+let gameOverContainer;
 let settingsMode = true;
 
 let difficulty = difficultyLevels.EASY;
@@ -151,24 +150,22 @@ function menuStart() {
   themeMusic.loop();
 }
 
-function gameoverPlay() {
-  game_over_back.play();
-  game_over_back.loop();
-}
-
 function renderGameOverInterface() {
-  clear();
-  let gameOverContainer = createDiv();
+  // clear();
+
+  fill("rgba(0, 0, 0, 0.7)");
+  let endMask = rect(0, 0, 950, 800);
+
+  gameOverContainer = createDiv();
   gameOverContainer.id("gameover");
   gameOverContainer.size(pageWidth, pageHeight);
 
-  game_over_back = createImg(gameoverback);
-  game_over_back.parent(gameOverContainer);
-  game_over_back.size(pageWidth, pageHeight);
-  // game_over_back.mouseOver(gameoverPlay);
+  let game_over_txt = createImg(gameoverback);
+  game_over_txt.parent(gameOverContainer);
+  game_over_txt.size(pageWidth, pageHeight);
+  game_over_txt.position(0, 0);
 
   let scoretext_p1;
-
   if (coop) {
     scoretext_p1 =
       "Player A: " + game.currScoreP1 + "<br>" + "Player B: " + game.currScoreP2;
@@ -191,7 +188,7 @@ function renderGameOverInterface() {
   let xpos = 400 - scoretext_p1.width;
   scoretotal.position(xpos, 400);
   scoretotal.parent(gameOverContainer);
-  scoretotal.style("color", "white");
+  scoretotal.style("color", "orange");
   scoretotal.style("font-size", "25px");
   scoretotal.style("font-family", "ARCADE_I");
   scoretotal.style("text-align", "center");
@@ -314,7 +311,6 @@ function gotoSettings() {
   stng_div = createDiv();
   stng_div.id("settings_content");
   stng_div.size(pageWidth, pageHeight);
-  stng_div.parent(menuContainer);
   set_back = createImg(setback);
   set_back.parent(stng_div);
   set_back.position(0, 0);

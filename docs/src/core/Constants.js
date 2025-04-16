@@ -3,6 +3,7 @@
 // USER CONFIG - move on refactor
 
 let wasd_control = true;
+let pvp_rooms = 3; //var for 'best of x' system
 
 let p1_up = 87;
 let p1_down = 83;
@@ -161,6 +162,7 @@ let meowSound;
 let acGunSound;
 let gunSound_b;
 let theme_a;
+let gameoverback;
 
 function preload() {
   tile_darkGrey = loadImage("assets/alternatetile1.png");
@@ -169,10 +171,17 @@ function preload() {
   tile_lightBlue = loadImage("assets/alternatetile4.png");
   tile_darkYellow = loadImage("assets/alternatetile5.png");
   tile_lightYellow = loadImage("assets/alternatetile6.png");
+  tile_darkTurquoise = loadImage("assets/alternatetile7.png");
+  tile_lightTurquoise = loadImage("assets/alternatetile8.png");
+  tile_darkdarkBlue = loadImage("assets/alternatetile9.png");
+  tile_lightlightBlue = loadImage("assets/alternatetile10.png");
   walltile = loadImage("assets/wall_tile_m3.png");
   tileColours1 = [tile_darkGrey, tile_lightGrey];
   tileColours2 = [tile_darkBlue, tile_lightBlue];
   tileColours3 = [tile_darkYellow, tile_lightYellow];
+  tileColours4 = [tile_lightTurquoise, tile_darkTurquoise];
+  tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
+  
 
   wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/spacedoor.gif");
@@ -238,12 +247,14 @@ function preload() {
 
 // HTML <img> paths (no need to preload):
 
+gameoverback = "assets/gmovertext.gif";
+
 let singlePlayerIcon = "assets/singlepbutton.png";
 let coopIcon = "assets/coopbutton.png";
 let pvpIcon = "assets/pvpbutton.png";
 let helpIcon = "assets/helpbutton.png";
 let menuimg = "assets/menuback.mp4";
-let gameoverback = "assets/gameover.gif";
+
 let setback = "assets/setback.png";
 
 let wasd_icon = "assets/wasd_icon.png";

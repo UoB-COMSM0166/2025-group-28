@@ -17,7 +17,12 @@ class Game {
     this.prevScoreP2 = 0;
     this.currScoreP2 = 0;
 
+    this.pvp_count = 1;
     this.roomSeq = 1;
+
+    this.p1_pvp_tally = 0;
+    this.p2_pvp_tally = 0;
+    this.winningPVP;
 
     this.slowMeowLevel = 0;
     this.slowMeowOccurring = false;
@@ -30,17 +35,23 @@ class Game {
     this.slowMeowSoundPlayed = false;
     this.slowMeowBuffPenalty = false;
     if (!coop) {
-      this.slowMeowGain = slowMeowGain * this.difficultySettings.slowMeowGainMult;
-      this.slowMeowLoss = slowMeowLoss * this.difficultySettings.slowMeowLossMult;
+      this.slowMeowGain =
+        slowMeowGain * this.difficultySettings.slowMeowGainMult;
+      this.slowMeowLoss =
+        slowMeowLoss * this.difficultySettings.slowMeowLossMult;
     } else if (coop) {
-      this.slowMeowGain = (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
-      this.slowMeowLoss = (slowMeowLoss / 2) * this.difficultySettings.slowMeowLossMult;
+      this.slowMeowGain =
+        (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
+      this.slowMeowLoss =
+        (slowMeowLoss / 2) * this.difficultySettings.slowMeowLossMult;
     }
   }
 
   nextRoom() {
     this.roomSeq++;
-    behaviourMonitor.updateRoomsCleared();
+    if (!pvpMode) {
+      behaviourMonitor.updateRoomsCleared();
+    }
     // Clear projectile array to stop projectiles fired in previous room from persisting in next room
     projectileManager.projectilesFired = [];
     // End slow meow to prevent movement speed bugs on room transition
@@ -48,22 +59,29 @@ class Game {
     let playSounds = this.slowMeowOccurring; // Slow mo end sound should only play if slow meow was active when moving rooms
     this.slowMeowOccurring = false;
     this.applySlowMeow(this.slowMeowOccurring, playSounds);
+    if (pvpMode) {
+      console.log(this.currScoreP1);
 
+      this.currScoreP1 = this.p1_pvp_tally;
+      this.currScoreP2 = this.p2_pvp_tally;
+    }
     // update scores
-    this.currScoreP1 += this.calculateScore(
-      this.currentRoom.damageDealtP1,
-      this.currentRoom.damageTakenP1
-    );
-    this.prevScoreP1 = this.currScoreP1;
-    this.currScoreP1 = 0;
-
-    if (coop) {
-      this.currScoreP2 += this.calculateScore(
-        this.currentRoom.damageDealtP2,
-        this.currentRoom.damageTakenP2
+    if (!pvpMode) {
+      this.currScoreP1 += this.calculateScore(
+        this.currentRoom.damageDealtP1,
+        this.currentRoom.damageTakenP1
       );
-      this.prevScoreP2 = this.currScoreP2;
-      this.currScoreP2 = 0;
+      this.prevScoreP1 = this.currScoreP1;
+      this.currScoreP1 = 0;
+
+      if (coop) {
+        this.currScoreP2 += this.calculateScore(
+          this.currentRoom.damageDealtP2,
+          this.currentRoom.damageTakenP2
+        );
+        this.prevScoreP2 = this.currScoreP2;
+        this.currScoreP2 = 0;
+      }
     }
 
     this.currentRoom = null;
@@ -87,7 +105,12 @@ class Game {
             if (this.prevScoreP1 < 0) this.prevScoreP1 = 0;
           } else {
             playerB = null;
-            playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
+            playerB = new Player(
+              astrocat_gif_p2,
+              300,
+              300,
+              playerNumber.PLAYER_2
+            );
             playerB.health = 50;
             playerBDeathCount++;
             this.prevScoreP2 -= 300;
@@ -103,6 +126,27 @@ class Game {
         playerB.resetOverheat();
         playerB.position.x = playerNextX;
         playerB.position.y = playerNextY;
+      }
+    }
+  }
+
+  pvpGameCycleCheck() {
+    if (!playerA.isActive || !playerB.isActive) {
+      if (this.roomSeq < pvp_rooms) {
+        if (!playerA.isActive) {
+          this.p2_pvp_tally++;
+        } else {
+          this.p1_pvp_tally++;
+        }
+        this.nextRoom();
+      } else {
+        // Game over for PVP
+        if (this.p1_pvp_tally > this.p2_pvp_tally) {
+          this.winningPVP = "Player A";
+        } else {
+          this.winningPVP = "Player B";
+        }
+        this.gameState = GameStates.OVER;
       }
     }
   }
@@ -167,7 +211,10 @@ class Game {
     // Looks nicer than seeing it immediately set to 0
     if (remainingTime > 0) {
       const decrementPerMillisecond = 100 / this.slowMeowDuration;
-      this.slowMeowLevel = Math.max(100 - decrementPerMillisecond * elapsedTime, 0);
+      this.slowMeowLevel = Math.max(
+        100 - decrementPerMillisecond * elapsedTime,
+        0
+      );
     } else {
       this.slowMeowLevel = 0;
     }
@@ -229,15 +276,17 @@ class Game {
 
     if (this.currentRoom.mobBuffActive) {
       if (!this.slowMeowBuffPenalty) {
-        this.slowMeowGain /= 2
+        this.slowMeowGain /= 2;
         this.slowMeowBuffPenalty = true;
       }
     } else {
       this.slowMeowBuffPenalty = false;
       if (!coop) {
-        this.slowMeowGain = slowMeowGain * this.difficultySettings.slowMeowGainMult;
+        this.slowMeowGain =
+          slowMeowGain * this.difficultySettings.slowMeowGainMult;
       } else if (coop) {
-        this.slowMeowGain = (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
+        this.slowMeowGain =
+          (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
       }
     }
 
@@ -318,7 +367,10 @@ class Game {
       for (let projectile of projectileManager.projectilesFired) {
         if (projectile && projectile.isActive) {
           if (slowActive) {
-            projectile.velocity = p5.Vector.mult(projectile.originalVelocity, slowFactor);
+            projectile.velocity = p5.Vector.mult(
+              projectile.originalVelocity,
+              slowFactor
+            );
           } else {
             if (projectile.velocity.mag() < projectile.originalVelocity.mag()) {
               projectile.velocity = projectile.originalVelocity.copy();
