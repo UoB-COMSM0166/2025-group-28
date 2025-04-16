@@ -445,7 +445,7 @@ function draw() {
   if (inGame) {
     if (game.gameState == GameStates.ACTIVE) {
       // game.draw calls room.draw and update
-      if (game.currentRoom.isCleared == true) {
+      if (game.currentRoom && game.currentRoom.isCleared == true) {
         game.currentRoom.door.isUnlocked = true;
         game.currentRoom.door.update();
         if (game.currentRoom.promptActive) {
@@ -557,7 +557,7 @@ function draw() {
         fadeAlpha = 255;
         fadingOut = false;
         fadingIn = true;
-        if (!pvpMode) {
+        if (!pvpMode && !game.gameState == GameStates.OVER) {
           game.currentRoom.getPlayerNextPos();
           game.nextRoom();
         }

@@ -9,7 +9,7 @@ class Player extends Sprite {
     this.widthModel = 70;
     this.heightModel = 70;
     this.color = color(0, 100, 255);
-    this.speed = 2.5; // Slightly faster than base sprites
+    this.speed = 2.75; // Slightly faster than base sprites
     this.originalSpeed = this.speed;
     this.attackDamage = 10 * difficultySettings[difficulty].playerDamageMult;
     this.fireRate = 200; // ms between shots
@@ -72,8 +72,8 @@ class Player extends Sprite {
       else if (this.slowTimer == 50) this.speed = 1.1;
       else if (this.slowTimer == 100) this.speed = 1.4;
       else if (this.slowTimer == 150) this.speed = 1.8;
-      else if (this.slowTimer == 200) this.speed = 2.1;
-      else if (this.slowTimer > 200) this.speed = 2.5;
+      else if (this.slowTimer == 200) this.speed = 2.4;
+      else if (this.slowTimer > 200) this.speed = 2.75;
       if (!game.slowMeowOccurring) this.slowTimer++;
       this.originalSpeed = this.speed;
     }
@@ -413,11 +413,11 @@ class Player extends Sprite {
     this.slowTimer = 0;
     this.fireOverheat = false;
     if (game.slowMeowOccurring) {
-      this.speed = 2.5 * (game.slowMeowMovementSpeed * 1.2);
+      this.speed = 2.75 * (game.slowMeowMovementSpeed * 1.2);
     } else {
-      this.speed = 2.5;
+      this.speed = 2.75;
     }
-    this.originalSpeed = 2.5;
+    this.originalSpeed = 2.75;
   }
 
   // For behaviour monitoring

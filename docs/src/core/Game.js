@@ -115,6 +115,7 @@ class Game {
     ) {
       setTimeout(() => {
         this.gameState = GameStates.OVER;
+        this.currentRoom = null;
       }, 3000);
     }
   }

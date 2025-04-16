@@ -196,10 +196,10 @@ class PvPRoom {
   update() {
     for (let p of projectileManager.projectilesFired) {
       if (
-        p.position.x < (tileSize * 3) + arena_offset ||
-        p.position.x > roomWidth * tileSize - (tileSize * 3) + arena_offset ||
-        p.position.y < (tileSize * 3) + arena_offset ||
-        p.position.y > roomHeight * tileSize - (tileSize * 3) + arena_offset ||
+        p.position.x < (tileSize * 2.75) + arena_offset ||
+        p.position.x > roomWidth * tileSize - (tileSize * 2.75) + arena_offset ||
+        p.position.y < (tileSize * 2.75) + arena_offset ||
+        p.position.y > roomHeight * tileSize - (tileSize * 2.75) + arena_offset ||
         (projectileWallCollisions && this.checkInsideWall(p.position.x, p.position.y))
       ) {
         this.createParticles(Spark, p.position.x, p.position.y, p.sparkColour, p.velocity);
