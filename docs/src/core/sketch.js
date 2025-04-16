@@ -79,7 +79,6 @@ function gameSwitch(starting) {
 
     gameSetUp();
     loop();
-    //theme_a.play();
   } else {
     inGame = false;
     gameOver = false;
@@ -469,7 +468,12 @@ function draw() {
       textFont(gameFont);
       textAlign(CENTER);
       fill(255, 255, 255);
-      var roomNumber = "Room " + game.roomSeq;
+      var roomNumber;
+      if (!pvpMode) {
+        roomNumber = "Room " + game.roomSeq;
+      } else {
+        roomNumber = "Round " + game.roomSeq;
+      }
       text(roomNumber, 200, 80);
       if (!coop && !pvpMode) {
         var scoreNumber = "Score:" + game.currScoreP1;
@@ -584,7 +588,7 @@ function draw() {
 function keyPressed() {
   if (inGame) {
     // 'press q to quit'
-    if (game.gameState == GameStates.PAUSE) {
+    if (game && game.gameState == GameStates.PAUSE) {
       if (keyCode == 81) {
         if (!pvpMode) {
           gameMusic.stop();
@@ -596,7 +600,7 @@ function keyPressed() {
     }
 
     if (keyCode == ESCAPE) {
-      if (game.gameState == GameStates.ACTIVE && !transitioning) {
+      if (game && game.gameState == GameStates.ACTIVE && !transitioning) {
         game.gameState = GameStates.PAUSE;
         if (!pvpMode) {
           gameMusic.pause();
