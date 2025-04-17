@@ -46,13 +46,20 @@ class Sprite extends GameObject {
         if (!childMode && this.health - amount > 0) {
           playSound(bloodSound1, playbackRate, true);
           this.lastSoundTime = millis();
+          if (this instanceof Player) {
+            let randomSound = Math.floor(random(0, this.painSound.length));
+            playSound(this.painSound[randomSound], playbackRate);
+          }
         }
       }
       this.health = Math.max(0, this.health - amount);
     }
     // Checks if the sprite is dead
+    this.isDead();
+  }
+
+  isDead() {
     if (this.health <= 0) {
-      this.health = 0;
       this.isActive = false;
       if (!childMode) playSound(bloodSound2, playbackRate, true);
       if (this.deathSound) {

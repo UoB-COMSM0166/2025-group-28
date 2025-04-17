@@ -146,6 +146,44 @@ Heuristic Evaluation
 | What is the main twist? | Multiplayer mode enhancement |  |   |   |   |   |
 
 
+### NASA TLX and System Usability Scale (SUS) Evaluation
+(conducted at week 8 with 10 participants)
+
+NASA TLX Result
+| User ID | EASY | Medium |
+| :--: | :--: | :--: |
+| 1 | 26.67 | 29.17 |
+| 2 | 17.5 | 27.5 |
+| 3 | 36.67 | 49.17 |
+| 4 | 47.5 | 68.33 |
+| 5 | 26.67 | 30 |
+| 6 | 62.5 | 50 |
+| 7 | 30 | 75.83 |
+| 8 | 12.5 | 16.67 |
+| 9 | 53.33 | 54.17 |
+| 10 | 38.33 | 48.33 |
+
+The table above is showing raw TLX scores, where the six dimensions are not weighted. To dive in further, our game scored well for Mental and Physical Demand but scored slightly worse in terms of Fustration and Temporal Demand. Which we collected further comments from participants to be implemented further.
+
+SUS Result
+| User ID | EASY | Medium |	
+| :--: | :--: | :--: |
+| 1 | 95 | 72.5 |	
+| 2 | 77.5 | 50 |	
+| 3 | 75 | 62.5 |	
+| 4 | 82.5 | 65 |	
+| 5 | 92.5 | 75 |	
+| 6 | 60 | 45 |	
+| 7 | 80 | 42.5 |	
+| 8 | 100 | 85 |	
+| 9 | 55 | 57.5 |	
+| 10 | 80 | 62.5 |	
+
+Based on studies, SUS score above 68 is considered the average. In our game, 80% of participants rated our game above average in easy mode and 30% did for medium difficulty. Which suggests more room for improvements, especially for medium difficulty.
+
+Using Wilcoxon Signed-Rank Test, both test results got W test statistic of 7.5. With N=10 and significance value of 0.05, our W is below the critical value as shown in the table below. Therefore indicates 95% certainty that the difference in our result is significant. And can be used for further evaluations.
+![image](https://github.com/user-attachments/assets/065c3956-1793-44a3-bc46-0e9aa5745a4d)
+
 
 - 15% ~750 words
 - Use case diagrams, user stories. Early stages design. Ideation process. How did you decide as a team what to develop? 

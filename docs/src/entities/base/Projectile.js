@@ -16,6 +16,8 @@ class Projectile extends GameObject {
 
   update() {
     if (!this.isActive) return;
+    // Potentially fixes projectiles that sometimes get stuck in the air
+    if (this.velocity.mag() == 0) this.isActive = false;
 
     this.position.add(this.velocity);
 

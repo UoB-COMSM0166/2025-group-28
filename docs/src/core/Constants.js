@@ -1,9 +1,6 @@
-// Displacement from origin to start drawing room etc. - to centre room in new larger canvas
-
 // USER CONFIG - move on refactor
-
 let wasd_control = true;
-let pvp_rooms = 3; //var for 'best of x' system
+let pvp_rounds = 3; //var for 'best of x' system
 
 let p1_up = 87;
 let p1_down = 83;
@@ -45,6 +42,7 @@ function switchControl(is_wasd) {
   }
 }
 
+// Displacement from origin to start drawing room etc. - to centre room in new larger canvas
 var arena_offset = 100;
 
 // Room generation constants
@@ -55,7 +53,7 @@ var doorBuffer = 6; // To prevent door spawning too close to edges of room
 var wallBuffer = 7; // To prevent wall shapes spawning too close to outer walls
 var step = 4;
 
-var knockbackForce = 5;
+var knockbackForce = 4;
 
 // Room threat scaling constants
 var baseThreatLimit = 10;
@@ -171,10 +169,16 @@ function preload() {
   tile_lightBlue = loadImage("assets/alternatetile4.png");
   tile_darkYellow = loadImage("assets/alternatetile5.png");
   tile_lightYellow = loadImage("assets/alternatetile6.png");
+  tile_darkTurquoise = loadImage("assets/alternatetile7.png");
+  tile_lightTurquoise = loadImage("assets/alternatetile8.png");
+  tile_darkdarkBlue = loadImage("assets/alternatetile9.png");
+  tile_lightlightBlue = loadImage("assets/alternatetile10.png");
   walltile = loadImage("assets/wall_tile_m3.png");
   tileColours1 = [tile_darkGrey, tile_lightGrey];
   tileColours2 = [tile_darkBlue, tile_lightBlue];
   tileColours3 = [tile_darkYellow, tile_lightYellow];
+  tileColours4 = [tile_lightTurquoise, tile_darkTurquoise];
+  tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
 
   wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/spacedoor.gif");
@@ -191,7 +195,7 @@ function preload() {
 
   heartMob_gif = loadImage("assets/HeartMobBossGif.gif");
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
-  rangedmob_gif = loadImage("assets/yellowDogMob.gif");
+  rangedmob_gif = loadImage("assets/yellowDogMob2.gif");
   blinkMobGif = loadImage("assets/purpleDogMob.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
@@ -225,8 +229,17 @@ function preload() {
   roomTransitionSound = loadSound("assets/roomtransition.mp3");
   itemSound1 = loadSound("assets/pickupitem1.mp3");
   itemSound2 = loadSound("assets/pickupitem2.mp3");
+  pvpScoreSound = loadSound("assets/pvpscoreincrease.mp3");
+  pvpAnnouncer1 = loadSound("assets/pvpannouncer1.mp3");
+  pvpAnnouncer2 = loadSound("assets/pvpannouncer2.mp3");
+  pvpAnnouncer3 = loadSound("assets/pvpannouncer3.mp3");
+  pvpAnnouncer4 = loadSound("assets/pvpannouncer4.mp3");
+  pvpAnnouncer5 = loadSound("assets/pvpannouncer5.mp3");
+  pvpAnnouncer6 = loadSound("assets/pvpannouncer6.mp3");
   // Music
-  theme_a = loadSound("assets/theme.mp3");
+  themeMusic = createAudio("assets/theme.mp3");
+  gameMusic = createAudio("assets/gamemusic.mp3");
+  pvpMusic = createAudio("assets/pvpmusic.mp3");
 }
 
 // HTML <img> paths (no need to preload):
