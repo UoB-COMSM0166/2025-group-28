@@ -66,7 +66,7 @@ function setup() {
   if (inGame) {
     gameSetUp();
   } else {
-    renderMenu();
+    Menu.renderMenu();
   }
 }
 
@@ -80,7 +80,6 @@ function gameSwitch(starting) {
     stng_button.remove();
     difficultyButton.remove();
     inGame = true;
-
     gameSetUp();
     loop();
   } else {
@@ -93,11 +92,12 @@ function gameSwitch(starting) {
     pvpMode = false;
     playbackRate = 1;
     clear();
-    renderMenu();
+    Menu.renderMenu();
     loop();
   }
 }
 
+/*
 function singlePlayerStart() {
   coop = false;
   pvpMode = false;
@@ -146,7 +146,7 @@ function stngEndHover() {
 
 function pvpEndHover() {
   pvp_button.style("opacity", "0.5");
-}
+}*/
 
 function menuStart() {
   menuBack.play();
@@ -232,89 +232,6 @@ let settingpanel;
 
 function quitSettings() {
   stng_div.remove();
-}
-
-function renderMenu() {
-  menuContainer = createDiv();
-  menuContainer.id("menuContainer");
-  menuContainer.size(pageWidth, pageHeight);
-
-  menuBack = createVideo(menuimg);
-  menuBack.parent(menuContainer);
-  menuBack.size(pageWidth, pageHeight);
-  menuBack.attribute("draggable", "false");
-  menuBack.mouseOver(menuStart);
-  //menuBack.play();
-  //menuBack.loop();
-
-  sp_button = createImg(singlePlayerIcon);
-  sp_button.parent(menuContainer);
-  sp_button.position(pageWidth / 4 - 170, pageHeight * 0.62);
-  sp_button.size(170, 120);
-  sp_button.mouseClicked(singlePlayerStart);
-  sp_button.style("opacity", "0.5");
-  sp_button.attribute("draggable", "false");
-  sp_button.mouseOver(singlePlayerHover);
-  sp_button.mouseOut(singlePlayerEndHover);
-
-  coop_button = createImg(coopIcon);
-  coop_button.parent(menuContainer);
-  coop_button.position(pageWidth / 2 - 190, pageHeight * 0.62);
-  coop_button.size(170, 120);
-  coop_button.mouseClicked(coopPlayerStart);
-  coop_button.style("opacity", "0.5");
-  coop_button.attribute("draggable", "false");
-  coop_button.mouseOver(coopHover);
-  coop_button.mouseOut(coopEndHover);
-
-  pvp_button = createImg(pvpIcon);
-  pvp_button.parent(menuContainer);
-  pvp_button.position(pageWidth / 2 + 25, pageHeight * 0.62);
-  pvp_button.size(170, 120);
-  pvp_button.mouseClicked(pvpStart);
-  pvp_button.style("opacity", "0.5");
-  pvp_button.attribute("draggable", "false");
-  pvp_button.mouseOver(pvpHover);
-  pvp_button.mouseOut(pvpEndHover);
-
-  stng_button = createImg(helpIcon);
-  stng_button.parent(menuContainer);
-  stng_button.position(pageWidth * 0.75, pageHeight * 0.62);
-  stng_button.size(170, 120);
-  stng_button.style("opacity", "0.5");
-  stng_button.attribute("draggable", "false");
-  stng_button.mouseOver(stngHover);
-  stng_button.mouseOut(stngEndHover);
-  stng_button.mouseClicked(Settings.gotoSettings);
-
-  difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
-  difficultyButton.parent(menuContainer);
-  difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.8);
-  difficultyButton.mouseClicked(changeDifficulty);
-  difficultyButton.size(160, 55);
-  difficultyButton.attribute("draggable", "false");
-  difficultyButton.class("menu-button");
-  difficultyButton.style("background-color", diffTint);
-  difficultyButton.style("color", "white");
-  difficultyButton.style("padding", "10px 10px");
-  difficultyButton.style("font-size", "12px");
-  difficultyButton.style("font-family", "ARCADE_I");
-  difficultyButton.style("border", "none");
-  difficultyButton.style("text-align", "center");
-  difficultyButton.style("vertical-align", "middle");
-  difficultyButton.style("border-radius", "10%");
-}
-
-function changeDifficulty() {
-  if (difficulty < difficultyNames.length - 1) {
-    difficulty = difficulty + 1;
-    diffTint = difficultyTints[difficulty];
-  } else {
-    difficulty = 0;
-    diffTint = difficultyTints[difficulty];
-  }
-  difficultyButton.style("background-color", diffTint);
-  difficultyButton.html("Difficulty: " + difficultyNames[difficulty]);
 }
 
 function gameSetUp() {
