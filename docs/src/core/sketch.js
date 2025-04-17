@@ -48,6 +48,8 @@ let transitioning = false;
 let doorPrevPos = null;
 let playerNextX, playerNextY;
 
+let disabBlood_on;
+let disabBlood_off;
 let frame = 0;
 
 function setup() {
@@ -173,7 +175,11 @@ function renderGameOverInterface() {
   let scoretext_p1;
   if (coop) {
     scoretext_p1 =
-      "Player A: " + game.currScoreP1 + "<br>" + "Player B: " + game.currScoreP2;
+      "Player A: " +
+      game.currScoreP1 +
+      "<br>" +
+      "Player B: " +
+      game.currScoreP2;
   } else if (pvpMode) {
     let winText;
     if (game.p1PVPTotal == game.p2PVPTotal) {
@@ -184,7 +190,12 @@ function renderGameOverInterface() {
       winText = "<br>" + "Player B wins!";
     }
     scoretext_p1 =
-      "Player A: " + game.p1PVPTotal + "<br>" + "Player B: " + game.p2PVPTotal + winText;
+      "Player A: " +
+      game.p1PVPTotal +
+      "<br>" +
+      "Player B: " +
+      game.p2PVPTotal +
+      winText;
   } else {
     scoretext_p1 = "Total Score: " + game.currScoreP1;
   }
@@ -282,6 +293,7 @@ function renderSettingPanel() {
   p2control.parent(settingpanel);
   p2control.position(20, 150);
   p2control.style("font-size", "10px");
+  p2control.style("opacity", "0.6");
 
   wasd = createImg(wasd_icon);
   wasd.parent(settingpanel);
@@ -297,6 +309,44 @@ function renderSettingPanel() {
   arrow.size(150, 160);
   arrow.attribute("draggable", "false");
   arrow.mouseClicked(switchToArrow);
+
+  let disableBlood = createP("Child Mode");
+  disableBlood.parent(settingpanel);
+  disableBlood.position(20, 300);
+
+  disabBlood_on = createP("ON");
+  disabBlood_on.parent(settingpanel);
+  disabBlood_on.position(320, 300);
+  disabBlood_on.mouseClicked(toggleBloodDisable);
+
+  disabBlood_off = createP("OFF");
+  disabBlood_off.parent(settingpanel);
+  disabBlood_off.position(360, 300);
+  disabBlood_off.mouseClicked(toggleBloodDisable);
+  let childModeCap = createP("Disable blood particle effects");
+  childModeCap.parent(settingpanel);
+  childModeCap.position(20, 335);
+  childModeCap.style("font-size", "10px");
+  childModeCap.style("opacity", "0.6");
+
+  if (childMode) {
+    disabBlood_on.style("background-color", "rgb(255, 109, 0)");
+    disabBlood_off.style("background-color", "transparent");
+  } else {
+    disabBlood_off.style("background-color", "rgb(106, 104, 102)");
+    disabBlood_on.style("background-color", "transparent");
+  }
+}
+function toggleBloodDisable() {
+  childMode = !childMode;
+  console.log(childMode);
+  if (childMode) {
+    disabBlood_on.style("background-color", "rgb(255, 109, 0)");
+    disabBlood_off.style("background-color", "transparent");
+  } else {
+    disabBlood_off.style("background-color", "rgb(106, 104, 102)");
+    disabBlood_on.style("background-color", "transparent");
+  }
 }
 
 function quitSettings() {
@@ -427,7 +477,6 @@ function gameSetUp() {
     pvpMusic.loop();
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
-
   } else {
     gameMusic.play();
     gameMusic.loop();
@@ -498,7 +547,7 @@ function draw() {
           scoreNumber = "Total A:" + game.p1PVPTotal;
           text(scoreNumber, 825, 65);
           scoreNumber = "Total B:" + game.p2PVPTotal;
-          text(scoreNumber, 825, 85)
+          text(scoreNumber, 825, 85);
         }
       }
       pop();

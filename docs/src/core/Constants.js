@@ -251,6 +251,8 @@ let coopIcon = "assets/coopbutton.png";
 let pvpIcon = "assets/pvpbutton.png";
 let helpIcon = "assets/helpbutton.png";
 let menuimg = "assets/menuback.mp4";
+let radiobutton_off = "assets/radio_off";
+let radiobutton_on = "assets/radio_on";
 
 let setback = "assets/setback.png";
 
