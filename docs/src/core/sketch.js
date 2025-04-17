@@ -97,128 +97,11 @@ function gameSwitch(starting) {
   }
 }
 
-/*
-function singlePlayerStart() {
-  coop = false;
-  pvpMode = false;
-  gameSwitch(true);
-}
-
-function coopPlayerStart() {
-  pvpMode = false;
-  coop = true;
-  gameSwitch(true);
-}
-
-function pvpStart() {
-  coop = false;
-  pvpMode = true;
-  gameSwitch(true);
-}
-
-function singlePlayerHover() {
-  sp_button.style("opacity", "1");
-}
-
-function coopHover() {
-  coop_button.style("opacity", "1");
-}
-
-function stngHover() {
-  stng_button.style("opacity", "1");
-}
-
-function pvpHover() {
-  pvp_button.style("opacity", "1");
-}
-
-function singlePlayerEndHover() {
-  sp_button.style("opacity", "0.5");
-}
-
-function coopEndHover() {
-  coop_button.style("opacity", "0.5");
-}
-
-function stngEndHover() {
-  stng_button.style("opacity", "0.5");
-}
-
-function pvpEndHover() {
-  pvp_button.style("opacity", "0.5");
-}*/
-
 function menuStart() {
   menuBack.play();
   themeMusic.play();
   menuBack.loop();
   themeMusic.loop();
-}
-
-function renderGameOverInterface() {
-  // clear();
-
-  fill("rgba(0, 0, 0, 0.7)");
-  let endMask = rect(0, 0, 950, 800);
-
-  gameOverContainer = createDiv();
-  gameOverContainer.id("gameover");
-  gameOverContainer.size(pageWidth, pageHeight);
-
-  let game_over_txt = createImg(gameoverback);
-  game_over_txt.parent(gameOverContainer);
-  game_over_txt.size(pageWidth, pageHeight);
-  game_over_txt.position(0, 0);
-  game_over_txt.attribute("draggable", "false");
-
-  let scoretext_p1;
-  if (coop) {
-    scoretext_p1 =
-      "Player A: " +
-      game.currScoreP1 +
-      "<br>" +
-      "Player B: " +
-      game.currScoreP2;
-  } else if (pvpMode) {
-    let winText;
-    if (game.p1PVPTotal == game.p2PVPTotal) {
-      winText = "<br>" + "It's a tie!";
-    } else if (game.p1PVPTotal > game.p2PVPTotal) {
-      winText = "<br>" + "Player A wins!";
-    } else {
-      winText = "<br>" + "Player B wins!";
-    }
-    scoretext_p1 =
-      "Player A: " +
-      game.p1PVPTotal +
-      "<br>" +
-      "Player B: " +
-      game.p2PVPTotal +
-      winText;
-  } else {
-    scoretext_p1 = "Total Score: " + game.currScoreP1;
-  }
-
-  scoretotal = createP(scoretext_p1);
-  let xpos = 400 - scoretext_p1.width;
-  scoretotal.position(xpos, 400);
-  scoretotal.parent(gameOverContainer);
-  scoretotal.style("color", "orange");
-  scoretotal.style("font-size", "25px");
-  scoretotal.style("font-family", "ARCADE_I");
-  scoretotal.style("text-align", "center");
-  scoretotal.style("vertical-align", "middle");
-}
-
-function gameOverReturn() {
-  gameOverContainer.remove();
-  if (pvpMode) {
-    pvpMusic.stop();
-  } else {
-    gameMusic.stop();
-  }
-
-  gameSwitch(false);
 }
 
 let stng_div;
@@ -401,7 +284,7 @@ function draw() {
     fill(0, fadeAlpha);
     rect(0, 0, windowWidth, windowHeight);
     if (game.gameState == GameStates.OVER && !gameOver) {
-      renderGameOverInterface();
+      GameOver.renderGameOverInterface();
       gameOver = true;
     }
   }
@@ -422,7 +305,7 @@ function keyPressed() {
         gameSwitch(false);
       } else if (game.gameState == GameStates.OVER) {
         music.stop();
-        gameOverReturn();
+        GameOver.gameOverReturn();
       }
     }
 
