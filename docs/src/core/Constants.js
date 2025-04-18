@@ -89,6 +89,7 @@ const difficultySettings = Object.freeze([
     heatDecay: 0.5,
     slowMeowGainMult: 1.5,
     slowMeowLossMult: 1.0,
+    heartHealth: 25,
   },
   {
     // Normal mode
@@ -106,6 +107,7 @@ const difficultySettings = Object.freeze([
     heatDecay: 0.55,
     slowMeowGainMult: 1.0,
     slowMeowLossMult: 1.0,
+    heartHealth: 20,
   },
   {
     // Hard mode
@@ -123,16 +125,9 @@ const difficultySettings = Object.freeze([
     heatDecay: 0.6,
     slowMeowGainMult: 1.0,
     slowMeowLossMult: 2.0,
+    heartHealth: 15,
   },
 ]);
-
-let menuBacking;
-
-let meowSound;
-let acGunSound;
-let gunSound_b;
-let theme_a;
-let gameoverback;
 
 function preload() {
   tile_darkGrey = loadImage("assets/alternatetile1.png");
@@ -155,8 +150,6 @@ function preload() {
   wallImg = loadImage("assets/wall.png");
   doorImg = loadImage("assets/spacedoor.gif");
   doorOpenImg = loadImage("assets/spacedoorOpen.gif");
-  astrocat = loadImage("assets/astrocat.png");
-  dogMob = loadImage("assets/dog.png");
   bullet = loadImage("assets/projectileM1.gif");
   fireball = loadImage("assets/fireballAI.png");
   buttonPrompt = loadImage("assets/doorprompt.gif");
@@ -192,8 +185,11 @@ function preload() {
   blinkMobMoveSound = loadSound("assets/blinkmobmove.mp3");
   buffMobBuffSound = loadSound("assets/buffmobbuff.mp3");
   buffMobDeathSound = loadSound("assets/buffmobdeath.mp3");
+  dashMobAttackSound = loadSound("assets/dashmobattack.mp3");
+  dashMobDashSound = loadSound("assets/dashmobdash.mp3");
   meleeMobDeathSound = loadSound("assets/meleemobdeath.mp3");
   rangedMobDeathSound = loadSound("assets/rangedmobdeath.mp3");
+  rapidFireChargeSound = loadSound("assets/rapidfirecharge.mp3");
   // Environment
   bloodSound1 = loadSound("assets/bloodsplat1.mp3");
   bloodSound2 = loadSound("assets/bloodsplat2.mp3");
@@ -216,7 +212,7 @@ function preload() {
 
 // HTML <img> paths (no need to preload):
 
-gameoverback = "assets/gmovertext.gif";
+let gameoverback = "assets/gmovertext.gif";
 
 let singlePlayerIcon = "assets/singlepbutton.png";
 let coopIcon = "assets/coopbutton.png";

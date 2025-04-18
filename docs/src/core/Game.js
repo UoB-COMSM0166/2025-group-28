@@ -104,7 +104,7 @@ class Game {
         if (playerA.isActive ^ playerB.isActive) {
           if (!playerA.isActive) {
             playerA = null;
-            playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
+            playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
             playerA.health = 50;
             playerADeathCount++;
             this.prevScoreP1 -= 300;
@@ -113,8 +113,8 @@ class Game {
             playerB = null;
             playerB = new Player(
               astrocat_gif_p2,
-              300,
-              300,
+              160,
+              400,
               playerNumber.PLAYER_2
             );
             playerB.health = 50;
@@ -135,8 +135,8 @@ class Game {
       }
     } else {
       this.currentRoom = new PvPRoom();
-      playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
-      playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
+      playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
+      playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
     }
   }
 
@@ -378,6 +378,7 @@ class Game {
           } else {
             mob.speed = mob.originalSpeed;
             mob.isSlowed = false;
+            if (mob.canDash) mob.dashSpeed = mob.originalDashSpeed;
           }
         }
       }

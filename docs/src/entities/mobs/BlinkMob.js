@@ -12,9 +12,10 @@ class BlinkMob extends Mob {
     this.attackDamage = 6 * difficultySettings.mobDamageMult;
     this.projectileSpeed = 2;
     this.bloodColour = color(135, 20, 103, 255);
-    this.fireCooldownLimit = 175;
-    this.blinkCooldown = 50;
-    this.blinkCooldownLimit = 175;
+    this.fireCooldown = Math.floor(random(35, 50));
+    this.fireCooldownLimit = Math.floor(random(160, 175));
+    this.blinkCooldown = this.fireCooldown;
+    this.blinkCooldownLimit = this.fireCooldownLimit;
     this.deathSound = blinkMobDeathSound;
     this.checkIfSlowMeowActive();
   }
@@ -23,6 +24,12 @@ class BlinkMob extends Mob {
     super.update();
     if (this.blinkCooldown < this.blinkCooldownLimit) {
       this.blinkCooldown++;
+    }
+    let nearestPlayer = this.findNearestPlayer();
+    let distanceToPlayer = this.findDistanceToPlayer(nearestPlayer);
+    if (distanceToPlayer < 125) {
+      this.blinkCooldown = this.blinkCooldownLimit;
+      this.blink();
     }
   }
 

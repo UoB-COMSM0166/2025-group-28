@@ -4,13 +4,17 @@ class Menu {
     menuContainer.id("menuContainer");
     menuContainer.size(pageWidth, pageHeight);
 
-    menuBack = createVideo(menuimg);
     menuBack.parent(menuContainer);
     menuBack.size(pageWidth, pageHeight);
     menuBack.attribute("draggable", "false");
-    menuBack.mouseOver(menuStart);
-    //menuBack.play();
-    //menuBack.loop();
+
+    menuStart();
+    setTimeout(() => {
+      // Sets the menu to play on hover if browser is blocking autoplay
+      if (menuBack.time() <= 0) {
+        menuBack.mouseOver(menuStart);
+      }
+    }, 1000);
 
     sp_button = createImg(singlePlayerIcon);
     sp_button.parent(menuContainer);

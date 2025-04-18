@@ -8,7 +8,6 @@ class Player extends Sprite {
 
     this.widthModel = 70;
     this.heightModel = 70;
-    this.color = color(0, 100, 255);
     this.speed = 2.75; // Slightly faster than base sprites
     this.originalSpeed = this.speed;
     this.attackDamage = 10 * difficultySettings[difficulty].playerDamageMult;
@@ -16,7 +15,6 @@ class Player extends Sprite {
     this.originalFireRate = this.fireRate;
     this.lastShot = 0; // Timestamp of last shot
     this.projectileSpeed = 10;
-    this.inventory = [];
     this.direction = createVector(0, 1); // Character starts facing down
     this.lastDirection = "DOWN";
     this.fireCooldown = 0; // Cooldown between shots
@@ -29,9 +27,6 @@ class Player extends Sprite {
     this.endFrame = 9;
     this.slowTimer = 0;
 
-    this.justFired = false;
-    this.c;
-    // this.img.pause();
     this.bloodColour = color(210, 0, 0, 0);
 
     this.deathSound = playerDeathSound;
@@ -92,7 +87,6 @@ class Player extends Sprite {
       this.img.setFrame(this.startFrame);
     }
 
-    let isMoving = false;
     let movingVertically = false;
 
     // Movement logic for PLAYER_1
@@ -100,7 +94,6 @@ class Player extends Sprite {
       // Up/down directions are prioritised for diagonal animations to work
       // W key
       if (keyIsDown(p1_up)) {
-        isMoving = true;
         movingVertically = true;
         if (this.lastDirection != "UP") {
           this.img.setFrame(13);
@@ -113,7 +106,6 @@ class Player extends Sprite {
       }
       // S key
       if (keyIsDown(p1_down)) {
-        isMoving = true;
         movingVertically = true;
         if (this.lastDirection != "DOWN") {
           this.img.setFrame(7);
@@ -126,7 +118,6 @@ class Player extends Sprite {
       }
       // A key
       if (keyIsDown(p1_left)) {
-        isMoving = true;
         if (!movingVertically && this.lastDirection != "LEFT") {
           this.img.setFrame(1);
           this.startFrame = 1;
@@ -139,7 +130,6 @@ class Player extends Sprite {
       }
       // D key
       if (keyIsDown(p1_right)) {
-        isMoving = true;
         if (!movingVertically && this.lastDirection != "RIGHT") {
           this.img.setFrame(1);
           this.startFrame = 1;
@@ -155,7 +145,6 @@ class Player extends Sprite {
     if (this.player == playerNumber.PLAYER_2) {
       // Up/down directions are prioritised for diagonal animations to work
       if (keyIsDown(p2_up)) {
-        isMoving = true;
         movingVertically = true;
         if (this.lastDirection != "UP") {
           this.img.setFrame(13);
@@ -167,7 +156,6 @@ class Player extends Sprite {
         this.lastDirection = "UP";
       }
       if (keyIsDown(p2_down)) {
-        isMoving = true;
         movingVertically = true;
         if (this.lastDirection != "DOWN") {
           this.img.setFrame(7);
@@ -179,7 +167,6 @@ class Player extends Sprite {
         this.lastDirection = "DOWN";
       }
       if (keyIsDown(p2_left)) {
-        isMoving = true;
         if (!movingVertically && this.lastDirection != "LEFT") {
           this.img.setFrame(1);
           this.startFrame = 1;
@@ -191,7 +178,6 @@ class Player extends Sprite {
         if (!movingVertically) this.lastDirection = "LEFT";
       }
       if (keyIsDown(p2_right)) {
-        isMoving = true;
         if (!movingVertically && this.lastDirection != "RIGHT") {
           this.img.setFrame(1);
           this.startFrame = 1;
@@ -205,7 +191,7 @@ class Player extends Sprite {
     }
 
     // Stops sprite animation when player isn't moving
-    if (!isMoving) {
+    if (this.velocity.equals(0) || fadingOut || (pvpMode && fadingIn)) {
       if (this.lastDirection === "LEFT") {
         this.img.setFrame(1);
       } else if (this.lastDirection === "RIGHT") {
@@ -215,6 +201,15 @@ class Player extends Sprite {
       } else if (this.lastDirection === "DOWN") {
         this.img.setFrame(7);
       }
+    }
+
+    if (fadingOut || (pvpMode && fadingIn)) {
+      this.velocity.set(0, 0);
+      if (pvpMode) {
+        this.lastDirection = "DOWN";
+        this.direction = (0, 1);
+      }
+      return;
     }
 
     // Constrain the player's position within the room boundaries
@@ -281,7 +276,6 @@ class Player extends Sprite {
       if (this.overheatSoundPlayed) this.overheatSoundPlayed = false;
       // SPACE key for player 1
       if (this.player === playerNumber.PLAYER_1 && keyIsDown(p1_shoot)) {
-        this.justFired = true;
         if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
           this.img.setFrame(0);
         } else {
@@ -402,17 +396,6 @@ class Player extends Sprite {
     textFont(gameFont);
     text(label, x + width / 2, y - 10);
     pop();
-  }
-
-  // Adds i-frames after taking damage - in player class as not needed for mobs
-  makeInvincible() {
-    if (!this.isInvincible) {
-      this.timesHurt++;
-      this.isInvincible = true;
-      this.invincibilityStartTime = millis();
-      this.lastFlashTime = millis();
-      this.isFlashing = true;
-    }
   }
 
   resetOverheat() {

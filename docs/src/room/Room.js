@@ -1,7 +1,6 @@
 class Room {
   constructor(difficultySettings) {
     this.door = null;
-    this.roomType = 0; // doesn't exist for now
     this.difficultySettings = difficultySettings;
     this.isCleared = false;
     this.mobs = [];
@@ -25,6 +24,8 @@ class Room {
     this.damageDealtP1 = 0;
     this.damageTakenP2 = 0;
     this.damageDealtP2 = 0;
+
+    this.dashMobCount = 0;
 
     this.initRoom();
   }
@@ -107,53 +108,84 @@ class Room {
   scanRoom() {
     for (let y = wallBuffer; y < roomHeight - wallBuffer; y += step) {
       for (let x = wallBuffer; x < roomWidth - wallBuffer; x += step) {
-        let numWalls = floor(random(0, 2));
+        let numWalls = Math.floor(random(0, 2));
         this.addWalls(x, y, numWalls);
       }
     }
   }
 
+  // Checks if the full wall shape can be placed without being cut off by wallBuffer
+  isWallWithinBounds(w, h, x, y) {
+    return (
+      x >= wallBuffer &&
+      y >= wallBuffer &&
+      x + w <= roomWidth - wallBuffer &&
+      y + h <= roomHeight - wallBuffer
+    );
+  }
+
+  // Adjusts any wall shapes that would be cut off by wallBuffer
+  adjustWallPosition(w, h, x, y) {
+    if (x + w > roomWidth - wallBuffer) {
+      x = roomWidth - wallBuffer - w;
+    }
+    if (y + h > roomHeight - wallBuffer) {
+      y = roomHeight - wallBuffer - h;
+    }
+    if (x < wallBuffer) {
+      x = wallBuffer;
+    }
+    if (y < wallBuffer) {
+      y = wallBuffer;
+    }
+    return { x, y };
+  }
+
   addWalls(x, y, numWalls) {
-    for (let i = 0; i < numWalls; i++) {
-      x = this.addOffset(x);
-      y = this.addOffset(y);
-      let wallVar = floor(random(0, 100));
-      let shouldAddWall = this.rollAddWall();
-      if (shouldAddWall) {
-        if (wallVar > 74) {
-          this.createWallSQR(
-            this.getRanW(wallVariants.SQR),
-            this.getRanH(wallVariants.SQR),
-            x,
-            y
-          );
-        } else if (wallVar > 54) {
-          this.createWallL1(
-            this.getRanW(wallVariants.L1),
-            this.getRanH(wallVariants.L1),
-            x,
-            y
-          );
-        } else if (wallVar > 34) {
-          this.createWallL2(
-            this.getRanW(wallVariants.L2),
-            this.getRanH(wallVariants.L2),
-            x,
-            y
-          );
-        }
-        // Create small square wall
-        else {
-          this.createWallSQR(2, 2, x, y);
-        }
+  for (let i = 0; i < numWalls; i++) {
+    x = this.addOffset(x);
+    y = this.addOffset(y);
+    let wallVar = Math.floor(random(0, 100));
+    let shouldAddWall = this.rollAddWall();
+    if (shouldAddWall) {
+      let w, h;
+      if (wallVar > 74) {
+        w = this.getRanW(wallVariants.SQR);
+        h = this.getRanH(wallVariants.SQR);
+      } else if (wallVar > 54) {
+        w = this.getRanW(wallVariants.L1);
+        h = this.getRanH(wallVariants.L1);
+      } else if (wallVar > 34) {
+        w = this.getRanW(wallVariants.L2);
+        h = this.getRanH(wallVariants.L2);
+      } else {
+        w = 2;
+        h = 2;
+      }
+
+      if (!this.isWallWithinBounds(w, h, x, y)) {
+        let adjustedPos = this.adjustWallPosition(w, h, x, y);
+        x = adjustedPos.x;
+        y = adjustedPos.y;
+      }
+
+      if (wallVar > 74) {
+        this.createWallSQR(w, h, x, y);
+      } else if (wallVar > 54) {
+        this.createWallL1(w, h, x, y);
+      } else if (wallVar > 34) {
+        this.createWallL2(w, h, x, y);
+      } else {
+        this.createWallSQR(2, 2, x, y);
       }
     }
   }
+}
 
   // Get random width for wall shape
   getRanW(wallVariant) {
     if (wallVariant == wallVariants.SQR) {
-      return floor(random(2, 4));
+      return Math.floor(random(2, 4));
     } else if (
       wallVariant == wallVariants.L1 ||
       wallVariant == wallVariants.L2
@@ -165,7 +197,7 @@ class Room {
   // Get random height for wall shape
   getRanH(wallVariant) {
     if (wallVariant == wallVariants.SQR) {
-      return floor(random(2, 4));
+      return Math.floor(random(2, 4));
     } else if (
       wallVariant == wallVariants.L1 ||
       wallVariant == wallVariants.L2
@@ -176,7 +208,7 @@ class Room {
 
   // Probability of adding a wall
   rollAddWall() {
-    let wallChance = random(0, 2);
+    let wallChance = random();
     if (wallChance < 0.3) {
       return true;
     }
@@ -186,7 +218,7 @@ class Room {
   // Adds an offset to the placement of the wall shape within the room
   // (To prevent rooms looking too symmetrical)
   addOffset(pos) {
-    let offset = floor(random(0, wallBuffer));
+    let offset = Math.floor(random(0, wallBuffer));
     if (pos < roomWidth - step && pos < roomHeight - step) {
       return floor(random(pos, pos + offset));
     } else {
@@ -200,37 +232,37 @@ class Room {
     let x, y;
     while (!validDoor) {
       // doorBuffer stops doors spawning in corners of room
-      x = floor(random(doorBuffer, roomWidth - doorBuffer));
-      y = floor(random(doorBuffer, roomHeight - doorBuffer));
+      x = Math.floor(random(doorBuffer, roomWidth - doorBuffer));
+      y = Math.floor(random(doorBuffer, roomHeight - doorBuffer));
       if (doorPos < 0.5) {
         if (x < (roomWidth - 2) / 2) {
-          if (doorPrevPos != "right") {
+          if (doorPrevPos != "RIGHT" && behaviourMonitor.getRoomsCleared() > 0) {
             // Put door on left side of room
             x = 1;
-            doorPrevPos = "left";
+            doorPrevPos = "LEFT";
             validDoor = true;
           }
         } else {
-          if (doorPrevPos != "left") {
+          if (doorPrevPos != "LEFT") {
             // Put door on right side of room
             x = roomWidth + arena_offset / 9.5;
-            doorPrevPos = "right";
+            doorPrevPos = "RIGHT";
             validDoor = true;
           }
         }
       } else {
         if (y < (roomHeight - 2) / 2) {
-          if (doorPrevPos != "bottom") {
+          if (doorPrevPos != "DOWN") {
             // Put door at top of room
             y = 1;
-            doorPrevPos = "top";
+            doorPrevPos = "UP";
             validDoor = true;
           }
         } else {
-          if (doorPrevPos != "top") {
+          if (doorPrevPos != "UP") {
             // Put door at bottom of room
             y = roomHeight - 2;
-            doorPrevPos = "bottom";
+            doorPrevPos = "DOWN";
             validDoor = true;
           }
         }
@@ -285,6 +317,8 @@ class Room {
                 game.slowMeowLevel + game.slowMeowGain
               );
             }
+            let item = new Heart(this.mobs[i].position.x, this.mobs[i].position.y, pixelHeart);
+            this.items.push(item);
           }
         } else {
           this.roomScoreAccumaltor += 25;
@@ -513,6 +547,8 @@ class Room {
             projectile.isCollidingWith(mob) &&
             projectile.owner instanceof Player
           ) {
+            projectile.isActive = false;
+            if (mob.isInvincible) continue;
             mob.takeDamage(projectile.owner.attackDamage);
             if (projectile.owner === playerA)
               this.damageDealtP1 += projectile.owner.attackDamage;
@@ -524,7 +560,6 @@ class Room {
               mob.position.y,
               mob.bloodColour
             );
-            projectile.isActive = false;
           }
         }
         if (
@@ -532,43 +567,35 @@ class Room {
           projectile.owner instanceof BlinkMob
         ) {
           if (projectile.isCollidingWith(playerA)) {
+            projectile.isActive = false;
+            if (transitioning || playerA.isInvincible) continue;
             playerA.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP1 += projectile.owner.attackDamage;
-            if (!playerA.isInvincible) {
-              this.createParticles(
-                Blood,
-                playerA.position.x,
-                playerA.position.y,
-                playerA.bloodColour
-              );
-              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(
-                  0,
-                  game.slowMeowLevel - game.slowMeowLoss
-                );
-              }
+            this.createParticles(
+              Blood,
+              playerA.position.x,
+              playerA.position.y,
+              playerA.bloodColour
+            );
+            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
             }
-            projectile.isActive = false;
             playerA.makeInvincible();
           }
           if (coop && projectile.isCollidingWith(playerB)) {
+            projectile.isActive = false;
+            if (transitioning || playerB.isInvincible) continue;
             playerB.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP2 += projectile.owner.attackDamage;
-            if (!playerB.isInvincible) {
-              this.createParticles(
-                Blood,
-                playerB.position.x,
-                playerB.position.y,
-                playerB.bloodColour
-              );
-              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(
-                  0,
-                  game.slowMeowLevel - game.slowMeowLoss
-                );
-              }
+            this.createParticles(
+              Blood,
+              playerB.position.x,
+              playerB.position.y,
+              playerB.bloodColour
+            );
+            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
             }
-            projectile.isActive = false;
             playerB.makeInvincible();
           }
         }
@@ -581,55 +608,41 @@ class Room {
       mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         if (!(mob instanceof BlinkMob)) {
-          playerA.takeDamage(mob.attackDamage);
-          this.damageTakenP1 += mob.attackDamage;
-          if (!playerA.isInvincible) {
-            this.createParticles(
-              Blood,
-              playerA.position.x,
-              playerA.position.y,
-              playerA.bloodColour
-            );
-            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-              game.slowMeowLevel = Math.max(
-                0,
-                game.slowMeowLevel - game.slowMeowLoss
-              );
-            }
-          }
           playerA.applyKnockback(mob.position.x, mob.position.y);
           mob.applyKnockback(playerA.position.x, playerA.position.y);
+          if (playerA.isInvincible) continue;
+          playerA.takeDamage(mob.attackDamage);
+          this.damageTakenP1 += mob.attackDamage;
+          this.createParticles(
+            Blood,
+            playerA.position.x,
+            playerA.position.y,
+            playerA.bloodColour
+          );
+          if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+            game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
+          }
           playerA.makeInvincible();
-        } else {
-          mob.blinkCooldown = mob.blinkCooldownLimit;
-          mob.blink();
         }
       }
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         if (!(mob instanceof BlinkMob)) {
-          playerB.takeDamage(mob.attackDamage);
-          this.damageTakenP2 += mob.attackDamage;
-          if (!playerB.isInvincible) {
-            this.createParticles(
-              Blood,
-              playerB.position.x,
-              playerB.position.y,
-              playerB.bloodColour
-            );
-            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-              game.slowMeowLevel = Math.max(
-                0,
-                game.slowMeowLevel - game.slowMeowLoss
-              );
-            }
-          }
           playerB.applyKnockback(mob.position.x, mob.position.y);
           mob.applyKnockback(playerB.position.x, playerB.position.y);
+          if (playerB.isInvincible) continue;
+          playerB.takeDamage(mob.attackDamage);
+          this.damageTakenP2 += mob.attackDamage;
+          this.createParticles(
+            Blood,
+            playerB.position.x,
+            playerB.position.y,
+            playerB.bloodColour
+          );
+          if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+            game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
+          }
           playerB.makeInvincible();
-        } else {
-          mob.blinkCooldown = mob.blinkCooldownLimit;
-          mob.blink();
         }
       }
     }
@@ -798,16 +811,16 @@ class Room {
       {
         type: BlinkMob,
         gif: blinkMobGif,
-        threat: 10,
+        threat: 12,
         counters: ["defensive"],
-        spawnChance: 0.8,
+        spawnChance: 0.7,
       },
       {
         type: BuffMob,
         gif: heartMob_gif,
         threat: 0,
         counters: ["aggressive"],
-        spawnChance: 0.5,
+        spawnChance: 0.3,
       },
     ]);
 
@@ -885,13 +898,14 @@ class Room {
   }
 
   rollItemDrop(mob) {
-    let roll = random(1, 200);
+    if (mob instanceof BuffMob) return;
+    let roll = random(0, 200);
     let item;
     if (!this.checkInsideWall(mob.position.x, mob.position.y)) {
-      if (roll < 35) {
+      if (roll < 29) {
         item = new Heart(mob.position.x, mob.position.y, pixelHeart);
         this.items.push(item);
-      } else if (roll >= 35 && roll < 70) {
+      } else if (roll > 29 && roll < 64) {
         item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
         this.items.push(item);
       }
@@ -900,11 +914,9 @@ class Room {
 
   applyItemBuff(item, player) {
     if (item instanceof Heart) {
-      if (!muted) {
-        if (player.health >= player.maxHealth) itemSound1.play();
-        else itemSound2.play();
-      }
-      player.health = Math.min(player.maxHealth, player.health + 20);
+      if (player.health >= player.maxHealth) itemSound1.play();
+      else itemSound2.play();
+      player.health = Math.min(player.maxHealth, player.health + this.difficultySettings.heartHealth);
     } else if (item instanceof Energy) {
       if (!muted) {
         if (player.fireCooldown <= 0) itemSound1.play();

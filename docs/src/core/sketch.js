@@ -18,7 +18,6 @@ let coop = false;
 let inGame = false;
 let childMode = false;
 let debug = false;
-let menuBack;
 let sp_button;
 let coop_button;
 let stng_button;
@@ -65,10 +64,9 @@ function setup() {
   document.addEventListener("selectstart", (event) => {
     event.preventDefault();
   });
+  menuBack = createVideo(menuimg, Menu.renderMenu);
   if (inGame) {
     gameSetUp();
-  } else {
-    Menu.renderMenu();
   }
 }
 
@@ -93,6 +91,7 @@ function gameSwitch(starting) {
     coop = false;
     pvpMode = false;
     playbackRate = 1;
+    doorPrevPos = null;
     clear();
     Menu.renderMenu();
     loop();
@@ -128,16 +127,16 @@ function gameSetUp() {
       pvpMusic.play();
       pvpMusic.loop();
     }
-    playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
-    playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
+    playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
+    playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
   } else {
     if (!muted) {
       gameMusic.play();
       gameMusic.loop();
     }
-    playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
+    playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
     if (coop) {
-      playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
+      playerB = new Player(astrocat_gif_p2, 160, 400, playerNumber.PLAYER_2);
     }
     behaviourMonitor = new BehaviourMonitor(difficultySettings[difficulty]);
   }
@@ -148,7 +147,7 @@ function gameSetUp() {
 function draw() {
   if (inGame) {
     if (game.gameState == GameStates.ACTIVE) {
-      // game.draw calls room.draw and update
+      background(0); // Refreshes the canvas background to fix the sprite ghosting effect
       if (game.currentRoom && game.currentRoom.isCleared == true) {
         game.currentRoom.door.isUnlocked = true;
         game.currentRoom.door.update();
@@ -365,25 +364,24 @@ function keyPressed() {
 
 // Used for slowing down sounds in slow mo
 function playSound(sound, rate, randomVolume = false) {
-  if (!muted) {
-    let audioContext = getAudioContext();
-    let source = audioContext.createBufferSource();
-    source.buffer = sound.buffer;
-    source.playbackRate.value = rate;
-    // For volume control
-    let gainNode = audioContext.createGain();
-    if (randomVolume) {
-      gainNode.gain.value = random(0.65, 1);
-    } else {
-      gainNode.gain.value = 1;
-    }
-    source.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    // Disconnect after sound ends to prevent memory leaks etc.
-    source.onended = () => {
-      source.disconnect();
-      gainNode.disconnect();
-    };
-    source.start();
+  if (muted) return;
+  let audioContext = getAudioContext();
+  let source = audioContext.createBufferSource();
+  source.buffer = sound.buffer;
+  source.playbackRate.value = rate;
+  // For volume control
+  let gainNode = audioContext.createGain();
+  if (randomVolume) {
+    gainNode.gain.value = random(0.65, 1);
+  } else {
+    gainNode.gain.value = 1;
   }
+  source.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  // Disconnect after sound ends to prevent memory leaks etc.
+  source.onended = () => {
+    source.disconnect();
+    gainNode.disconnect();
+  };
+  source.start();
 }

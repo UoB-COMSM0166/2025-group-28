@@ -15,7 +15,6 @@ function switchToHelp() {
 
 function toggleBloodDisable() {
   childMode = !childMode;
-  console.log(childMode);
   if (childMode) {
     disabBlood_on.style("background-color", "rgb(255, 109, 0)");
     disabBlood_off.style("background-color", "transparent");
@@ -121,7 +120,7 @@ class Settings {
     toggle_help.attribute("draggable", "false");
     toggle_help.mouseClicked(switchToHelp);
 
-    // defualt to setting panel
+    // default to setting panel
     Settings.renderSettingPanel();
   }
 
@@ -208,14 +207,12 @@ class Settings {
 
   static soundToggle() {
     muted = !muted;
-    console.log(muted);
     if (!muted) {
       themeMusic.play();
       sound_on.style("background-color", "rgb(255, 109, 0)");
       sound_off.style("background-color", "transparent");
     } else {
       themeMusic.stop();
-
       sound_off.style("background-color", "rgb(106, 104, 102)");
       sound_on.style("background-color", "transparent");
     }

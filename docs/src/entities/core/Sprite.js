@@ -11,9 +11,6 @@ class Sprite extends GameObject {
     this.isSlowed = false;
     this.direction = createVector(1, 0); //So the character starts facing right
 
-    // Effects like taking damage, speed boost/reduction, etc.
-    this.activeEffects = []; // An array of effect type, effect duration, effect strength, etc.
-    this.originalColor = this.color;
     // Properties for i-frames/flashing effect
     this.isInvincible = false;
     this.invincibilityDuration = 1000; // 1 second of invincibility
@@ -41,20 +38,18 @@ class Sprite extends GameObject {
   }
 
   takeDamage(amount) {
-    if (!this.isInvincible) {
-      if (this.lastSoundTime == 0 || millis() - this.lastSoundTime > this.soundCooldown) {
-        if (!childMode && this.health - amount > 0) {
-          playSound(bloodSound1, playbackRate, true);
-          this.lastSoundTime = millis();
-          if (this instanceof Player) {
-            let randomSound = Math.floor(random(0, this.painSound.length));
-            playSound(this.painSound[randomSound], playbackRate);
-          }
+    if (this.isInvincible) return;
+    if (this.lastSoundTime == 0 || millis() - this.lastSoundTime > this.soundCooldown) {
+      if (!childMode && this.health - amount > 0) {
+        playSound(bloodSound1, playbackRate, true);
+        this.lastSoundTime = millis();
+        if (this instanceof Player) {
+          let randomSound = Math.floor(random(0, this.painSound.length));
+          playSound(this.painSound[randomSound], playbackRate);
         }
       }
-      this.health = Math.max(0, this.health - amount);
     }
-    // Checks if the sprite is dead
+    this.health = Math.max(0, this.health - amount);
     this.isDead();
   }
 
@@ -77,13 +72,25 @@ class Sprite extends GameObject {
       if (this.isSlowed) return;
       if (!this.isBuffed) this.originalSpeed = this.speed;
       this.speed *= game.slowMeowMovementSpeed;
+      if (this.canDash) this.dashSpeed *= game.slowMeowMovementSpeed;
       this.isSlowed = true;
     } else this.isSlowed = false;
   }
 
+  // Adds i-frames to the entity
+  makeInvincible() {
+    if (!this.isInvincible) {
+      if (this instanceof Player) this.timesHurt++;
+      this.isInvincible = true;
+      this.invincibilityStartTime = millis();
+      this.lastFlashTime = millis();
+      this.isFlashing = true;
+    }
+  }
+
   draw() {
     if (this.isActive) {
-      // Handle flashing effect
+      // Handle invincibility/flashing effect
       if (this.isInvincible) {
         let currentTime = millis();
         if (currentTime - this.invincibilityStartTime > this.invincibilityDuration) {
