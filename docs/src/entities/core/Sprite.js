@@ -81,7 +81,7 @@ class Sprite extends GameObject {
   // Adds i-frames to the entity
   makeInvincible() {
     if (!this.isInvincible) {
-      this.timesHurt++;
+      if (this instanceof Player) this.timesHurt++;
       this.isInvincible = true;
       this.invincibilityStartTime = millis();
       this.lastFlashTime = millis();
@@ -91,7 +91,7 @@ class Sprite extends GameObject {
 
   draw() {
     if (this.isActive) {
-      // Handle flashing effect
+      // Handle invincibility/flashing effect
       if (this.isInvincible) {
         let currentTime = millis();
         if (currentTime - this.invincibilityStartTime > this.invincibilityDuration) {

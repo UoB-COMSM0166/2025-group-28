@@ -17,7 +17,7 @@ class RangedMob extends Mob {
     ) {
       this.canRapidFire = true;
       this.isRapidFiring = false;
-      this.shootingPauseTimer = 0;
+      this.shootingPauseTimer = 0; // Duration to pause shooting after rapid firing
       this.maxProjectiles; // Number of projectiles to rapid fire
       this.projectilesFired = 0;
       this.rapidFireTimer = 0; // Time between shots
@@ -32,7 +32,7 @@ class RangedMob extends Mob {
   }
 
   update() {
-    if (!this.isActive) return;
+    if (!this.isActive || this.isInvincible) return;
     if (!this.canRapidFire || this.isBuffed) {
       super.update();
       return;
@@ -46,7 +46,9 @@ class RangedMob extends Mob {
           this.targetPosition = createVector(nearestPlayer.position.x, nearestPlayer.position.y);
           this.fireRapid();
           this.projectilesFired++;
-          this.rapidFireTimer = 20;
+          if (behaviourMonitor.getBehaviourProfile().defensive) {
+            this.rapidFireTimer = 10;
+          } else this.rapidFireTimer = 20;
         } else {
           this.shootingPauseTimer--;
           if (this.shootingPauseTimer <= 0) {
@@ -63,6 +65,7 @@ class RangedMob extends Mob {
       } else {
         let rapidFireChance = random();
         if (rapidFireChance < 0.2) {
+          this.makeInvincible();
           playSound(rapidFireChargeSound, playbackRate, true);
           this.rapidFireReady = true;
         } else {
@@ -102,9 +105,7 @@ class RangedMob extends Mob {
   beginRapidFire() {
     if (!this.isActive) return;
     this.isRapidFiring = true;
-    if (behaviourMonitor.getBehaviourProfile().defensive) {
-      this.shootingPauseTimer = 5;
-    } else this.shootingPauseTimer = 10;
+    this.shootingPauseTimer = 10;
     this.projectilesFired = 0;
     this.rapidFireTimer = 0;
     this.maxProjectiles = Math.floor(random(4, 6));
