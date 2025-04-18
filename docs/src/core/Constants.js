@@ -14,34 +14,6 @@ let p2_left = 37;
 let p2_right = 39;
 let p2_shoot = 13;
 
-function switchControl(is_wasd) {
-  if (is_wasd) {
-    p1_up = 87;
-    p1_down = 83;
-    p1_left = 65;
-    p1_right = 68;
-    p1_shoot = 32;
-
-    p2_up = 38;
-    p2_down = 40;
-    p2_left = 37;
-    p2_right = 39;
-    p2_shoot = 13;
-  } else {
-    p1_up = 38;
-    p1_down = 40;
-    p1_left = 37;
-    p1_right = 39;
-    p1_shoot = 13;
-
-    p2_up = 87;
-    p2_down = 83;
-    p2_left = 65;
-    p2_right = 68;
-    p2_shoot = 32;
-  }
-}
-
 // Displacement from origin to start drawing room etc. - to centre room in new larger canvas
 var arena_offset = 100;
 
@@ -251,6 +223,8 @@ let coopIcon = "assets/coopbutton.png";
 let pvpIcon = "assets/pvpbutton.png";
 let helpIcon = "assets/helpbutton.png";
 let menuimg = "assets/menuback.mp4";
+let radiobutton_off = "assets/radio_off";
+let radiobutton_on = "assets/radio_on";
 
 let setback = "assets/setback.png";
 

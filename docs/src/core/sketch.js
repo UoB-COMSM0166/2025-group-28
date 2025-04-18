@@ -3,6 +3,8 @@ let game;
 let projectileManager;
 let behaviourMonitor;
 
+let muted = false;
+
 let playerA;
 let playerB;
 let roomButton = null;
@@ -26,6 +28,7 @@ let scoretotal;
 let returnToMenu;
 let gameOverContainer;
 let settingsMode = true;
+let howtopanel;
 
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
@@ -65,7 +68,7 @@ function setup() {
   if (inGame) {
     gameSetUp();
   } else {
-    renderMenu();
+    Menu.renderMenu();
   }
 }
 
@@ -79,7 +82,6 @@ function gameSwitch(starting) {
     stng_button.remove();
     difficultyButton.remove();
     inGame = true;
-
     gameSetUp();
     loop();
   } else {
@@ -92,141 +94,18 @@ function gameSwitch(starting) {
     pvpMode = false;
     playbackRate = 1;
     clear();
-    renderMenu();
+    Menu.renderMenu();
     loop();
   }
 }
 
-function singlePlayerStart() {
-  coop = false;
-  pvpMode = false;
-  gameSwitch(true);
-}
-
-function coopPlayerStart() {
-  pvpMode = false;
-  coop = true;
-  gameSwitch(true);
-}
-
-function pvpStart() {
-  coop = false;
-  pvpMode = true;
-  gameSwitch(true);
-}
-
-function singlePlayerHover() {
-  sp_button.style("opacity", "1");
-}
-
-function coopHover() {
-  coop_button.style("opacity", "1");
-}
-
-function stngHover() {
-  stng_button.style("opacity", "1");
-}
-
-function pvpHover() {
-  pvp_button.style("opacity", "1");
-}
-
-function singlePlayerEndHover() {
-  sp_button.style("opacity", "0.5");
-}
-
-function coopEndHover() {
-  coop_button.style("opacity", "0.5");
-}
-
-function stngEndHover() {
-  stng_button.style("opacity", "0.5");
-}
-
-function pvpEndHover() {
-  pvp_button.style("opacity", "0.5");
-}
-
 function menuStart() {
   menuBack.play();
-  themeMusic.play();
+  if (!muted) {
+    themeMusic.play();
+    themeMusic.loop();
+  }
   menuBack.loop();
-  themeMusic.loop();
-}
-
-function renderGameOverInterface() {
-  // clear();
-
-  fill("rgba(0, 0, 0, 0.7)");
-  let endMask = rect(0, 0, 950, 800);
-
-  gameOverContainer = createDiv();
-  gameOverContainer.id("gameover");
-  gameOverContainer.size(pageWidth, pageHeight);
-
-  let game_over_txt = createImg(gameoverback);
-  game_over_txt.parent(gameOverContainer);
-  game_over_txt.size(pageWidth, pageHeight);
-  game_over_txt.position(0, 0);
-  game_over_txt.attribute("draggable", "false");
-
-  let scoretext_p1;
-  if (coop) {
-    scoretext_p1 =
-      "Player A: " + game.currScoreP1 + "<br>" + "Player B: " + game.currScoreP2;
-  } else if (pvpMode) {
-    let winText;
-    if (game.p1PVPTotal == game.p2PVPTotal) {
-      winText = "<br>" + "It's a tie!";
-    } else if (game.p1PVPTotal > game.p2PVPTotal) {
-      winText = "<br>" + "Player A wins!";
-    } else {
-      winText = "<br>" + "Player B wins!";
-    }
-    scoretext_p1 =
-      "Player A: " + game.p1PVPTotal + "<br>" + "Player B: " + game.p2PVPTotal + winText;
-  } else {
-    scoretext_p1 = "Total Score: " + game.currScoreP1;
-  }
-
-  scoretotal = createP(scoretext_p1);
-  let xpos = 400 - scoretext_p1.width;
-  scoretotal.position(xpos, 400);
-  scoretotal.parent(gameOverContainer);
-  scoretotal.style("color", "orange");
-  scoretotal.style("font-size", "25px");
-  scoretotal.style("font-family", "ARCADE_I");
-  scoretotal.style("text-align", "center");
-  scoretotal.style("vertical-align", "middle");
-}
-
-function gameOverReturn() {
-  gameOverContainer.remove();
-  if (pvpMode) {
-    pvpMusic.stop();
-  } else {
-    gameMusic.stop();
-  }
-
-  gameSwitch(false);
-}
-
-function switchToHelp() {
-  settingsMode = false;
-
-  toggle_help.style("background-color", "rgb(255, 109, 0)");
-  toggle_settings.style("background-color", "transparent");
-
-  settingpanel.remove();
-  renderHowTo();
-}
-
-function switchToStngs() {
-  settingsMode = true;
-  toggle_settings.style("background-color", "rgb(255, 109, 0)");
-  toggle_help.style("background-color", "transparent");
-  howtopanel.remove();
-  renderSettingPanel();
 }
 
 let stng_div;
@@ -238,199 +117,24 @@ let wasd;
 let arrow;
 let settingpanel;
 
-function switchToWasd() {
-  wasd.style("border", "2px solid white");
-  arrow.style("border", "none");
-
-  switchControl(true);
-}
-
-function switchToArrow() {
-  arrow.style("border", "2px solid white");
-  wasd.style("border", "none");
-
-  switchControl(false);
-}
-
-let howtopanel;
-function renderHowTo() {
-  howtopanel = createDiv();
-  howtopanel.id("howtopanel");
-  howtopanel.size(pageWidth, pageHeight);
-  howtopanel.attribute("draggable", "false");
-  howtopanel.parent(stng_div);
-
-  let intro = createP(
-    "You are AstroCat. You chased a mouse on to a spaceship. The humans were killed by invading space dogs. Silly humans. You need to fight your way through the endless rooms of rampaging space dogs."
-  );
-  intro.parent(howtopanel);
-  intro.position(20, 80);
-}
-
-function renderSettingPanel() {
-  settingpanel = createDiv();
-  settingpanel.id("settingpanel");
-  settingpanel.size(pageWidth, pageHeight);
-  settingpanel.attribute("draggable", "false");
-  settingpanel.parent(stng_div);
-
-  let controlLegend = createP("Default controls");
-  controlLegend.parent(settingpanel);
-  controlLegend.position(20, 100);
-
-  let p2control = createP("Player 2 will use <br> non-default controls");
-  p2control.parent(settingpanel);
-  p2control.position(20, 150);
-  p2control.style("font-size", "10px");
-
-  wasd = createImg(wasd_icon);
-  wasd.parent(settingpanel);
-  wasd.position(320, 100);
-  wasd.size(150, 160);
-  wasd.mouseClicked(switchToWasd);
-  wasd.style("border", "2px solid white");
-  wasd.attribute("draggable", "false");
-
-  arrow = createImg(arrow_icon);
-  arrow.parent(settingpanel);
-  arrow.position(500, 100);
-  arrow.size(150, 160);
-  arrow.attribute("draggable", "false");
-  arrow.mouseClicked(switchToArrow);
-}
-
 function quitSettings() {
   stng_div.remove();
-}
-
-function gotoSettings() {
-  stng_div = createDiv();
-  stng_div.id("settings_content");
-  stng_div.size(pageWidth, pageHeight);
-  set_back = createImg(setback);
-  set_back.parent(stng_div);
-  set_back.position(0, 0);
-  set_back.attribute("draggable", "false");
-
-  let exit = createP("X");
-  exit.parent(stng_div);
-  exit.position(10, 10);
-  exit.style("color", "white");
-  exit.style("background-color", "red");
-  exit.attribute("draggable", "false");
-  exit.mouseClicked(quitSettings);
-
-  toggle_settings = createP("Settings");
-  toggle_settings.parent(stng_div);
-  toggle_settings.position(200, 10);
-  toggle_settings.attribute("draggable", "false");
-  toggle_settings.mouseClicked(switchToStngs);
-  toggle_settings.style("background-color", "rgb(255, 109, 0)");
-
-  toggle_help = createP("How to Play");
-  toggle_help.parent(stng_div);
-  toggle_help.position(500, 10);
-  toggle_help.attribute("draggable", "false");
-  toggle_help.mouseClicked(switchToHelp);
-
-  // defualt to setting panel
-  renderSettingPanel();
-}
-
-function renderMenu() {
-  menuContainer = createDiv();
-  menuContainer.id("menuContainer");
-  menuContainer.size(pageWidth, pageHeight);
-
-  menuBack = createVideo(menuimg);
-  menuBack.parent(menuContainer);
-  menuBack.size(pageWidth, pageHeight);
-  menuBack.attribute("draggable", "false");
-  menuBack.mouseOver(menuStart);
-  //menuBack.play();
-  //menuBack.loop();
-
-  sp_button = createImg(singlePlayerIcon);
-  sp_button.parent(menuContainer);
-  sp_button.position(pageWidth / 4 - 170, pageHeight * 0.62);
-  sp_button.size(170, 120);
-  sp_button.mouseClicked(singlePlayerStart);
-  sp_button.style("opacity", "0.5");
-  sp_button.attribute("draggable", "false");
-  sp_button.mouseOver(singlePlayerHover);
-  sp_button.mouseOut(singlePlayerEndHover);
-
-  coop_button = createImg(coopIcon);
-  coop_button.parent(menuContainer);
-  coop_button.position(pageWidth / 2 - 190, pageHeight * 0.62);
-  coop_button.size(170, 120);
-  coop_button.mouseClicked(coopPlayerStart);
-  coop_button.style("opacity", "0.5");
-  coop_button.attribute("draggable", "false");
-  coop_button.mouseOver(coopHover);
-  coop_button.mouseOut(coopEndHover);
-
-  pvp_button = createImg(pvpIcon);
-  pvp_button.parent(menuContainer);
-  pvp_button.position(pageWidth / 2 + 25, pageHeight * 0.62);
-  pvp_button.size(170, 120);
-  pvp_button.mouseClicked(pvpStart);
-  pvp_button.style("opacity", "0.5");
-  pvp_button.attribute("draggable", "false");
-  pvp_button.mouseOver(pvpHover);
-  pvp_button.mouseOut(pvpEndHover);
-
-  stng_button = createImg(helpIcon);
-  stng_button.parent(menuContainer);
-  stng_button.position(pageWidth * 0.75, pageHeight * 0.62);
-  stng_button.size(170, 120);
-  stng_button.style("opacity", "0.5");
-  stng_button.attribute("draggable", "false");
-  stng_button.mouseOver(stngHover);
-  stng_button.mouseOut(stngEndHover);
-  stng_button.mouseClicked(gotoSettings);
-
-  difficultyButton = createButton("Difficulty: " + difficultyNames[difficulty]);
-  difficultyButton.parent(menuContainer);
-  difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.8);
-  difficultyButton.mouseClicked(changeDifficulty);
-  difficultyButton.size(160, 55);
-  difficultyButton.attribute("draggable", "false");
-  difficultyButton.class("menu-button");
-  difficultyButton.style("background-color", diffTint);
-  difficultyButton.style("color", "white");
-  difficultyButton.style("padding", "10px 10px");
-  difficultyButton.style("font-size", "12px");
-  difficultyButton.style("font-family", "ARCADE_I");
-  difficultyButton.style("border", "none");
-  difficultyButton.style("text-align", "center");
-  difficultyButton.style("vertical-align", "middle");
-  difficultyButton.style("border-radius", "10%");
-}
-
-function changeDifficulty() {
-  if (difficulty < difficultyNames.length - 1) {
-    difficulty = difficulty + 1;
-    diffTint = difficultyTints[difficulty];
-  } else {
-    difficulty = 0;
-    diffTint = difficultyTints[difficulty];
-  }
-  difficultyButton.style("background-color", diffTint);
-  difficultyButton.html("Difficulty: " + difficultyNames[difficulty]);
 }
 
 function gameSetUp() {
   themeMusic.stop();
   if (pvpMode) {
-    pvpMusic.play();
-    pvpMusic.loop();
+    if (!muted) {
+      pvpMusic.play();
+      pvpMusic.loop();
+    }
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
-
   } else {
-    gameMusic.play();
-    gameMusic.loop();
+    if (!muted) {
+      gameMusic.play();
+      gameMusic.loop();
+    }
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     if (coop) {
       playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
@@ -451,7 +155,9 @@ function draw() {
         if (game.currentRoom.promptActive) {
           if (keyIsDown(69) && !transitioning) {
             gameCount += 1;
-            roomTransitionSound.play();
+            if (!muted) {
+              roomTransitionSound.play();
+            }
             fadingOut = true;
             transitioning = true;
           }
@@ -498,11 +204,10 @@ function draw() {
           scoreNumber = "Total A:" + game.p1PVPTotal;
           text(scoreNumber, 825, 65);
           scoreNumber = "Total B:" + game.p2PVPTotal;
-          text(scoreNumber, 825, 85)
+          text(scoreNumber, 825, 85);
         }
       }
       pop();
-
       // bottom ui block
       fill(0, 0, 0);
       let footer_backing = rect(100, 690, 800, 50);
@@ -588,7 +293,7 @@ function draw() {
     fill(0, fadeAlpha);
     rect(0, 0, windowWidth, windowHeight);
     if (game.gameState == GameStates.OVER && !gameOver) {
-      renderGameOverInterface();
+      GameOver.renderGameOverInterface();
       gameOver = true;
     }
   }
@@ -609,7 +314,7 @@ function keyPressed() {
         gameSwitch(false);
       } else if (game.gameState == GameStates.OVER) {
         music.stop();
-        gameOverReturn();
+        GameOver.gameOverReturn();
       }
     }
 
@@ -633,7 +338,10 @@ function keyPressed() {
       } else {
         loop();
         game.gameState = GameStates.ACTIVE;
-        music.play();
+
+        if (!muted) {
+          music.play();
+        }
       }
     }
     // 192 = ` (key under Esc)
@@ -657,23 +365,25 @@ function keyPressed() {
 
 // Used for slowing down sounds in slow mo
 function playSound(sound, rate, randomVolume = false) {
-  let audioContext = getAudioContext();
-  let source = audioContext.createBufferSource();
-  source.buffer = sound.buffer;
-  source.playbackRate.value = rate;
-  // For volume control
-  let gainNode = audioContext.createGain();
-  if (randomVolume) {
-    gainNode.gain.value = random(0.65, 1);
-  } else {
-    gainNode.gain.value = 1;
+  if (!muted) {
+    let audioContext = getAudioContext();
+    let source = audioContext.createBufferSource();
+    source.buffer = sound.buffer;
+    source.playbackRate.value = rate;
+    // For volume control
+    let gainNode = audioContext.createGain();
+    if (randomVolume) {
+      gainNode.gain.value = random(0.65, 1);
+    } else {
+      gainNode.gain.value = 1;
+    }
+    source.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    // Disconnect after sound ends to prevent memory leaks etc.
+    source.onended = () => {
+      source.disconnect();
+      gainNode.disconnect();
+    };
+    source.start();
   }
-  source.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  // Disconnect after sound ends to prevent memory leaks etc.
-  source.onended = () => {
-    source.disconnect();
-    gainNode.disconnect();
-  };
-  source.start();
 }
