@@ -16,7 +16,6 @@ let coop = false;
 let inGame = false;
 let childMode = false;
 let debug = false;
-let menuBack;
 let sp_button;
 let coop_button;
 let stng_button;
@@ -62,10 +61,11 @@ function setup() {
   document.addEventListener("selectstart", (event) => {
     event.preventDefault();
   });
+  menuBack = createVideo(menuimg, renderMenu);
   if (inGame) {
     gameSetUp();
   } else {
-    renderMenu();
+    //renderMenu();
   }
 }
 
@@ -91,6 +91,7 @@ function gameSwitch(starting) {
     coop = false;
     pvpMode = false;
     playbackRate = 1;
+    doorPrevPos = null;
     clear();
     renderMenu();
     loop();
@@ -342,13 +343,18 @@ function renderMenu() {
   menuContainer.id("menuContainer");
   menuContainer.size(pageWidth, pageHeight);
 
-  menuBack = createVideo(menuimg);
   menuBack.parent(menuContainer);
   menuBack.size(pageWidth, pageHeight);
   menuBack.attribute("draggable", "false");
-  menuBack.mouseOver(menuStart);
-  //menuBack.play();
-  //menuBack.loop();
+
+  menuStart();
+
+  setTimeout(() => {
+    // Sets the menu to play on hover if browser is blocking autoplay
+    if (menuBack.time() <= 0) {
+      menuBack.mouseOver(menuStart);
+    }
+  }, 1000);
 
   sp_button = createImg(singlePlayerIcon);
   sp_button.parent(menuContainer);
@@ -425,15 +431,15 @@ function gameSetUp() {
   if (pvpMode) {
     pvpMusic.play();
     pvpMusic.loop();
-    playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
-    playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
+    playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
+    playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
 
   } else {
     gameMusic.play();
     gameMusic.loop();
-    playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
+    playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
     if (coop) {
-      playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
+      playerB = new Player(astrocat_gif_p2, 160, 400, playerNumber.PLAYER_2);
     }
     behaviourMonitor = new BehaviourMonitor(difficultySettings[difficulty]);
   }
@@ -442,8 +448,12 @@ function gameSetUp() {
 }
 
 function draw() {
+  /* Refreshes the canvas background to fix the sprite ghosting effect if an entity
+  somehow leaves the room boundaries */
+
   if (inGame) {
     if (game.gameState == GameStates.ACTIVE) {
+      background(0);
       // game.draw calls room.draw and update
       if (game.currentRoom && game.currentRoom.isCleared == true) {
         game.currentRoom.door.isUnlocked = true;
