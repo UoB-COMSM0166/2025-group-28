@@ -1,7 +1,6 @@
 class Room {
   constructor(difficultySettings) {
     this.door = null;
-    this.roomType = 0; // doesn't exist for now
     this.difficultySettings = difficultySettings;
     this.isCleared = false;
     this.mobs = [];
@@ -32,7 +31,13 @@ class Room {
   }
 
   initRoom() {
-    const tileOptions = [tileColours1, tileColours2, tileColours3, tileColours4, tileColours5];
+    const tileOptions = [
+      tileColours1,
+      tileColours2,
+      tileColours3,
+      tileColours4,
+      tileColours5,
+    ];
     this.currentTileColours = random(tileOptions);
     this.roomLayout = [];
     for (let j = arena_offset; j < arena_offset + roomHeight; j++) {
@@ -294,15 +299,23 @@ class Room {
             // If other mobs are in room when BuffMob killed
             this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
             this.mobBuffActive = true; // Activate buff to all other mobs
-            buffMobBuffSound.play(); // Doesn't sound good if slowed during slow mo, so play sfx normally
+            if (!muted) {
+              buffMobBuffSound.play();
+            } // Doesn't sound good if slowed during slow mo, so play sfx normally
             if (!game.slowMeowOccurring) {
               // Give player a lower value towards their slow meow level for triggering mob buff
-              game.slowMeowLevel = Math.min(slowMeowMax, game.slowMeowLevel + (game.slowMeowGain / 2));
+              game.slowMeowLevel = Math.min(
+                slowMeowMax,
+                game.slowMeowLevel + game.slowMeowGain / 2
+              );
             }
           } else {
             this.roomScoreAccumaltor += 25;
             if (!game.slowMeowOccurring) {
-              game.slowMeowLevel = Math.min(slowMeowMax,game.slowMeowLevel + game.slowMeowGain);
+              game.slowMeowLevel = Math.min(
+                slowMeowMax,
+                game.slowMeowLevel + game.slowMeowGain
+              );
             }
             let item = new Heart(this.mobs[i].position.x, this.mobs[i].position.y, pixelHeart);
             this.items.push(item);
@@ -310,7 +323,10 @@ class Room {
         } else {
           this.roomScoreAccumaltor += 25;
           if (!game.slowMeowOccurring) {
-            game.slowMeowLevel = Math.min(slowMeowMax, game.slowMeowLevel + game.slowMeowGain);
+            game.slowMeowLevel = Math.min(
+              slowMeowMax,
+              game.slowMeowLevel + game.slowMeowGain
+            );
           }
         }
         this.mobs.splice(i, 1);
@@ -327,13 +343,20 @@ class Room {
 
     for (let p of projectileManager.projectilesFired) {
       if (
-        p.position.x < (tileSize * 2.75) + arena_offset ||
-        p.position.x > roomWidth * tileSize - (tileSize * 2.75) + arena_offset ||
-        p.position.y < (tileSize * 2.75) + arena_offset ||
-        p.position.y > roomHeight * tileSize - (tileSize * 2.75) + arena_offset ||
-        (projectileWallCollisions && this.checkInsideWall(p.position.x, p.position.y))
+        p.position.x < tileSize * 2.75 + arena_offset ||
+        p.position.x > roomWidth * tileSize - tileSize * 2.75 + arena_offset ||
+        p.position.y < tileSize * 2.75 + arena_offset ||
+        p.position.y > roomHeight * tileSize - tileSize * 2.75 + arena_offset ||
+        (projectileWallCollisions &&
+          this.checkInsideWall(p.position.x, p.position.y))
       ) {
-        this.createParticles(Spark, p.position.x, p.position.y, p.sparkColour, p.velocity);
+        this.createParticles(
+          Spark,
+          p.position.x,
+          p.position.y,
+          p.sparkColour,
+          p.velocity
+        );
         p.isActive = false;
       } else p.update();
     }
@@ -895,8 +918,10 @@ class Room {
       else itemSound2.play();
       player.health = Math.min(player.maxHealth, player.health + this.difficultySettings.heartHealth);
     } else if (item instanceof Energy) {
-      if (player.fireCooldown <= 0) itemSound1.play();
-      else itemSound2.play();
+      if (!muted) {
+        if (player.fireCooldown <= 0) itemSound1.play();
+        else itemSound2.play();
+      }
       if (player.fireOverheat) playSound(overheatEndSound, playbackRate);
       player.resetOverheat();
     }

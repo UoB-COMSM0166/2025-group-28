@@ -11,7 +11,6 @@ class Sprite extends GameObject {
     this.isSlowed = false;
     this.direction = createVector(1, 0); //So the character starts facing right
 
-    this.originalColor = this.color;
     // Properties for i-frames/flashing effect
     this.isInvincible = false;
     this.invincibilityDuration = 1000; // 1 second of invincibility

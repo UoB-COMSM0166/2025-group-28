@@ -1,7 +1,6 @@
 class PvPRoom {
   constructor() {
     this.door = null;
-    this.roomType = 0; // doesn't exist for now
     this.isCleared = false;
     this.items = [];
     this.roomLayout = []; // 2d array of tiles
@@ -12,9 +11,14 @@ class PvPRoom {
     this.p2Score = 0;
     this.p1ScoreIncreased = false;
     this.p2ScoreIncreased = false;
-    this.announcerSounds = [pvpAnnouncer1, pvpAnnouncer2,
-                            pvpAnnouncer3, pvpAnnouncer4,
-                            pvpAnnouncer5, pvpAnnouncer6];
+    this.announcerSounds = [
+      pvpAnnouncer1,
+      pvpAnnouncer2,
+      pvpAnnouncer3,
+      pvpAnnouncer4,
+      pvpAnnouncer5,
+      pvpAnnouncer6,
+    ];
     this.prevAnnouncement = null;
     this.initRoom();
   }
@@ -228,13 +232,20 @@ class PvPRoom {
   update() {
     for (let p of projectileManager.projectilesFired) {
       if (
-        p.position.x < (tileSize * 2.75) + arena_offset ||
-        p.position.x > roomWidth * tileSize - (tileSize * 2.75) + arena_offset ||
-        p.position.y < (tileSize * 2.75) + arena_offset ||
-        p.position.y > roomHeight * tileSize - (tileSize * 2.75) + arena_offset ||
-        (projectileWallCollisions && this.checkInsideWall(p.position.x, p.position.y))
+        p.position.x < tileSize * 2.75 + arena_offset ||
+        p.position.x > roomWidth * tileSize - tileSize * 2.75 + arena_offset ||
+        p.position.y < tileSize * 2.75 + arena_offset ||
+        p.position.y > roomHeight * tileSize - tileSize * 2.75 + arena_offset ||
+        (projectileWallCollisions &&
+          this.checkInsideWall(p.position.x, p.position.y))
       ) {
-        this.createParticles(Spark, p.position.x, p.position.y, p.sparkColour, p.velocity);
+        this.createParticles(
+          Spark,
+          p.position.x,
+          p.position.y,
+          p.sparkColour,
+          p.velocity
+        );
         p.isActive = false;
       } else p.update();
     }
@@ -242,13 +253,19 @@ class PvPRoom {
     if (!playerA.isActive) {
       if (!this.p2ScoreIncreased) {
         this.p2Score++;
-        pvpScoreSound.play();
+        if (!muted) {
+          pvpScoreSound.play();
+        }
         setTimeout(() => {
           let randomAnnouncement;
           do {
-            randomAnnouncement = Math.floor(random(0, this.announcerSounds.length));
+            randomAnnouncement = Math.floor(
+              random(0, this.announcerSounds.length)
+            );
           } while (randomAnnouncement === this.prevAnnouncement);
-          this.announcerSounds[randomAnnouncement].play();
+          if (!muted) {
+            this.announcerSounds[randomAnnouncement].play();
+          }
           this.prevAnnouncement = randomAnnouncement;
         }, 500);
         if (this.p2Score < 3) {
@@ -263,13 +280,19 @@ class PvPRoom {
     } else if (!playerB.isActive) {
       if (!this.p1ScoreIncreased) {
         this.p1Score++;
-        pvpScoreSound.play();
+        if (!muted) {
+          pvpScoreSound.play();
+        }
         setTimeout(() => {
           let randomAnnouncement;
           do {
-            randomAnnouncement = Math.floor(random(0, this.announcerSounds.length));
+            randomAnnouncement = Math.floor(
+              random(0, this.announcerSounds.length)
+            );
           } while (randomAnnouncement === this.prevAnnouncement);
-          this.announcerSounds[randomAnnouncement].play();
+          if (!muted) {
+            this.announcerSounds[randomAnnouncement].play();
+          }
           this.prevAnnouncement = randomAnnouncement;
         }, 500);
         if (this.p1Score < 3) {
@@ -291,20 +314,20 @@ class PvPRoom {
         this.applyItemBuff(this.items[i], playerA);
         this.items.splice(i, 1);
       }
-    if (playerB.isCollidingWith(this.items[i])) {
+      if (playerB.isCollidingWith(this.items[i])) {
         this.applyItemBuff(this.items[i], playerB);
         this.items.splice(i, 1);
-    }
+      }
     }
 
     // handles wall collisions
     for (let tileArr of this.roomLayout) {
-        for (let tile of tileArr) {
-          if (tile.type == tileTypes.WALL) {
+      for (let tile of tileArr) {
+        if (tile.type == tileTypes.WALL) {
           this.handleWallCollision(playerA, tile);
           this.handleWallCollision(playerB, tile);
-          }
         }
+      }
     }
 
     //players
@@ -428,7 +451,10 @@ class PvPRoom {
     for (let projectile of projectileManager.projectilesFired) {
       if (projectile.isActive) {
         projectile.draw();
-        if (projectile.isCollidingWith(playerB) && projectile.owner == playerA) {
+        if (
+          projectile.isCollidingWith(playerB) &&
+          projectile.owner == playerA
+        ) {
           if (!playerB.isInvincible) {
             playerB.takeDamage(playerA.attackDamage);
             this.createParticles(
@@ -440,9 +466,12 @@ class PvPRoom {
           }
           projectile.isActive = false;
         }
-        if (projectile.isCollidingWith(playerA) && projectile.owner == playerB) {
+        if (
+          projectile.isCollidingWith(playerA) &&
+          projectile.owner == playerB
+        ) {
           if (!playerA.isInvincible) {
-          playerA.takeDamage(playerB.attackDamage);
+            playerA.takeDamage(playerB.attackDamage);
             this.createParticles(
               Blood,
               playerA.position.x,

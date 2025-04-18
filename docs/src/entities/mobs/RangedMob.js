@@ -2,7 +2,6 @@ class RangedMob extends Mob {
   constructor(img, x, y, difficultySettings) {
     super(img, x, y, difficultySettings);
     this.widthHitbox = 45;
-    this.heightHitbox = 60;
     this.maxHealth = 60 * difficultySettings.mobHealthMult();
     this.health = this.maxHealth;
     this.speed = random(0.7, 1.0) * difficultySettings.mobSpeedMult;

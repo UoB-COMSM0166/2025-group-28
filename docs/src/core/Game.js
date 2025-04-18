@@ -164,7 +164,9 @@ class Game {
     if (
       (!playerA.isActive && !coop && !pvpMode) ||
       (coop && !playerA.isActive && !playerB.isActive) ||
-      (pvpMode && this.roomSeq >= pvp_rounds && this.p1PVPTotal + this.p2PVPTotal >= 3)
+      (pvpMode &&
+        this.roomSeq >= pvp_rounds &&
+        this.p1PVPTotal + this.p2PVPTotal >= 3)
     ) {
       setTimeout(() => {
         this.gameState = GameStates.OVER;
@@ -266,7 +268,9 @@ class Game {
       this.slowMeowStartTime = currentTime;
       this.slowMeowUsable = false;
       this.slowMeowLastUsed = currentTime;
-      slowMeowStartSound.play();
+      if (!muted) {
+        slowMeowStartSound.play();
+      }
       this.applySlowMeow(this.slowMeowOccurring, true);
     }
   }
@@ -277,7 +281,9 @@ class Game {
     if (this.slowMeowLevel >= slowMeowMax) {
       this.slowMeowUsable = true;
       if (!this.slowMeowSoundPlayed) {
-        slowMeowReadySound.play();
+        if (!muted) {
+          slowMeowReadySound.play();
+        }
         this.slowMeowSoundPlayed = true;
       }
     }
@@ -329,7 +335,9 @@ class Game {
       slowFactor = 1.0;
       playerSlowFactor = 1.0;
       playbackRate = 1;
-      if (playSounds) slowMeowEndSound.play();
+      if (!muted) {
+        if (playSounds) slowMeowEndSound.play();
+      }
     }
 
     // Slow down players

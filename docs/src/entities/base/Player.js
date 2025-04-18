@@ -8,7 +8,6 @@ class Player extends Sprite {
 
     this.widthModel = 70;
     this.heightModel = 70;
-    this.color = color(0, 100, 255);
     this.speed = 2.75; // Slightly faster than base sprites
     this.originalSpeed = this.speed;
     this.attackDamage = 10 * difficultySettings[difficulty].playerDamageMult;
@@ -16,7 +15,6 @@ class Player extends Sprite {
     this.originalFireRate = this.fireRate;
     this.lastShot = 0; // Timestamp of last shot
     this.projectileSpeed = 10;
-    this.inventory = [];
     this.direction = createVector(0, 1); // Character starts facing down
     this.lastDirection = "DOWN";
     this.fireCooldown = 0; // Cooldown between shots
@@ -29,9 +27,6 @@ class Player extends Sprite {
     this.endFrame = 9;
     this.slowTimer = 0;
 
-    this.justFired = false;
-    this.c;
-    // this.img.pause();
     this.bloodColour = color(210, 0, 0, 0);
 
     this.deathSound = playerDeathSound;
@@ -281,7 +276,6 @@ class Player extends Sprite {
       if (this.overheatSoundPlayed) this.overheatSoundPlayed = false;
       // SPACE key for player 1
       if (this.player === playerNumber.PLAYER_1 && keyIsDown(p1_shoot)) {
-        this.justFired = true;
         if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
           this.img.setFrame(0);
         } else {

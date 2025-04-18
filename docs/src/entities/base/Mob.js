@@ -1,6 +1,7 @@
 class Mob extends Sprite {
   constructor(img, x, y, difficultySettings) {
     super(img, x, y, 50);
+    this.img = img;
     this.widthHitbox = 55;
     this.heightHitbox = 55;
     this.widthModel = 65;
@@ -10,10 +11,6 @@ class Mob extends Sprite {
     this.fireCooldownLimit = 100;
     this.fireReady = false;
     this.difficultySettings = difficultySettings
-
-    this.color = color(0, 255, 100);
-    this.img = img;
-
     this.speed = 1; //Slightly slower than players
     this.direction = createVector(-1, 0); //Mob starts facing left
     this.bloodColour = color(150, 225, 75, 0);

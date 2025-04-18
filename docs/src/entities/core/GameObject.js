@@ -9,7 +9,6 @@ class GameObject {
     this.widthModel = 40;
     this.heightModel = 60;
 
-    this.color = color(40, 100, 40);
     this.isActive = true;
   }
 
@@ -46,18 +45,6 @@ class GameObject {
         thisLeft + this.widthHitbox > mobLeft &&
         thisTop < mobTop + mob.heightHitbox &&
         thisTop + this.heightHitbox > mobTop
-      );
-    }
-  }
-
-  draw() {
-    if (this.isActive) {
-      fill(this.color);
-      rect(
-        this.position.x - this.widthModel / 2,
-        this.position.y - this.heightModel / 2,
-        this.widthModel,
-        this.heightModel
       );
     }
   }
