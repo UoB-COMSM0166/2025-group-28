@@ -39,7 +39,7 @@ class Sprite extends GameObject {
   }
 
   takeDamage(amount) {
-    if (this.isInvincible || transitioning) return;
+    if (this.isInvincible) return;
     if (this.lastSoundTime == 0 || millis() - this.lastSoundTime > this.soundCooldown) {
       if (!childMode && this.health - amount > 0) {
         playSound(bloodSound1, playbackRate, true);

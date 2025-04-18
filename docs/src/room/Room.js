@@ -544,37 +544,35 @@ class Room {
           projectile.owner instanceof BlinkMob
         ) {
           if (projectile.isCollidingWith(playerA)) {
+            projectile.isActive = false;
+            if (transitioning || playerA.isInvincible) continue;
             playerA.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP1 += projectile.owner.attackDamage;
-            if (!playerA.isInvincible) {
-              this.createParticles(
-                Blood,
-                playerA.position.x,
-                playerA.position.y,
-                playerA.bloodColour
-              );
-              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
-              }
+            this.createParticles(
+              Blood,
+              playerA.position.x,
+              playerA.position.y,
+              playerA.bloodColour
+            );
+            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
             }
-            projectile.isActive = false;
             playerA.makeInvincible();
           }
           if (coop && projectile.isCollidingWith(playerB)) {
+            projectile.isActive = false;
+            if (transitioning || playerB.isInvincible) continue;
             playerB.takeDamage(projectile.owner.attackDamage);
             this.damageTakenP2 += projectile.owner.attackDamage;
-            if (!playerB.isInvincible) {
-              this.createParticles(
-                Blood,
-                playerB.position.x,
-                playerB.position.y,
-                playerB.bloodColour
-              );
-              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
-              }
+            this.createParticles(
+              Blood,
+              playerB.position.x,
+              playerB.position.y,
+              playerB.bloodColour
+            );
+            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
             }
-            projectile.isActive = false;
             playerB.makeInvincible();
           }
         }
@@ -587,42 +585,40 @@ class Room {
       mob.drawMobHealthBar();
       if (playerA.isCollidingWith(mob) && playerA.isActive) {
         if (!(mob instanceof BlinkMob)) {
-          playerA.takeDamage(mob.attackDamage);
-          this.damageTakenP1 += mob.attackDamage;
-          if (!playerA.isInvincible) {
-            this.createParticles(
-              Blood,
-              playerA.position.x,
-              playerA.position.y,
-              playerA.bloodColour
-            );
-            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
-            }
-          }
           playerA.applyKnockback(mob.position.x, mob.position.y);
           mob.applyKnockback(playerA.position.x, playerA.position.y);
+          if (playerA.isInvincible) continue;
+          playerA.takeDamage(mob.attackDamage);
+          this.damageTakenP1 += mob.attackDamage;
+          this.createParticles(
+            Blood,
+            playerA.position.x,
+            playerA.position.y,
+            playerA.bloodColour
+          );
+          if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+            game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
+          }
           playerA.makeInvincible();
         }
       }
 
       if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
         if (!(mob instanceof BlinkMob)) {
-          playerB.takeDamage(mob.attackDamage);
-          this.damageTakenP2 += mob.attackDamage;
-          if (!playerB.isInvincible) {
-            this.createParticles(
-              Blood,
-              playerB.position.x,
-              playerB.position.y,
-              playerB.bloodColour
-            );
-            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
-            }
-          }
           playerB.applyKnockback(mob.position.x, mob.position.y);
           mob.applyKnockback(playerB.position.x, playerB.position.y);
+          if (playerB.isInvincible) continue;
+          playerB.takeDamage(mob.attackDamage);
+          this.damageTakenP2 += mob.attackDamage;
+          this.createParticles(
+            Blood,
+            playerB.position.x,
+            playerB.position.y,
+            playerB.bloodColour
+          );
+          if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
+            game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
+          }
           playerB.makeInvincible();
         }
       }
