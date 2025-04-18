@@ -3,6 +3,8 @@ let game;
 let projectileManager;
 let behaviourMonitor;
 
+let muted = false;
+
 let playerA;
 let playerB;
 let roomButton = null;
@@ -99,9 +101,11 @@ function gameSwitch(starting) {
 
 function menuStart() {
   menuBack.play();
-  themeMusic.play();
+  if (!muted) {
+    themeMusic.play();
+    themeMusic.loop();
+  }
   menuBack.loop();
-  themeMusic.loop();
 }
 
 let stng_div;
@@ -120,13 +124,17 @@ function quitSettings() {
 function gameSetUp() {
   themeMusic.stop();
   if (pvpMode) {
-    pvpMusic.play();
-    pvpMusic.loop();
+    if (!muted) {
+      pvpMusic.play();
+      pvpMusic.loop();
+    }
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     playerB = new Player(astrocat_gif_p2, 800, 300, playerNumber.PLAYER_2);
   } else {
-    gameMusic.play();
-    gameMusic.loop();
+    if (!muted) {
+      gameMusic.play();
+      gameMusic.loop();
+    }
     playerA = new Player(astrocat_gif, 200, 300, playerNumber.PLAYER_1);
     if (coop) {
       playerB = new Player(astrocat_gif_p2, 300, 300, playerNumber.PLAYER_2);
@@ -147,7 +155,9 @@ function draw() {
         if (game.currentRoom.promptActive) {
           if (keyIsDown(69) && !transitioning) {
             gameCount += 1;
-            roomTransitionSound.play();
+            if (!muted) {
+              roomTransitionSound.play();
+            }
             fadingOut = true;
             transitioning = true;
           }
@@ -198,7 +208,6 @@ function draw() {
         }
       }
       pop();
-
       // bottom ui block
       fill(0, 0, 0);
       let footer_backing = rect(100, 690, 800, 50);
@@ -329,7 +338,10 @@ function keyPressed() {
       } else {
         loop();
         game.gameState = GameStates.ACTIVE;
-        music.play();
+
+        if (!muted) {
+          music.play();
+        }
       }
     }
     // 192 = ` (key under Esc)
@@ -353,23 +365,25 @@ function keyPressed() {
 
 // Used for slowing down sounds in slow mo
 function playSound(sound, rate, randomVolume = false) {
-  let audioContext = getAudioContext();
-  let source = audioContext.createBufferSource();
-  source.buffer = sound.buffer;
-  source.playbackRate.value = rate;
-  // For volume control
-  let gainNode = audioContext.createGain();
-  if (randomVolume) {
-    gainNode.gain.value = random(0.65, 1);
-  } else {
-    gainNode.gain.value = 1;
+  if (!muted) {
+    let audioContext = getAudioContext();
+    let source = audioContext.createBufferSource();
+    source.buffer = sound.buffer;
+    source.playbackRate.value = rate;
+    // For volume control
+    let gainNode = audioContext.createGain();
+    if (randomVolume) {
+      gainNode.gain.value = random(0.65, 1);
+    } else {
+      gainNode.gain.value = 1;
+    }
+    source.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    // Disconnect after sound ends to prevent memory leaks etc.
+    source.onended = () => {
+      source.disconnect();
+      gainNode.disconnect();
+    };
+    source.start();
   }
-  source.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  // Disconnect after sound ends to prevent memory leaks etc.
-  source.onended = () => {
-    source.disconnect();
-    gainNode.disconnect();
-  };
-  source.start();
 }

@@ -1,5 +1,7 @@
 let disabBlood_on;
 let disabBlood_off;
+let sound_off;
+let sound_on;
 
 function switchToHelp() {
   settingsMode = false;
@@ -153,6 +155,28 @@ class Settings {
     arrow.attribute("draggable", "false");
     arrow.mouseClicked(Settings.switchToArrow);
 
+    let disableSounds = createP("Enable Audio");
+    disableSounds.parent(settingpanel);
+    disableSounds.position(20, 370);
+
+    sound_on = createP("ON");
+    sound_on.parent(settingpanel);
+    sound_on.position(320, 370);
+    sound_on.mouseClicked(Settings.soundToggle);
+
+    sound_off = createP("OFF");
+    sound_off.parent(settingpanel);
+    sound_off.position(360, 370);
+    sound_off.mouseClicked(Settings.soundToggle);
+
+    if (!muted) {
+      sound_on.style("background-color", "rgb(255, 109, 0)");
+      sound_off.style("background-color", "transparent");
+    } else {
+      sound_off.style("background-color", "rgb(106, 104, 102)");
+      sound_on.style("background-color", "transparent");
+    }
+
     let disableBlood = createP("Child Mode");
     disableBlood.parent(settingpanel);
     disableBlood.position(20, 300);
@@ -166,6 +190,7 @@ class Settings {
     disabBlood_off.parent(settingpanel);
     disabBlood_off.position(360, 300);
     disabBlood_off.mouseClicked(toggleBloodDisable);
+
     let childModeCap = createP("Disable blood particle effects");
     childModeCap.parent(settingpanel);
     childModeCap.position(20, 335);
@@ -178,6 +203,21 @@ class Settings {
     } else {
       disabBlood_off.style("background-color", "rgb(106, 104, 102)");
       disabBlood_on.style("background-color", "transparent");
+    }
+  }
+
+  static soundToggle() {
+    muted = !muted;
+    console.log(muted);
+    if (!muted) {
+      themeMusic.play();
+      sound_on.style("background-color", "rgb(255, 109, 0)");
+      sound_off.style("background-color", "transparent");
+    } else {
+      themeMusic.stop();
+
+      sound_off.style("background-color", "rgb(106, 104, 102)");
+      sound_on.style("background-color", "transparent");
     }
   }
 
