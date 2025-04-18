@@ -914,8 +914,10 @@ class Room {
 
   applyItemBuff(item, player) {
     if (item instanceof Heart) {
-      if (player.health >= player.maxHealth) itemSound1.play();
-      else itemSound2.play();
+      if (!muted) {
+        if (player.health >= player.maxHealth) itemSound1.play();
+        else itemSound2.play();
+      }  
       player.health = Math.min(player.maxHealth, player.health + this.difficultySettings.heartHealth);
     } else if (item instanceof Energy) {
       if (!muted) {
