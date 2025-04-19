@@ -33,6 +33,12 @@ class RangedMob extends Mob {
   update() {
     if (!this.isActive || this.isInvincible) return;
     if (!this.canRapidFire || this.isBuffed) {
+      if (this.isBuffed) {
+        this.shootingPauseTimer = 0;
+        this.rapidFireCooldown = 0;
+        this.isRapidFiring = false;
+        this.rapidFireReady = false;
+      }
       super.update();
       return;
     }
