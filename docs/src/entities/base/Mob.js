@@ -80,10 +80,6 @@ class Mob extends Sprite {
     if (!player.isActive) {
       return;
     }
-    if (this.burstActive) {
-      this.velocity.set(0, 0);
-      return;
-    }
     //Moves smoothly towards whichever player is nearest
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;
