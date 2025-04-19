@@ -138,6 +138,7 @@ class Mob extends Sprite {
   // For adding/removing BuffMob buff
   applyBuff() {
     if (!this.isBuffed) {
+      this.isInvincible = false;
       if (!this.isSlowed) this.originalSpeed = this.speed;
       this.speed *= 1.75;
       this.originalSpeed *= 1.75;
