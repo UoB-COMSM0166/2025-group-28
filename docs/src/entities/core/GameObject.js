@@ -20,32 +20,32 @@ class GameObject {
     // Stops the object moving outside the outer walls (just in case)
     this.position.x = constrain(
       this.position.x,
-      tileSize * 2 + arena_offset,
-      roomWidth * tileSize - tileSize * 2 + arena_offset
+      (tileSize * 2) + (this.widthHitbox / 2) + arena_offset,
+      (roomWidth * tileSize) - (tileSize * 2) - (this.widthHitbox / 2) + arena_offset
     );
+
     this.position.y = constrain(
       this.position.y,
-      tileSize * 2 + arena_offset,
-      roomHeight * tileSize - tileSize * 2 + arena_offset
+      (tileSize * 2) + (this.heightHitbox / 2) + arena_offset,
+      (roomHeight * tileSize) - (tileSize * 2) - (this.heightHitbox / 2) + arena_offset
     );
   }
 
-  isCollidingWith(mob) {
-    if (mob.isActive) {
-      // Calculate the top-left corners based on center positions
-      const thisLeft = this.position.x - this.widthHitbox / 2;
-      const thisTop = this.position.y - this.heightHitbox / 2;
+  isCollidingWith(entity) {
+    if (!this.isActive || !entity.isActive) return;
+    // Calculate the top-left corners based on center positions
+    const thisLeft = this.position.x - this.widthHitbox / 2;
+    const thisTop = this.position.y - this.heightHitbox / 2;
 
-      const mobLeft = mob.position.x - mob.widthHitbox / 2;
-      const mobTop = mob.position.y - mob.heightHitbox / 2;
+    const entityLeft = entity.position.x - entity.widthHitbox / 2;
+    const entityTop = entity.position.y - entity.heightHitbox / 2;
 
-      // Now use these adjusted positions in the collision test
-      return (
-        thisLeft < mobLeft + mob.widthHitbox &&
-        thisLeft + this.widthHitbox > mobLeft &&
-        thisTop < mobTop + mob.heightHitbox &&
-        thisTop + this.heightHitbox > mobTop
-      );
-    }
+    // Now use these adjusted positions in the collision test
+    return (
+      thisLeft < entityLeft + entity.widthHitbox &&
+      thisLeft + this.widthHitbox > entityLeft &&
+      thisTop < entityTop + entity.heightHitbox &&
+      thisTop + this.heightHitbox > entityTop
+    );
   }
 }

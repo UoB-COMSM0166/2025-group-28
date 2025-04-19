@@ -17,7 +17,6 @@ class Game {
     this.prevScoreP2 = 0;
     this.currScoreP2 = 0;
 
-    this.pvp_count = 1;
     this.roomSeq = 1;
 
     this.p1PVPTotal = 0;
@@ -51,6 +50,8 @@ class Game {
 
   nextRoom() {
     this.roomSeq++;
+    // Clear projectile array to stop projectiles in previous room persisting in next room
+    projectileManager.projectilesFired = [];
     if (!pvpMode) {
       behaviourMonitor.updateRoomsCleared();
       // End slow meow to prevent movement speed bugs on room transition
@@ -59,69 +60,16 @@ class Game {
       let playSounds = this.slowMeowOccurring;
       this.slowMeowOccurring = false;
       this.applySlowMeow(this.slowMeowOccurring, playSounds);
-    }
-    // Clear projectile array to stop projectiles fired in previous room from persisting in next room
-    projectileManager.projectilesFired = [];
-    // Update Scores
-    if (pvpMode) {
-      if (this.currScoreP1 >= 3) {
-        this.p1PVPTotal++;
-      }
-      if (this.currScoreP2 >= 3) {
-        this.p2PVPTotal++;
-      }
-      this.currScoreP1 = 0;
-      this.currScoreP2 = 0;
-    } else {
-      this.currScoreP1 += this.calculateScore(
-        this.currentRoom.damageDealtP1,
-        this.currentRoom.damageTakenP1
-      );
-      this.prevScoreP1 = this.currScoreP1;
-      this.currScoreP1 = 0;
-
-      if (coop) {
-        this.currScoreP2 += this.calculateScore(
-          this.currentRoom.damageDealtP2,
-          this.currentRoom.damageTakenP2
-        );
-        this.prevScoreP2 = this.currScoreP2;
-        this.currScoreP2 = 0;
-      }
-    }
-
-    this.currentRoom = null;
-    if (!pvpMode) {
+      this.updateScores();
+      // Set up next room
       this.currentRoom = new Room(this.difficultySettings);
-      // Allow spawning buff mob if player has cleared 3+ rooms (only on normal, hard or coop)
-      if (
-        (this.difficulty != difficultyLevels.EASY || coop) &&
-        behaviourMonitor.getRoomsCleared() >= 3
-      ) {
-        this.currentRoom.canSpawnBuffMob = true;
-      }
       if (coop) {
-        if (playerA.isActive ^ playerB.isActive) {
-          if (!playerA.isActive) {
-            playerA = null;
-            playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
-            playerA.health = 50;
-            playerADeathCount++;
-            this.prevScoreP1 -= 300;
-            if (this.prevScoreP1 < 0) this.prevScoreP1 = 0;
-          } else {
-            playerB = null;
-            playerB = new Player(
-              astrocat_gif_p2,
-              160,
-              400,
-              playerNumber.PLAYER_2
-            );
-            playerB.health = 50;
-            playerBDeathCount++;
-            this.prevScoreP2 -= 300;
-            if (this.prevScoreP2 < 0) this.prevScoreP2 = 0;
-          }
+        if (!playerA.isActive) {
+          playerADeathCount++;
+          playerA = this.revivePlayer(playerA, this.prevScoreP1);
+        } else if (!playerB.isActive) {
+          playerBDeathCount++;
+          playerB = this.revivePlayer(playerB, this.prevScoreP2);
         }
       }
       playerA.resetOverheat();
@@ -138,6 +86,13 @@ class Game {
       playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
       playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
     }
+  }
+
+  revivePlayer(player, playerScore) {
+    player = new Player(player.img, playerNextX, playerNextY, player.player);
+    player.health = 50;
+    this[playerScore] = Math.max(0, this[playerScore] - 300);
+    return player;
   }
 
   pvpGameCycleCheck() {
@@ -215,6 +170,35 @@ class Game {
       if (bonus < 0) return 0;
       if (bonus > 300) return 300;
       return bonus;
+    }
+  }
+
+  updateScores() {
+    if (pvpMode) {
+      if (this.currScoreP1 >= 3) {
+        this.p1PVPTotal++;
+      }
+      if (this.currScoreP2 >= 3) {
+        this.p2PVPTotal++;
+      }
+      this.currScoreP1 = 0;
+      this.currScoreP2 = 0;
+    } else {
+      this.currScoreP1 += this.calculateScore(
+        this.currentRoom.damageDealtP1,
+        this.currentRoom.damageTakenP1
+      );
+      this.prevScoreP1 = this.currScoreP1;
+      this.currScoreP1 = 0;
+
+      if (coop) {
+        this.currScoreP2 += this.calculateScore(
+          this.currentRoom.damageDealtP2,
+          this.currentRoom.damageTakenP2
+        );
+        this.prevScoreP2 = this.currScoreP2;
+        this.currScoreP2 = 0;
+      }
     }
   }
 
@@ -342,34 +326,35 @@ class Game {
 
     // Slow down players
     if (playerA && playerA.isActive) {
-      if (slowActive) {
-        playerA.speed = playerA.originalSpeed * playerSlowFactor;
-        playerA.fireRate = playerA.originalFireRate / playerSlowFactor;
-        playerA.heatDecay = 0;
-      } else {
-        playerA.speed = playerA.originalSpeed;
-        playerA.heatDecay = this.difficultySettings.heatDecay;
-        if (playerA.originalFireRate) {
-          playerA.fireRate = playerA.originalFireRate;
-        }
-      }
+      this.slowPlayer(slowActive, playerA, playerSlowFactor);
     }
 
     if (playerB && playerB.isActive) {
-      if (slowActive) {
-        playerB.speed = playerB.originalSpeed * playerSlowFactor;
-        playerB.fireRate = playerB.originalFireRate / playerSlowFactor;
-        playerB.heatDecay = 0;
-      } else {
-        playerB.speed = playerB.originalSpeed;
-        playerB.heatDecay = this.difficultySettings.heatDecay;
-        if (playerB.originalFireRate) {
-          playerB.fireRate = playerB.originalFireRate;
-        }
-      }
+      this.slowPlayer(slowActive, playerB, playerSlowFactor);
     }
 
     // Slow down mobs
+    this.slowMobs(slowActive);
+
+    // Slow down projectiles
+    this.slowProjectiles(slowActive, slowFactor);
+  }
+
+  slowPlayer(slowActive, player, slowFactor) {
+    if (slowActive) {
+      player.speed = player.originalSpeed * slowFactor;
+      player.fireRate = player.originalFireRate / slowFactor;
+      player.heatDecay = 0;
+    } else {
+      player.speed = player.originalSpeed;
+      player.heatDecay = this.difficultySettings.heatDecay;
+      if (player.originalFireRate) {
+        player.fireRate = player.originalFireRate;
+      }
+    }
+  }
+
+  slowMobs(slowActive) {
     if (this.currentRoom && this.currentRoom.mobs) {
       for (let mob of this.currentRoom.mobs) {
         if (mob && mob.isActive) {
@@ -383,8 +368,9 @@ class Game {
         }
       }
     }
+  }
 
-    // Slow down projectiles
+  slowProjectiles(slowActive, slowFactor) {
     if (projectileManager && projectileManager.projectilesFired) {
       for (let projectile of projectileManager.projectilesFired) {
         if (projectile && projectile.isActive) {
@@ -401,12 +387,5 @@ class Game {
         }
       }
     }
-  }
-}
-
-function applySlowMeowToNewMob(mob) {
-  if (this.slowMeowOccurring && mob) {
-    mob.originalSpeed = mob.speed;
-    mob.speed = mob.originalSpeed * this.slowMeowMovementSpeed;
   }
 }

@@ -71,12 +71,12 @@ class BlinkMob extends Mob {
     let spawnAttempts = 0;
     while (spawnAttempts < 100) {
       spawnX = random(
-        tileSize * 2 + this.widthHitbox / 2 + arena_offset,
-        roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
+        (tileSize * 3) + (this.widthHitbox / 2) + arena_offset,
+        (roomWidth * tileSize) - (tileSize * 3) - (this.widthHitbox / 2) + arena_offset
       );
       spawnY = random(
-        tileSize * 2 + this.heightHitbox / 2 + arena_offset,
-        roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2 + arena_offset
+        (tileSize * 3) + (this.heightHitbox / 2) + arena_offset,
+        (roomHeight * tileSize) - (tileSize * 3) - (this.heightHitbox / 2) + arena_offset
       );
       let distanceFromP1 = dist(
         spawnX,
@@ -93,7 +93,7 @@ class BlinkMob extends Mob {
           playerB.position.y
         );
       }
-      if (distanceFromP1 > 150 && distanceFromP2 > 150) {
+      if (distanceFromP1 > 200 && distanceFromP2 > 200) {
         break;
       }
       spawnAttempts++;

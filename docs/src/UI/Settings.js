@@ -23,6 +23,7 @@ function toggleBloodDisable() {
     disabBlood_on.style("background-color", "transparent");
   }
 }
+
 function switchToStngs() {
   settingsMode = true;
   toggle_settings.style("background-color", "rgb(255, 109, 0)");
