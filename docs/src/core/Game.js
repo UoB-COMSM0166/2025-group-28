@@ -32,11 +32,11 @@ class Game {
     this.roomSeq++;
     // Clear projectile array to stop projectiles in previous room persisting in next room
     projectileManager.projectilesFired = [];
+    this.updateScores();
     if (!pvpMode) {
       behaviourMonitor.updateRoomsCleared();
       // End slow meow to prevent movement speed bugs on room transition
       this.slowMeowHandler.reset();
-      this.updateScores();
       // Set up next room
       this.currentRoom = new Room(this.difficultySettings);
       if (coop) {

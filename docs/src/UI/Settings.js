@@ -33,37 +33,6 @@ function switchToStngs() {
 }
 
 class Settings {
-  static gotoSettings() {
-    stng_div = createDiv();
-    stng_div.id("settings_content");
-    stng_div.size(pageWidth, pageHeight);
-    set_back = createImg(setback);
-    set_back.parent(stng_div);
-    set_back.position(0, 0);
-    set_back.attribute("draggable", "false");
-
-    let exit = createP("X");
-    exit.parent(stng_div);
-    exit.position(10, 10);
-    exit.style("color", "white");
-    exit.style("background-color", "red");
-    exit.attribute("draggable", "false");
-    exit.mouseClicked(quitSettings);
-
-    toggle_settings = createP("Settings");
-    toggle_settings.parent(stng_div);
-    toggle_settings.position(200, 10);
-    toggle_settings.attribute("draggable", "false");
-    toggle_settings.mouseClicked(switchToStngs);
-    toggle_settings.style("background-color", "rgb(255, 109, 0)");
-
-    toggle_help = createP("How to Play");
-    toggle_help.parent(stng_div);
-    toggle_help.position(500, 10);
-    toggle_help.attribute("draggable", "false");
-    toggle_help.mouseClicked(switchToHelp);
-  }
-
   static switchToWasd() {
     wasd_control = true;
     wasd.style("border", "2px solid white");
@@ -109,20 +78,29 @@ class Settings {
     exit.style("color", "white");
     exit.style("background-color", "red");
     exit.attribute("draggable", "false");
-    exit.mouseClicked(quitSettings);
+    exit.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      quitSettings();
+    });
 
     toggle_settings = createP("Settings");
     toggle_settings.parent(stng_div);
     toggle_settings.position(200, 10);
     toggle_settings.attribute("draggable", "false");
-    toggle_settings.mouseClicked(switchToStngs);
+    toggle_settings.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (!settingsMode) switchToStngs();
+    });
     toggle_settings.style("background-color", "rgb(255, 109, 0)");
 
     toggle_help = createP("How to Play");
     toggle_help.parent(stng_div);
     toggle_help.position(500, 10);
     toggle_help.attribute("draggable", "false");
-    toggle_help.mouseClicked(switchToHelp);
+    toggle_help.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (settingsMode) switchToHelp();
+    });
 
     // Default to setting panel
     Settings.renderSettingPanel();
@@ -148,14 +126,20 @@ class Settings {
     wasd.position(320, 100);
     wasd.size(150, 160);
     wasd.attribute("draggable", "false");
-    wasd.mouseClicked(Settings.switchToWasd);
+    wasd.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      Settings.switchToWasd();
+    });
 
     arrow = createImg(arrow_icon);
     arrow.parent(settingpanel);
     arrow.position(500, 100);
     arrow.size(150, 160);
     arrow.attribute("draggable", "false");
-    arrow.mouseClicked(Settings.switchToArrow);
+    arrow.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      Settings.switchToArrow();
+    });
 
     if (wasd_control) {
       wasd.style("border", "2px solid white");
@@ -168,12 +152,17 @@ class Settings {
     sound_on = createP("ON");
     sound_on.parent(settingpanel);
     sound_on.position(320, 370);
-    sound_on.mouseClicked(Settings.soundToggle);
+    sound_on.mouseClicked(() => {
+      menuClickSound.play();
+      if (muted) Settings.soundToggle();
+    });
 
     sound_off = createP("OFF");
     sound_off.parent(settingpanel);
     sound_off.position(360, 370);
-    sound_off.mouseClicked(Settings.soundToggle);
+    sound_off.mouseClicked(() => {
+      if (!muted) Settings.soundToggle();
+    });
 
     if (!muted) {
       sound_on.style("background-color", "rgb(255, 109, 0)");
@@ -190,12 +179,18 @@ class Settings {
     disabBlood_on = createP("ON");
     disabBlood_on.parent(settingpanel);
     disabBlood_on.position(320, 300);
-    disabBlood_on.mouseClicked(toggleBloodDisable);
+    disabBlood_on.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (!childMode) toggleBloodDisable();
+    });
 
     disabBlood_off = createP("OFF");
     disabBlood_off.parent(settingpanel);
     disabBlood_off.position(360, 300);
-    disabBlood_off.mouseClicked(toggleBloodDisable);
+    disabBlood_off.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (childMode) toggleBloodDisable();
+    });
 
     let childModeCap = createP("Disable blood particle<br>effects and gore sounds");
     childModeCap.parent(settingpanel);
