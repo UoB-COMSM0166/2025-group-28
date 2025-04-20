@@ -87,12 +87,12 @@ class PvPRoom {
     playerB.fire();
 
     playerA.draw();
-    playerA.drawPlayerHealthBar();
+    PlayerHUD.drawPlayerHealthBar();
 
     playerB.draw();
-    playerB.drawPlayerHealthBar();
+    PlayerHUD.drawPlayerHealthBar();
 
-    // pvp bullet collisions
+    // PvP bullet collisions
     for (let projectile of projectileManager.projectilesFired) {
       if (!projectile.isActive) continue;
       projectile.draw();

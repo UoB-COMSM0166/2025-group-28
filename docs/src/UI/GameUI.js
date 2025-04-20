@@ -46,7 +46,7 @@ class GameUI {
     // Player heat bars
     const barWidth = 200;
     const barHeight = 20;
-    playerA.drawPlayerHeatBar(
+    PlayerHUD.drawPlayerHeatBar(
       width / 4 - 90,
       height - 80,
       barWidth,
@@ -55,7 +55,7 @@ class GameUI {
       "PLAYER A"
     );
     if (coop || pvpMode) {
-      playerB.drawPlayerHeatBar(
+      PlayerHUD.drawPlayerHeatBar(
         width / 4 + 400,
         height - 80,
         barWidth,

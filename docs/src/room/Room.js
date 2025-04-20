@@ -167,11 +167,11 @@ class Room {
     }
 
     playerA.draw();
-    playerA.drawPlayerHealthBar();
+    PlayerHUD.drawPlayerHealthBar();
 
     if (coop) {
       playerB.draw();
-      playerB.drawPlayerHealthBar();
+      PlayerHUD.drawPlayerHealthBar();
     }
 
     this.handleProjectileCollisions();
