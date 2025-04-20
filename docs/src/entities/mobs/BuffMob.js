@@ -41,12 +41,12 @@ class BuffMob extends Mob {
         }
         if (!this.isIdle) {
           let xPos = random(
-              tileSize * 2 + this.widthHitbox / 2 + arena_offset,
-              roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
+            (tileSize * 3) + (this.widthHitbox / 2) + arena_offset,
+            (roomWidth * tileSize) - (tileSize * 3) - (this.widthHitbox / 2) + arena_offset
             );
           let yPos = random(
-              tileSize * 2 + this.heightHitbox / 2 + arena_offset,
-              roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2 + arena_offset
+            (tileSize * 3) + (this.heightHitbox / 2) + arena_offset,
+            (roomHeight * tileSize) - (tileSize * 3) - (this.heightHitbox / 2) + arena_offset
             );
           this.target = createVector(xPos, yPos);
         }

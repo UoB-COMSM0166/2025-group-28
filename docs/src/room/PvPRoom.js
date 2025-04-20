@@ -1,9 +1,6 @@
 class PvPRoom {
   constructor() {
-    this.door = null;
-    this.isCleared = false;
-    this.items = [];
-    this.roomLayout = []; // 2d array of tiles
+    this.roomLayout = []; // 2D array of tiles
     this.particles = [];
     this.lastSpawnTime = 0;
     this.currentTileColours;
@@ -20,420 +17,68 @@ class PvPRoom {
       pvpAnnouncer6,
     ];
     this.prevAnnouncement = null;
-    this.initRoom();
-  }
-
-  initRoom() {
-    const tileOptions = [tileColours1, tileColours2, tileColours3];
-    this.currentTileColours = random(tileOptions);
-    this.roomLayout = [];
-    for (let j = 0; j < roomHeight; j++) {
-      let roomTiles = [];
-      for (let i = 0; i < roomWidth; i++) {
-        if (
-          j == 0 ||
-          i == 0 ||
-          j == 1 ||
-          i == 1 ||
-          j == roomHeight - 1 ||
-          i == roomWidth - 1 ||
-          j == roomHeight - 2 ||
-          i == roomWidth - 2
-        ) {
-          let newWall = new Tile(tileTypes.WALL, i, j);
-          roomTiles.push(newWall);
-        } else {
-          let newFloor = new Tile(tileTypes.FLOOR);
-          roomTiles.push(newFloor);
-        }
-      }
-      this.roomLayout.push(roomTiles);
-    }
-    this.scanRoom();
-  }
-
-  // Creates square wall pattern
-  createWallSQR(w, h, x, y) {
-    for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
-      for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
-        this.roomLayout[y][x] = new Tile(tileTypes.WALL, x, y);
-      }
-      x -= w;
-    }
-  }
-
-  // Creates 'L' shaped wall pattern
-  createWallL1(w, h, x, y) {
-    for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
-      for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
-        if (i > 1 && j > 1) {
-          this.roomLayout[y][x] = new Tile(tileTypes.FLOOR);
-        } else {
-          this.roomLayout[y][x] = new Tile(tileTypes.WALL, x, y);
-        }
-      }
-      x -= w;
-    }
-  }
-
-  // Creates a different 'L' shaped wall pattern
-  createWallL2(w, h, x, y) {
-    for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
-      for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
-        if (i < w - 2 && j < h - 2) {
-          this.roomLayout[y][x] = new Tile(tileTypes.FLOOR);
-        } else {
-          this.roomLayout[y][x] = new Tile(tileTypes.WALL, x, y);
-        }
-      }
-      x -= w;
-    }
-  }
-
-  // Incrementally steps through the room and decides how many walls to place
-  scanRoom() {
-    for (let y = wallBuffer; y < roomHeight - wallBuffer; y += step) {
-      for (let x = wallBuffer; x < roomWidth - wallBuffer; x += step) {
-        let numWalls = Math.floor(random(0, 2));
-        this.addWalls(x, y, numWalls);
-      }
-    }
-  }
-
-  // Checks if the full wall shape can be placed without being cut off by wallBuffer
-  isWallWithinBounds(w, h, x, y) {
-    return (
-      x >= wallBuffer &&
-      y >= wallBuffer &&
-      x + w <= roomWidth - wallBuffer &&
-      y + h <= roomHeight - wallBuffer
-    );
-  }
-
-  // Adjusts any wall shapes that would be cut off by wallBuffer
-  adjustWallPosition(w, h, x, y) {
-    if (x + w > roomWidth - wallBuffer) {
-      x = roomWidth - wallBuffer - w;
-    }
-    if (y + h > roomHeight - wallBuffer) {
-      y = roomHeight - wallBuffer - h;
-    }
-    if (x < wallBuffer) {
-      x = wallBuffer;
-    }
-    if (y < wallBuffer) {
-      y = wallBuffer;
-    }
-    return { x, y };
-  }
-
-  addWalls(x, y, numWalls) {
-  for (let i = 0; i < numWalls; i++) {
-    x = this.addOffset(x);
-    y = this.addOffset(y);
-    let wallVar = Math.floor(random(0, 100));
-    let shouldAddWall = this.rollAddWall();
-    if (shouldAddWall) {
-      let w, h;
-      if (wallVar > 74) {
-        w = this.getRanW(wallVariants.SQR);
-        h = this.getRanH(wallVariants.SQR);
-      } else if (wallVar > 54) {
-        w = this.getRanW(wallVariants.L1);
-        h = this.getRanH(wallVariants.L1);
-      } else if (wallVar > 34) {
-        w = this.getRanW(wallVariants.L2);
-        h = this.getRanH(wallVariants.L2);
-      } else {
-        w = 2;
-        h = 2;
-      }
-
-      if (!this.isWallWithinBounds(w, h, x, y)) {
-        let adjustedPos = this.adjustWallPosition(w, h, x, y);
-        x = adjustedPos.x;
-        y = adjustedPos.y;
-      }
-
-      if (wallVar > 74) {
-        this.createWallSQR(w, h, x, y);
-      } else if (wallVar > 54) {
-        this.createWallL1(w, h, x, y);
-      } else if (wallVar > 34) {
-        this.createWallL2(w, h, x, y);
-      } else {
-        this.createWallSQR(2, 2, x, y);
-      }
-    }
-  }
-}
-
-  // Get random width for wall shape
-  getRanW(wallVariant) {
-    if (wallVariant == wallVariants.SQR) {
-      return Math.floor(random(2, 4));
-    } else if (
-      wallVariant == wallVariants.L1 ||
-      wallVariant == wallVariants.L2
-    ) {
-      return floor(random(2, 5));
-    }
-  }
-
-  // Get random height for wall shape
-  getRanH(wallVariant) {
-    if (wallVariant == wallVariants.SQR) {
-      return Math.floor(random(2, 4));
-    } else if (
-      wallVariant == wallVariants.L1 ||
-      wallVariant == wallVariants.L2
-    ) {
-      return floor(random(2, 6));
-    }
-  }
-
-  // Probability of adding a wall
-  rollAddWall() {
-    let wallChance = random();
-    if (wallChance < 0.45) {
-      return true;
-    }
-    return false;
-  }
-
-  // Adds an offset to the placement of the wall shape within the room
-  // (To prevent rooms looking too symmetrical)
-  addOffset(pos) {
-    let offset = Math.floor(random(0, wallBuffer));
-    if (pos < roomWidth - step && pos < roomHeight - step) {
-      return floor(random(pos, pos + offset));
-    } else {
-      return floor(random(pos, pos - offset));
-    }
-  }
-
-  createParticles(type = Particle, x, y, colour, velocity = null) {
-    if (childMode && type == Blood) return;
-    let maxParticles;
-    if (type == Spark) {
-      maxParticles = Math.floor(random(3, 7));
-    } else {
-      maxParticles = Math.floor(random(5, 20));
-    }
-    for (let i = 0; i < maxParticles; i++) {
-      if (type == Spark && velocity) {
-        this.particles.push(new Spark(x, y, colour, velocity));
-      } else {
-        this.particles.push(new type(x, y, colour));
-      }
-    }
+    this.generator = new RoomGenerator(this);
+    this.handler = new RoomHandler(this);
+    this.generator.initRoom();
   }
 
   update() {
-    for (let p of projectileManager.projectilesFired) {
-      if (
-        p.position.x < tileSize * 2.75 + arena_offset ||
-        p.position.x > roomWidth * tileSize - tileSize * 2.75 + arena_offset ||
-        p.position.y < tileSize * 2.75 + arena_offset ||
-        p.position.y > roomHeight * tileSize - tileSize * 2.75 + arena_offset ||
-        (projectileWallCollisions &&
-          this.checkInsideWall(p.position.x, p.position.y))
-      ) {
-        this.createParticles(
-          Spark,
-          p.position.x,
-          p.position.y,
-          p.sparkColour,
-          p.velocity
-        );
-        p.isActive = false;
-      } else p.update();
-    }
+    this.handler.updateProjectiles();
 
     if (!playerA.isActive) {
-      if (!this.p2ScoreIncreased) {
-        this.p2Score++;
-        if (!muted) {
-          pvpScoreSound.play();
-        }
-        setTimeout(() => {
-          let randomAnnouncement;
-          do {
-            randomAnnouncement = Math.floor(
-              random(0, this.announcerSounds.length)
-            );
-          } while (randomAnnouncement === this.prevAnnouncement);
-          if (!muted) {
-            this.announcerSounds[randomAnnouncement].play();
-          }
-          this.prevAnnouncement = randomAnnouncement;
-        }, 500);
-        if (this.p2Score < 3) {
-          setTimeout(() => {
-            this.respawnPlayer(playerA);
-            playerA.makeInvincible();
-            this.p2ScoreIncreased = false;
-          }, 1500);
-        }
-        this.p2ScoreIncreased = true;
-      }
+      this.handlePlayerScores(playerA, "p2Score", "p2ScoreIncreased");
     } else if (!playerB.isActive) {
-      if (!this.p1ScoreIncreased) {
-        this.p1Score++;
-        if (!muted) {
-          pvpScoreSound.play();
-        }
-        setTimeout(() => {
-          let randomAnnouncement;
-          do {
-            randomAnnouncement = Math.floor(
-              random(0, this.announcerSounds.length)
-            );
-          } while (randomAnnouncement === this.prevAnnouncement);
-          if (!muted) {
-            this.announcerSounds[randomAnnouncement].play();
-          }
-          this.prevAnnouncement = randomAnnouncement;
-        }, 500);
-        if (this.p1Score < 3) {
-          setTimeout(() => {
-            this.respawnPlayer(playerB);
-            playerB.makeInvincible();
-            this.p1ScoreIncreased = false;
-          }, 1500);
-        }
-        this.p1ScoreIncreased = true;
-      }
+      this.handlePlayerScores(playerB, "p1Score", "p1ScoreIncreased");
     }
 
-    // items
-    for (let i = this.items.length - 1; i >= 0; i--) {
-      this.items[i].update();
-      this.items[i].draw();
-      if (playerA.isCollidingWith(this.items[i])) {
-        this.applyItemBuff(this.items[i], playerA);
-        this.items.splice(i, 1);
-      }
-      if (playerB.isCollidingWith(this.items[i])) {
-        this.applyItemBuff(this.items[i], playerB);
-        this.items.splice(i, 1);
-      }
-    }
-
-    // handles wall collisions
+    // Handles wall collisions
     for (let tileArr of this.roomLayout) {
       for (let tile of tileArr) {
         if (tile.type == tileTypes.WALL) {
-          this.handleWallCollision(playerA, tile);
-          this.handleWallCollision(playerB, tile);
+          this.handler.handleWallCollision(playerA, tile);
+          this.handler.handleWallCollision(playerB, tile);
         }
       }
     }
 
-    //players
+    // Players
     playerA.update();
     playerB.update();
   }
 
-  handleWallCollision(player, wall) {
-    // Calculate the boundaries of both objects
-    const playerLeft = player.position.x - player.widthHitbox / 2;
-    const playerRight = player.position.x + player.widthHitbox / 2;
-    const playerTop = player.position.y - player.heightHitbox / 2;
-    const playerBottom = player.position.y + player.heightHitbox / 2;
-
-    const wallLeft = wall.position.x;
-    const wallRight = wall.position.x + wall.widthHitbox;
-    const wallTop = wall.position.y;
-    const wallBottom = wall.position.y + wall.heightHitbox;
-
-    // Check if there's a collision
-    if (
-      playerRight > wallLeft &&
-      playerLeft < wallRight &&
-      playerBottom > wallTop &&
-      playerTop < wallBottom
-    ) {
-      // Calculate overlaps on each axis
-      const overlapLeft = playerRight - wallLeft;
-      const overlapRight = wallRight - playerLeft;
-      const overlapTop = playerBottom - wallTop;
-      const overlapBottom = wallBottom - playerTop;
-
-      // Find the minimum overlap
-      const minOverlap = Math.min(
-        overlapLeft,
-        overlapRight,
-        overlapTop,
-        overlapBottom
-      );
-
-      // Resolve collision based on minimum overlap
-      if (minOverlap === overlapLeft) {
-        // Colliding from the right side of the wall
-        player.position.x = wallLeft - player.widthHitbox / 2;
-        player.velocity.x = 0;
-      } else if (minOverlap === overlapRight) {
-        // Colliding from the left side of the wall
-        player.position.x = wallRight + player.widthHitbox / 2;
-        player.velocity.x = 0;
-      } else if (minOverlap === overlapTop) {
-        // Colliding from below the wall
-        player.position.y = wallTop - player.heightHitbox / 2;
-        player.velocity.y = 0;
-      } else if (minOverlap === overlapBottom) {
-        // Colliding from above the wall
-        player.position.y = wallBottom + player.heightHitbox / 2;
-        player.velocity.y = 0;
+  handlePlayerScores(player, playerScore, scoreIncreased) {
+    if (!player.isActive && !this[scoreIncreased]) {
+      this[playerScore]++;
+      if (!muted) {
+        pvpScoreSound.play();
       }
+      setTimeout(() => {
+        let randomAnnouncement;
+        do {
+          randomAnnouncement = Math.floor(
+            random(0, this.announcerSounds.length)
+          );
+        } while (randomAnnouncement === this.prevAnnouncement);
+        if (!muted) {
+          this.announcerSounds[randomAnnouncement].play();
+        }
+        this.prevAnnouncement = randomAnnouncement;
+      }, 500);
+      if (this[playerScore] < 3) {
+        setTimeout(() => {
+          this.respawnPlayer(player);
+          this[scoreIncreased] = false;
+        }, 1500);
+      }
+      this[scoreIncreased] = true;
     }
   }
 
   draw() {
-    for (let j = 0; j < roomHeight; j++) {
-      for (let i = 0; i < roomWidth; i++) {
-        if (this.roomLayout[j][i].type == tileTypes.WALL) {
-          image(
-            walltile,
-            tileSize * i + arena_offset,
-            tileSize * j + arena_offset,
-            tileSize,
-            tileSize
-          );
-          if (debug) {
-            // TESTING - draw collision box
-            fill(0, 200, 0, 100);
-            rect(
-              this.roomLayout[j][i].position.x,
-              this.roomLayout[j][i].position.y,
-              this.roomLayout[j][i].widthHitbox,
-              this.roomLayout[j][i].heightHitbox
-            );
-          }
-        } else {
-          let tiledex = 1;
-          if (j % 2 == 0 && i % 2 == 0) {
-            tiledex = 0;
-          }
-          image(
-            this.currentTileColours[tiledex],
-            tileSize * i + arena_offset,
-            tileSize * j + arena_offset,
-            tileSize,
-            tileSize
-          );
-        }
-      }
-    }
+    this.handler.drawRoomTiles();
 
     // Draw any particles after room objects so they appear behind the player/mobs
-    for (let i = 0; i < this.particles.length; i++) {
-      this.particles[i].update();
-      this.particles[i].draw();
-      if (this.particles[i].isFinished()) {
-        this.particles.splice(i, 1);
-      }
-    }
+    this.handler.drawParticles();
 
     playerA.move();
     playerB.move();
@@ -442,75 +87,39 @@ class PvPRoom {
     playerB.fire();
 
     playerA.draw();
-    playerA.drawPlayerHealthBar();
+    PlayerHUD.drawPlayerHealthBar();
 
     playerB.draw();
-    playerB.drawPlayerHealthBar();
+    PlayerHUD.drawPlayerHealthBar();
 
-    // pvp bullet collisions
+    // PvP bullet collisions
     for (let projectile of projectileManager.projectilesFired) {
-      if (projectile.isActive) {
-        projectile.draw();
-        if (
-          projectile.isCollidingWith(playerB) &&
-          projectile.owner == playerA
-        ) {
-          if (!playerB.isInvincible) {
-            playerB.takeDamage(playerA.attackDamage);
-            this.createParticles(
-              Blood,
-              playerB.position.x,
-              playerB.position.y,
-              playerB.bloodColour
-            );
-          }
-          projectile.isActive = false;
+      if (!projectile.isActive) continue;
+      projectile.draw();
+      let target;
+      if (projectile.owner === playerA) {
+        target = playerB;
+      } else if (projectile.owner === playerB) {
+        target = playerA;
+      }
+      if (projectile.isCollidingWith(target)) {
+        if (!target.isInvincible) {
+          target.takeDamage(projectile.owner.attackDamage);
+          this.generator.createParticles(
+            Blood,
+            target.position.x,
+            target.position.y,
+            target.bloodColour
+          );
         }
-        if (
-          projectile.isCollidingWith(playerA) &&
-          projectile.owner == playerB
-        ) {
-          if (!playerA.isInvincible) {
-            playerA.takeDamage(playerB.attackDamage);
-            this.createParticles(
-              Blood,
-              playerA.position.x,
-              playerA.position.y,
-              playerA.bloodColour
-            );
-          }
-          projectile.isActive = false;
-        }
+        projectile.isActive = false;
       }
     }
 
-    if (playerA.isCollidingWith(playerB)) {
+    if (playerA.isCollidingWith(playerB) || playerB.isCollidingWith(playerA)) {
       playerA.applyKnockback(playerB.position.x, playerB.position.y);
       playerB.applyKnockback(playerA.position.x, playerA.position.y);
     }
-  }
-
-  checkInsideWall(x, y) {
-    for (let j = 0; j < roomHeight; j++) {
-      for (let i = 0; i < roomWidth; i++) {
-        if (this.roomLayout[j][i].type === tileTypes.WALL) {
-          let wallX = this.roomLayout[j][i].position.x;
-          let wallY = this.roomLayout[j][i].position.y;
-          let wallWidth = this.roomLayout[j][i].widthHitbox;
-          let wallHeight = this.roomLayout[j][i].heightHitbox;
-
-          if (
-            x > wallX &&
-            x < wallX + wallWidth &&
-            y > wallY &&
-            y < wallY + wallHeight
-          ) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
   }
 
   respawnPlayer(player) {
@@ -518,16 +127,10 @@ class PvPRoom {
     let validSpawn = false;
     let spawnAttempts = 0;
     let enemy;
-    let gif;
-    let playerNo;
     if (player === playerB) {
       enemy = playerA;
-      gif = playerB.img;
-      playerNo = playerB.player;
     } else {
       enemy = playerB;
-      gif = playerA.img;
-      playerNo = playerA.player;
     }
     while (!validSpawn && spawnAttempts < 100) {
       spawnX =
@@ -543,7 +146,7 @@ class PvPRoom {
         enemy.position.x,
         enemy.position.y
       );
-      if (distanceFromEnemy > 300 && !this.checkInsideWall(spawnX, spawnY)) {
+      if (distanceFromEnemy > 300 && !this.handler.checkInsideWall(spawnX, spawnY)) {
         validSpawn = true;
         break;
       }
@@ -552,11 +155,11 @@ class PvPRoom {
 
     if (validSpawn) {
       if (player === playerB) {
-        playerB = null;
-        playerB = new Player(gif, spawnX, spawnY, playerNo);
+        playerB = new Player(player.img, spawnX, spawnY, player.player);
+        playerB.makeInvincible();
       } else {
-        playerA = null;
-        playerA = new Player(gif, spawnX, spawnY, playerNo);
+        playerA = new Player(player.img, spawnX, spawnY, player.player);
+        playerA.makeInvincible();
       }
     }
   }

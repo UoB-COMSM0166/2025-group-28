@@ -7,28 +7,16 @@ class Mob extends Sprite {
     this.widthModel = 65;
     this.heightModel = 65;
     this.fireCooldown = 50;
-    // Base mob should have fire cooldown limit even if mobs that inherit don't fire due to BuffMob buff
     this.fireCooldownLimit = 100;
     this.fireReady = false;
     this.difficultySettings = difficultySettings
-    this.speed = 1; //Slightly slower than players
-    this.direction = createVector(-1, 0); //Mob starts facing left
+    this.speed = 1; // Slightly slower than players
+    this.direction = createVector(-1, 0); // Mob starts facing left
     this.bloodColour = color(150, 225, 75, 0);
   }
 
   update() {
     if (!this.isActive) return;
-    // Stops mob moving outside the outer walls
-    this.position.x = constrain(
-      this.position.x,
-      tileSize * 3 + arena_offset,
-      roomWidth * tileSize - tileSize * 3 + arena_offset
-    );
-    this.position.y = constrain(
-      this.position.y,
-      tileSize * 3 + arena_offset,
-      roomHeight * tileSize - tileSize * 3 + arena_offset
-    );
     let nearestPlayer = this.findNearestPlayer();
     if (nearestPlayer) {
       this.moveTowards(nearestPlayer);
@@ -39,36 +27,13 @@ class Mob extends Sprite {
     super.update();
   }
 
-  drawMobHealthBar(){
-    // Health bar calculations
-    const healthBarWidth = this.widthModel * 0.6;
-    const healthBarHeight = 5;
-    const healthPercentage = this.health / this.maxHealth;
-
-    // Calculate center positions
-    const yOffset = 6; // Space between sprite and health bar
-    const spriteCenterX = this.position.x;
-    const spriteTop = this.position.y - this.heightModel / 2;
-
-    // Health bar positioning
-    const healthBarX = spriteCenterX - healthBarWidth / 2;
-    const healthBarY = spriteTop - yOffset - healthBarHeight;
-
-    // Health bar background
-    fill(255, 0, 0);
-    rect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-
-    // Current health
-    fill(0, 255, 0);
-    rect(
-      healthBarX,
-      healthBarY,
-      healthBarWidth * healthPercentage,
-      healthBarHeight
-    );
-  }
-
   fireUpdate() {
+    if (
+      (playerA && !playerA.isActive) ||
+      (playerB && !playerB.isActive)
+    ) {
+      return;
+    }
     this.fireCooldown += 1;
     if (this.fireCooldown > this.fireCooldownLimit) {
       this.fireReady = true;
@@ -77,10 +42,8 @@ class Mob extends Sprite {
   }
 
   moveTowards(player) {
-    if (!player.isActive) {
-      return;
-    }
-    //Moves smoothly towards whichever player is nearest
+    if (!player.isActive) return;
+    // Moves smoothly towards whichever player is nearest
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;
     this.direction = createVector(xDirection, yDirection);
@@ -88,24 +51,15 @@ class Mob extends Sprite {
       this.velocity.x = xDirection * this.speed;
       this.velocity.y = yDirection * this.speed;
     }
-    // Normalises diagonal movement
-    if (this.velocity.x !== 0 && this.velocity.y !== 0) {
-      this.velocity.setMag(this.speed);
-    }
+    this.normaliseDiagonalMovement();
     // Apply knockback force gradually
     if (this.knockbackVelocity.mag() > 0.1) {
-      if (game.slowMeowOccurring) { // Slow knockback speed if slow meow active
-        let adjustedVelocity = p5.Vector.mult(this.knockbackVelocity, game.slowMeowMovementSpeed);
-        this.position.add(adjustedVelocity);
-        this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowMovementSpeed));
-      } else {
-        this.position.add(this.knockbackVelocity);
-        this.knockbackVelocity.mult(0.9);
-      }
+      this.handleKnockback();
     }
   }
 
   findDistanceToPlayer(player) {
+    if (!player) return;
     let xDirection = this.position.x - player.position.x;
     let yDirection = this.position.y - player.position.y;
     let distance = sqrt(xDirection * xDirection + yDirection * yDirection);
@@ -131,7 +85,8 @@ class Mob extends Sprite {
         return playerB;
       }
     } else {
-      return playerA;
+      if (playerA.isActive) return playerA;
+      else return null;
     }
   }
 

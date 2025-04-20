@@ -1,57 +1,3 @@
-/* GLOBAL CONSTANTS */
-let game;
-let projectileManager;
-let behaviourMonitor;
-
-let muted = false;
-
-let playerA;
-let playerB;
-let roomButton = null;
-let pvpMode = false;
-let projectileWallCollisions = false;
-
-let gameCanvas;
-let themeMusic;
-
-let coop = false;
-let inGame = false;
-let childMode = false;
-let debug = false;
-let sp_button;
-let coop_button;
-let stng_button;
-let pvp_button;
-let menuContainer;
-let scoretotal;
-let returnToMenu;
-let gameOverContainer;
-let settingsMode = true;
-let howtopanel;
-
-let difficulty = difficultyLevels.EASY;
-let difficultyNames = ["Kitten", "Hunter", "Apex"];
-let difficultyTints = ["#4d63445A", "#a6aba45A", "#ba29225A"];
-let diffTint = difficultyTints[0];
-let difficultyButton;
-
-let gameOver = false;
-let gameCount = 1;
-let playerADeathCount = 0;
-let playerBDeathCount = 0;
-
-// Screen fade vars
-let fadeAlpha = 0;
-let fadingOut = false;
-let fadingIn = false;
-let transitioning = false;
-
-// Room transition positioning vars
-let doorPrevPos = null;
-let playerNextX, playerNextY;
-
-let frame = 0;
-
 function setup() {
   noStroke();
   rectMode(CORNER);
@@ -107,15 +53,6 @@ function menuStart() {
   menuBack.loop();
 }
 
-let stng_div;
-let set_back;
-let toggle_settings;
-let toggle_help;
-
-let wasd;
-let arrow;
-let settingpanel;
-
 function quitSettings() {
   stng_div.remove();
 }
@@ -145,182 +82,79 @@ function gameSetUp() {
 }
 
 function draw() {
-  if (inGame) {
-    if (game.gameState == GameStates.ACTIVE) {
-      background(0); // Refreshes the canvas background to fix the sprite ghosting effect
-      if (game.currentRoom && game.currentRoom.isCleared == true) {
-        game.currentRoom.door.isUnlocked = true;
-        game.currentRoom.door.update();
-        if (game.currentRoom.promptActive) {
-          if (keyIsDown(69) && !transitioning) {
-            gameCount += 1;
-            if (!muted) {
-              roomTransitionSound.play();
-            }
-            fadingOut = true;
-            transitioning = true;
+  if (!inGame) return;
+  if (game.gameState == GameStates.ACTIVE) {
+    background(0); // Refreshes the canvas background to fix the sprite ghosting effect
+    if (game.currentRoom && game.currentRoom.isCleared == true) {
+      game.currentRoom.door.isUnlocked = true;
+      game.currentRoom.door.update();
+      if (game.currentRoom.promptActive) {
+        if (keyIsDown(69) && !transitioning) {
+          gameCount += 1;
+          if (!muted) {
+            roomTransitionSound.play();
           }
+          fadingOut = true;
+          transitioning = true;
         }
       }
+    }
+    // Top UI block
+    GameUI.drawUITop();
+    // Bottom UI block
+    GameUI.drawUIBottom();
+    game.draw();
+  }
 
-      // top UI block
-      fill(0, 0, 0);
-      let backing = rect(100, 50, 800, 50);
-
-      push();
-      textSize(28);
-      textFont(gameFont);
-      textAlign(CENTER);
-      fill(255, 255, 255);
-      var roomNumber;
-      var scoreNumber;
+  // Draw fade out/in effect
+  if (fadingOut) {
+    fadeAlpha += 10;
+    if (fadeAlpha >= 255) {
+      fadeAlpha = 255;
+      fadingOut = false;
+      fadingIn = true;
       if (!pvpMode) {
-        roomNumber = "Room " + game.roomSeq;
-      } else {
-        roomNumber = "Round " + game.roomSeq;
+        game.currentRoom.getPlayerNextPos();
       }
-      text(roomNumber, 200, 80);
-      if (!coop && !pvpMode) {
-        scoreNumber = "Score:" + game.currScoreP1;
-        text(scoreNumber, 750, 80);
-      } else {
-        textSize(16);
-        if (coop) {
-          scoreNumber = "Score A:" + game.currScoreP1;
-          text(scoreNumber, 750, 70);
-          scoreNumber = "Score B:" + game.currScoreP2;
-          text(scoreNumber, 750, 90);
-        } else if (pvpMode) {
-          push();
-          textSize(40);
-          var divider = "|";
-          text(divider, 312, 85);
-          pop();
-          scoreNumber = "Kills A:" + game.currScoreP1;
-          text(scoreNumber, 400, 65);
-          scoreNumber = "Kills B:" + game.currScoreP2;
-          text(scoreNumber, 400, 85);
-          scoreNumber = "Total A:" + game.p1PVPTotal;
-          text(scoreNumber, 825, 65);
-          scoreNumber = "Total B:" + game.p2PVPTotal;
-          text(scoreNumber, 825, 85);
-        }
-      }
-      pop();
-      // bottom ui block
-      fill(0, 0, 0);
-      let footer_backing = rect(100, 690, 800, 50);
-
-      // Player heat bars
-      const barWidth = 200;
-      const barHeight = 20;
-      const padding = 10;
-      playerA.drawPlayerHeatBar(
-        width / 4 - 90,
-        height - 80,
-        barWidth,
-        barHeight,
-        playerA.fireCooldown / 200,
-        "PLAYER A"
-      );
-      if (coop || pvpMode) {
-        playerB.drawPlayerHeatBar(
-          width / 4 + 400,
-          height - 80,
-          barWidth,
-          barHeight,
-          playerB.fireCooldown / 200,
-          "PLAYER B"
-        );
-      }
-      push();
-      textSize(16);
-      textFont(gameFont);
-      textAlign(CENTER);
-      if (!pvpMode) {
-        if (
-          coop &&
-          game.slowMeowLevel == slowMeowMax &&
-          playerA.fireOverheat &&
-          playerB.fireOverheat
-        ) {
-          fill(210, 0, 0);
-          text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
-        } else if (
-          !coop &&
-          game.slowMeowLevel == slowMeowMax &&
-          playerA.fireOverheat
-        ) {
-          fill(210, 0, 0);
-          text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
-        } else if (!game.slowMeowUsable || game.slowMeowOccurring) {
-          fill(100, 150, 255);
-          text(
-            "SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%",
-            width / 2 + 20,
-            height - 63
-          );
-        } else if (!game.slowMeowOccurring && game.slowMeowUsable) {
-          fill(0, 255, 255);
-          text("SLOW MEOW:READY", width / 2 + 20, height - 63);
-        }
-      }
-      pop();
-      game.draw();
+      game.nextRoom();
     }
-
-    if (fadingOut) {
-      fadeAlpha += 10;
-      if (fadeAlpha >= 255) {
-        fadeAlpha = 255;
-        fadingOut = false;
-        fadingIn = true;
-        if (!pvpMode) {
-          game.currentRoom.getPlayerNextPos();
-        }
-        game.nextRoom();
-      }
-    } else if (fadingIn) {
-      fadeAlpha -= 10;
-      if (fadeAlpha <= 0) {
-        fadeAlpha = 0;
-        fadingIn = false;
-        transitioning = false;
-      }
+  } else if (fadingIn) {
+    fadeAlpha -= 10;
+    if (fadeAlpha <= 0) {
+      fadeAlpha = 0;
+      fadingIn = false;
+      transitioning = false;
     }
-    noStroke();
-    fill(0, fadeAlpha);
-    rect(0, 0, windowWidth, windowHeight);
-    if (game.gameState == GameStates.OVER && !gameOver) {
-      GameOver.renderGameOverInterface();
-      gameOver = true;
-    }
+  }
+  noStroke();
+  fill(0, fadeAlpha);
+  rect(0, 0, windowWidth, windowHeight);
+  if (game.gameState == GameStates.OVER && !gameOver) {
+    GameOver.renderGameOverInterface();
+    gameOver = true;
   }
 }
 
 function keyPressed() {
-  if (inGame) {
-    let music;
-    if (pvpMode) {
-      music = pvpMusic;
-    } else {
-      music = gameMusic;
+  if (!inGame) return;
+  let music;
+  if (pvpMode) music = pvpMusic;
+  else music = gameMusic;
+  // Quit the game with 'Q' from pause menu
+  if (game && keyCode == 81) {
+    if (game.gameState == GameStates.PAUSE) {
+      music.stop();
+      gameSwitch(false);
+    } else if (game.gameState == GameStates.OVER) {
+      music.stop();
+      GameOver.gameOverReturn();
     }
-    // 'press q to quit'
-    if (game && keyCode == 81) {
-      if (game.gameState == GameStates.PAUSE) {
-        music.stop();
-        gameSwitch(false);
-      } else if (game.gameState == GameStates.OVER) {
-        music.stop();
-        GameOver.gameOverReturn();
-      }
-    }
-
-    if (game && keyCode == ESCAPE) {
-      if (game.gameState == GameStates.ACTIVE && !transitioning) {
+  }
+  if (game && keyCode == ESCAPE) {
+    if (game.gameState == GameStates.ACTIVE && !transitioning) {
+      if ((playerA && playerA.isActive) || (playerB && playerB.isActive)) {
         game.gameState = GameStates.PAUSE;
-        music.pause();
+        if (!muted) music.pause();
         push();
         fill("rgba(0, 0, 0, 0.6)");
         let pauseMask = rect(0, 0, pageWidth, pageHeight);
@@ -334,29 +168,26 @@ function keyPressed() {
         text("Press ESC to resume", 500, 400);
         pop();
         noLoop();
-      } else {
-        loop();
-        game.gameState = GameStates.ACTIVE;
-
-        if (!muted) {
-          music.play();
-        }
       }
+    } else if (game.gameState == GameStates.PAUSE) {
+      loop();
+      game.gameState = GameStates.ACTIVE;
+      if (!muted) music.play();
     }
-    // 192 = ` (key under Esc)
-    if (keyCode == 192) {
-      if (!debug) {
-        debug = true;
-      } else {
-        debug = false;
-      }
+  }
+  // 192 = ` (key under Esc)
+  if (keyCode == 192) {
+    if (!debug) {
+      debug = true;
+    } else {
+      debug = false;
     }
-    // SlowMeow gets activated with 'Q' or '/'
-    if (game && game.gameState == GameStates.ACTIVE) {
-      if (!transitioning && !pvpMode) {
-        if (keyCode == 81 || keyCode == 191) {
-          game.activateSlowMeow();
-        }
+  }
+  // SlowMeow gets activated with 'Q' or '/'
+  if (game && game.gameState == GameStates.ACTIVE) {
+    if (!transitioning && !pvpMode) {
+      if (keyCode == 81 || keyCode == 191) {
+        game.slowMeowHandler.activate();
       }
     }
   }

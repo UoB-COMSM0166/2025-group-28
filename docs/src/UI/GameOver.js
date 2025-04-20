@@ -1,7 +1,5 @@
 class GameOver {
   static renderGameOverInterface() {
-    // clear();
-
     fill("rgba(0, 0, 0, 0.7)");
     let endMask = rect(0, 0, 950, 800);
 

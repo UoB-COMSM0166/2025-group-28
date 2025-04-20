@@ -8,8 +8,7 @@ class Sprite extends GameObject {
 
     this.img = img;
 
-    this.isSlowed = false;
-    this.direction = createVector(1, 0); //So the character starts facing right
+    this.direction = createVector(1, 0); // Entity starts facing right
 
     // Properties for i-frames/flashing effect
     this.isInvincible = false;
@@ -22,8 +21,15 @@ class Sprite extends GameObject {
     this.soundCooldown = 1500; // 1.5 second cooldown between sounds
 
     this.isBuffed = false;
+    this.isSlowed = false;
 
     this.knockbackVelocity = createVector(0, 0);
+  }
+
+  normaliseDiagonalMovement() {
+    if (this.velocity.x !== 0 && this.velocity.y !== 0) {
+      this.velocity.setMag(this.speed);
+    }
   }
 
   calculateKnockbackDirection(sourceX, sourceY) {
@@ -35,6 +41,21 @@ class Sprite extends GameObject {
   applyKnockback(sourceX, sourceY) {
     let knockbackDirection = this.calculateKnockbackDirection(sourceX, sourceY);
     this.knockbackVelocity = p5.Vector.mult(knockbackDirection, knockbackForce);
+  }
+
+  handleKnockback() {
+    if (game.slowMeowHandler.occurring) {
+      // Slow knockback speed if slow meow active
+      let adjustedVelocity = p5.Vector.mult(
+        this.knockbackVelocity,
+        game.slowMeowHandler.movementSpeed
+      );
+      this.position.add(adjustedVelocity);
+      this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowHandler.movementSpeed));
+    } else {
+      this.position.add(this.knockbackVelocity);
+      this.knockbackVelocity.mult(0.9);
+    }
   }
 
   takeDamage(amount) {
@@ -68,11 +89,11 @@ class Sprite extends GameObject {
   }
 
   checkIfSlowMeowActive() {
-    if (game && game.slowMeowOccurring) {
+    if (game && game.slowMeowHandler.occurring) {
       if (this.isSlowed) return;
       if (!this.isBuffed) this.originalSpeed = this.speed;
-      this.speed *= game.slowMeowMovementSpeed;
-      if (this.canDash) this.dashSpeed *= game.slowMeowMovementSpeed;
+      this.speed *= game.slowMeowHandler.movementSpeed;
+      if (this.canDash) this.dashSpeed *= game.slowMeowHandler.movementSpeed;
       this.isSlowed = true;
     } else this.isSlowed = false;
   }
