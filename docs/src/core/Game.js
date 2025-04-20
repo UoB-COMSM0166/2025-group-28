@@ -11,7 +11,7 @@ class Game {
       this.currentRoom = new PvPRoom();
     }
 
-    // score variables
+    // Score variables
     this.prevScoreP1 = 0;
     this.currScoreP1 = 0;
     this.prevScoreP2 = 0;

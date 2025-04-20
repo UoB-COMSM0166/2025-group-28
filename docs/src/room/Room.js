@@ -5,7 +5,7 @@ class Room {
     this.isCleared = false;
     this.mobs = [];
     this.items = [];
-    this.roomLayout = []; // 2d array of tiles
+    this.roomLayout = []; // 2D array of tiles
     this.particles = [];
     this.mobsRemaining = difficultySettings.totalMobs();
     this.lastSpawnTime = 0;
@@ -280,7 +280,7 @@ class Room {
       promptX = this.door.position.x + tileSize * 2;
       promptY = this.door.position.y;
     // Door on right side of room
-    } else if (this.door.x === roomWidth + arena_offset / 9.5) {
+    } else if (this.door.x == roomWidth + arena_offset / 9.5) {
       xMin = this.door.position.x - arena_offset * 2 - tileSize * 8;
       xMax = this.door.position.x;
       yMin = this.door.position.y - tileSize * 4;
@@ -288,7 +288,7 @@ class Room {
       promptX = this.door.position.x - tileSize * 2 - arena_offset * 2;
       promptY = this.door.position.y;
     // Door at bottom of room
-    } else if (this.door.y === roomHeight - 2) {
+    } else if (this.door.y == roomHeight - 2) {
       xMin = this.door.position.x - tileSize * 4;
       xMax = this.door.position.x + tileSize * 8;
       yMin = this.door.position.y - tileSize * 8;
@@ -296,7 +296,7 @@ class Room {
       promptX = this.door.position.x + tileSize + tileSize / 2;
       promptY = this.door.position.y - tileSize * 2;
     // Door at top of room
-    } else if (this.door.y === 1) {
+    } else if (this.door.y == 1) {
       xMin = this.door.position.x - tileSize * 4;
       xMax = this.door.position.x + tileSize * 8;
       yMin = this.door.position.y;
@@ -415,7 +415,7 @@ class Room {
         }
         randomNum -= mob.weight;
       }
-      if (chosenMob.type == BuffMob) this.canSpawnBuffMob = false;
+      if (chosenMob.type === BuffMob) this.canSpawnBuffMob = false;
       this.mobs.push(
         new chosenMob.type(
           chosenMob.gif,

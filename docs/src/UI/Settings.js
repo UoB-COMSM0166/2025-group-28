@@ -63,7 +63,9 @@ class Settings {
     toggle_help.attribute("draggable", "false");
     toggle_help.mouseClicked(switchToHelp);
   }
+
   static switchToWasd() {
+    wasd_control = true;
     wasd.style("border", "2px solid white");
     arrow.style("border", "none");
 
@@ -71,6 +73,7 @@ class Settings {
   }
 
   static switchToArrow() {
+    wasd_control = false;
     arrow.style("border", "2px solid white");
     wasd.style("border", "none");
 
@@ -121,7 +124,7 @@ class Settings {
     toggle_help.attribute("draggable", "false");
     toggle_help.mouseClicked(switchToHelp);
 
-    // default to setting panel
+    // Default to setting panel
     Settings.renderSettingPanel();
   }
 
@@ -136,7 +139,7 @@ class Settings {
     controlLegend.position(20, 100);
     let p2control = createP("Player 2 will use <br> non-default controls");
     p2control.parent(settingpanel);
-    p2control.position(20, 150);
+    p2control.position(20, 137);
     p2control.style("font-size", "10px");
     p2control.style("opacity", "0.6");
 
@@ -144,9 +147,8 @@ class Settings {
     wasd.parent(settingpanel);
     wasd.position(320, 100);
     wasd.size(150, 160);
-    wasd.mouseClicked(Settings.switchToWasd);
-    wasd.style("border", "2px solid white");
     wasd.attribute("draggable", "false");
+    wasd.mouseClicked(Settings.switchToWasd);
 
     arrow = createImg(arrow_icon);
     arrow.parent(settingpanel);
@@ -154,6 +156,10 @@ class Settings {
     arrow.size(150, 160);
     arrow.attribute("draggable", "false");
     arrow.mouseClicked(Settings.switchToArrow);
+
+    if (wasd_control) {
+      wasd.style("border", "2px solid white");
+    } else arrow.style("border", "2px solid white");
 
     let disableSounds = createP("Enable Audio");
     disableSounds.parent(settingpanel);
@@ -191,7 +197,7 @@ class Settings {
     disabBlood_off.position(360, 300);
     disabBlood_off.mouseClicked(toggleBloodDisable);
 
-    let childModeCap = createP("Disable blood particle effects");
+    let childModeCap = createP("Disable blood particle<br>effects and gore sounds");
     childModeCap.parent(settingpanel);
     childModeCap.position(20, 335);
     childModeCap.style("font-size", "10px");

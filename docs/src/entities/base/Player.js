@@ -12,7 +12,7 @@ class Player extends Sprite {
     this.speed = 2.75;
     this.originalSpeed = this.speed;
     this.attackDamage = 10 * difficultySettings[difficulty].playerDamageMult;
-    this.fireRate = 200; // ms between shots
+    this.fireRate = 200; // 200ms between shots
     this.originalFireRate = this.fireRate;
     this.lastShot = 0; // Timestamp of last shot
     this.projectileSpeed = 10;
@@ -124,7 +124,7 @@ class Player extends Sprite {
 
     this.normaliseDiagonalMovement();
 
-    //Normalises diagonal firing
+    // Normalises diagonal firing
     if (this.velocity.mag() > 0) {
       this.direction = this.velocity.copy().normalize();
     }
@@ -248,14 +248,14 @@ class Player extends Sprite {
 
     let fillColor;
     if (this.fireOverheat) {
-      // causes the bar to flash when overheated
+      // Causes the bar to flash when overheated
       if (frameCount % 20 < 10) {
-        fillColor = color(255, 0, 0); // red
+        fillColor = color(255, 0, 0); // Red
       } else {
-        fillColor = color(255, 150, 0); // orange
+        fillColor = color(255, 150, 0); // Orange
       }
     } else {
-      // goes from green to yellow to red as heat increases
+      // Goes from green to yellow to red as heat increases
       if (value < 0.5) {
         let greenAmount = map(value, 0, 0.5, 255, 255);
         let redAmount = map(value, 0, 0.5, 0, 255);
@@ -272,7 +272,7 @@ class Player extends Sprite {
     fill(fillColor);
     rect(x, y, fillWidth, height, 5);
 
-    // warning text if close to overheating
+    // Warning text if close to overheating
     if (value > 0.75 && !this.fireOverheat) {
       fill(70, 0, 0);
       textAlign(CENTER, CENTER);
@@ -282,7 +282,7 @@ class Player extends Sprite {
       text("WARNING!", x + width / 2, y + height / 2);
     }
 
-    // overheat text
+    // Overheat text
     if (this.fireOverheat) {
       fill(255);
       textAlign(CENTER, CENTER);
@@ -293,7 +293,7 @@ class Player extends Sprite {
     }
     pop();
 
-    // label
+    // Label
     push();
     fill(255);
     textAlign(CENTER);

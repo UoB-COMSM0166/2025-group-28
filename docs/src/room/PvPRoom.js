@@ -1,6 +1,6 @@
 class PvPRoom {
   constructor() {
-    this.roomLayout = []; // 2d array of tiles
+    this.roomLayout = []; // 2D array of tiles
     this.particles = [];
     this.lastSpawnTime = 0;
     this.currentTileColours;
@@ -31,7 +31,7 @@ class PvPRoom {
       this.handlePlayerScores(playerB, "p1Score", "p1ScoreIncreased");
     }
 
-    // handles wall collisions
+    // Handles wall collisions
     for (let tileArr of this.roomLayout) {
       for (let tile of tileArr) {
         if (tile.type == tileTypes.WALL) {
@@ -41,7 +41,7 @@ class PvPRoom {
       }
     }
 
-    //players
+    // Players
     playerA.update();
     playerB.update();
   }

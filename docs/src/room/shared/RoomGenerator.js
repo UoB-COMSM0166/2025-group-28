@@ -1,3 +1,4 @@
+// Handles room generation for both room types
 class RoomGenerator {
   constructor(currentRoom) {
     this.room = currentRoom;
@@ -247,15 +248,15 @@ class RoomGenerator {
   }
 
   createParticles(type = Particle, x, y, colour, velocity = null) {
-    if (childMode && type == Blood) return;
+    if (childMode && type === Blood) return;
     let maxParticles;
-    if (type == Spark) {
+    if (type === Spark) {
       maxParticles = Math.floor(random(3, 7));
     } else {
       maxParticles = Math.floor(random(5, 20));
     }
     for (let i = 0; i < maxParticles; i++) {
-      if (type == Spark && velocity) {
+      if (type === Spark && velocity) {
         this.room.particles.push(new Spark(x, y, colour, velocity));
       } else {
         this.room.particles.push(new type(x, y, colour));

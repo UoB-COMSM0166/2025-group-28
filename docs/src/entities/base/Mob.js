@@ -7,12 +7,11 @@ class Mob extends Sprite {
     this.widthModel = 65;
     this.heightModel = 65;
     this.fireCooldown = 50;
-    // Base mob should have fire cooldown limit even if mobs that inherit don't fire due to BuffMob buff
     this.fireCooldownLimit = 100;
     this.fireReady = false;
     this.difficultySettings = difficultySettings
-    this.speed = 1; //Slightly slower than players
-    this.direction = createVector(-1, 0); //Mob starts facing left
+    this.speed = 1; // Slightly slower than players
+    this.direction = createVector(-1, 0); // Mob starts facing left
     this.bloodColour = color(150, 225, 75, 0);
   }
 

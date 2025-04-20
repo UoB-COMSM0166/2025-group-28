@@ -99,9 +99,9 @@ function draw() {
         }
       }
     }
-    // top UI block
+    // Top UI block
     GameUI.drawUITop();
-    // bottom ui block
+    // Bottom UI block
     GameUI.drawUIBottom();
     game.draw();
   }
@@ -140,7 +140,7 @@ function keyPressed() {
   let music;
   if (pvpMode) music = pvpMusic;
   else music = gameMusic;
-  // 'press q to quit'
+  // Quit the game with 'Q' from pause menu
   if (game && keyCode == 81) {
     if (game.gameState == GameStates.PAUSE) {
       music.stop();
