@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Astrocat!</title>
+    <title>AstroCat!</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png" />
 
     <link rel="stylesheet" type="text/css" href="style.css" />
 
@@ -13,13 +14,18 @@
   </head>
 
   <body>
+    <script src="src/core/Assets.js"></script>
     <script src="src/core/Constants.js"></script>
+    <script src="src/core/GlobalVars.js"></script>
     <script src="src/core/sketch.js"></script>
     <script src="src/core/BehaviourMonitor.js"></script>
     <script src="src/core/ProjectileManager.js"></script>
+    <script src="src/core/Game.js"></script>
+    <script src="src/core/SlowMeowHandler.js"></script>
     <script src="src/room/Room.js"></script>
     <script src="src/room/PvPRoom.js"></script>
-    <script src="src/core/Game.js"></script>
+    <script src="src/room/shared/RoomGenerator.js"></script>
+    <script src="src/room/shared/RoomHandler.js"></script>
     <script src="src/entities/core/GameObject.js"></script>
     <script src="src/entities/core/Sprite.js"></script>
     <script src="src/room/objects/Tile.js"></script>
@@ -37,5 +43,10 @@
     <script src="src/entities/items/Energy.js"></script>
     <script src="src/entities/particles/Blood.js"></script>
     <script src="src/entities/particles/Spark.js"></script>
+    <script src="src/UI/Settings.js"></script>
+    <script src="src/UI/Menu.js"></script>
+    <script src="src/UI/GameOver.js"></script>
+    <script src="src/UI/GameUI.js"></script>
+    <script src="src/UI/PlayerHUD.js"></script>
   </body>
 </html>

@@ -13,7 +13,7 @@ class Spark extends Particle {
 
   update() {
     super.update();
-    this.lifespan -= 7.5;
+    this.lifespan = Math.max(0, this.lifespan - 7.5);
   }
 
   draw() {

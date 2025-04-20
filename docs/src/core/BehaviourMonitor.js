@@ -70,6 +70,7 @@ class BehaviourMonitor {
 
   getRoomThreatCap() {
     if (coop) baseThreatLimit = 20;
+    else baseThreatLimit = 10;
     let baseThreat = (baseThreatLimit * this.baseThreatMult) + this.roomsCleared * threatScaleFactor;
     let deathPenalty = this.getTotalDeaths() * -2; // Decreases difficulty in coop the more times players die
     let aggressionBonus = 0;
