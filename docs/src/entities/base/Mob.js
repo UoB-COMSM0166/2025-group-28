@@ -42,7 +42,7 @@ class Mob extends Sprite {
   }
 
   moveTowards(player) {
-    if (!player.isActive) return;
+    if (!player || !player.isActive) return;
     // Moves smoothly towards whichever player is nearest
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;
@@ -92,28 +92,26 @@ class Mob extends Sprite {
 
   // For adding/removing BuffMob buff
   applyBuff() {
-    if (!this.isBuffed) {
-      this.isInvincible = false;
-      if (!this.isSlowed) this.originalSpeed = this.speed;
-      this.speed *= 1.75;
-      this.originalSpeed *= 1.75;
-      this.attackDamage *= 1.5;
-      this.maxHealth *= 2;
-      this.health *= 2;
-      this.fireCooldownLimit *= 0.5;
-      this.isBuffed = true;
-    }
+    if (this.isBuffed || !this.isActive) return;
+    this.isInvincible = false;
+    if (!this.isSlowed) this.originalSpeed = this.speed;
+    this.speed *= 1.75;
+    this.originalSpeed *= 1.75;
+    this.attackDamage *= 1.5;
+    this.maxHealth *= 2;
+    this.health *= 2;
+    this.fireCooldownLimit *= 0.5;
+    this.isBuffed = true;
   }
 
   removeBuff() {
-    if (this.isBuffed) {
-      this.speed /= 1.75;
-      this.originalSpeed /= 1.75;
-      this.attackDamage /= 1.5;
-      this.maxHealth /= 2;
-      this.health /= 2;
-      this.fireCooldownLimit /= 0.5;
-      this.isBuffed = false;
-    }
+    if (!this.isBuffed || !this.isActive) return;
+    this.speed /= 1.75;
+    this.originalSpeed /= 1.75;
+    this.attackDamage /= 1.5;
+    this.maxHealth /= 2;
+    this.health /= 2;
+    this.fireCooldownLimit /= 0.5;
+    this.isBuffed = false;
   }
 }
