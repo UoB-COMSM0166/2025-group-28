@@ -14,25 +14,22 @@ class GameObject {
 
   update() {
     if (!this.isActive) return;
-
-    this.position.add(this.velocity);
-
-    // Stops the object moving outside the outer walls (just in case)
+    // Stops object moving beyond outer walls
     this.position.x = constrain(
       this.position.x,
       (tileSize * 2) + (this.widthHitbox / 2) + arena_offset,
       (roomWidth * tileSize) - (tileSize * 2) - (this.widthHitbox / 2) + arena_offset
     );
-
     this.position.y = constrain(
       this.position.y,
       (tileSize * 2) + (this.heightHitbox / 2) + arena_offset,
       (roomHeight * tileSize) - (tileSize * 2) - (this.heightHitbox / 2) + arena_offset
     );
+    this.position.add(this.velocity);
   }
 
   isCollidingWith(entity) {
-    if (!this.isActive || !entity.isActive) return;
+    if ((this && !this.isActive) || (entity && !entity.isActive)) return;
     // Calculate the top-left corners based on center positions
     const thisLeft = this.position.x - this.widthHitbox / 2;
     const thisTop = this.position.y - this.heightHitbox / 2;

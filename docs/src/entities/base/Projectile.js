@@ -24,20 +24,22 @@ class Projectile extends GameObject {
 
     this.position.add(this.velocity);
 
-    if (game.slowMeowOccurring) {
+    if (game.slowMeowHandler.occurring) {
       // Correct original velocity value for projectiles fired during slow meow state
       if (this.originalVelocity.mag() <= this.velocity.mag()) {
         if (this.velocity.mag() < 1) {
-          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed);
+          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowHandler.movementSpeed);
         } else {
-          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowMovementSpeed + 1);
+          this.originalVelocity = p5.Vector.div(this.velocity, game.slowMeowHandler.movementSpeed + 1);
         }
         if (this.owner.isBuffed && this.owner.speed > 0) {
-          this.originalVelocity.x = this.owner.velocity.x * (this.owner.projectileSpeed / game.slowMeowMovementSpeed);
-          this.originalVelocity.y = this.owner.velocity.y * (this.owner.projectileSpeed / game.slowMeowMovementSpeed);
+          this.originalVelocity.x =
+            this.owner.velocity.x * (this.owner.projectileSpeed / game.slowMeowHandler.movementSpeed);
+          this.originalVelocity.y =
+            this.owner.velocity.y * (this.owner.projectileSpeed / game.slowMeowHandler.movementSpeed);
         }
       }
-      this.velocity = p5.Vector.mult(this.originalVelocity, game.slowMeowMovementSpeed);
+      this.velocity = p5.Vector.mult(this.originalVelocity, game.slowMeowHandler.movementSpeed);
     } else {
       if (this.owner.speed > 0) {
         this.velocity.setMag(this.owner.projectileSpeed);

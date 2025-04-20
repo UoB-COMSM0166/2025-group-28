@@ -184,7 +184,7 @@ class RoomGenerator {
     let wallChance;
     if (this.room instanceof PvPRoom) {
       wallChance = 0.5;
-    } else wallChance = 0.35;
+    } else wallChance = 0.3;
     if (random() < wallChance) {
       return true;
     }

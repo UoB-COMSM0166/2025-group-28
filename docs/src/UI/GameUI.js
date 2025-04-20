@@ -69,33 +69,56 @@ class GameUI {
     textFont(gameFont);
     textAlign(CENTER);
     if (!pvpMode) {
+      let slowMeowIndicator = "";
+      let textColour;
       if (
-        coop &&
-        game.slowMeowLevel == slowMeowMax &&
+        game.slowMeowHandler.level == slowMeowMax &&
         playerA.fireOverheat &&
-        playerB.fireOverheat
+        (!coop || playerB.fireOverheat)
       ) {
-        fill(210, 0, 0);
-        text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
-      } else if (
-        !coop &&
-        game.slowMeowLevel == slowMeowMax &&
-        playerA.fireOverheat
-      ) {
-        fill(210, 0, 0);
-        text("SLOW MEOW:BLOCKED", width / 2 + 20, height - 63);
-      } else if (!game.slowMeowUsable || game.slowMeowOccurring) {
-        fill(100, 150, 255);
-        text(
-          "SLOW MEOW:" + Math.floor(game.slowMeowLevel) + "%",
-          width / 2 + 20,
-          height - 63
-        );
-      } else if (!game.slowMeowOccurring && game.slowMeowUsable) {
-        fill(0, 255, 255);
-        text("SLOW MEOW:READY", width / 2 + 20, height - 63);
+        slowMeowIndicator = "SLOW MEOW:BLOCKED";
+        textColour = [210, 0, 0];
+      } else if (!game.slowMeowHandler.usable || game.slowMeowHandler.occurring) {
+        slowMeowIndicator = "SLOW MEOW:" + Math.floor(game.slowMeowHandler.level) + "%";
+        textColour = [100, 150, 255];
+      } else if (game.slowMeowHandler.usable) {
+        slowMeowIndicator = "SLOW MEOW:READY";
+        textColour = [0, 255, 255];
+      }
+      if (slowMeowIndicator) {
+        fill(...textColour);
+        text(slowMeowIndicator, width / 2 + 20, height - 63);
       }
     }
     pop();
+  }
+
+  static drawMobHealthBar(mob) {
+    // Health bar calculations
+    const healthBarWidth = mob.widthModel * 0.6;
+    const healthBarHeight = 5;
+    const healthPercentage = mob.health / mob.maxHealth;
+
+    // Calculate center positions
+    const yOffset = 6; // Space between sprite and health bar
+    const spriteCenterX = mob.position.x;
+    const spriteTop = mob.position.y - mob.heightModel / 2;
+
+    // Health bar positioning
+    const healthBarX = spriteCenterX - healthBarWidth / 2;
+    const healthBarY = spriteTop - yOffset - healthBarHeight;
+
+    // Health bar background
+    fill(255, 0, 0);
+    rect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+
+    // Current health
+    fill(0, 255, 0);
+    rect(
+      healthBarX,
+      healthBarY,
+      healthBarWidth * healthPercentage,
+      healthBarHeight
+    );
   }
 }

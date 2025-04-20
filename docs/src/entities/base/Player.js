@@ -47,7 +47,7 @@ class Player extends Sprite {
       else if (this.slowTimer == 150) this.speed = 1.8;
       else if (this.slowTimer == 200) this.speed = 2.4;
       else if (this.slowTimer > 200) this.speed = 2.75;
-      if (!game.slowMeowOccurring) this.slowTimer++;
+      if (!game.slowMeowHandler.occurring) this.slowTimer++;
       this.originalSpeed = this.speed;
     }
   }
@@ -147,7 +147,7 @@ class Player extends Sprite {
         this.endFrame = 5;
       }
       this.velocity.x = -this.speed;
-      this.direction = createVector(1, 0); // Facing left
+      this.direction = createVector(1, 0);
       this.scaleX = -1; // Flip sprite to face left
       if (!movingVertically) this.lastDirection = "LEFT";
     }
@@ -158,7 +158,7 @@ class Player extends Sprite {
         this.endFrame = 5;
       }
       this.velocity.x = this.speed;
-      this.direction = createVector(-1, 0); // Facing right
+      this.direction = createVector(-1, 0);
       this.scaleX = 1; // Reset sprite to face right
       if (!movingVertically) this.lastDirection = "RIGHT";
     }
@@ -225,8 +225,8 @@ class Player extends Sprite {
     this.fireCooldown = 0;
     this.slowTimer = 0;
     this.fireOverheat = false;
-    if (game.slowMeowOccurring) {
-      this.speed = 2.75 * (game.slowMeowMovementSpeed * 1.2);
+    if (game.slowMeowHandler.occurring) {
+      this.speed = 2.75 * (game.slowMeowHandler.movementSpeed * 1.2);
     } else {
       this.speed = 2.75;
     }

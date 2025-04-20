@@ -17,7 +17,6 @@ class Mob extends Sprite {
 
   update() {
     if (!this.isActive) return;
-    // Stops mob moving outside the outer walls
     let nearestPlayer = this.findNearestPlayer();
     if (nearestPlayer) {
       this.moveTowards(nearestPlayer);
@@ -28,36 +27,13 @@ class Mob extends Sprite {
     super.update();
   }
 
-  drawMobHealthBar(){
-    // Health bar calculations
-    const healthBarWidth = this.widthModel * 0.6;
-    const healthBarHeight = 5;
-    const healthPercentage = this.health / this.maxHealth;
-
-    // Calculate center positions
-    const yOffset = 6; // Space between sprite and health bar
-    const spriteCenterX = this.position.x;
-    const spriteTop = this.position.y - this.heightModel / 2;
-
-    // Health bar positioning
-    const healthBarX = spriteCenterX - healthBarWidth / 2;
-    const healthBarY = spriteTop - yOffset - healthBarHeight;
-
-    // Health bar background
-    fill(255, 0, 0);
-    rect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-
-    // Current health
-    fill(0, 255, 0);
-    rect(
-      healthBarX,
-      healthBarY,
-      healthBarWidth * healthPercentage,
-      healthBarHeight
-    );
-  }
-
   fireUpdate() {
+    if (
+      (playerA && !playerA.isActive) ||
+      (playerB && !playerB.isActive)
+    ) {
+      return;
+    }
     this.fireCooldown += 1;
     if (this.fireCooldown > this.fireCooldownLimit) {
       this.fireReady = true;
@@ -66,14 +42,7 @@ class Mob extends Sprite {
   }
 
   moveTowards(player) {
-    if (!player.isActive) {
-      // Slow mobs to a stop if player is dead
-      this.velocity.mult(random(0.5, 0.75));
-      if (this.velocity.mag() < 0.01) {
-        this.velocity.set(0, 0);
-      }
-      return;
-    }
+    if (!player.isActive) return;
     // Moves smoothly towards whichever player is nearest
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;

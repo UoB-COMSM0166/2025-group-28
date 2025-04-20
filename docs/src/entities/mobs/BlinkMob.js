@@ -27,7 +27,7 @@ class BlinkMob extends Mob {
     }
     let nearestPlayer = this.findNearestPlayer();
     let distanceToPlayer = this.findDistanceToPlayer(nearestPlayer);
-    if (distanceToPlayer < 125) {
+    if (nearestPlayer && distanceToPlayer < 125) {
       this.blinkCooldown = this.blinkCooldownLimit;
       this.blink();
     }

@@ -25,27 +25,7 @@ class Game {
     this.p2ScoreIncreased = false;
     this.winningPVP;
 
-    this.slowMeowLevel = 0;
-    this.slowMeowOccurring = false;
-    this.slowMeowStartTime = 0;
-    this.slowMeowDuration = 5000;
-    this.slowMeowMovementSpeed = 0.3;
-    this.slowMeowCooldown = 15000;
-    this.slowMeowLastUsed = 0;
-    this.slowMeowUsable = false;
-    this.slowMeowSoundPlayed = false;
-    this.slowMeowBuffPenalty = false;
-    if (!coop) {
-      this.slowMeowGain =
-        slowMeowGain * this.difficultySettings.slowMeowGainMult;
-      this.slowMeowLoss =
-        slowMeowLoss * this.difficultySettings.slowMeowLossMult;
-    } else if (coop) {
-      this.slowMeowGain =
-        (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
-      this.slowMeowLoss =
-        (slowMeowLoss / 2) * this.difficultySettings.slowMeowLossMult;
-    }
+    this.slowMeowHandler = new SlowMeowHandler(this);
   }
 
   nextRoom() {
@@ -55,11 +35,7 @@ class Game {
     if (!pvpMode) {
       behaviourMonitor.updateRoomsCleared();
       // End slow meow to prevent movement speed bugs on room transition
-      if (this.slowMeowOccurring) this.slowMeowLevel = 0;
-      // Slow mo end sound should only play if slow meow was active when moving rooms
-      let playSounds = this.slowMeowOccurring;
-      this.slowMeowOccurring = false;
-      this.applySlowMeow(this.slowMeowOccurring, playSounds);
+      this.slowMeowHandler.reset();
       this.updateScores();
       // Set up next room
       this.currentRoom = new Room(this.difficultySettings);
@@ -125,7 +101,6 @@ class Game {
     ) {
       setTimeout(() => {
         this.gameState = GameStates.OVER;
-        this.currentRoom = null;
       }, 3000);
     }
   }
@@ -151,10 +126,10 @@ class Game {
     this.currentRoom.update();
     projectileManager.update();
     if (!pvpMode) {
-      this.updateSlowMeow();
+      this.slowMeowHandler.update();
       this.currentRoom.spawnMobWrapper();
-      if (this.slowMeowOccurring) {
-        this.drawSlowMeow();
+      if (this.slowMeowHandler.occurring) {
+        PlayerHUD.drawSlowMeow(this);
       }
     }
   }
@@ -198,193 +173,6 @@ class Game {
         );
         this.prevScoreP2 = this.currScoreP2;
         this.currScoreP2 = 0;
-      }
-    }
-  }
-
-  drawSlowMeow() {
-    const elapsedTime = millis() - this.slowMeowStartTime;
-    const remainingTime = this.slowMeowDuration - elapsedTime;
-
-    // Gradually decreases slow meow level over time while slow meow is occurring
-    // Looks nicer than seeing it immediately set to 0
-    if (remainingTime > 0) {
-      const decrementPerMillisecond = 100 / this.slowMeowDuration;
-      this.slowMeowLevel = Math.max(
-        100 - decrementPerMillisecond * elapsedTime,
-        0
-      );
-    } else {
-      this.slowMeowLevel = 0;
-    }
-
-    // Colour the screen blue while SlowMeow is occurring
-    push();
-    noStroke();
-
-    const gameAreaX = 100;
-    const gameAreaY = 100;
-    const gameAreaWidth = 800;
-    const gameAreaHeight = 590;
-
-    fill(0, 100, 255, 50);
-    rect(gameAreaX, gameAreaY, gameAreaWidth, gameAreaHeight);
-
-    textAlign(CENTER);
-    textFont(gameFont);
-    textSize(24);
-    fill(255);
-
-    const textY = gameAreaY + 120;
-
-    if (remainingTime > this.slowMeowDuration * 0.7) {
-      text("SLOW MEOW STARTING", width / 2, textY);
-    } else if (remainingTime < this.slowMeowDuration * 0.3) {
-      text("SLOW MEOW ENDING", width / 2, textY);
-    }
-    pop();
-  }
-
-  activateSlowMeow() {
-    const currentTime = millis();
-    if (this.slowMeowUsable && !this.slowMeowOccurring) {
-      this.slowMeowOccurring = true;
-      this.slowMeowStartTime = currentTime;
-      this.slowMeowUsable = false;
-      this.slowMeowLastUsed = currentTime;
-      if (!muted) {
-        slowMeowStartSound.play();
-      }
-      this.applySlowMeow(this.slowMeowOccurring, true);
-    }
-  }
-
-  updateSlowMeow() {
-    const currentTime = millis();
-
-    if (this.slowMeowLevel >= slowMeowMax) {
-      this.slowMeowUsable = true;
-      if (!this.slowMeowSoundPlayed) {
-        if (!muted) {
-          slowMeowReadySound.play();
-        }
-        this.slowMeowSoundPlayed = true;
-      }
-    }
-
-    if (this.slowMeowLevel != slowMeowMax) {
-      this.slowMeowUsable = false;
-      this.slowMeowSoundPlayed = false;
-    }
-
-    if (this.currentRoom.mobBuffActive) {
-      if (!this.slowMeowBuffPenalty) {
-        this.slowMeowGain /= 2;
-        this.slowMeowBuffPenalty = true;
-      }
-    } else {
-      this.slowMeowBuffPenalty = false;
-      if (!coop) {
-        this.slowMeowGain =
-          slowMeowGain * this.difficultySettings.slowMeowGainMult;
-      } else if (coop) {
-        this.slowMeowGain =
-          (slowMeowGain / 2) * this.difficultySettings.slowMeowGainMult;
-      }
-    }
-
-    if (!coop && playerA.fireOverheat) {
-      this.slowMeowUsable = false;
-    } else if (coop && playerA.fireOverheat && playerB.fireOverheat) {
-      this.slowMeowUsable = false;
-    }
-
-    if (
-      this.slowMeowOccurring &&
-      currentTime - this.slowMeowStartTime > this.slowMeowDuration
-    ) {
-      this.slowMeowOccurring = false;
-      this.applySlowMeow(this.slowMeowOccurring, true);
-    }
-  }
-
-  applySlowMeow(slowActive, playSounds) {
-    let slowFactor;
-    let playerSlowFactor;
-    if (slowActive) {
-      slowFactor = this.slowMeowMovementSpeed;
-      playerSlowFactor = slowFactor * 1.2;
-      playbackRate = 0.75; // Slows SFX
-    } else {
-      slowFactor = 1.0;
-      playerSlowFactor = 1.0;
-      playbackRate = 1;
-      if (!muted) {
-        if (playSounds) slowMeowEndSound.play();
-      }
-    }
-
-    // Slow down players
-    if (playerA && playerA.isActive) {
-      this.slowPlayer(slowActive, playerA, playerSlowFactor);
-    }
-
-    if (playerB && playerB.isActive) {
-      this.slowPlayer(slowActive, playerB, playerSlowFactor);
-    }
-
-    // Slow down mobs
-    this.slowMobs(slowActive);
-
-    // Slow down projectiles
-    this.slowProjectiles(slowActive, slowFactor);
-  }
-
-  slowPlayer(slowActive, player, slowFactor) {
-    if (slowActive) {
-      player.speed = player.originalSpeed * slowFactor;
-      player.fireRate = player.originalFireRate / slowFactor;
-      player.heatDecay = 0;
-    } else {
-      player.speed = player.originalSpeed;
-      player.heatDecay = this.difficultySettings.heatDecay;
-      if (player.originalFireRate) {
-        player.fireRate = player.originalFireRate;
-      }
-    }
-  }
-
-  slowMobs(slowActive) {
-    if (this.currentRoom && this.currentRoom.mobs) {
-      for (let mob of this.currentRoom.mobs) {
-        if (mob && mob.isActive) {
-          if (slowActive) {
-            mob.checkIfSlowMeowActive();
-          } else {
-            mob.speed = mob.originalSpeed;
-            mob.isSlowed = false;
-            if (mob.canDash) mob.dashSpeed = mob.originalDashSpeed;
-          }
-        }
-      }
-    }
-  }
-
-  slowProjectiles(slowActive, slowFactor) {
-    if (projectileManager && projectileManager.projectilesFired) {
-      for (let projectile of projectileManager.projectilesFired) {
-        if (projectile && projectile.isActive) {
-          if (slowActive) {
-            projectile.velocity = p5.Vector.mult(
-              projectile.originalVelocity,
-              slowFactor
-            );
-          } else {
-            if (projectile.velocity.mag() < projectile.originalVelocity.mag()) {
-              projectile.velocity = projectile.originalVelocity.copy();
-            }
-          }
-        }
       }
     }
   }

@@ -152,28 +152,27 @@ function keyPressed() {
   }
   if (game && keyCode == ESCAPE) {
     if (game.gameState == GameStates.ACTIVE && !transitioning) {
-      game.gameState = GameStates.PAUSE;
-      music.pause();
-      push();
-      fill("rgba(0, 0, 0, 0.6)");
-      let pauseMask = rect(0, 0, pageWidth, pageHeight);
-      textSize(38);
-      textFont(gameFont);
-      textAlign(CENTER);
-      fill(255, 255, 255);
-      text("Game Paused", 500, 300);
-      textSize(19);
-      text("Press Q to quit game", 500, 350);
-      text("Press ESC to resume", 500, 400);
-      pop();
-      noLoop();
-    } else {
+      if ((playerA && playerA.isActive) || (playerB && playerB.isActive)) {
+        game.gameState = GameStates.PAUSE;
+        if (!muted) music.pause();
+        push();
+        fill("rgba(0, 0, 0, 0.6)");
+        let pauseMask = rect(0, 0, pageWidth, pageHeight);
+        textSize(38);
+        textFont(gameFont);
+        textAlign(CENTER);
+        fill(255, 255, 255);
+        text("Game Paused", 500, 300);
+        textSize(19);
+        text("Press Q to quit game", 500, 350);
+        text("Press ESC to resume", 500, 400);
+        pop();
+        noLoop();
+      }
+    } else if (game.gameState == GameStates.PAUSE) {
       loop();
       game.gameState = GameStates.ACTIVE;
-
-      if (!muted) {
-        music.play();
-      }
+      if (!muted) music.play();
     }
   }
   // 192 = ` (key under Esc)
@@ -188,7 +187,7 @@ function keyPressed() {
   if (game && game.gameState == GameStates.ACTIVE) {
     if (!transitioning && !pvpMode) {
       if (keyCode == 81 || keyCode == 191) {
-        game.activateSlowMeow();
+        game.slowMeowHandler.activate();
       }
     }
   }

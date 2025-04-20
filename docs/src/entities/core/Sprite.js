@@ -44,14 +44,14 @@ class Sprite extends GameObject {
   }
 
   handleKnockback() {
-    if (game.slowMeowOccurring) {
+    if (game.slowMeowHandler.occurring) {
       // Slow knockback speed if slow meow active
       let adjustedVelocity = p5.Vector.mult(
         this.knockbackVelocity,
-        game.slowMeowMovementSpeed
+        game.slowMeowHandler.movementSpeed
       );
       this.position.add(adjustedVelocity);
-      this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowMovementSpeed));
+      this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowHandler.movementSpeed));
     } else {
       this.position.add(this.knockbackVelocity);
       this.knockbackVelocity.mult(0.9);
@@ -89,11 +89,11 @@ class Sprite extends GameObject {
   }
 
   checkIfSlowMeowActive() {
-    if (game && game.slowMeowOccurring) {
+    if (game && game.slowMeowHandler.occurring) {
       if (this.isSlowed) return;
       if (!this.isBuffed) this.originalSpeed = this.speed;
-      this.speed *= game.slowMeowMovementSpeed;
-      if (this.canDash) this.dashSpeed *= game.slowMeowMovementSpeed;
+      this.speed *= game.slowMeowHandler.movementSpeed;
+      if (this.canDash) this.dashSpeed *= game.slowMeowHandler.movementSpeed;
       this.isSlowed = true;
     } else this.isSlowed = false;
   }

@@ -109,19 +109,19 @@ class Room {
             this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
             this.mobBuffActive = true; // Activate buff to all other mobs
             if (!muted) buffMobBuffSound.play();
-            if (!game.slowMeowOccurring) {
+            if (!game.slowMeowHandler.occurring) {
               // Give player a lower value towards their slow meow level for triggering mob buff
-              game.slowMeowLevel = Math.min(
+              game.slowMeowHandler.level = Math.min(
                 slowMeowMax,
-                game.slowMeowLevel + game.slowMeowGain / 2
+                game.slowMeowHandler.level + game.slowMeowHandler.gain / 2
               );
             }
           } else {
             this.roomScoreAccumaltor += 25;
-            if (!game.slowMeowOccurring) {
-              game.slowMeowLevel = Math.min(
+            if (!game.slowMeowHandler.occurring) {
+              game.slowMeowHandler.level = Math.min(
                 slowMeowMax,
-                game.slowMeowLevel + game.slowMeowGain
+                game.slowMeowHandler.level + game.slowMeowHandler.gain
               );
             }
             let item = new Heart(this.mobs[i].position.x, this.mobs[i].position.y, pixelHeart);
@@ -129,10 +129,10 @@ class Room {
           }
         } else {
           this.roomScoreAccumaltor += 25;
-          if (!game.slowMeowOccurring) {
-            game.slowMeowLevel = Math.min(
+          if (!game.slowMeowHandler.occurring) {
+            game.slowMeowHandler.level = Math.min(
               slowMeowMax,
-              game.slowMeowLevel + game.slowMeowGain
+              game.slowMeowHandler.level + game.slowMeowHandler.gain
             );
           }
         }
@@ -183,52 +183,54 @@ class Room {
 
   handleProjectileCollisions() {
     for (let projectile of projectileManager.projectilesFired) {
-      if (projectile.isActive) {
-        projectile.draw();
-        for (let mob of this.mobs) {
-          if (
-            projectile.isCollidingWith(mob) &&
-            projectile.owner instanceof Player
-          ) {
+      if (!projectile.isActive) continue;
+      projectile.draw();
+      for (let mob of this.mobs) {
+        if (
+          projectile.isCollidingWith(mob) &&
+          projectile.owner instanceof Player
+        ) {
+          projectile.isActive = false;
+          if (mob.isInvincible) continue;
+          mob.takeDamage(projectile.owner.attackDamage);
+          if (projectile.owner === playerA) {
+            this.damageDealtP1 += projectile.owner.attackDamage;
+          } else this.damageDealtP2 += projectile.owner.attackDamage;
+          this.generator.createParticles(
+            Blood,
+            mob.position.x,
+            mob.position.y,
+            mob.bloodColour
+          );
+        }
+      }
+      if (
+        projectile.owner instanceof RangedMob ||
+        projectile.owner instanceof BlinkMob
+      ) {
+        for (let player of [playerA, playerB]) {
+          if (player === playerB && !coop) continue;
+          let damageTaken;
+          if (player === playerA) damageTaken = 'damageTakenP1';
+          else damageTaken = 'damageTakenP2';
+          if (projectile.isCollidingWith(player)) {
             projectile.isActive = false;
-            if (mob.isInvincible) continue;
-            mob.takeDamage(projectile.owner.attackDamage);
-            if (projectile.owner === playerA) {
-              this.damageDealtP1 += projectile.owner.attackDamage;
-            } else this.damageDealtP2 += projectile.owner.attackDamage;
+            if (transitioning || player.isInvincible) continue;
+            player.takeDamage(projectile.owner.attackDamage);
+            this[damageTaken] += projectile.owner.attackDamage;
             this.generator.createParticles(
               Blood,
-              mob.position.x,
-              mob.position.y,
-              mob.bloodColour
+              player.position.x,
+              player.position.y,
+              player.bloodColour
             );
-          }
-        }
-        if (
-          projectile.owner instanceof RangedMob ||
-          projectile.owner instanceof BlinkMob
-        ) {
-          for (let player of [playerA, playerB]) {
-            if (player === playerB && !coop) continue;
-            let damageTaken;
-            if (player === playerA) damageTaken = 'damageTakenP1';
-            else damageTaken = 'damageTakenP2';
-            if (projectile.isCollidingWith(player)) {
-              projectile.isActive = false;
-              if (transitioning || player.isInvincible) continue;
-              player.takeDamage(projectile.owner.attackDamage);
-              this[damageTaken] += projectile.owner.attackDamage;
-              this.generator.createParticles(
-                Blood,
-                player.position.x,
-                player.position.y,
-                player.bloodColour
+            if (!game.slowMeowHandler.occurring && game.slowMeowHandler.level < slowMeowMax) {
+              game.slowMeowHandler.level = Math.max(
+                0,
+                game.slowMeowHandler.level - game.slowMeowHandler.loss
               );
-              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
-              }
-              player.makeInvincible();
             }
+            player.makeInvincible();
           }
         }
       }
@@ -238,30 +240,32 @@ class Room {
   handleMobCollisions() {
     for (let mob of this.mobs) {
       mob.draw();
-      mob.drawMobHealthBar();
+      GameUI.drawMobHealthBar(mob);
       for (let player of [playerA, playerB]) {
         if (player === playerB && !coop) continue;
         let damageTaken;
         if (player === playerA) damageTaken = 'damageTakenP1';
         else damageTaken = 'damageTakenP2';
         if (player.isCollidingWith(mob) && player.isActive) {
-          if (!(mob instanceof BlinkMob)) {
-            player.applyKnockback(mob.position.x, mob.position.y);
-            mob.applyKnockback(player.position.x, player.position.y);
-            if (player.isInvincible) continue;
-            player.takeDamage(mob.attackDamage);
-            this[damageTaken] += mob.attackDamage;
-            this.generator.createParticles(
-              Blood,
-              player.position.x,
-              player.position.y,
-              player.bloodColour
+          if ((mob instanceof BlinkMob)) continue;
+          player.applyKnockback(mob.position.x, mob.position.y);
+          mob.applyKnockback(player.position.x, player.position.y);
+          if (player.isInvincible) continue;
+          player.takeDamage(mob.attackDamage);
+          this[damageTaken] += mob.attackDamage;
+          this.generator.createParticles(
+            Blood,
+            player.position.x,
+            player.position.y,
+            player.bloodColour
+          );
+          if (!game.slowMeowHandler.occurring && game.slowMeowHandler.level < slowMeowMax) {
+            game.slowMeowHandler.level = Math.max(
+              0,
+              game.slowMeowHandler.level - game.slowMeowHandler.loss
             );
-            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-              game.slowMeowLevel = Math.max(0, game.slowMeowLevel - game.slowMeowLoss);
-            }
-            player.makeInvincible();
           }
+          player.makeInvincible();
         }
       }
     }
