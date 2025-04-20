@@ -29,8 +29,8 @@ class Mob extends Sprite {
 
   fireUpdate() {
     if (
-      (playerA && !playerA.isActive) ||
-      (playerB && !playerB.isActive)
+      (playerA && !playerA.isActive) &&
+      (!coop || (playerB && !playerB.isActive))
     ) {
       return;
     }
