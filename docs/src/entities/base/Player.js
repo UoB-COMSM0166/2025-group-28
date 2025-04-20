@@ -117,7 +117,11 @@ class Player extends Sprite {
       return;
     }
 
-    this.handleKnockback();
+    // Apply knockback force gradually
+    if (this.knockbackVelocity.mag() > 0.1) {
+      this.handleKnockback();
+    }
+
     this.normaliseDiagonalMovement();
 
     //Normalises diagonal firing

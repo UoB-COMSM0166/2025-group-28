@@ -69,13 +69,13 @@ class Mob extends Sprite {
   moveTowards(player) {
     if (!player.isActive) {
       // Slow mobs to a stop if player is dead
-      this.velocity.mult(random(0.8, 0.95));
+      this.velocity.mult(random(0.5, 0.75));
       if (this.velocity.mag() < 0.01) {
         this.velocity.set(0, 0);
       }
       return;
     }
-    //Moves smoothly towards whichever player is nearest
+    // Moves smoothly towards whichever player is nearest
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;
     this.direction = createVector(xDirection, yDirection);
@@ -84,7 +84,10 @@ class Mob extends Sprite {
       this.velocity.y = yDirection * this.speed;
     }
     this.normaliseDiagonalMovement();
-    this.handleKnockback();
+    // Apply knockback force gradually
+    if (this.knockbackVelocity.mag() > 0.1) {
+      this.handleKnockback();
+    }
   }
 
   findDistanceToPlayer(player) {
