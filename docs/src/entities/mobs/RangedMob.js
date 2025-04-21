@@ -54,11 +54,12 @@ class RangedMob extends Mob {
   }
 
   handleBuffedState() {
-    if (this.isBuffed) {
+    if (this.isBuffed && this.canRapidFire) {
       this.shootingPauseTimer = 0;
       this.rapidFireCooldown = 0;
       this.isRapidFiring = false;
       this.rapidFireReady = false;
+      this.targetPosition = null;
       return true;
     }
     return false;

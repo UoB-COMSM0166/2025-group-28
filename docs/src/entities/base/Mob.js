@@ -94,6 +94,9 @@ class Mob extends Sprite {
   applyBuff() {
     if (this.isBuffed || !this.isActive) return;
     this.isInvincible = false;
+    this.invincibilityStartTime = 0;
+    this.isFlashing = false;
+    this.lastFlashTime = 0;
     if (!this.isSlowed) this.originalSpeed = this.speed;
     this.speed *= 1.75;
     this.originalSpeed *= 1.75;

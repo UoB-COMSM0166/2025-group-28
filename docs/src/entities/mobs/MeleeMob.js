@@ -47,10 +47,7 @@ class MeleeMob extends Mob {
 
   update() {
     if (!this.isActive) return;
-    if (!this.canDash || this.isBuffed) {
-      if (this.isBuffed && this.dashCooldown >= this.dashCooldownLimit) {
-        this.dashCooldown = 0;
-      }
+    if (!this.canDash || this.handleBuffedState()) {
       super.update();
       return;
     }
@@ -58,7 +55,7 @@ class MeleeMob extends Mob {
       this.preDashPauseTimer--;
       if (this.preDashPauseTimer <= 0) {
         this.isPreparingToDash = false;
-        this.dashTowards(this.targetPlayer);
+        this.dashTowards(this.dashTarget);
       }
       return;
     }
@@ -86,6 +83,21 @@ class MeleeMob extends Mob {
       }
     }
     super.update();
+  }
+
+  handleBuffedState() {
+    if (this.isBuffed && this.canDash) {
+      this.trail = [];
+      this.dashCooldown = 0;
+      this.dashTimer = 0;
+      this.isDashing = false;
+      this.dashProgress = 0;
+      this.dashTarget = null;
+      this.isPreparingToDash = false;
+      this.preDashPauseTimer = 0;
+      return true;
+    }
+    return false;
   }
 
   updateTrail() {
@@ -142,12 +154,12 @@ class MeleeMob extends Mob {
     this.isPreparingToDash = true;
     this.makeInvincible();
     this.preDashPauseTimer = 30;
-    this.targetPlayer = player;
+    this.dashTarget = player;
   }
 
   dashTowards(player) {
     if (!player || !player.isActive ||
-      this.isDashing || this.dashCooldownTimer > 0
+      this.isDashing || this.dashCooldown < this.dashCooldownLimit
     ) return;
 
     playSound(dashMobDashSound, playbackRate, true);
