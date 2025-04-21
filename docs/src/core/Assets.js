@@ -1,20 +1,21 @@
 function preload() {
-    tile_darkGrey = loadImage("assets/alternatetile1.png");
-    tile_lightGrey = loadImage("assets/alternatetile2.png");
-    tile_darkBlue = loadImage("assets/alternatetile3.png");
-    tile_lightBlue = loadImage("assets/alternatetile4.png");
-    tile_darkYellow = loadImage("assets/alternatetile5.png");
-    tile_lightYellow = loadImage("assets/alternatetile6.png");
-    tile_darkTurquoise = loadImage("assets/alternatetile7.png");
-    tile_lightTurquoise = loadImage("assets/alternatetile8.png");
-    tile_darkdarkBlue = loadImage("assets/alternatetile9.png");
-    tile_lightlightBlue = loadImage("assets/alternatetile10.png");
-    walltile = loadImage("assets/wall_tile_m3.png");
-    tileColours1 = [tile_darkGrey, tile_lightGrey];
-    tileColours2 = [tile_darkBlue, tile_lightBlue];
-    tileColours3 = [tile_darkYellow, tile_lightYellow];
-    tileColours4 = [tile_lightTurquoise, tile_darkTurquoise];
-    tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
+  tile_darkGrey = loadImage("assets/alternatetile1.png");
+  tile_lightGrey = loadImage("assets/alternatetile2.png");
+  tile_darkBlue = loadImage("assets/alternatetile3.png");
+  tile_lightBlue = loadImage("assets/alternatetile4.png");
+  tile_darkYellow = loadImage("assets/alternatetile5.png");
+  tile_lightYellow = loadImage("assets/alternatetile6.png");
+  tile_darkTurquoise = loadImage("assets/alternatetile7.png");
+  tile_lightTurquoise = loadImage("assets/alternatetile8.png");
+  tile_darkdarkBlue = loadImage("assets/alternatetile9.png");
+  tile_lightlightBlue = loadImage("assets/alternatetile10.png");
+  walltile = loadImage("assets/wall_tile_m3.png");
+  tileColours1 = [tile_darkGrey, tile_lightGrey];
+  tileColours2 = [tile_darkBlue, tile_lightBlue];
+  tileColours3 = [tile_darkYellow, tile_lightYellow];
+  tileColours4 = [tile_lightTurquoise, tile_darkTurquoise];
+  tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
+
 
     doorImg = loadImage("assets/spacedoor.gif");
     doorOpenImg = loadImage("assets/spacedoorOpen.gif");
@@ -24,76 +25,79 @@ function preload() {
     pixelHeart = loadImage("assets/heart.gif");
     pixelEnergy = loadImage("assets/energy.gif");
 
-    gameFont = loadFont("assets/ARCADE_I.ttf");
 
-    heartMob_gif = loadImage("assets/HeartMobBossGif.gif");
-    dogmob_gif = loadImage("assets/dogmob_v3.gif");
-    rangedmob_gif = loadImage("assets/yellowDogMob2.gif");
-    blinkMobGif = loadImage("assets/purpleDogMob.gif");
-    astrocat_gif = loadImage("assets/astrocatM7.gif");
-    astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
+  gameFont = loadFont("assets/ARCADE_I.ttf");
 
-    healthbar = loadImage("assets/healthbar.gif");
-    healthbar_b = loadImage("assets/healthbar.gif");
+  heartMob_gif = loadImage("assets/HeartMobBossGif.gif");
+  dogmob_gif = loadImage("assets/dogmob_v3.gif");
+  rangedmob_gif = loadImage("assets/yellowDogMob2.gif");
+  blinkMobGif = loadImage("assets/purpleDogMob.gif");
+  astrocat_gif = loadImage("assets/astrocatM7.gif");
+  astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
 
-    //// SOUNDS ////
-    // Player
-    playerPainSound1 = loadSound("assets/playerpain1.mp3");
-    playerPainSound2 = loadSound("assets/playerpain2.mp3");
-    playerDeathSound = loadSound("assets/playerdeath.mp3");
-    playerGunSound = loadSound("assets/player_gun.mp3");
-    fireOverheatSound = loadSound("assets/playeroverheat.mp3");
-    overheatEndSound = loadSound("assets/playeroverheatend.mp3");
-    slowMeowStartSound = loadSound("assets/slowmeowstart.mp3");
-    slowMeowEndSound = loadSound("assets/slowmeowend.mp3");
-    slowMeowReadySound = loadSound("assets/slowmeowready.mp3");
-    // Mobs
-    mobProjectileSound = loadSound("assets/mobprojectile.mp3");
-    blinkMobDeathSound = loadSound("assets/blinkmobdeath.mp3");
-    blinkMobMoveSound = loadSound("assets/blinkmobmove.mp3");
-    buffMobBuffSound = loadSound("assets/buffmobbuff.mp3");
-    buffMobDeathSound = loadSound("assets/buffmobdeath.mp3");
-    dashMobAttackSound = loadSound("assets/dashmobattack.mp3");
-    dashMobDashSound = loadSound("assets/dashmobdash.mp3");
-    meleeMobDeathSound = loadSound("assets/meleemobdeath.mp3");
-    rangedMobDeathSound = loadSound("assets/rangedmobdeath.mp3");
-    rapidFireChargeSound = loadSound("assets/rapidfirecharge.mp3");
-    // Environment
-    bloodSound1 = loadSound("assets/bloodsplat1.mp3");
-    bloodSound2 = loadSound("assets/bloodsplat2.mp3");
-    doorOpenSound = loadSound("assets/dooropen.mp3");
-    roomTransitionSound = loadSound("assets/roomtransition.mp3");
-    itemSound1 = loadSound("assets/pickupitem1.mp3");
-    itemSound2 = loadSound("assets/pickupitem2.mp3");
-    pvpScoreSound = loadSound("assets/pvpscoreincrease.mp3");
-    pvpAnnouncer1 = loadSound("assets/pvpannouncer1.mp3");
-    pvpAnnouncer2 = loadSound("assets/pvpannouncer2.mp3");
-    pvpAnnouncer3 = loadSound("assets/pvpannouncer3.mp3");
-    pvpAnnouncer4 = loadSound("assets/pvpannouncer4.mp3");
-    pvpAnnouncer5 = loadSound("assets/pvpannouncer5.mp3");
-    pvpAnnouncer6 = loadSound("assets/pvpannouncer6.mp3");
-    // Menus
-    menuClickSound = loadSound("assets/menuclick.mp3");
-    menuSelectSound = loadSound("assets/menuselect.mp3");
-    // Music
-    themeMusic = createAudio("assets/theme.mp3");
-    gameMusic = createAudio("assets/gamemusic.mp3");
-    pvpMusic = createAudio("assets/pvpmusic.mp3");
-  }
+  healthbar = loadImage("assets/healthbar.gif");
+  healthbar_b = loadImage("assets/healthbar.gif");
 
-  // HTML <img> paths (no need to preload):
+  //// SOUNDS ////
+  // Player
+  playerPainSound1 = loadSound("assets/playerpain1.mp3");
+  playerPainSound2 = loadSound("assets/playerpain2.mp3");
+  playerDeathSound = loadSound("assets/playerdeath.mp3");
+  playerGunSound = loadSound("assets/player_gun.mp3");
+  fireOverheatSound = loadSound("assets/playeroverheat.mp3");
+  overheatEndSound = loadSound("assets/playeroverheatend.mp3");
+  slowMeowStartSound = loadSound("assets/slowmeowstart.mp3");
+  slowMeowEndSound = loadSound("assets/slowmeowend.mp3");
+  slowMeowReadySound = loadSound("assets/slowmeowready.mp3");
+  // Mobs
+  mobProjectileSound = loadSound("assets/mobprojectile.mp3");
+  blinkMobDeathSound = loadSound("assets/blinkmobdeath.mp3");
+  blinkMobMoveSound = loadSound("assets/blinkmobmove.mp3");
+  buffMobBuffSound = loadSound("assets/buffmobbuff.mp3");
+  buffMobDeathSound = loadSound("assets/buffmobdeath.mp3");
+  dashMobAttackSound = loadSound("assets/dashmobattack.mp3");
+  dashMobDashSound = loadSound("assets/dashmobdash.mp3");
+  meleeMobDeathSound = loadSound("assets/meleemobdeath.mp3");
+  rangedMobDeathSound = loadSound("assets/rangedmobdeath.mp3");
+  rapidFireChargeSound = loadSound("assets/rapidfirecharge.mp3");
+  // Environment
+  bloodSound1 = loadSound("assets/bloodsplat1.mp3");
+  bloodSound2 = loadSound("assets/bloodsplat2.mp3");
+  doorOpenSound = loadSound("assets/dooropen.mp3");
+  roomTransitionSound = loadSound("assets/roomtransition.mp3");
+  itemSound1 = loadSound("assets/pickupitem1.mp3");
+  itemSound2 = loadSound("assets/pickupitem2.mp3");
+  pvpScoreSound = loadSound("assets/pvpscoreincrease.mp3");
+  pvpAnnouncer1 = loadSound("assets/pvpannouncer1.mp3");
+  pvpAnnouncer2 = loadSound("assets/pvpannouncer2.mp3");
+  pvpAnnouncer3 = loadSound("assets/pvpannouncer3.mp3");
+  pvpAnnouncer4 = loadSound("assets/pvpannouncer4.mp3");
+  pvpAnnouncer5 = loadSound("assets/pvpannouncer5.mp3");
+  pvpAnnouncer6 = loadSound("assets/pvpannouncer6.mp3");
+  // Menus
+  menuClickSound = loadSound("assets/menuclick.mp3");
+  menuSelectSound = loadSound("assets/menuselect.mp3");
+  // Music
+  themeMusic = createAudio("assets/theme.mp3");
+  gameMusic = createAudio("assets/gamemusic.mp3");
+  pvpMusic = createAudio("assets/pvpmusic.mp3");
+}
 
-  let gameoverback = "assets/gmovertext.gif";
+// HTML <img> paths (no need to preload):
 
-  let singlePlayerIcon = "assets/singlepbutton.png";
-  let coopIcon = "assets/coopbutton.png";
-  let pvpIcon = "assets/pvpbutton.png";
-  let helpIcon = "assets/helpbutton.png";
-  let menuimg = "assets/menuback.mp4";
-  let radiobutton_off = "assets/radio_off";
-  let radiobutton_on = "assets/radio_on";
+let gameoverback = "assets/gmovertext.gif";
 
-  let setback = "assets/setback.png";
+let singlePlayerIcon = "assets/singlepbutton.png";
+let coopIcon = "assets/coopbutton.png";
+let pvpIcon = "assets/pvpbutton.png";
+let helpIcon = "assets/helpbutton.png";
+let menuimg = "assets/menuback.mp4";
+let radiobutton_off = "assets/radio_off";
+let radiobutton_on = "assets/radio_on";
 
-  let wasd_icon = "assets/wasd_icon.png";
-  let arrow_icon = "assets/arrowpad_icon.png";
+let setback = "assets/setback.png";
+
+let wasd_icon = "assets/wasd_icon.png";
+let arrow_icon = "assets/arrowpad_icon.png";
+
+let add_ctrls = "assets/additional_controls.png";
