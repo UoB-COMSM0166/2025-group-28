@@ -114,6 +114,7 @@ class MeleeMob extends Mob {
   }
 
   draw() {
+    if (!this.isActive) return;
     if (!this.canDash) {
       super.draw();
       return;
@@ -134,6 +135,7 @@ class MeleeMob extends Mob {
     if (this.isPreparingToDash ||
       this.isDashing ||
       this.dashCooldown < this.dashCooldownLimit ||
+      !player ||
       player.isInvincible ||
       !player.isActive
     ) return;
@@ -144,7 +146,9 @@ class MeleeMob extends Mob {
   }
 
   dashTowards(player) {
-    if (this.isDashing || this.dashCooldownTimer > 0) return;
+    if (!player || !player.isActive ||
+      this.isDashing || this.dashCooldownTimer > 0
+    ) return;
 
     playSound(dashMobDashSound, playbackRate, true);
     this.isDashing = true;
