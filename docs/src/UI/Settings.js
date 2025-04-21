@@ -80,7 +80,7 @@ class Settings {
     exit.attribute("draggable", "false");
     exit.mouseClicked(() => {
       if (!muted) menuClickSound.play();
-      quitSettings();
+      Settings.quitSettings();
     });
 
     toggle_settings = createP("Settings");
@@ -221,6 +221,7 @@ class Settings {
   }
 
   static quitSettings() {
+    settingsMode = true;
     stng_div.remove();
   }
 
