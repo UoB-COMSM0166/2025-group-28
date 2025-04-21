@@ -2,6 +2,9 @@ let disabBlood_on;
 let disabBlood_off;
 let sound_off;
 let sound_on;
+let gameOrange = "rgb(255, 109, 0)";
+let controlsToggle;
+let helpTextToggle;
 
 function switchToHelp() {
   settingsMode = false;
@@ -61,6 +64,27 @@ class Settings {
     );
     intro.parent(howtopanel);
     intro.position(20, 80);
+
+    controlsToggle = createP("Controls");
+    controlsToggle.position(20, 220);
+    controlsToggle.style("background-color", gameOrange);
+    controlsToggle.parent(howtopanel);
+    let controlDisplay;
+    if (wasd_control) {
+      controlDisplay = createImg(wasd_icon);
+    } else {
+      controlDisplay = createImg(arrow_icon);
+    }
+    controlDisplay.parent(howtopanel);
+    controlDisplay.position(20, 260);
+    controlDisplay.size(190, 210);
+
+    let slowmeowhelp = createImg(add_ctrls);
+    slowmeowhelp.parent(howtopanel);
+    slowmeowhelp.position(240, 260);
+    slowmeowhelp.size(130, 180);
+
+    // helpTextToggle =
   }
 
   static gotoSettings() {
@@ -192,7 +216,9 @@ class Settings {
       if (childMode) toggleBloodDisable();
     });
 
-    let childModeCap = createP("Disable blood particle<br>effects and gore sounds");
+    let childModeCap = createP(
+      "Disable blood particle<br>effects and gore sounds"
+    );
     childModeCap.parent(settingpanel);
     childModeCap.position(20, 335);
     childModeCap.style("font-size", "10px");
