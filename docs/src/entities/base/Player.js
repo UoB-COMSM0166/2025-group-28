@@ -165,7 +165,7 @@ class Player extends Sprite {
   }
 
   fire() {
-    if (!this.isActive) return;
+    if (!this.isActive || fadingOut || (pvpMode && fadingIn)) return;
     if (this.fireOverheat) {
       if (!this.overheatSoundPlayed) {
         playSound(fireOverheatSound, playbackRate);

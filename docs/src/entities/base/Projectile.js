@@ -27,7 +27,7 @@ class Projectile extends GameObject {
 
     this.position.add(this.velocity);
 
-    if (game.slowMeowHandler.occurring) {
+    if (!pvpMode && game.slowMeowHandler.occurring) {
       // Correct original velocity value for projectiles fired during slow meow state
       if (this.originalVelocity.mag() <= this.velocity.mag()) {
         if (this.velocity.mag() < 1) {

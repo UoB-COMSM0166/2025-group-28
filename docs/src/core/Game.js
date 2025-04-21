@@ -25,7 +25,7 @@ class Game {
     this.p2ScoreIncreased = false;
     this.winningPVP;
 
-    this.slowMeowHandler = new SlowMeowHandler(this);
+    if (!pvpMode) this.slowMeowHandler = new SlowMeowHandler(this);
   }
 
   nextRoom() {
