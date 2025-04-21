@@ -21,6 +21,7 @@ class BlinkMob extends Mob {
   }
 
   update() {
+    if (!this.isActive) return;
     super.update();
     if (this.blinkCooldown < this.blinkCooldownLimit) {
       this.blinkCooldown++;
@@ -34,35 +35,33 @@ class BlinkMob extends Mob {
   }
 
   fire() {
-    if (!this.isActive) return;
-    if (this.fireReady) {
-      if (this.blinkCooldown >= this.blinkCooldownLimit) {
-        this.blink();
-      }
-      let projectileCount = 9;
-      let angleIncrement = (2 * Math.PI) / projectileCount;
-
-      for (let i = 0; i < projectileCount; i++) {
-        let angle = i * angleIncrement;
-
-        let velocityX = Math.cos(angle) * this.projectileSpeed;
-        let velocityY = Math.sin(angle) * this.projectileSpeed;
-
-        let newProjectile = new Projectile(
-          this.position.x,
-          this.position.y,
-          velocityX,
-          velocityY,
-          this.projectileSpeed + 1,
-          fireball,
-          this
-        );
-        projectileManager.addProjectile(newProjectile);
-      }
-      behaviourMonitor.updateTimesMobsFired(projectileCount);
-      playSound(mobProjectileSound, playbackRate);
-      this.fireReady = false;
+    if (!this.isActive || !this.fireReady) return;
+    if (this.blinkCooldown >= this.blinkCooldownLimit) {
+      this.blink();
     }
+    let projectileCount = 9;
+    let angleIncrement = (2 * Math.PI) / projectileCount;
+
+    for (let i = 0; i < projectileCount; i++) {
+      let angle = i * angleIncrement;
+
+      let velocityX = Math.cos(angle) * this.projectileSpeed;
+      let velocityY = Math.sin(angle) * this.projectileSpeed;
+
+      let newProjectile = new Projectile(
+        this.position.x,
+        this.position.y,
+        velocityX,
+        velocityY,
+        this.projectileSpeed + 1,
+        fireball,
+        this
+      );
+      projectileManager.addProjectile(newProjectile);
+    }
+    behaviourMonitor.updateTimesMobsFired(projectileCount);
+    playSound(mobProjectileSound, playbackRate);
+    this.fireReady = false;
   }
 
   blink() {

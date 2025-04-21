@@ -47,10 +47,7 @@ class MeleeMob extends Mob {
 
   update() {
     if (!this.isActive) return;
-    if (!this.canDash || this.isBuffed) {
-      if (this.isBuffed && this.dashCooldown >= this.dashCooldownLimit) {
-        this.dashCooldown = 0;
-      }
+    if (!this.canDash || this.handleBuffedState()) {
       super.update();
       return;
     }
@@ -58,7 +55,7 @@ class MeleeMob extends Mob {
       this.preDashPauseTimer--;
       if (this.preDashPauseTimer <= 0) {
         this.isPreparingToDash = false;
-        this.dashTowards(this.targetPlayer);
+        this.dashTowards(this.dashTarget);
       }
       return;
     }
@@ -88,6 +85,21 @@ class MeleeMob extends Mob {
     super.update();
   }
 
+  handleBuffedState() {
+    if (this.isBuffed && this.canDash) {
+      this.trail = [];
+      this.dashCooldown = 0;
+      this.dashTimer = 0;
+      this.isDashing = false;
+      this.dashProgress = 0;
+      this.dashTarget = null;
+      this.isPreparingToDash = false;
+      this.preDashPauseTimer = 0;
+      return true;
+    }
+    return false;
+  }
+
   updateTrail() {
     let movementDirection = createVector(
         this.position.x - this.dashTarget.x,
@@ -114,6 +126,7 @@ class MeleeMob extends Mob {
   }
 
   draw() {
+    if (!this.isActive) return;
     if (!this.canDash) {
       super.draw();
       return;
@@ -134,17 +147,20 @@ class MeleeMob extends Mob {
     if (this.isPreparingToDash ||
       this.isDashing ||
       this.dashCooldown < this.dashCooldownLimit ||
+      !player ||
       player.isInvincible ||
       !player.isActive
     ) return;
     this.isPreparingToDash = true;
     this.makeInvincible();
     this.preDashPauseTimer = 30;
-    this.targetPlayer = player;
+    this.dashTarget = player;
   }
 
   dashTowards(player) {
-    if (this.isDashing || this.dashCooldownTimer > 0) return;
+    if (!player || !player.isActive ||
+      this.isDashing || this.dashCooldown < this.dashCooldownLimit
+    ) return;
 
     playSound(dashMobDashSound, playbackRate, true);
     this.isDashing = true;

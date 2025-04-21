@@ -16,7 +16,6 @@ function preload() {
     tileColours4 = [tile_lightTurquoise, tile_darkTurquoise];
     tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
 
-    wallImg = loadImage("assets/wall.png");
     doorImg = loadImage("assets/spacedoor.gif");
     doorOpenImg = loadImage("assets/spacedoorOpen.gif");
     bullet = loadImage("assets/projectileM1.gif");

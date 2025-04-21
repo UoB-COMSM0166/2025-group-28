@@ -58,6 +58,7 @@ class BuffMob extends Mob {
   }
 
   moveToPosition(target) {
+    if (!target) return;
     let direction = p5.Vector.sub(target, this.position);
     // Normalise speed
     if (direction.mag() > this.speed) {

@@ -15,6 +15,9 @@ class Projectile extends GameObject {
     this.widthHitbox = 5;
     this.heightHitbox = 5;
     this.sparkColour = color(255, 215, 80, 255);
+    if (this.owner instanceof Player) {
+      this.scale = 14;
+    } else this.scale = 16;
   }
 
   update() {
@@ -48,12 +51,23 @@ class Projectile extends GameObject {
   }
 
   draw() {
-    if (this.isActive) {
-      push();
-      translate(this.position.x, this.position.y);
-      imageMode(CENTER);
-      image(this.image, 0, 0, 16, 16);
-      pop();
+    if (!this.isActive) return;
+    push();
+    angleMode(DEGREES);
+    translate(this.position.x, this.position.y);
+    if (this.owner instanceof Player) {
+      if (this.velocity.x != 0 && this.velocity.y == 0) {
+        rotate(-45);
+      } else if (this.velocity.y != 0 && this.velocity.x == 0) {
+        rotate (45);
+      } else if (this.velocity.x < 0 && this.velocity.y > 0) {
+        rotate(-90);
+      } else if (this.velocity.x > 0 && this.velocity.y < 0) {
+        rotate (90);
+      }
     }
+    imageMode(CENTER);
+    image(this.image, 0, 0, this.scale, this.scale);
+    pop();
   }
 }
