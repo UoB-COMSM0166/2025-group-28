@@ -8,12 +8,8 @@ class Sprite extends GameObject {
 
     this.img = img;
 
-    this.isSlowed = false;
-    this.direction = createVector(1, 0); //So the character starts facing right
+    this.direction = createVector(1, 0); // Entity starts facing right
 
-    // Effects like taking damage, speed boost/reduction, etc.
-    this.activeEffects = []; // An array of effect type, effect duration, effect strength, etc.
-    this.originalColor = this.color;
     // Properties for i-frames/flashing effect
     this.isInvincible = false;
     this.invincibilityDuration = 1000; // 1 second of invincibility
@@ -25,8 +21,15 @@ class Sprite extends GameObject {
     this.soundCooldown = 1500; // 1.5 second cooldown between sounds
 
     this.isBuffed = false;
+    this.isSlowed = false;
 
     this.knockbackVelocity = createVector(0, 0);
+  }
+
+  normaliseDiagonalMovement() {
+    if (this.velocity.x !== 0 && this.velocity.y !== 0) {
+      this.velocity.setMag(this.speed);
+    }
   }
 
   calculateKnockbackDirection(sourceX, sourceY) {
@@ -40,21 +43,34 @@ class Sprite extends GameObject {
     this.knockbackVelocity = p5.Vector.mult(knockbackDirection, knockbackForce);
   }
 
+  handleKnockback() {
+    if (game.slowMeowHandler.occurring) {
+      // Slow knockback speed if slow meow active
+      let adjustedVelocity = p5.Vector.mult(
+        this.knockbackVelocity,
+        game.slowMeowHandler.movementSpeed
+      );
+      this.position.add(adjustedVelocity);
+      this.knockbackVelocity.mult(Math.pow(0.9, game.slowMeowHandler.movementSpeed));
+    } else {
+      this.position.add(this.knockbackVelocity);
+      this.knockbackVelocity.mult(0.9);
+    }
+  }
+
   takeDamage(amount) {
-    if (!this.isInvincible) {
-      if (this.lastSoundTime == 0 || millis() - this.lastSoundTime > this.soundCooldown) {
-        if (!childMode && this.health - amount > 0) {
-          playSound(bloodSound1, playbackRate, true);
-          this.lastSoundTime = millis();
-          if (this instanceof Player) {
-            let randomSound = Math.floor(random(0, this.painSound.length));
-            playSound(this.painSound[randomSound], playbackRate);
-          }
+    if (!this.isActive || this.isInvincible) return;
+    if (this.lastSoundTime == 0 || millis() - this.lastSoundTime > this.soundCooldown) {
+      if (!childMode && this.health - amount > 0) {
+        playSound(bloodSound1, playbackRate, true);
+        this.lastSoundTime = millis();
+        if (this instanceof Player) {
+          let randomSound = Math.floor(random(0, this.painSound.length));
+          playSound(this.painSound[randomSound], playbackRate);
         }
       }
-      this.health = Math.max(0, this.health - amount);
     }
-    // Checks if the sprite is dead
+    this.health = Math.max(0, this.health - amount);
     this.isDead();
   }
 
@@ -73,50 +89,60 @@ class Sprite extends GameObject {
   }
 
   checkIfSlowMeowActive() {
-    if (game && game.slowMeowOccurring) {
+    if (!this.isActive) return;
+    if (game && game.slowMeowHandler.occurring) {
       if (this.isSlowed) return;
       if (!this.isBuffed) this.originalSpeed = this.speed;
-      this.speed *= game.slowMeowMovementSpeed;
+      this.speed *= game.slowMeowHandler.movementSpeed;
+      if (this.canDash) this.dashSpeed *= game.slowMeowHandler.movementSpeed;
       this.isSlowed = true;
     } else this.isSlowed = false;
   }
 
-  draw() {
-    if (this.isActive) {
-      // Handle flashing effect
-      if (this.isInvincible) {
-        let currentTime = millis();
-        if (currentTime - this.invincibilityStartTime > this.invincibilityDuration) {
-          this.isInvincible = false;
-          this.isFlashing = false;
-        } else if (currentTime - this.lastFlashTime > this.flashInterval) {
-          this.isFlashing = !this.isFlashing;
-          this.lastFlashTime = currentTime;
-        }
-      }
-
-      // Draw sprite only if not flashing
-      if (!this.isFlashing) {
-        push();
-        if (this.isBuffed) tint(210, 0, 0, 255); // Apply red tint if buffed
-        translate(this.position.x, this.position.y);
-        scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
-        image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
-        noTint(); // Prevent tint from affecting other sprites
-        pop();
-      }
-
-      if (debug) {
-        // TESTING - draw collision boxes
-        fill(0, 200, 0, 100);
-        rect(
-          this.position.x - this.widthHitbox / 2,
-          this.position.y - this.heightHitbox / 2,
-          this.widthHitbox,
-          this.heightHitbox
-        );
-      }
-    }
+  // Adds i-frames to the entity
+  makeInvincible() {
+    if (this.isInvincible || !this.isActive) return;
+    if (this instanceof Player) this.timesHurt++;
+    this.isInvincible = true;
+    this.invincibilityStartTime = millis();
+    this.lastFlashTime = millis();
+    this.isFlashing = true;
   }
 
+  draw() {
+    if (!this.isActive) return;
+    // Handle invincibility/flashing effect
+    if (this.isInvincible) {
+      let currentTime = millis();
+      if (currentTime - this.invincibilityStartTime > this.invincibilityDuration) {
+        this.isInvincible = false;
+        this.isFlashing = false;
+      } else if (currentTime - this.lastFlashTime > this.flashInterval) {
+        this.isFlashing = !this.isFlashing;
+        this.lastFlashTime = currentTime;
+      }
+    }
+
+    // Draw sprite only if not flashing
+    if (!this.isFlashing) {
+      push();
+      if (this.isBuffed) tint(210, 0, 0, 255); // Apply red tint if buffed
+      translate(this.position.x, this.position.y);
+      scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
+      image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
+      noTint(); // Prevent tint from affecting other sprites
+      pop();
+    }
+
+    if (debug) {
+      // TESTING - draw collision boxes
+      fill(0, 200, 0, 100);
+      rect(
+        this.position.x - this.widthHitbox / 2,
+        this.position.y - this.heightHitbox / 2,
+        this.widthHitbox,
+        this.heightHitbox
+      );
+    }
+  }
 }

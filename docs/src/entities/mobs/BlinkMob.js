@@ -12,9 +12,10 @@ class BlinkMob extends Mob {
     this.attackDamage = 6 * difficultySettings.mobDamageMult;
     this.projectileSpeed = 2;
     this.bloodColour = color(135, 20, 103, 255);
-    this.fireCooldownLimit = 175;
-    this.blinkCooldown = 50;
-    this.blinkCooldownLimit = 175;
+    this.fireCooldown = Math.floor(random(35, 50));
+    this.fireCooldownLimit = Math.floor(random(160, 175));
+    this.blinkCooldown = this.fireCooldown;
+    this.blinkCooldownLimit = this.fireCooldownLimit;
     this.deathSound = blinkMobDeathSound;
     this.checkIfSlowMeowActive();
   }
@@ -23,6 +24,12 @@ class BlinkMob extends Mob {
     super.update();
     if (this.blinkCooldown < this.blinkCooldownLimit) {
       this.blinkCooldown++;
+    }
+    let nearestPlayer = this.findNearestPlayer();
+    let distanceToPlayer = this.findDistanceToPlayer(nearestPlayer);
+    if (nearestPlayer && distanceToPlayer < 125) {
+      this.blinkCooldown = this.blinkCooldownLimit;
+      this.blink();
     }
   }
 
@@ -64,12 +71,12 @@ class BlinkMob extends Mob {
     let spawnAttempts = 0;
     while (spawnAttempts < 100) {
       spawnX = random(
-        tileSize * 2 + this.widthHitbox / 2 + arena_offset,
-        roomWidth * tileSize - tileSize * 2 - this.widthHitbox / 2 + arena_offset
+        (tileSize * 3) + (this.widthHitbox / 2) + arena_offset,
+        (roomWidth * tileSize) - (tileSize * 3) - (this.widthHitbox / 2) + arena_offset
       );
       spawnY = random(
-        tileSize * 2 + this.heightHitbox / 2 + arena_offset,
-        roomHeight * tileSize - tileSize * 2 - this.heightHitbox / 2 + arena_offset
+        (tileSize * 3) + (this.heightHitbox / 2) + arena_offset,
+        (roomHeight * tileSize) - (tileSize * 3) - (this.heightHitbox / 2) + arena_offset
       );
       let distanceFromP1 = dist(
         spawnX,
@@ -86,7 +93,7 @@ class BlinkMob extends Mob {
           playerB.position.y
         );
       }
-      if (distanceFromP1 > 150 && distanceFromP2 > 150) {
+      if (distanceFromP1 > 200 && distanceFromP2 > 200) {
         break;
       }
       spawnAttempts++;

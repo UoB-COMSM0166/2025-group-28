@@ -1,12 +1,11 @@
 class Room {
   constructor(difficultySettings) {
     this.door = null;
-    this.roomType = 0; // doesn't exist for now
     this.difficultySettings = difficultySettings;
     this.isCleared = false;
     this.mobs = [];
     this.items = [];
-    this.roomLayout = []; // 2d array of tiles
+    this.roomLayout = []; // 2D array of tiles
     this.particles = [];
     this.mobsRemaining = difficultySettings.totalMobs();
     this.lastSpawnTime = 0;
@@ -16,8 +15,15 @@ class Room {
     this.threatCap = behaviourMonitor.getRoomThreatCap();
     this.threatLevel = 0;
     this.threatCapReached = false;
+
     // BuffMob vars
-    this.canSpawnBuffMob = false; // Only true if player has survived 3+ rooms & playing on normal/hard/coop
+    // Allow spawning BuffMob if player has survived 3+ rooms & playing on normal/hard/coop
+    if (
+      (game && game.difficulty != difficultyLevels.EASY || coop) &&
+      behaviourMonitor.getRoomsCleared() >= 3
+    ) {
+      this.canSpawnBuffMob = true;
+    } else this.canSpawnBuffMob = false;
     this.mobBuffActive = false; // Set true once BuffMob is killed, applies buff to all other mobs
 
     // bonus point vars
@@ -26,278 +32,17 @@ class Room {
     this.damageTakenP2 = 0;
     this.damageDealtP2 = 0;
 
-    this.initRoom();
-  }
+    this.dashMobCount = 0;
 
-  initRoom() {
-    const tileOptions = [
-      tileColours1,
-      tileColours2,
-      tileColours3,
-      tileColours4,
-      tileColours5,
-    ];
-    this.currentTileColours = random(tileOptions);
-    this.roomLayout = [];
-    for (let j = arena_offset; j < arena_offset + roomHeight; j++) {
-      let roomTiles = [];
-      for (let i = arena_offset; i < arena_offset + roomWidth; i++) {
-        if (
-          j == arena_offset ||
-          i == arena_offset ||
-          j == arena_offset + 1 ||
-          i == arena_offset + 1 ||
-          j == arena_offset + roomHeight - 1 ||
-          i == arena_offset + roomWidth - 1 ||
-          j == arena_offset + roomHeight - 2 ||
-          i == arena_offset + roomWidth - 2
-        ) {
-          let newWall = new Tile(tileTypes.WALL, i, j);
-          roomTiles.push(newWall);
-        } else {
-          let newFloor = new Tile(tileTypes.FLOOR);
-          roomTiles.push(newFloor);
-        }
-      }
-      this.roomLayout.push(roomTiles);
-    }
-    this.scanRoom();
-    this.addDoor();
-  }
+    this.generator = new RoomGenerator(this);
+    this.handler = new RoomHandler(this);
 
-  // Creates square wall pattern
-  createWallSQR(w, h, x, y) {
-    for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
-      for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
-        this.roomLayout[y][x] = new Tile(tileTypes.WALL, x, y);
-      }
-      x -= w;
-    }
-  }
-
-  // Creates 'L' shaped wall pattern
-  createWallL1(w, h, x, y) {
-    for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
-      for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
-        if (i > 1 && j > 1) {
-          this.roomLayout[y][x] = new Tile(tileTypes.FLOOR);
-        } else {
-          this.roomLayout[y][x] = new Tile(tileTypes.WALL, x, y);
-        }
-      }
-      x -= w;
-    }
-  }
-
-  // Creates a different 'L' shaped wall pattern
-  createWallL2(w, h, x, y) {
-    for (let j = 0; j < h && y < roomHeight - wallBuffer; j++, y++) {
-      for (let i = 0; i < w && x < roomWidth - wallBuffer; i++, x++) {
-        if (i < w - 2 && j < h - 2) {
-          this.roomLayout[y][x] = new Tile(tileTypes.FLOOR);
-        } else {
-          this.roomLayout[y][x] = new Tile(tileTypes.WALL, x, y);
-        }
-      }
-      x -= w;
-    }
-  }
-
-  // Incrementally steps through the room and decides how many walls to place
-  scanRoom() {
-    for (let y = wallBuffer; y < roomHeight - wallBuffer; y += step) {
-      for (let x = wallBuffer; x < roomWidth - wallBuffer; x += step) {
-        let numWalls = floor(random(0, 2));
-        this.addWalls(x, y, numWalls);
-      }
-    }
-  }
-
-  addWalls(x, y, numWalls) {
-    for (let i = 0; i < numWalls; i++) {
-      x = this.addOffset(x);
-      y = this.addOffset(y);
-      let wallVar = floor(random(0, 100));
-      let shouldAddWall = this.rollAddWall();
-      if (shouldAddWall) {
-        if (wallVar > 74) {
-          this.createWallSQR(
-            this.getRanW(wallVariants.SQR),
-            this.getRanH(wallVariants.SQR),
-            x,
-            y
-          );
-        } else if (wallVar > 54) {
-          this.createWallL1(
-            this.getRanW(wallVariants.L1),
-            this.getRanH(wallVariants.L1),
-            x,
-            y
-          );
-        } else if (wallVar > 34) {
-          this.createWallL2(
-            this.getRanW(wallVariants.L2),
-            this.getRanH(wallVariants.L2),
-            x,
-            y
-          );
-        }
-        // Create small square wall
-        else {
-          this.createWallSQR(2, 2, x, y);
-        }
-      }
-    }
-  }
-
-  // Get random width for wall shape
-  getRanW(wallVariant) {
-    if (wallVariant == wallVariants.SQR) {
-      return floor(random(2, 4));
-    } else if (
-      wallVariant == wallVariants.L1 ||
-      wallVariant == wallVariants.L2
-    ) {
-      return floor(random(2, 5));
-    }
-  }
-
-  // Get random height for wall shape
-  getRanH(wallVariant) {
-    if (wallVariant == wallVariants.SQR) {
-      return floor(random(2, 4));
-    } else if (
-      wallVariant == wallVariants.L1 ||
-      wallVariant == wallVariants.L2
-    ) {
-      return floor(random(2, 6));
-    }
-  }
-
-  // Probability of adding a wall
-  rollAddWall() {
-    let wallChance = random(0, 2);
-    if (wallChance < 0.3) {
-      return true;
-    }
-    return false;
-  }
-
-  // Adds an offset to the placement of the wall shape within the room
-  // (To prevent rooms looking too symmetrical)
-  addOffset(pos) {
-    let offset = floor(random(0, wallBuffer));
-    if (pos < roomWidth - step && pos < roomHeight - step) {
-      return floor(random(pos, pos + offset));
-    } else {
-      return floor(random(pos, pos - offset));
-    }
-  }
-
-  addDoor() {
-    let validDoor = false;
-    let doorPos = random();
-    let x, y;
-    while (!validDoor) {
-      // doorBuffer stops doors spawning in corners of room
-      x = floor(random(doorBuffer, roomWidth - doorBuffer));
-      y = floor(random(doorBuffer, roomHeight - doorBuffer));
-      if (doorPos < 0.5) {
-        if (x < (roomWidth - 2) / 2) {
-          if (doorPrevPos != "right") {
-            // Put door on left side of room
-            x = 1;
-            doorPrevPos = "left";
-            validDoor = true;
-          }
-        } else {
-          if (doorPrevPos != "left") {
-            // Put door on right side of room
-            x = roomWidth + arena_offset / 9.5;
-            doorPrevPos = "right";
-            validDoor = true;
-          }
-        }
-      } else {
-        if (y < (roomHeight - 2) / 2) {
-          if (doorPrevPos != "bottom") {
-            // Put door at top of room
-            y = 1;
-            doorPrevPos = "top";
-            validDoor = true;
-          }
-        } else {
-          if (doorPrevPos != "top") {
-            // Put door at bottom of room
-            y = roomHeight - 2;
-            doorPrevPos = "bottom";
-            validDoor = true;
-          }
-        }
-      }
-    }
-    this.door = new Door(x, y);
-  }
-
-  createParticles(type = Particle, x, y, colour, velocity = null) {
-    if (childMode && type == Blood) return;
-    let maxParticles;
-    if (type == Spark) {
-      maxParticles = Math.floor(random(3, 7));
-    } else {
-      maxParticles = Math.floor(random(5, 20));
-    }
-    for (let i = 0; i < maxParticles; i++) {
-      if (type == Spark && velocity) {
-        this.particles.push(new Spark(x, y, colour, velocity));
-      } else {
-        this.particles.push(new type(x, y, colour));
-      }
-    }
+    this.generator.initRoom();
   }
 
   update() {
-    // checks for dead mobs
-    for (let i = this.mobs.length - 1; i >= 0; i--) {
-      if (!this.mobs[i].isActive) {
-        this.rollItemDrop(this.mobs[i]);
-        this.mobsRemaining -= 1;
-        if (this.mobs[i] instanceof BuffMob) {
-          if (this.mobs.length > 1) {
-            // If other mobs are in room when BuffMob killed
-            this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
-            this.mobBuffActive = true; // Activate buff to all other mobs
-            if (!muted) {
-              buffMobBuffSound.play();
-            } // Doesn't sound good if slowed during slow mo, so play sfx normally
-            if (!game.slowMeowOccurring) {
-              // Give player a lower value towards their slow meow level for triggering mob buff
-              game.slowMeowLevel = Math.min(
-                slowMeowMax,
-                game.slowMeowLevel + game.slowMeowGain / 2
-              );
-            }
-          } else {
-            this.roomScoreAccumaltor += 25;
-            if (!game.slowMeowOccurring) {
-              game.slowMeowLevel = Math.min(
-                slowMeowMax,
-                game.slowMeowLevel + game.slowMeowGain
-              );
-            }
-          }
-        } else {
-          this.roomScoreAccumaltor += 25;
-          if (!game.slowMeowOccurring) {
-            game.slowMeowLevel = Math.min(
-              slowMeowMax,
-              game.slowMeowLevel + game.slowMeowGain
-            );
-          }
-        }
-        this.mobs.splice(i, 1);
-      }
-    }
+    // Check for dead mobs
+    this.checkDeadMobs();
 
     if (this.threatLevel >= this.threatCap) {
       this.threatCapReached = true;
@@ -307,30 +52,11 @@ class Room {
       this.isCleared = true;
     }
 
-    for (let p of projectileManager.projectilesFired) {
-      if (
-        p.position.x < tileSize * 2.75 + arena_offset ||
-        p.position.x > roomWidth * tileSize - tileSize * 2.75 + arena_offset ||
-        p.position.y < tileSize * 2.75 + arena_offset ||
-        p.position.y > roomHeight * tileSize - tileSize * 2.75 + arena_offset ||
-        (projectileWallCollisions &&
-          this.checkInsideWall(p.position.x, p.position.y))
-      ) {
-        this.createParticles(
-          Spark,
-          p.position.x,
-          p.position.y,
-          p.sparkColour,
-          p.velocity
-        );
-        p.isActive = false;
-      } else p.update();
-    }
+    this.handler.updateProjectiles();
 
-    //mobs
+    // Update mobs
     for (let mob of this.mobs) {
       mob.update();
-
       if (this.mobBuffActive) {
         mob.applyBuff();
         setTimeout(() => {
@@ -342,89 +68,75 @@ class Room {
       }
     }
 
-    // items
+    // Update items
     for (let i = this.items.length - 1; i >= 0; i--) {
       this.items[i].update();
       this.items[i].draw();
-      if (playerA.isCollidingWith(this.items[i])) {
-        this.applyItemBuff(this.items[i], playerA);
-        this.items.splice(i, 1);
-      } else if (coop) {
-        if (playerB.isCollidingWith(this.items[i])) {
-          this.applyItemBuff(this.items[i], playerB);
+      for (let player of [playerA, playerB]) {
+        if (player === playerB && !coop) continue;
+        if (player.isCollidingWith(this.items[i])) {
+          this.applyItemBuff(this.items[i], player);
           this.items.splice(i, 1);
         }
       }
     }
 
-    // handles wall collisions
+    // Handle wall collisions
     for (let tileArr of this.roomLayout) {
       for (let tile of tileArr) {
         if (tile.type == tileTypes.WALL) {
-          this.handleWallCollision(playerA, tile);
+          this.handler.handleWallCollision(playerA, tile);
           if (coop) {
-            this.handleWallCollision(playerB, tile);
+            this.handler.handleWallCollision(playerB, tile);
           }
         }
       }
     }
-    //players
+
+    // Update players
     playerA.update();
-    if (coop) {
-      playerB.update();
-    }
+    if (coop) playerB.update();
   }
 
-  handleWallCollision(player, wall) {
-    // Calculate the boundaries of both objects
-    const playerLeft = player.position.x - player.widthHitbox / 2;
-    const playerRight = player.position.x + player.widthHitbox / 2;
-    const playerTop = player.position.y - player.heightHitbox / 2;
-    const playerBottom = player.position.y + player.heightHitbox / 2;
-
-    const wallLeft = wall.position.x;
-    const wallRight = wall.position.x + wall.widthHitbox;
-    const wallTop = wall.position.y;
-    const wallBottom = wall.position.y + wall.heightHitbox;
-
-    // Check if there's a collision
-    if (
-      playerRight > wallLeft &&
-      playerLeft < wallRight &&
-      playerBottom > wallTop &&
-      playerTop < wallBottom
-    ) {
-      // Calculate overlaps on each axis
-      const overlapLeft = playerRight - wallLeft;
-      const overlapRight = wallRight - playerLeft;
-      const overlapTop = playerBottom - wallTop;
-      const overlapBottom = wallBottom - playerTop;
-
-      // Find the minimum overlap
-      const minOverlap = Math.min(
-        overlapLeft,
-        overlapRight,
-        overlapTop,
-        overlapBottom
-      );
-
-      // Resolve collision based on minimum overlap
-      if (minOverlap === overlapLeft) {
-        // Colliding from the right side of the wall
-        player.position.x = wallLeft - player.widthHitbox / 2;
-        player.velocity.x = 0;
-      } else if (minOverlap === overlapRight) {
-        // Colliding from the left side of the wall
-        player.position.x = wallRight + player.widthHitbox / 2;
-        player.velocity.x = 0;
-      } else if (minOverlap === overlapTop) {
-        // Colliding from below the wall
-        player.position.y = wallTop - player.heightHitbox / 2;
-        player.velocity.y = 0;
-      } else if (minOverlap === overlapBottom) {
-        // Colliding from above the wall
-        player.position.y = wallBottom + player.heightHitbox / 2;
-        player.velocity.y = 0;
+  checkDeadMobs() {
+    for (let i = this.mobs.length - 1; i >= 0; i--) {
+      if (!this.mobs[i].isActive) {
+        this.rollItemDrop(this.mobs[i]);
+        this.mobsRemaining -= 1;
+        if (this.mobs[i] instanceof BuffMob) {
+          if (this.mobs.length > 1) {
+            // If other mobs are in room when BuffMob killed
+            this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
+            this.mobBuffActive = true; // Activate buff to all other mobs
+            if (!muted) buffMobBuffSound.play();
+            if (!game.slowMeowHandler.occurring) {
+              // Give player a lower value towards their slow meow level for triggering mob buff
+              game.slowMeowHandler.level = Math.min(
+                slowMeowMax,
+                game.slowMeowHandler.level + game.slowMeowHandler.gain / 2
+              );
+            }
+          } else {
+            this.roomScoreAccumaltor += 25;
+            if (!game.slowMeowHandler.occurring) {
+              game.slowMeowHandler.level = Math.min(
+                slowMeowMax,
+                game.slowMeowHandler.level + game.slowMeowHandler.gain
+              );
+            }
+            let item = new Heart(this.mobs[i].position.x, this.mobs[i].position.y, pixelHeart);
+            this.items.push(item);
+          }
+        } else {
+          this.roomScoreAccumaltor += 25;
+          if (!game.slowMeowHandler.occurring) {
+            game.slowMeowHandler.level = Math.min(
+              slowMeowMax,
+              game.slowMeowHandler.level + game.slowMeowHandler.gain
+            );
+          }
+        }
+        this.mobs.splice(i, 1);
       }
     }
   }
@@ -438,53 +150,11 @@ class Room {
   }
 
   draw() {
-    let firstFrame = true;
-
-    for (let j = 0; j < roomHeight; j++) {
-      for (let i = 0; i < roomWidth; i++) {
-        if (this.roomLayout[j][i].type == tileTypes.WALL) {
-          image(
-            walltile,
-            tileSize * i + arena_offset,
-            tileSize * j + arena_offset,
-            tileSize,
-            tileSize
-          );
-          if (debug) {
-            // TESTING - draw collision box
-            fill(0, 200, 0, 100);
-            rect(
-              this.roomLayout[j][i].position.x,
-              this.roomLayout[j][i].position.y,
-              this.roomLayout[j][i].widthHitbox,
-              this.roomLayout[j][i].heightHitbox
-            );
-          }
-        } else {
-          let tiledex = 1;
-          if (j % 2 == 0 && i % 2 == 0) {
-            tiledex = 0;
-          }
-          image(
-            this.currentTileColours[tiledex],
-            tileSize * i + arena_offset,
-            tileSize * j + arena_offset,
-            tileSize,
-            tileSize
-          );
-        }
-      }
-    }
+    this.handler.drawRoomTiles();
     this.door.draw();
 
     // Draw any particles after room objects so they appear behind the player/mobs
-    for (let i = 0; i < this.particles.length; i++) {
-      this.particles[i].update();
-      this.particles[i].draw();
-      if (this.particles[i].isFinished()) {
-        this.particles.splice(i, 1);
-      }
-    }
+    this.handler.drawParticles();
 
     playerA.move();
     if (coop) {
@@ -497,238 +167,163 @@ class Room {
     }
 
     playerA.draw();
-    playerA.drawPlayerHealthBar();
+    PlayerHUD.drawPlayerHealthBar();
 
     if (coop) {
       playerB.draw();
-      playerB.drawPlayerHealthBar();
+      PlayerHUD.drawPlayerHealthBar();
     }
 
-    // Projectile collision checking
+    this.handleProjectileCollisions();
+
+    this.handleMobCollisions();
+
+    if (this.isCleared) this.drawDoorPrompt();
+  }
+
+  handleProjectileCollisions() {
     for (let projectile of projectileManager.projectilesFired) {
-      if (projectile.isActive) {
-        projectile.draw();
-        for (let mob of this.mobs) {
-          if (
-            projectile.isCollidingWith(mob) &&
-            projectile.owner instanceof Player
-          ) {
-            mob.takeDamage(projectile.owner.attackDamage);
-            if (projectile.owner === playerA)
-              this.damageDealtP1 += projectile.owner.attackDamage;
-            if (projectile.owner === playerB)
-              this.damageDealtP2 += projectile.owner.attackDamage;
-            this.createParticles(
-              Blood,
-              mob.position.x,
-              mob.position.y,
-              mob.bloodColour
-            );
-            projectile.isActive = false;
-          }
-        }
+      if (!projectile.isActive) continue;
+      projectile.draw();
+      for (let mob of this.mobs) {
         if (
-          projectile.owner instanceof RangedMob ||
-          projectile.owner instanceof BlinkMob
+          projectile.isCollidingWith(mob) &&
+          projectile.owner instanceof Player
         ) {
-          if (projectile.isCollidingWith(playerA)) {
-            playerA.takeDamage(projectile.owner.attackDamage);
-            this.damageTakenP1 += projectile.owner.attackDamage;
-            if (!playerA.isInvincible) {
-              this.createParticles(
-                Blood,
-                playerA.position.x,
-                playerA.position.y,
-                playerA.bloodColour
-              );
-              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(
-                  0,
-                  game.slowMeowLevel - game.slowMeowLoss
-                );
-              }
-            }
+          projectile.isActive = false;
+          if (mob.isInvincible) continue;
+          mob.takeDamage(projectile.owner.attackDamage);
+          if (projectile.owner === playerA) {
+            this.damageDealtP1 += projectile.owner.attackDamage;
+          } else this.damageDealtP2 += projectile.owner.attackDamage;
+          this.generator.createParticles(
+            Blood,
+            mob.position.x,
+            mob.position.y,
+            mob.bloodColour
+          );
+        }
+      }
+      if (
+        projectile.owner instanceof RangedMob ||
+        projectile.owner instanceof BlinkMob
+      ) {
+        for (let player of [playerA, playerB]) {
+          if (player === playerB && !coop) continue;
+          let damageTaken;
+          if (player === playerA) damageTaken = 'damageTakenP1';
+          else damageTaken = 'damageTakenP2';
+          if (projectile.isCollidingWith(player)) {
             projectile.isActive = false;
-            playerA.makeInvincible();
-          }
-          if (coop && projectile.isCollidingWith(playerB)) {
-            playerB.takeDamage(projectile.owner.attackDamage);
-            this.damageTakenP2 += projectile.owner.attackDamage;
-            if (!playerB.isInvincible) {
-              this.createParticles(
-                Blood,
-                playerB.position.x,
-                playerB.position.y,
-                playerB.bloodColour
+            if (transitioning || player.isInvincible) continue;
+            player.takeDamage(projectile.owner.attackDamage);
+            this[damageTaken] += projectile.owner.attackDamage;
+            this.generator.createParticles(
+              Blood,
+              player.position.x,
+              player.position.y,
+              player.bloodColour
+            );
+            if (!game.slowMeowHandler.occurring && game.slowMeowHandler.level < slowMeowMax) {
+              game.slowMeowHandler.level = Math.max(
+                0,
+                game.slowMeowHandler.level - game.slowMeowHandler.loss
               );
-              if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-                game.slowMeowLevel = Math.max(
-                  0,
-                  game.slowMeowLevel - game.slowMeowLoss
-                );
-              }
             }
-            projectile.isActive = false;
-            playerB.makeInvincible();
+            player.makeInvincible();
           }
         }
       }
     }
+  }
 
-    // mob checks
+  handleMobCollisions() {
     for (let mob of this.mobs) {
       mob.draw();
-      mob.drawMobHealthBar();
-      if (playerA.isCollidingWith(mob) && playerA.isActive) {
-        if (!(mob instanceof BlinkMob)) {
-          playerA.takeDamage(mob.attackDamage);
-          this.damageTakenP1 += mob.attackDamage;
-          if (!playerA.isInvincible) {
-            this.createParticles(
-              Blood,
-              playerA.position.x,
-              playerA.position.y,
-              playerA.bloodColour
+      GameUI.drawMobHealthBar(mob);
+      for (let player of [playerA, playerB]) {
+        if (player === playerB && !coop) continue;
+        let damageTaken;
+        if (player === playerA) damageTaken = 'damageTakenP1';
+        else damageTaken = 'damageTakenP2';
+        if (player.isCollidingWith(mob) && player.isActive) {
+          if ((mob instanceof BlinkMob)) continue;
+          player.applyKnockback(mob.position.x, mob.position.y);
+          mob.applyKnockback(player.position.x, player.position.y);
+          if (player.isInvincible) continue;
+          player.takeDamage(mob.attackDamage);
+          this[damageTaken] += mob.attackDamage;
+          this.generator.createParticles(
+            Blood,
+            player.position.x,
+            player.position.y,
+            player.bloodColour
+          );
+          if (!game.slowMeowHandler.occurring && game.slowMeowHandler.level < slowMeowMax) {
+            game.slowMeowHandler.level = Math.max(
+              0,
+              game.slowMeowHandler.level - game.slowMeowHandler.loss
             );
-            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-              game.slowMeowLevel = Math.max(
-                0,
-                game.slowMeowLevel - game.slowMeowLoss
-              );
-            }
           }
-          playerA.applyKnockback(mob.position.x, mob.position.y);
-          mob.applyKnockback(playerA.position.x, playerA.position.y);
-          playerA.makeInvincible();
-        } else {
-          mob.blinkCooldown = mob.blinkCooldownLimit;
-          mob.blink();
-        }
-      }
-
-      if (coop && playerB.isCollidingWith(mob) && playerB.isActive) {
-        if (!(mob instanceof BlinkMob)) {
-          playerB.takeDamage(mob.attackDamage);
-          this.damageTakenP2 += mob.attackDamage;
-          if (!playerB.isInvincible) {
-            this.createParticles(
-              Blood,
-              playerB.position.x,
-              playerB.position.y,
-              playerB.bloodColour
-            );
-            if (!game.slowMeowOccurring && game.slowMeowLevel < slowMeowMax) {
-              game.slowMeowLevel = Math.max(
-                0,
-                game.slowMeowLevel - game.slowMeowLoss
-              );
-            }
-          }
-          playerB.applyKnockback(mob.position.x, mob.position.y);
-          mob.applyKnockback(playerB.position.x, playerB.position.y);
-          playerB.makeInvincible();
-        } else {
-          mob.blinkCooldown = mob.blinkCooldownLimit;
-          mob.blink();
+          player.makeInvincible();
         }
       }
     }
+  }
 
+  drawDoorPrompt() {
     // Handles drawing the 'interact' button prompt if the player is in range of the door
     // I apologise for how ugly this is
-    if (this.isCleared) {
-      if (this.door.x == 1) {
-        // Door on left side of room
-        if (
-          (playerA.position.x < this.door.position.x + tileSize * 8 &&
-            playerA.position.x > this.door.position.x &&
-            playerA.position.y < this.door.position.y + tileSize * 6 &&
-            playerA.position.y > this.door.position.y - tileSize * 4) ||
-          (coop &&
-            playerB.position.x < this.door.position.x + tileSize * 8 &&
-            playerB.position.x > this.door.position.x &&
-            playerB.position.y < this.door.position.y + tileSize * 6 &&
-            playerB.position.y > this.door.position.y - tileSize * 4)
-        ) {
-          image(
-            buttonPrompt,
-            this.door.position.x + tileSize * 2,
-            this.door.position.y
-          );
-          this.promptActive = true;
-        } else {
-          this.promptActive = false;
-        }
-      } else if (this.door.x == roomWidth + arena_offset / 9.5) {
-        // Door on right side of room
-        if (
-          (playerA.position.x < this.door.position.x &&
-            playerA.position.x >
-              this.door.position.x - arena_offset * 2 - tileSize * 8 &&
-            playerA.position.y < this.door.position.y + tileSize * 6 &&
-            playerA.position.y > this.door.position.y - tileSize * 4) ||
-          (coop &&
-            playerB.position.x < this.door.position.x &&
-            playerB.position.x >
-              this.door.position.x - arena_offset * 2 - tileSize * 8 &&
-            playerB.position.y < this.door.position.y + tileSize * 6 &&
-            playerB.position.y > this.door.position.y - tileSize * 4)
-        ) {
-          image(
-            buttonPrompt,
-            this.door.position.x - tileSize * 2 - arena_offset * 2,
-            this.door.position.y
-          );
-          this.promptActive = true;
-        } else {
-          this.promptActive = false;
-        }
-      } else if (this.door.y == roomHeight - 2) {
-        // Door at bottom of room
-        if (
-          (playerA.position.x < this.door.position.x + tileSize * 8 &&
-            playerA.position.x > this.door.position.x - tileSize * 4 &&
-            playerA.position.y < this.door.position.y &&
-            playerA.position.y > this.door.position.y - tileSize * 8) ||
-          (coop &&
-            playerB.position.x < this.door.position.x + tileSize * 8 &&
-            playerB.position.x > this.door.position.x - tileSize * 4 &&
-            playerB.position.y < this.door.position.y &&
-            playerB.position.y > this.door.position.y - tileSize * 8)
-        ) {
-          image(
-            buttonPrompt,
-            this.door.position.x + tileSize + tileSize / 2,
-            this.door.position.y - tileSize * 2
-          );
-          this.promptActive = true;
-        } else {
-          this.promptActive = false;
-        }
-      } else if (this.door.y == 1) {
-        // Door at top of room
-        if (
-          (playerA.position.x < this.door.position.x + tileSize * 8 &&
-            playerA.position.x > this.door.position.x - tileSize * 4 &&
-            playerA.position.y < this.door.position.y + tileSize * 8 &&
-            playerA.position.y > this.door.position.y) ||
-          (coop &&
-            playerB.position.x < this.door.position.x + tileSize * 8 &&
-            playerB.position.x > this.door.position.x - tileSize * 4 &&
-            playerB.position.y < this.door.position.y + tileSize * 8 &&
-            playerB.position.y > this.door.position.y)
-        ) {
-          image(
-            buttonPrompt,
-            this.door.position.x + tileSize + tileSize / 2,
-            this.door.position.y + tileSize * 2
-          );
-          this.promptActive = true;
-        } else {
-          this.promptActive = false;
-        }
-      }
+    let xMin, xMax, yMin, yMax, promptX, promptY;
+    // Door on left side of room
+    if (this.door.x == 1) {
+      xMin = this.door.position.x;
+      xMax = this.door.position.x + tileSize * 8;
+      yMin = this.door.position.y - tileSize * 4;
+      yMax = this.door.position.y + tileSize * 6;
+      promptX = this.door.position.x + tileSize * 2;
+      promptY = this.door.position.y;
+    // Door on right side of room
+    } else if (this.door.x == roomWidth + arena_offset / 9.5) {
+      xMin = this.door.position.x - arena_offset * 2 - tileSize * 8;
+      xMax = this.door.position.x;
+      yMin = this.door.position.y - tileSize * 4;
+      yMax = this.door.position.y + tileSize * 6;
+      promptX = this.door.position.x - tileSize * 2 - arena_offset * 2;
+      promptY = this.door.position.y;
+    // Door at bottom of room
+    } else if (this.door.y == roomHeight - 2) {
+      xMin = this.door.position.x - tileSize * 4;
+      xMax = this.door.position.x + tileSize * 8;
+      yMin = this.door.position.y - tileSize * 8;
+      yMax = this.door.position.y;
+      promptX = this.door.position.x + tileSize + tileSize / 2;
+      promptY = this.door.position.y - tileSize * 2;
+    // Door at top of room
+    } else if (this.door.y == 1) {
+      xMin = this.door.position.x - tileSize * 4;
+      xMax = this.door.position.x + tileSize * 8;
+      yMin = this.door.position.y;
+      yMax = this.door.position.y + tileSize * 8;
+      promptX = this.door.position.x + tileSize + tileSize / 2;
+      promptY = this.door.position.y + tileSize * 2;
     }
+    if (this.playerInRangeOfDoor(playerA, xMin, xMax, yMin, yMax) ||
+        (coop && this.playerInRangeOfDoor(playerB, xMin, xMax, yMin, yMax))) {
+      image(buttonPrompt, promptX, promptY);
+      this.promptActive = true;
+    } else {
+      this.promptActive = false;
+    }
+  }
+
+  playerInRangeOfDoor(player, xMin, xMax, yMin, yMax) {
+    return (
+      player.position.x < xMax &&
+      player.position.x > xMin &&
+      player.position.y < yMax &&
+      player.position.y > yMin
+    );
   }
 
   spawnMob() {
@@ -745,10 +340,10 @@ class Room {
     let spawnAttempts = 0;
     while (!validSpawn && spawnAttempts < 100) {
       spawnX =
-        random(tileSize * 3, roomWidth * tileSize - tileSize * 3) +
+        random(tileSize * 3.5, roomWidth * tileSize - tileSize * 3.5) +
         arena_offset;
       spawnY =
-        random(tileSize * 3, roomHeight * tileSize - tileSize * 3) +
+        random(tileSize * 3.5, roomHeight * tileSize - tileSize * 3.5) +
         arena_offset;
 
       let distanceFromP1 = dist(
@@ -781,34 +376,10 @@ class Room {
   chooseMob(spawnX, spawnY) {
     // This is here instead of Constants.js as assets and mobs need initialising before this accesses them
     const mobTypes = Object.freeze([
-      {
-        type: MeleeMob,
-        gif: dogmob_gif,
-        threat: 3,
-        counters: ["defensive"],
-        spawnChance: 1.1,
-      },
-      {
-        type: RangedMob,
-        gif: rangedmob_gif,
-        threat: 5,
-        counters: ["aggressive"],
-        spawnChance: 1,
-      },
-      {
-        type: BlinkMob,
-        gif: blinkMobGif,
-        threat: 10,
-        counters: ["defensive"],
-        spawnChance: 0.8,
-      },
-      {
-        type: BuffMob,
-        gif: heartMob_gif,
-        threat: 0,
-        counters: ["aggressive"],
-        spawnChance: 0.5,
-      },
+      { type: MeleeMob, gif: dogmob_gif, threat: 3, counters: ["defensive"], spawnChance: 1.1 },
+      { type: RangedMob, gif: rangedmob_gif, threat: 5, counters: ["aggressive"], spawnChance: 1 },
+      { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.7 },
+      { type: BuffMob, gif: heartMob_gif, threat: 0, counters: ["aggressive"], spawnChance: 0.3 }
     ]);
 
     let playerBehaviour = behaviourMonitor.getBehaviourProfile();
@@ -848,7 +419,7 @@ class Room {
         }
         randomNum -= mob.weight;
       }
-      if (chosenMob.type == BuffMob) this.canSpawnBuffMob = false;
+      if (chosenMob.type === BuffMob) this.canSpawnBuffMob = false;
       this.mobs.push(
         new chosenMob.type(
           chosenMob.gif,
@@ -861,37 +432,15 @@ class Room {
     }
   }
 
-  checkInsideWall(x, y) {
-    for (let j = 0; j < roomHeight; j++) {
-      for (let i = 0; i < roomWidth; i++) {
-        if (this.roomLayout[j][i].type === tileTypes.WALL) {
-          let wallX = this.roomLayout[j][i].position.x;
-          let wallY = this.roomLayout[j][i].position.y;
-          let wallWidth = this.roomLayout[j][i].widthHitbox;
-          let wallHeight = this.roomLayout[j][i].heightHitbox;
-
-          if (
-            x > wallX &&
-            x < wallX + wallWidth &&
-            y > wallY &&
-            y < wallY + wallHeight
-          ) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-
   rollItemDrop(mob) {
-    let roll = random(1, 200);
+    if (mob instanceof BuffMob) return;
+    let roll = random(0, 200);
     let item;
-    if (!this.checkInsideWall(mob.position.x, mob.position.y)) {
-      if (roll < 35) {
+    if (!this.handler.checkInsideWall(mob.position.x, mob.position.y)) {
+      if (roll < 29) {
         item = new Heart(mob.position.x, mob.position.y, pixelHeart);
         this.items.push(item);
-      } else if (roll >= 35 && roll < 70) {
+      } else if (roll > 29 && roll < 64) {
         item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
         this.items.push(item);
       }
@@ -899,12 +448,13 @@ class Room {
   }
 
   applyItemBuff(item, player) {
+    if (!item || !player || !player.isActive) return;
     if (item instanceof Heart) {
       if (!muted) {
         if (player.health >= player.maxHealth) itemSound1.play();
         else itemSound2.play();
       }
-      player.health = Math.min(player.maxHealth, player.health + 20);
+      player.health = Math.min(player.maxHealth, player.health + this.difficultySettings.heartHealth);
     } else if (item instanceof Energy) {
       if (!muted) {
         if (player.fireCooldown <= 0) itemSound1.play();

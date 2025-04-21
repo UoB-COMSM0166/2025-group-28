@@ -15,7 +15,6 @@ function switchToHelp() {
 
 function toggleBloodDisable() {
   childMode = !childMode;
-  console.log(childMode);
   if (childMode) {
     disabBlood_on.style("background-color", "rgb(255, 109, 0)");
     disabBlood_off.style("background-color", "transparent");
@@ -24,6 +23,7 @@ function toggleBloodDisable() {
     disabBlood_on.style("background-color", "transparent");
   }
 }
+
 function switchToStngs() {
   settingsMode = true;
   toggle_settings.style("background-color", "rgb(255, 109, 0)");
@@ -33,37 +33,8 @@ function switchToStngs() {
 }
 
 class Settings {
-  static gotoSettings() {
-    stng_div = createDiv();
-    stng_div.id("settings_content");
-    stng_div.size(pageWidth, pageHeight);
-    set_back = createImg(setback);
-    set_back.parent(stng_div);
-    set_back.position(0, 0);
-    set_back.attribute("draggable", "false");
-
-    let exit = createP("X");
-    exit.parent(stng_div);
-    exit.position(10, 10);
-    exit.style("color", "white");
-    exit.style("background-color", "red");
-    exit.attribute("draggable", "false");
-    exit.mouseClicked(quitSettings);
-
-    toggle_settings = createP("Settings");
-    toggle_settings.parent(stng_div);
-    toggle_settings.position(200, 10);
-    toggle_settings.attribute("draggable", "false");
-    toggle_settings.mouseClicked(switchToStngs);
-    toggle_settings.style("background-color", "rgb(255, 109, 0)");
-
-    toggle_help = createP("How to Play");
-    toggle_help.parent(stng_div);
-    toggle_help.position(500, 10);
-    toggle_help.attribute("draggable", "false");
-    toggle_help.mouseClicked(switchToHelp);
-  }
   static switchToWasd() {
+    wasd_control = true;
     wasd.style("border", "2px solid white");
     arrow.style("border", "none");
 
@@ -71,6 +42,7 @@ class Settings {
   }
 
   static switchToArrow() {
+    wasd_control = false;
     arrow.style("border", "2px solid white");
     wasd.style("border", "none");
 
@@ -106,22 +78,31 @@ class Settings {
     exit.style("color", "white");
     exit.style("background-color", "red");
     exit.attribute("draggable", "false");
-    exit.mouseClicked(quitSettings);
+    exit.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      quitSettings();
+    });
 
     toggle_settings = createP("Settings");
     toggle_settings.parent(stng_div);
     toggle_settings.position(200, 10);
     toggle_settings.attribute("draggable", "false");
-    toggle_settings.mouseClicked(switchToStngs);
+    toggle_settings.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (!settingsMode) switchToStngs();
+    });
     toggle_settings.style("background-color", "rgb(255, 109, 0)");
 
     toggle_help = createP("How to Play");
     toggle_help.parent(stng_div);
     toggle_help.position(500, 10);
     toggle_help.attribute("draggable", "false");
-    toggle_help.mouseClicked(switchToHelp);
+    toggle_help.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (settingsMode) switchToHelp();
+    });
 
-    // defualt to setting panel
+    // Default to setting panel
     Settings.renderSettingPanel();
   }
 
@@ -136,7 +117,7 @@ class Settings {
     controlLegend.position(20, 100);
     let p2control = createP("Player 2 will use <br> non-default controls");
     p2control.parent(settingpanel);
-    p2control.position(20, 150);
+    p2control.position(20, 137);
     p2control.style("font-size", "10px");
     p2control.style("opacity", "0.6");
 
@@ -144,16 +125,25 @@ class Settings {
     wasd.parent(settingpanel);
     wasd.position(320, 100);
     wasd.size(150, 160);
-    wasd.mouseClicked(Settings.switchToWasd);
-    wasd.style("border", "2px solid white");
     wasd.attribute("draggable", "false");
+    wasd.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      Settings.switchToWasd();
+    });
 
     arrow = createImg(arrow_icon);
     arrow.parent(settingpanel);
     arrow.position(500, 100);
     arrow.size(150, 160);
     arrow.attribute("draggable", "false");
-    arrow.mouseClicked(Settings.switchToArrow);
+    arrow.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      Settings.switchToArrow();
+    });
+
+    if (wasd_control) {
+      wasd.style("border", "2px solid white");
+    } else arrow.style("border", "2px solid white");
 
     let disableSounds = createP("Enable Audio");
     disableSounds.parent(settingpanel);
@@ -162,12 +152,17 @@ class Settings {
     sound_on = createP("ON");
     sound_on.parent(settingpanel);
     sound_on.position(320, 370);
-    sound_on.mouseClicked(Settings.soundToggle);
+    sound_on.mouseClicked(() => {
+      menuClickSound.play();
+      if (muted) Settings.soundToggle();
+    });
 
     sound_off = createP("OFF");
     sound_off.parent(settingpanel);
     sound_off.position(360, 370);
-    sound_off.mouseClicked(Settings.soundToggle);
+    sound_off.mouseClicked(() => {
+      if (!muted) Settings.soundToggle();
+    });
 
     if (!muted) {
       sound_on.style("background-color", "rgb(255, 109, 0)");
@@ -184,14 +179,20 @@ class Settings {
     disabBlood_on = createP("ON");
     disabBlood_on.parent(settingpanel);
     disabBlood_on.position(320, 300);
-    disabBlood_on.mouseClicked(toggleBloodDisable);
+    disabBlood_on.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (!childMode) toggleBloodDisable();
+    });
 
     disabBlood_off = createP("OFF");
     disabBlood_off.parent(settingpanel);
     disabBlood_off.position(360, 300);
-    disabBlood_off.mouseClicked(toggleBloodDisable);
+    disabBlood_off.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (childMode) toggleBloodDisable();
+    });
 
-    let childModeCap = createP("Disable blood particle effects");
+    let childModeCap = createP("Disable blood particle<br>effects and gore sounds");
     childModeCap.parent(settingpanel);
     childModeCap.position(20, 335);
     childModeCap.style("font-size", "10px");
@@ -208,14 +209,12 @@ class Settings {
 
   static soundToggle() {
     muted = !muted;
-    console.log(muted);
     if (!muted) {
       themeMusic.play();
       sound_on.style("background-color", "rgb(255, 109, 0)");
       sound_off.style("background-color", "transparent");
     } else {
       themeMusic.stop();
-
       sound_off.style("background-color", "rgb(106, 104, 102)");
       sound_on.style("background-color", "transparent");
     }

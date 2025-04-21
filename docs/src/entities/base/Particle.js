@@ -18,13 +18,13 @@ class Particle {
       this.lifespan = 0;
     }
     // Apply damping to simulate friction/resistance in space
-    this.velocity.mult(random(0.8,0.95));
+    this.velocity.mult(random(0.8, 0.95));
 
     // Move particle according to velocity
     this.position.add(this.velocity);
 
     // Reduce lifespan
-    this.lifespan -= 5;
+    this.lifespan = Math.max(0, this.lifespan - 5);
   }
 
   isFinished() {
