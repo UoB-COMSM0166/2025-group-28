@@ -20,7 +20,10 @@ class Menu {
     sp_button.parent(menuContainer);
     sp_button.position(pageWidth / 4 - 170, pageHeight * 0.62);
     sp_button.size(170, 120);
-    sp_button.mouseClicked(Menu.singlePlayerStart);
+    sp_button.mouseClicked(() => {
+      if (!muted) menuSelectSound.play();
+      Menu.singlePlayerStart();
+    });
     sp_button.style("opacity", "0.5");
     sp_button.attribute("draggable", "false");
     sp_button.mouseOver(Menu.singlePlayerHover);
@@ -30,7 +33,10 @@ class Menu {
     coop_button.parent(menuContainer);
     coop_button.position(pageWidth / 2 - 190, pageHeight * 0.62);
     coop_button.size(170, 120);
-    coop_button.mouseClicked(Menu.coopPlayerStart);
+    coop_button.mouseClicked(() => {
+      if (!muted) menuSelectSound.play();
+      Menu.coopPlayerStart();
+    });
     coop_button.style("opacity", "0.5");
     coop_button.attribute("draggable", "false");
     coop_button.mouseOver(Menu.coopHover);
@@ -40,7 +46,10 @@ class Menu {
     pvp_button.parent(menuContainer);
     pvp_button.position(pageWidth / 2 + 25, pageHeight * 0.62);
     pvp_button.size(170, 120);
-    pvp_button.mouseClicked(Menu.pvpStart);
+    pvp_button.mouseClicked(() => {
+      if (!muted) menuSelectSound.play();
+      Menu.pvpStart()
+    });
     pvp_button.style("opacity", "0.5");
     pvp_button.attribute("draggable", "false");
     pvp_button.mouseOver(Menu.pvpHover);
@@ -54,14 +63,20 @@ class Menu {
     stng_button.attribute("draggable", "false");
     stng_button.mouseOver(Menu.stngHover);
     stng_button.mouseOut(Menu.stngEndHover);
-    stng_button.mouseClicked(Settings.gotoSettings);
+    stng_button.mouseClicked(() => {
+      if (!muted) menuSelectSound.play();
+      Settings.gotoSettings();
+    });
 
     difficultyButton = createButton(
       "Difficulty: " + difficultyNames[difficulty]
     );
     difficultyButton.parent(menuContainer);
     difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.8);
-    difficultyButton.mouseClicked(Menu.changeDifficulty);
+    difficultyButton.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      Menu.changeDifficulty();
+    });
     difficultyButton.size(160, 55);
     difficultyButton.attribute("draggable", "false");
     difficultyButton.class("menu-button");

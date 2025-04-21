@@ -19,15 +19,20 @@ function setup() {
 function gameSwitch(starting) {
   // Used to switch between game start/menu
   if (starting) {
+    transitioning = true;
+    fadingOut = true;
     sp_button.remove();
     coop_button.remove();
     pvp_button.remove();
     menuBack.remove();
     stng_button.remove();
     difficultyButton.remove();
-    inGame = true;
-    gameSetUp();
-    loop();
+    themeMusic.stop();
+    setTimeout(() => {
+      inGame = true;
+      gameSetUp();
+      loop();
+    }, 750);
   } else {
     inGame = false;
     gameOver = false;
@@ -58,7 +63,6 @@ function quitSettings() {
 }
 
 function gameSetUp() {
-  themeMusic.stop();
   if (pvpMode) {
     if (!muted) {
       pvpMusic.play();
@@ -82,7 +86,10 @@ function gameSetUp() {
 }
 
 function draw() {
-  if (!inGame) return;
+  if (!inGame) {
+    if (fadingOut) fade();
+    return;
+  }
   if (game.gameState == GameStates.ACTIVE) {
     background(0); // Refreshes the canvas background to fix the sprite ghosting effect
     if (game.currentRoom && game.currentRoom.isCleared == true) {
@@ -107,16 +114,26 @@ function draw() {
   }
 
   // Draw fade out/in effect
+  if (fadingOut || fadingIn) fade();
+  if (game.gameState == GameStates.OVER && !gameOver) {
+    GameOver.renderGameOverInterface();
+    gameOver = true;
+  }
+}
+
+function fade() {
   if (fadingOut) {
     fadeAlpha += 10;
     if (fadeAlpha >= 255) {
       fadeAlpha = 255;
       fadingOut = false;
       fadingIn = true;
-      if (!pvpMode) {
-        game.currentRoom.getPlayerNextPos();
+      if (inGame) {
+        if (!pvpMode) {
+          game.currentRoom.getPlayerNextPos();
+        }
+        game.nextRoom();
       }
-      game.nextRoom();
     }
   } else if (fadingIn) {
     fadeAlpha -= 10;
@@ -129,10 +146,6 @@ function draw() {
   noStroke();
   fill(0, fadeAlpha);
   rect(0, 0, windowWidth, windowHeight);
-  if (game.gameState == GameStates.OVER && !gameOver) {
-    GameOver.renderGameOverInterface();
-    gameOver = true;
-  }
 }
 
 function keyPressed() {

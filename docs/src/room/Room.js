@@ -448,6 +448,7 @@ class Room {
   }
 
   applyItemBuff(item, player) {
+    if (!item || !player || !player.isActive) return;
     if (item instanceof Heart) {
       if (!muted) {
         if (player.health >= player.maxHealth) itemSound1.play();

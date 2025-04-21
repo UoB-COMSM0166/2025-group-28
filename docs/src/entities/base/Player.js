@@ -165,6 +165,7 @@ class Player extends Sprite {
   }
 
   fire() {
+    if (!this.isActive) return;
     if (this.fireOverheat) {
       if (!this.overheatSoundPlayed) {
         playSound(fireOverheatSound, playbackRate);
@@ -178,7 +179,6 @@ class Player extends Sprite {
     }
     let currentTime = millis();
     if (
-      this.isActive &&
       !this.fireOverheat &&
       currentTime - this.lastShot > this.fireRate
     ) {

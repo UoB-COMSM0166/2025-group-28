@@ -29,7 +29,7 @@ class GameObject {
   }
 
   isCollidingWith(entity) {
-    if ((this && !this.isActive) || (entity && !entity.isActive)) return;
+    if ((!this || !this.isActive) || (!entity || !entity.isActive)) return;
     // Calculate the top-left corners based on center positions
     const thisLeft = this.position.x - this.widthHitbox / 2;
     const thisTop = this.position.y - this.heightHitbox / 2;

@@ -73,6 +73,9 @@ function preload() {
     pvpAnnouncer4 = loadSound("assets/pvpannouncer4.mp3");
     pvpAnnouncer5 = loadSound("assets/pvpannouncer5.mp3");
     pvpAnnouncer6 = loadSound("assets/pvpannouncer6.mp3");
+    // Menus
+    menuClickSound = loadSound("assets/menuclick.mp3");
+    menuSelectSound = loadSound("assets/menuselect.mp3");
     // Music
     themeMusic = createAudio("assets/theme.mp3");
     gameMusic = createAudio("assets/gamemusic.mp3");
