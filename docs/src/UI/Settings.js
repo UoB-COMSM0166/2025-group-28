@@ -91,7 +91,7 @@ class Settings {
 
     let slowmeowhelp = createImg(add_ctrls);
     slowmeowhelp.parent(howtopanel);
-    slowmeowhelp.position(240, 310);
+    slowmeowhelp.position(240, 320);
     slowmeowhelp.size(140, 170);
     slowmeowhelp.attribute("draggable", "false");
 
@@ -101,8 +101,10 @@ class Settings {
     instBack.parent(howtopanel);
     instBack.attribute("draggable", "false");
     instBack.mouseClicked(() => {
-      if (!muted) menuClickSound.play();
-      this.changeInstr(-1);
+      if (!muted && instr_count > 0) {
+        menuClickSound.play();
+      }
+      Settings.changeInstr(-1);
     });
 
     let objectiveHeader = createP("Game Instructions");
@@ -118,44 +120,36 @@ class Settings {
     instNext.parent(howtopanel);
     instNext.attribute("draggable", "false");
     instNext.mouseClicked(() => {
-      if (!muted) menuClickSound.play();
-      this.changeInstr(1);
+      if (!muted && instr_count < instruction_set.length - 1) {
+        menuClickSound.play();
+      }
+      Settings.changeInstr(1);
     });
 
     instr = createImg(instr_1);
     instr.parent(howtopanel);
     instr.position(455, 310);
     instr.size(360, 360);
+    instr.attribute("draggable", "false");
   }
 
   static changeInstr(increment) {
-    if (instr_count > 0 && instr_count < instruction_set.length) {
-      instr.remove();
-      instr_count += increment;
-      instr = createImg(instruction_set[instr_count]);
-      instr.parent(howtopanel);
-      instr.position(455, 310);
-      instr.size(360, 360);
-      instr.attribute("draggable", "false");
+    let newInstrCount = instr_count + increment;
+    if (newInstrCount < 0 || newInstrCount > instruction_set.length - 1) {
+      return;
     }
-    Settings.updateArrowColours();
-  }
-
-  static nextInstr() {
-    if (instr_count < 3) {
-      instr.remove();
-      instr_count++;
-
-      instr = createImg(instruction_set[instr_count]);
-      instr.parent(howtopanel);
-      instr.position(455, 310);
-      instr.size(360, 360);
-    }
+    instr_count = newInstrCount;
+    instr.remove();
+    instr = createImg(instruction_set[instr_count]);
+    instr.parent(howtopanel);
+    instr.position(455, 310);
+    instr.size(360, 360);
+    instr.attribute("draggable", "false");
     Settings.updateArrowColours();
   }
 
   static updateArrowColours() {
-    if (instr_count >= 3) {
+    if (instr_count >= instruction_set.length - 1) {
       instNext.style("background-color", "gray");
       instBack.style("background-color", gameOrange);
     } else {
@@ -167,6 +161,7 @@ class Settings {
       instBack.style("background-color", "gray");
     }
   }
+
   static gotoSettings() {
     stng_div = createDiv();
     stng_div.id("settings_content");
@@ -327,6 +322,7 @@ class Settings {
   }
 
   static quitSettings() {
+    instr_count = 0;
     settingsMode = true;
     stng_div.remove();
   }
