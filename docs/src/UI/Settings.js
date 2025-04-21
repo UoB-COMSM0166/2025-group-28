@@ -6,6 +6,14 @@ let gameOrange = "rgb(255, 109, 0)";
 let controlsToggle;
 let helpTextToggle;
 
+let instruction_set = [instr_1, instr_2, instr_3, instr_4];
+let instr_count = 0;
+
+let instNext;
+let instBack;
+
+let instr;
+
 function switchToHelp() {
   settingsMode = false;
 
@@ -60,14 +68,15 @@ class Settings {
     howtopanel.parent(stng_div);
 
     let intro = createP(
-      "You are AstroCat. You chased a mouse on to a spaceship. The humans were killed by invading space dogs. Silly humans. You need to fight your way through the endless rooms of rampaging space dogs."
+      "You are AstroCat. You chased a mouse on to a spaceship. The humans were killed by invading space dogs. Silly humans. Defeat the space dogs and explore the spaceship. Don't let curiosity kill the cat!"
     );
     intro.parent(howtopanel);
     intro.position(20, 80);
 
     controlsToggle = createP("Controls");
-    controlsToggle.position(20, 220);
-    controlsToggle.style("background-color", gameOrange);
+    controlsToggle.position(20, 250);
+    controlsToggle.style("color", "black");
+    controlsToggle.style("background-color", "white");
     controlsToggle.parent(howtopanel);
     let controlDisplay;
     if (wasd_control) {
@@ -76,17 +85,76 @@ class Settings {
       controlDisplay = createImg(arrow_icon);
     }
     controlDisplay.parent(howtopanel);
-    controlDisplay.position(20, 260);
-    controlDisplay.size(190, 210);
+    controlDisplay.position(20, 310);
+    controlDisplay.size(200, 230);
 
     let slowmeowhelp = createImg(add_ctrls);
     slowmeowhelp.parent(howtopanel);
-    slowmeowhelp.position(240, 260);
-    slowmeowhelp.size(130, 180);
+    slowmeowhelp.position(240, 310);
+    slowmeowhelp.size(140, 170);
 
-    // helpTextToggle =
+    instBack = createP("<<");
+    instBack.position(450, 250);
+    instBack.style("background-color", "gray");
+    instBack.parent(howtopanel);
+    instBack.mouseClicked(this.prevInstr);
+
+    let objectiveHeader = createP("Game Instructions");
+    objectiveHeader.position(505, 250);
+    objectiveHeader.style("color", "black");
+    objectiveHeader.style("background-color", "white");
+    objectiveHeader.parent(howtopanel);
+
+    instNext = createP(">>");
+    instNext.position(820, 250);
+    instNext.style("background-color", gameOrange);
+    instNext.parent(howtopanel);
+    instNext.mouseClicked(this.nextInstr);
+
+    instr = createImg(instr_1);
+    instr.parent(howtopanel);
+    instr.position(455, 310);
+    instr.size(360, 360);
   }
 
+  static prevInstr() {
+    if (instr_count > 0) {
+      instr.remove();
+      instr_count--;
+      instr = createImg(instruction_set[instr_count]);
+      instr.parent(howtopanel);
+      instr.position(455, 310);
+      instr.size(360, 360);
+    }
+    Settings.updateArrowColours();
+  }
+
+  static nextInstr() {
+    if (instr_count < 3) {
+      instr.remove();
+      instr_count++;
+
+      instr = createImg(instruction_set[instr_count]);
+      instr.parent(howtopanel);
+      instr.position(455, 310);
+      instr.size(360, 360);
+    }
+    Settings.updateArrowColours();
+  }
+
+  static updateArrowColours() {
+    if (instr_count >= 3) {
+      instNext.style("background-color", "gray");
+      instBack.style("background-color", gameOrange);
+    } else {
+      instNext.style("background-color", gameOrange);
+    }
+    if (instr_count > 0) {
+      instBack.style("background-color", gameOrange);
+    } else {
+      instBack.style("background-color", "gray");
+    }
+  }
   static gotoSettings() {
     stng_div = createDiv();
     stng_div.id("settings_content");

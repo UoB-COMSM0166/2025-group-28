@@ -16,15 +16,13 @@ function preload() {
   tileColours4 = [tile_lightTurquoise, tile_darkTurquoise];
   tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
 
-
-    doorImg = loadImage("assets/spacedoor.gif");
-    doorOpenImg = loadImage("assets/spacedoorOpen.gif");
-    bullet = loadImage("assets/projectileM1.gif");
-    fireball = loadImage("assets/fireballAI.png");
-    buttonPrompt = loadImage("assets/doorprompt.gif");
-    pixelHeart = loadImage("assets/heart.gif");
-    pixelEnergy = loadImage("assets/energy.gif");
-
+  doorImg = loadImage("assets/spacedoor.gif");
+  doorOpenImg = loadImage("assets/spacedoorOpen.gif");
+  bullet = loadImage("assets/projectileM1.gif");
+  fireball = loadImage("assets/fireballAI.png");
+  buttonPrompt = loadImage("assets/doorprompt.gif");
+  pixelHeart = loadImage("assets/heart.gif");
+  pixelEnergy = loadImage("assets/energy.gif");
 
   gameFont = loadFont("assets/ARCADE_I.ttf");
 
@@ -101,3 +99,8 @@ let wasd_icon = "assets/wasd_icon.png";
 let arrow_icon = "assets/arrowpad_icon.png";
 
 let add_ctrls = "assets/additional_controls.png";
+
+let instr_1 = "assets/instruction_a.png";
+let instr_2 = "assets/instruction_pickups.png";
+let instr_3 = "assets/instruction_overheat.png";
+let instr_4 = "assets/instruction_sm.png";
