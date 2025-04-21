@@ -87,29 +87,40 @@ class Settings {
     controlDisplay.parent(howtopanel);
     controlDisplay.position(20, 310);
     controlDisplay.size(200, 230);
+    controlDisplay.attribute("draggable", "false");
 
     let slowmeowhelp = createImg(add_ctrls);
     slowmeowhelp.parent(howtopanel);
     slowmeowhelp.position(240, 310);
     slowmeowhelp.size(140, 170);
+    slowmeowhelp.attribute("draggable", "false");
 
     instBack = createP("<<");
     instBack.position(450, 250);
     instBack.style("background-color", "gray");
     instBack.parent(howtopanel);
-    instBack.mouseClicked(this.prevInstr);
+    instBack.attribute("draggable", "false");
+    instBack.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      this.changeInstr(-1);
+    });
 
     let objectiveHeader = createP("Game Instructions");
     objectiveHeader.position(505, 250);
     objectiveHeader.style("color", "black");
     objectiveHeader.style("background-color", "white");
     objectiveHeader.parent(howtopanel);
+    objectiveHeader.attribute("draggable", "false");
 
     instNext = createP(">>");
     instNext.position(820, 250);
     instNext.style("background-color", gameOrange);
     instNext.parent(howtopanel);
-    instNext.mouseClicked(this.nextInstr);
+    instNext.attribute("draggable", "false");
+    instNext.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      this.changeInstr(1);
+    });
 
     instr = createImg(instr_1);
     instr.parent(howtopanel);
@@ -117,14 +128,15 @@ class Settings {
     instr.size(360, 360);
   }
 
-  static prevInstr() {
-    if (instr_count > 0) {
+  static changeInstr(increment) {
+    if (instr_count > 0 && instr_count < instruction_set.length) {
       instr.remove();
-      instr_count--;
+      instr_count += increment;
       instr = createImg(instruction_set[instr_count]);
       instr.parent(howtopanel);
       instr.position(455, 310);
       instr.size(360, 360);
+      instr.attribute("draggable", "false");
     }
     Settings.updateArrowColours();
   }
