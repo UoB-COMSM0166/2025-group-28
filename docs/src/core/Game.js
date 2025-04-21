@@ -5,6 +5,7 @@ class Game {
       this.difficulty = difficultyLevel;
       this.difficultySettings = difficultySettings[this.difficulty];
       this.currentRoom = new Room(this.difficultySettings);
+      this.slowMeowHandler = new SlowMeowHandler(this);
     } else {
       this.difficulty = difficultyLevels.NORMAL;
       this.difficultySettings = difficultySettings[this.difficulty];
@@ -24,8 +25,6 @@ class Game {
     this.p1ScoreIncreased = false;
     this.p2ScoreIncreased = false;
     this.winningPVP;
-
-    if (!pvpMode) this.slowMeowHandler = new SlowMeowHandler(this);
   }
 
   nextRoom() {

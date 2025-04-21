@@ -21,6 +21,8 @@ class Player extends Sprite {
     this.fireCooldown = 0; // Cooldown between shots
     this.fireOverheat = false;
     this.overheatSoundPlayed = false;
+    this.canPlayOverheatFireSound = false;
+    this.lastOverheatSoundTime = 0;
     this.heatGain = difficultySettings[difficulty].heatGain;
     this.heatDecay = difficultySettings[difficulty].heatDecay;
     this.img.setFrame(7);
@@ -33,10 +35,44 @@ class Player extends Sprite {
     this.deathSound = playerDeathSound;
     this.painSound = [playerPainSound1, playerPainSound2];
 
+    this.smokeParticles = [];
+    this.smokeFrameCounter = 0; // Push smoke particles to array every x frames
+
     // For behaviour monitoring
     this.timesHurt = 0;
     this.timesHeatLevelHigh = 0;
     this.timesOverheated = 0;
+  }
+
+  update() {
+    super.update();
+
+    if (this.fireOverheat) {
+      this.smokeFrameCounter++;
+      if (this.smokeFrameCounter % 3 == 0) {
+        this.smokeParticles.push(new Smoke(this.position.x, this.position.y - 25));
+      }
+    }
+
+    for (let i = this.smokeParticles.length - 1; i >= 0; i--) {
+      this.smokeParticles[i].update();
+      if (this.smokeParticles[i].isFinished()) {
+        this.smokeParticles.splice(i, 1);
+      }
+    }
+
+    // Reset frame counter to prevent overflow
+    if (this.smokeFrameCounter > 1000) {
+      this.smokeFrameCounter = 0;
+    }
+  }
+
+  draw() {
+    // Draw smoke particles behind player
+    for (let particle of this.smokeParticles) {
+      particle.draw();
+    }
+    super.draw();
   }
 
   overheatSlow() {
@@ -47,7 +83,9 @@ class Player extends Sprite {
       else if (this.slowTimer == 150) this.speed = 1.8;
       else if (this.slowTimer == 200) this.speed = 2.4;
       else if (this.slowTimer > 200) this.speed = 2.75;
-      if (!game.slowMeowHandler.occurring) this.slowTimer++;
+      if (pvpMode || !game.slowMeowHandler.occurring) {
+        this.slowTimer++;
+      }
       this.originalSpeed = this.speed;
     }
   }
@@ -168,21 +206,23 @@ class Player extends Sprite {
     if (!this.isActive || fadingOut || (pvpMode && fadingIn)) return;
     if (this.fireOverheat) {
       if (!this.overheatSoundPlayed) {
-        playSound(fireOverheatSound, playbackRate);
+        playSound(overheatStartSound, playbackRate);
         this.overheatSoundPlayed = true;
+        // Timer to stop overheat indicator sound overlapping with overheat fire sound
+        setTimeout(() => {
+          this.canPlayOverheatFireSound = true;
+        }, 750);
       }
       if (this.fireCooldown < 80) {
         this.fireOverheat = false;
+        this.overheatSoundPlayed = false;
+        this.canPlayOverheatFireSound = false;
         this.slowTimer = 0;
         playSound(overheatEndSound, playbackRate);
       }
     }
     let currentTime = millis();
-    if (
-      !this.fireOverheat &&
-      currentTime - this.lastShot > this.fireRate
-    ) {
-      if (this.overheatSoundPlayed) this.overheatSoundPlayed = false;
+    if (currentTime - this.lastShot > this.fireRate) {
       // SPACE key for player 1
       if (this.player === playerNumber.PLAYER_1 && keyIsDown(p1_shoot)) {
         this.handleFiring(currentTime);
@@ -195,15 +235,27 @@ class Player extends Sprite {
   }
 
   handleFiring(currentTime) {
+    if (this.fireOverheat) {
+      if (this.canPlayOverheatFireSound &&
+        currentTime - this.lastOverheatSoundTime > 750
+      ) {
+        playSound(overheatFireSound, playbackRate);
+        this.lastOverheatSoundTime = currentTime;
+      }
+      return;
+    }
     if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
       this.img.setFrame(0);
     } else {
       this.img.setFrame(6);
     }
     playSound(playerGunSound, playbackRate);
+    // Try to adjust starting position of projectile to be closer to player's gun
+    let xOffset = 15 * this.direction.x;
+    let yOffset = 15 * this.direction.y;
     let projectile = new Projectile(
-      this.position.x,
-      this.position.y,
+      this.position.x + xOffset,
+      this.position.y + yOffset,
       this.direction.x,
       this.direction.y,
       this.projectileSpeed,
@@ -225,7 +277,7 @@ class Player extends Sprite {
     this.fireCooldown = 0;
     this.slowTimer = 0;
     this.fireOverheat = false;
-    if (game.slowMeowHandler.occurring) {
+    if (!pvpMode && game.slowMeowHandler.occurring) {
       this.speed = 2.75 * (game.slowMeowHandler.movementSpeed * 1.2);
     } else {
       this.speed = 2.75;
