@@ -47,7 +47,7 @@ class Player extends Sprite {
   update() {
     super.update();
 
-    if (this.fireOverheat) {
+    if (this.fireOverheat && this.isActive) {
       this.smokeFrameCounter++;
       if (this.smokeFrameCounter % 3 == 0) {
         this.smokeParticles.push(new Smoke(this.position.x, this.position.y - 25));
