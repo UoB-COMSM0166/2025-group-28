@@ -56,6 +56,7 @@ class Room {
 
     // Update mobs
     for (let mob of this.mobs) {
+      if (!mob.isActive) continue;
       mob.update();
       if (this.mobBuffActive) {
         mob.applyBuff();
@@ -70,6 +71,7 @@ class Room {
 
     // Update items
     for (let i = this.items.length - 1; i >= 0; i--) {
+      if (!this.items[i].isActive) continue;
       this.items[i].update();
       this.items[i].draw();
       for (let player of [playerA, playerB]) {
@@ -82,16 +84,7 @@ class Room {
     }
 
     // Handle wall collisions
-    for (let tileArr of this.roomLayout) {
-      for (let tile of tileArr) {
-        if (tile.type == tileTypes.WALL) {
-          this.handler.handleWallCollision(playerA, tile);
-          if (coop) {
-            this.handler.handleWallCollision(playerB, tile);
-          }
-        }
-      }
-    }
+    this.handler.checkWallCollisions();
 
     // Update players
     playerA.update();
@@ -100,32 +93,21 @@ class Room {
 
   checkDeadMobs() {
     for (let i = this.mobs.length - 1; i >= 0; i--) {
-      if (!this.mobs[i].isActive) {
-        this.rollItemDrop(this.mobs[i]);
-        this.mobsRemaining -= 1;
-        if (this.mobs[i] instanceof BuffMob) {
-          if (this.mobs.length > 1) {
-            // If other mobs are in room when BuffMob killed
-            this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
-            this.mobBuffActive = true; // Activate buff to all other mobs
-            if (!muted) buffMobBuffSound.play();
-            if (!game.slowMeowHandler.occurring) {
-              // Give player a lower value towards their slow meow level for triggering mob buff
-              game.slowMeowHandler.level = Math.min(
-                slowMeowMax,
-                game.slowMeowHandler.level + game.slowMeowHandler.gain / 2
-              );
-            }
-          } else {
-            this.roomScoreAccumaltor += 25;
-            if (!game.slowMeowHandler.occurring) {
-              game.slowMeowHandler.level = Math.min(
-                slowMeowMax,
-                game.slowMeowHandler.level + game.slowMeowHandler.gain
-              );
-            }
-            let item = new Heart(this.mobs[i].position.x, this.mobs[i].position.y, pixelHeart);
-            this.items.push(item);
+      if (this.mobs[i].isActive) continue;
+      this.rollItemDrop(this.mobs[i]);
+      this.mobsRemaining -= 1;
+      if (this.mobs[i] instanceof BuffMob) {
+        if (this.mobs.length > 1) {
+          // If other mobs are in room when BuffMob killed
+          this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
+          this.mobBuffActive = true; // Activate buff to all other mobs
+          if (!muted) buffMobBuffSound.play();
+          if (!game.slowMeowHandler.occurring) {
+            // Give player a lower value towards their slow meow level for triggering mob buff
+            game.slowMeowHandler.level = Math.min(
+              slowMeowMax,
+              game.slowMeowHandler.level + game.slowMeowHandler.gain / 2
+            );
           }
         } else {
           this.roomScoreAccumaltor += 25;
@@ -135,9 +117,19 @@ class Room {
               game.slowMeowHandler.level + game.slowMeowHandler.gain
             );
           }
+          let item = new Heart(this.mobs[i].position.x, this.mobs[i].position.y, pixelHeart);
+          this.items.push(item);
         }
-        this.mobs.splice(i, 1);
+      } else {
+        this.roomScoreAccumaltor += 25;
+        if (!game.slowMeowHandler.occurring) {
+          game.slowMeowHandler.level = Math.min(
+            slowMeowMax,
+            game.slowMeowHandler.level + game.slowMeowHandler.gain
+          );
+        }
       }
+      this.mobs.splice(i, 1);
     }
   }
 
@@ -239,6 +231,7 @@ class Room {
 
   handleMobCollisions() {
     for (let mob of this.mobs) {
+      if (!mob.isActive) continue;
       mob.draw();
       GameUI.drawMobHealthBar(mob);
       for (let player of [playerA, playerB]) {
@@ -433,7 +426,7 @@ class Room {
   }
 
   rollItemDrop(mob) {
-    if (mob instanceof BuffMob) return;
+    if (!mob || mob instanceof BuffMob) return;
     let roll = random(0, 200);
     let item;
     if (!this.handler.checkInsideWall(mob.position.x, mob.position.y)) {
@@ -448,7 +441,7 @@ class Room {
   }
 
   applyItemBuff(item, player) {
-    if (!item || !player || !player.isActive) return;
+    if (!item || !item.isActive || !player || !player.isActive) return;
     if (item instanceof Heart) {
       if (!muted) {
         if (player.health >= player.maxHealth) itemSound1.play();
@@ -463,10 +456,12 @@ class Room {
       if (player.fireOverheat) playSound(overheatEndSound, playbackRate);
       player.resetOverheat();
     }
+    item.isActive = false;
   }
 
   // Get the player's position in the next room based on position of door in current room
   getPlayerNextPos() {
+    if (!this.door) return;
     if (this.door.x == 1) {
       // Door on left side of room
       playerNextX = 840;

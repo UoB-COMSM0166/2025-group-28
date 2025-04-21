@@ -32,58 +32,37 @@ class RangedMob extends Mob {
 
   update() {
     if (!this.isActive || this.isInvincible) return;
-    if (!this.canRapidFire || this.isBuffed) {
-      if (this.isBuffed) {
-        this.shootingPauseTimer = 0;
-        this.rapidFireCooldown = 0;
-        this.isRapidFiring = false;
-        this.rapidFireReady = false;
-      }
+    if (!this.canRapidFire || this.handleBuffedState()) {
       super.update();
       return;
     }
+
     let nearestPlayer = this.findNearestPlayer();
-    if (nearestPlayer) {
-      if (this.isRapidFiring) {
-        if (this.rapidFireTimer > 0) {
-          this.rapidFireTimer--;
-        } else if (this.projectilesFired < this.maxProjectiles) {
-          this.targetPosition = createVector(nearestPlayer.position.x, nearestPlayer.position.y);
-          this.fireRapid();
-          this.projectilesFired++;
-          if (behaviourMonitor.getBehaviourProfile().defensive) {
-            this.rapidFireTimer = 10;
-          } else this.rapidFireTimer = 20;
-        } else {
-          this.shootingPauseTimer--;
-          if (this.shootingPauseTimer <= 0) {
-            this.isRapidFiring = false;
-            this.projectilesFired = 0;
-            this.rapidFireReady = false;
-            this.rapidFireCooldown = 0;
-          }
-        }
-        return;
-      }
-      if (this.rapidFireCooldown < this.rapidFireCooldownLimit) {
-        this.rapidFireCooldown++;
-      } else {
-        let rapidFireChance = random();
-        if (rapidFireChance < 0.2) {
-          this.makeInvincible();
-          playSound(rapidFireChargeSound, playbackRate, true);
-          this.rapidFireReady = true;
-        } else {
-          this.rapidFireCooldown = Math.max(0, this.rapidFireCooldown - 25);
-        }
-      }
-      if (this.rapidFireReady) {
-        this.beginRapidFire();
-      } else {
-        this.fire();
-        super.update();
-      }
+    if (!nearestPlayer) return;
+
+    this.handleRapidFire(nearestPlayer);
+    if (this.isRapidFiring) return;
+
+    this.handleRapidFireCooldown();
+
+    if (this.rapidFireReady) {
+      this.beginRapidFire();
+    } else {
+      this.fire();
+      super.update();
     }
+  }
+
+  handleBuffedState() {
+    if (this.isBuffed && this.canRapidFire) {
+      this.shootingPauseTimer = 0;
+      this.rapidFireCooldown = 0;
+      this.isRapidFiring = false;
+      this.rapidFireReady = false;
+      this.targetPosition = null;
+      return true;
+    }
+    return false;
   }
 
   fire() {
@@ -104,6 +83,28 @@ class RangedMob extends Mob {
       behaviourMonitor.updateTimesMobsFired(1);
       playSound(mobProjectileSound, playbackRate, true);
       this.fireReady = false;
+    }
+  }
+
+  handleRapidFire(target) {
+    if (!target || !target.isActive || !this.isRapidFiring) return;
+    if (this.rapidFireTimer > 0) {
+      this.rapidFireTimer--;
+    } else if (this.projectilesFired < this.maxProjectiles) {
+      this.targetPosition = createVector(target.position.x, target.position.y);
+      this.fireRapid();
+      this.projectilesFired++;
+      if (behaviourMonitor.getBehaviourProfile().defensive) {
+        this.rapidFireTimer = 10;
+      } else this.rapidFireTimer = 20;
+    } else {
+      this.shootingPauseTimer--;
+      if (this.shootingPauseTimer <= 0) {
+        this.isRapidFiring = false;
+        this.projectilesFired = 0;
+        this.rapidFireReady = false;
+        this.rapidFireCooldown = 0;
+      }
     }
   }
 
@@ -131,5 +132,20 @@ class RangedMob extends Mob {
     projectileManager.addProjectile(newProjectile);
     behaviourMonitor.updateTimesMobsFired(1);
     playSound(mobProjectileSound, playbackRate, true);
+  }
+
+  handleRapidFireCooldown() {
+    if (this.rapidFireCooldown < this.rapidFireCooldownLimit) {
+      this.rapidFireCooldown++;
+    } else {
+      let rapidFireChance = random();
+      if (rapidFireChance < 0.2) {
+        this.makeInvincible();
+        playSound(rapidFireChargeSound, playbackRate, true);
+        this.rapidFireReady = true;
+      } else {
+        this.rapidFireCooldown = Math.max(0, this.rapidFireCooldown - 25);
+      }
+    }
   }
 }

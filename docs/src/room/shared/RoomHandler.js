@@ -79,10 +79,23 @@ class RoomHandler {
     }
   }
 
+  checkWallCollisions() {
+    for (let tileArr of this.room.roomLayout) {
+      for (let tile of tileArr) {
+        if (tile.type == tileTypes.WALL) {
+          this.handleWallCollision(playerA, tile);
+          if (coop || pvpMode) {
+            this.handleWallCollision(playerB, tile);
+          }
+        }
+      }
+    }
+  }
+
   checkInsideWall(x, y) {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
-        if (this.room.roomLayout[j][i].type === tileTypes.WALL) {
+        if (this.room.roomLayout[j][i].type == tileTypes.WALL) {
           let wallX = this.room.roomLayout[j][i].position.x;
           let wallY = this.room.roomLayout[j][i].position.y;
           let wallWidth = this.room.roomLayout[j][i].widthHitbox;
