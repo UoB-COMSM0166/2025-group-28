@@ -5,8 +5,8 @@ class Spark extends Particle {
     this.size = random(2, 5);
     this.lifespan = random(200, 255);
     this.colour = color(
-      random(max(0, red(colour) - 50), red(colour)),
-      random(max(0, green(colour) - 75), green(colour)),
+      random(Math.max(0, red(colour) - 50), red(colour)),
+      random(Math.max(0, green(colour) - 75), green(colour)),
       blue(colour)
     );
   }

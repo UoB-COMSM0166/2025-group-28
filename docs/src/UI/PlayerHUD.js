@@ -2,7 +2,7 @@ class PlayerHUD {
   static drawPlayerHealthBar() {
     let playerAHealthRatio = playerA.health / playerA.maxHealth;
     let frame = 13 - Math.ceil(13 * playerAHealthRatio);
-    image(healthbar, 40, 220);
+    image(healthbar, 50, 220);
     healthbar.pause();
     healthbar.setFrame(frame);
 
