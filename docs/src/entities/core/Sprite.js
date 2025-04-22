@@ -44,7 +44,7 @@ class Sprite extends GameObject {
   }
 
   handleKnockback() {
-    if (game.slowMeowHandler.occurring) {
+    if (!pvpMode && game.slowMeowHandler.occurring) {
       // Slow knockback speed if slow meow active
       let adjustedVelocity = p5.Vector.mult(
         this.knockbackVelocity,

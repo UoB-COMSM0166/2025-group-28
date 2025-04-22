@@ -42,8 +42,9 @@ function preload() {
   playerPainSound2 = loadSound("assets/playerpain2.mp3");
   playerDeathSound = loadSound("assets/playerdeath.mp3");
   playerGunSound = loadSound("assets/player_gun.mp3");
-  fireOverheatSound = loadSound("assets/playeroverheat.mp3");
+  overheatStartSound = loadSound("assets/playeroverheatstart.mp3");
   overheatEndSound = loadSound("assets/playeroverheatend.mp3");
+  overheatFireSound = loadSound("assets/playeroverheatfire.mp3");
   slowMeowStartSound = loadSound("assets/slowmeowstart.mp3");
   slowMeowEndSound = loadSound("assets/slowmeowend.mp3");
   slowMeowReadySound = loadSound("assets/slowmeowready.mp3");

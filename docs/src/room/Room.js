@@ -178,6 +178,7 @@ class Room {
       if (!projectile.isActive) continue;
       projectile.draw();
       for (let mob of this.mobs) {
+        if (!mob.isActive) continue;
         if (
           projectile.isCollidingWith(mob) &&
           projectile.owner instanceof Player
@@ -267,6 +268,7 @@ class Room {
   drawDoorPrompt() {
     // Handles drawing the 'interact' button prompt if the player is in range of the door
     // I apologise for how ugly this is
+    if (!this.door) return;
     let xMin, xMax, yMin, yMax, promptX, promptY;
     // Door on left side of room
     if (this.door.x == 1) {

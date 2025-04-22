@@ -58,10 +58,6 @@ function menuStart() {
   menuBack.loop();
 }
 
-function quitSettings() {
-  stng_div.remove();
-}
-
 function gameSetUp() {
   if (pvpMode) {
     if (!muted) {
