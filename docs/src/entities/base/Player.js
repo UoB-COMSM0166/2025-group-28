@@ -274,6 +274,7 @@ class Player extends Sprite {
   }
 
   resetOverheat() {
+    this.smokeParticles = [];
     this.fireCooldown = 0;
     this.slowTimer = 0;
     this.fireOverheat = false;

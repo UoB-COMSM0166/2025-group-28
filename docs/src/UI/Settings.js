@@ -37,6 +37,7 @@ function toggleBloodDisable() {
 
 function switchToStngs() {
   settingsMode = true;
+  instr_count = 0;
   toggle_settings.style("background-color", "rgb(255, 109, 0)");
   toggle_help.style("background-color", "transparent");
   howtopanel.remove();

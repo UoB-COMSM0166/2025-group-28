@@ -163,7 +163,10 @@ function keyPressed() {
     if (game.gameState == GameStates.ACTIVE && !transitioning) {
       if ((playerA && playerA.isActive) || (playerB && playerB.isActive)) {
         game.gameState = GameStates.PAUSE;
-        if (!muted) music.pause();
+        if (!muted) {
+          menuClickSound.play();
+          music.pause();
+        }
         push();
         fill("rgba(0, 0, 0, 0.6)");
         let pauseMask = rect(0, 0, pageWidth, pageHeight);
