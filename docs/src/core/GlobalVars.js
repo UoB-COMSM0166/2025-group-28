@@ -38,6 +38,8 @@ let gameOverContainer;
 let settingsMode = true;
 let howtopanel;
 
+let pause_stng_overlay = false;
+
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
 

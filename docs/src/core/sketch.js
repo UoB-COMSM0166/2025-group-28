@@ -149,7 +149,21 @@ function keyPressed() {
   let music;
   if (pvpMode) music = pvpMusic;
   else music = gameMusic;
+  // H for show settings
+  if (game && keyCode == 72) {
+    if (game.gameState == GameStates.PAUSE) {
+      if (!pause_stng_overlay) {
+        Settings.gotoSettings();
+        switchToHelp();
+        pause_stng_overlay = true;
+      } else {
+        Settings.quitSettings();
+        pause_stng_overlay = false;
+      }
+    }
+  }
   // Quit the game with 'Q' from pause menu
+
   if (game && keyCode == 81) {
     if (game.gameState == GameStates.PAUSE) {
       music.stop();
@@ -174,7 +188,9 @@ function keyPressed() {
         text("Game Paused", 500, 300);
         textSize(19);
         text("Press Q to quit game", 500, 350);
-        text("Press ESC to resume", 500, 400);
+        text("Press H to show controls", 500, 400);
+
+        text("Press ESC to resume", 500, 450);
         pop();
         noLoop();
       }
