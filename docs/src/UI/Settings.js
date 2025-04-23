@@ -1,5 +1,7 @@
 let disabBlood_on;
 let disabBlood_off;
+let wpc_on;
+let wpc_off;
 let sound_off;
 let sound_on;
 let gameOrange = "rgb(255, 109, 0)";
@@ -45,6 +47,17 @@ function switchToStngs() {
 }
 
 class Settings {
+  static disableProjectileWallCollision() {
+    projectileWallCollisions = !projectileWallCollisions;
+    if (projectileWallCollisions) {
+      wpc_on.style("background-color", "rgb(255, 109, 0)");
+      wpc_off.style("background-color", "transparent");
+    } else {
+      wpc_off.style("background-color", "rgb(106, 104, 102)");
+      wpc_on.style("background-color", "transparent");
+    }
+  }
+
   static switchToWasd() {
     wasd_control = true;
     wasd.style("border", "2px solid white");
@@ -65,6 +78,7 @@ class Settings {
     howtopanel = createDiv();
     howtopanel.id("howtopanel");
     howtopanel.size(pageWidth, pageHeight);
+
     howtopanel.attribute("draggable", "false");
     howtopanel.parent(stng_div);
 
@@ -167,9 +181,11 @@ class Settings {
     stng_div = createDiv();
     stng_div.id("settings_content");
     stng_div.size(pageWidth, pageHeight);
+
     set_back = createImg(setback);
+    set_back.size(pageWidth, pageHeight);
     set_back.parent(stng_div);
-    set_back.position(0, 0);
+    //   set_back.position(0, 0);
     set_back.attribute("draggable", "false");
 
     let exit = createP("X");
@@ -270,6 +286,41 @@ class Settings {
     } else {
       sound_off.style("background-color", "rgb(106, 104, 102)");
       sound_on.style("background-color", "transparent");
+    }
+
+    let wallProjCollisions = createP("Wall Projectile <br> Collisions");
+    wallProjCollisions.parent(settingpanel);
+    wallProjCollisions.position(20, 440);
+    let wpc_cap = createP(
+      "Allow projectiles to collide <br> with walls within the room"
+    );
+    wpc_cap.parent(settingpanel);
+    wpc_cap.position(20, 500);
+    wpc_cap.style("font-size", "10px");
+    wpc_cap.style("opacity", "0.6");
+
+    wpc_on = createP("ON");
+    wpc_on.parent(settingpanel);
+    wpc_on.position(320, 440);
+    wpc_on.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (!projectileWallCollisions) Settings.disableProjectileWallCollision();
+    });
+
+    wpc_off = createP("OFF");
+    wpc_off.parent(settingpanel);
+    wpc_off.position(360, 440);
+    wpc_off.mouseClicked(() => {
+      if (!muted) menuClickSound.play();
+      if (projectileWallCollisions) Settings.disableProjectileWallCollision();
+    });
+
+    if (projectileWallCollisions) {
+      wpc_on.style("background-color", "rgb(255, 109, 0)");
+      wpc_off.style("background-color", "transparent");
+    } else {
+      wpc_off.style("background-color", "rgb(106, 104, 102)");
+      wpc_on.style("background-color", "transparent");
     }
 
     let disableBlood = createP("Child Mode");

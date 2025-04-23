@@ -1,7 +1,7 @@
 function setup() {
   noStroke();
   rectMode(CORNER);
-  gameCanvas = createCanvas(950, 800);
+  gameCanvas = createCanvas(pageWidth, pageHeight);
   lightingLayer = createGraphics(roomWidth * tileSize + arena_offset, roomHeight * tileSize + arena_offset);
   lightingLayer.noStroke();
   // Prevent the user from right-clicking on the canvas
@@ -28,7 +28,7 @@ function gameSwitch(starting) {
     pvp_button.remove();
     menuBack.remove();
     stng_button.remove();
-    difficultyButton.remove();
+    //  difficultyButton.remove();
     themeMusic.stop();
     setTimeout(() => {
       inGame = true;
@@ -133,7 +133,10 @@ function fade() {
         if (!pvpMode) {
           game.currentRoom.getPlayerNextPos();
         }
-        game.nextRoom();
+
+        if (!game.pvpCheckmate() && pvpMode) {
+          game.nextRoom();
+        }
       }
     }
   } else if (fadingIn) {
@@ -191,17 +194,31 @@ function keyPressed() {
   let music;
   if (pvpMode) music = pvpTrack;
   else music = gameMusic;
-  // Quit the game with 'Q' from pause menu
-  if (game && keyCode == 81) {
+  // H for show settings
+  if (game && keyCode == 72) {
     if (game.gameState == GameStates.PAUSE) {
+      if (!pause_stng_overlay) {
+        Settings.gotoSettings();
+        switchToHelp();
+        pause_stng_overlay = true;
+      } else {
+        Settings.quitSettings();
+        pause_stng_overlay = false;
+      }
+    }
+  }
+  // Quit the game with 'Q' from pause menu
+
+  if (game && keyCode == 81) {
+    if (game.gameState == GameStates.PAUSE && !pause_stng_overlay) {
       music.stop();
       gameSwitch(false);
-    } else if (game.gameState == GameStates.OVER) {
+    } else if (game.gameState == GameStates.OVER && !pause_stng_overlay) {
       music.stop();
       GameOver.gameOverReturn();
     }
   }
-  if (game && keyCode == ESCAPE) {
+  if (game && keyCode == ESCAPE && !pause_stng_overlay) {
     if (game.gameState == GameStates.ACTIVE && !transitioning) {
       if ((playerA && playerA.isActive) || (playerB && playerB.isActive)) {
         game.gameState = GameStates.PAUSE;
@@ -219,7 +236,9 @@ function keyPressed() {
         text("Game Paused", 500, 300);
         textSize(19);
         text("Press Q to quit game", 500, 350);
-        text("Press ESC to resume", 500, 400);
+        text("Press H to show controls", 500, 400);
+
+        text("Press ESC to resume", 500, 450);
         pop();
         noLoop();
       }

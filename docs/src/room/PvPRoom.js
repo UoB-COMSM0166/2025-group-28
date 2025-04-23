@@ -29,11 +29,21 @@ class PvPRoom {
     let announcementPlayed = false;
 
     if (!playerA.isActive) {
-      this.handlePlayerScores(playerA, "p2Score", "p2ScoreIncreased", announcementPlayed);
+      this.handlePlayerScores(
+        playerA,
+        "p2Score",
+        "p2ScoreIncreased",
+        announcementPlayed
+      );
       announcementPlayed = true;
     }
     if (!playerB.isActive) {
-      this.handlePlayerScores(playerB, "p1Score", "p1ScoreIncreased", announcementPlayed);
+      this.handlePlayerScores(
+        playerB,
+        "p1Score",
+        "p1ScoreIncreased",
+        announcementPlayed
+      );
       announcementPlayed = true;
     }
 
@@ -64,7 +74,7 @@ class PvPRoom {
         }
         this.prevAnnouncement = randomAnnouncement;
       }, 500);
-      if (this[playerScore] < 3) {
+      if (this[playerScore] < 2) {
         setTimeout(() => {
           this.respawnPlayer(player);
           this[scoreIncreased] = false;
@@ -147,7 +157,10 @@ class PvPRoom {
         enemy.position.x,
         enemy.position.y
       );
-      if (distanceFromEnemy > 300 && !this.handler.checkInsideWall(spawnX, spawnY)) {
+      if (
+        distanceFromEnemy > 300 &&
+        !this.handler.checkInsideWall(spawnX, spawnY)
+      ) {
         validSpawn = true;
         break;
       }

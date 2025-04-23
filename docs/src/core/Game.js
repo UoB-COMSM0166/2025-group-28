@@ -57,9 +57,11 @@ class Game {
         playerB.position.y = playerNextY;
       }
     } else {
-      this.currentRoom = new PvPRoom();
-      playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
-      playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
+      if (!this.pvpCheckmate()) {
+        this.currentRoom = new PvPRoom();
+        playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
+        playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
+      }
     }
   }
 
@@ -70,19 +72,29 @@ class Game {
     return player;
   }
 
+  pvpCheckmate() {
+    let winThreshhold = pvp_rounds == 1 ? 1 : Math.round(pvp_rounds / 2);
+    let gameWon =
+      this.p1PVPTotal == winThreshhold || this.p2PVPTotal == winThreshhold;
+
+    console.log("*** " + gameWon);
+    return gameWon;
+  }
+
   pvpGameCycleCheck() {
-    if (this.currScoreP1 >= 3 || this.currScoreP2 >= 3) {
-      if (this.roomSeq < pvp_rounds && !transitioning) {
+    if (this.currScoreP1 >= 2 || this.currScoreP2 >= 2) {
+      if (this.roomSeq < pvp_rounds && !transitioning && !this.pvpCheckmate()) {
+        console.log("next room");
         transitioning = true;
         setTimeout(() => {
           fadingOut = true;
         }, 3000);
       } else if (this.roomSeq >= pvp_rounds) {
-        if (this.currScoreP1 >= 3 && !this.p1ScoreIncreased) {
+        if (this.currScoreP1 >= 2 && !this.p1ScoreIncreased) {
           this.p1PVPTotal++;
           this.p1ScoreIncreased = true;
         }
-        if (this.currScoreP2 >= 3 && !this.p2ScoreIncreased) {
+        if (this.currScoreP2 >= 2 && !this.p2ScoreIncreased) {
           this.p2PVPTotal++;
           this.p2ScoreIncreased = true;
         }
@@ -94,9 +106,7 @@ class Game {
     if (
       (!playerA.isActive && !coop && !pvpMode) ||
       (coop && !playerA.isActive && !playerB.isActive) ||
-      (pvpMode &&
-        this.roomSeq >= pvp_rounds &&
-        this.p1PVPTotal + this.p2PVPTotal >= 3)
+      (pvpMode && this.pvpCheckmate())
     ) {
       setTimeout(() => {
         this.gameState = GameStates.OVER;
@@ -149,10 +159,10 @@ class Game {
 
   updateScores() {
     if (pvpMode) {
-      if (this.currScoreP1 >= 3) {
+      if (this.currScoreP1 >= 2) {
         this.p1PVPTotal++;
       }
-      if (this.currScoreP2 >= 3) {
+      if (this.currScoreP2 >= 2) {
         this.p2PVPTotal++;
       }
       this.currScoreP1 = 0;
