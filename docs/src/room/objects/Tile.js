@@ -8,5 +8,12 @@ class Tile extends GameObject {
       this.position.x = tileSize * x + arena_offset;
       this.position.y = tileSize * y + arena_offset;
     }
+    if (type == tileTypes.TRAP){
+      this.widthHitbox = tileSize;
+      this.heightHitbox = tileSize;
+      this.position.x = tileSize * x + arena_offset;
+      this.position.y = tileSize * y + arena_offset;
+      this.attackDamage = MeleeMob.attackDamage;
+    }
   }
 }

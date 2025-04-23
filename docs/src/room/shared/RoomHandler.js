@@ -123,13 +123,22 @@ class RoomHandler {
               this.room.roomLayout[j][i].heightHitbox
             );
           }
-        } else {
+        } else if (this.room.roomLayout[j][i].type == tileTypes.FLOOR){
           let tiledex = 1;
           if (j % 2 == 0 && i % 2 == 0) {
             tiledex = 0;
           }
           image(
             this.room.currentTileColours[tiledex],
+            tileSize * i + arena_offset,
+            tileSize * j + arena_offset,
+            tileSize,
+            tileSize
+          );
+        }
+        else if (this.room.roomLayout[j][i].type == tileTypes.TRAP){
+          image(
+            trapTile,
             tileSize * i + arena_offset,
             tileSize * j + arena_offset,
             tileSize,

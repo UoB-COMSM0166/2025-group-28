@@ -31,6 +31,23 @@ class PvPRoom {
       this.handlePlayerScores(playerB, "p1Score", "p1ScoreIncreased");
     }
 
+  // Handle trap collisions
+  for (let tileArr of this.roomLayout) {
+    for (let tile of tileArr) {
+      if (tile.type === tileTypes.TRAP) {
+        for (let player of [playerA, playerB]) {
+          if (player.isCollidingWith(tile)) {
+            if (!player.isInvincible) {
+              player.takeDamage(5);
+              this.generator.createParticles(Blood, player.position.x, player.position.y, player.bloodColour);
+              player.makeInvincible();
+            }
+          }
+        }
+      }
+    }
+  }
+
     // Handles wall collisions
     for (let tileArr of this.roomLayout) {
       for (let tile of tileArr) {

@@ -81,6 +81,25 @@ class Room {
       }
     }
 
+    // Handle trap collisions
+  for (let tileArr of this.roomLayout) {
+    for (let tile of tileArr) {
+      if (tile.type === tileTypes.TRAP) {
+        for (let player of [playerA, playerB]) {
+          if (player === playerB && !coop) continue;
+          if (player.isCollidingWith(tile)) {
+            if (!player.isInvincible) {
+              player.takeDamage(5);
+              this.generator.createParticles(Blood, player.position.x, player.position.y, player.bloodColour);
+              player.makeInvincible();
+            }
+          }
+        }
+      }
+    }
+  }
+
+
     // Handle wall collisions
     for (let tileArr of this.roomLayout) {
       for (let tile of tileArr) {

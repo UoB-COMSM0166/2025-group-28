@@ -25,6 +25,7 @@ const GameStates = Object.freeze({
 const tileTypes = Object.freeze({
   FLOOR: 0,
   WALL: 1,
+  TRAP: 2,
 });
 
 const MoveDirections = Object.freeze({
