@@ -16,15 +16,23 @@ class Room {
     this.threatLevel = 0;
     this.threatCapReached = false;
 
-    // BuffMob vars
+    // Mob spawning vars
+    let roomsCleared = behaviourMonitor.getRoomsCleared();
     // Allow spawning BuffMob if player has survived 3+ rooms & playing on normal/hard/coop
     if (
       (game && game.difficulty != difficultyLevels.EASY || coop) &&
-      behaviourMonitor.getRoomsCleared() >= 3
+      roomsCleared >= 3
     ) {
       this.canSpawnBuffMob = true;
     } else this.canSpawnBuffMob = false;
     this.mobBuffActive = false; // Set true once BuffMob is killed, applies buff to all other mobs
+
+    // Allow spawning BlinkMob in room 5+
+    if (roomsCleared >= 4) {
+      this.canSpawnBlinkMob = true;
+    } else this.canSpawnBlinkMob = false;
+
+    this.dashMobCount = 0;
 
     // bonus point vars
     this.damageTakenP1 = 0;
@@ -32,7 +40,14 @@ class Room {
     this.damageTakenP2 = 0;
     this.damageDealtP2 = 0;
 
-    this.dashMobCount = 0;
+    // Allow the lighting to dim after 10 rooms
+    if (
+      (game && game.difficulty != difficultyLevels.EASY) &&
+      roomsCleared >= 10 &&
+      random() < Math.min(0.75, roomsCleared / 100)
+    ) {
+       this.addLighting = true;
+    } else this.addLighting = false;
 
     this.generator = new RoomGenerator(this);
     this.handler = new RoomHandler(this);
@@ -66,20 +81,6 @@ class Room {
       } else mob.removeBuff();
       if (mob instanceof RangedMob || mob instanceof BlinkMob) {
         mob.fire();
-      }
-    }
-
-    // Update items
-    for (let i = this.items.length - 1; i >= 0; i--) {
-      if (!this.items[i].isActive) continue;
-      this.items[i].update();
-      this.items[i].draw();
-      for (let player of [playerA, playerB]) {
-        if (player === playerB && !coop) continue;
-        if (player.isCollidingWith(this.items[i])) {
-          this.applyItemBuff(this.items[i], player);
-          this.items.splice(i, 1);
-        }
       }
     }
 
@@ -154,19 +155,35 @@ class Room {
     }
 
     playerA.fire();
+    playerA.draw();
     if (coop) {
       playerB.fire();
+      playerB.draw();
     }
 
-    playerA.draw();
-    PlayerHUD.drawPlayerHealthBar();
-
-    if (coop) {
-      playerB.draw();
-      PlayerHUD.drawPlayerHealthBar();
+    // Update items
+    for (let i = this.items.length - 1; i >= 0; i--) {
+      if (!this.items[i].isActive) continue;
+      this.items[i].update();
+      this.items[i].draw();
+      for (let player of [playerA, playerB]) {
+        if (player === playerB && !coop) continue;
+        if (player.isCollidingWith(this.items[i])) {
+          this.applyItemBuff(this.items[i], player);
+          this.items.splice(i, 1);
+        }
+      }
     }
 
     this.handleProjectileCollisions();
+
+    if (this.addLighting) drawLighting();
+
+    PlayerHUD.drawPlayerHealthBar();
+
+    if (coop) {
+      PlayerHUD.drawPlayerHealthBar();
+    }
 
     this.handleMobCollisions();
 
@@ -381,14 +398,13 @@ class Room {
     let behaviourKeys = Object.keys(playerBehaviour).filter(
       (key) => playerBehaviour[key]
     );
-    /* Filter out buff mob if it can't be spawned, also filter out any mobs whose threat level would exceed
+    /* Filter out mob types if they can't be spawned, also filter out any mobs whose threat level would exceed
        the threat cap too much */
     let filteredMobTypes = mobTypes.filter((m) => {
       return (
-        ((this.canSpawnBuffMob && this.threatLevel > 0) ||
-          m.type !== BuffMob) &&
-        m.threat + this.threatLevel <=
-          this.threatCap + behaviourMonitor.getRoomsCleared() / 5
+        ((this.canSpawnBuffMob && this.threatLevel > 0) || m.type !== BuffMob) &&
+        (this.canSpawnBlinkMob || m.type !== BlinkMob) &&
+        m.threat + this.threatLevel <= this.threatCap
       );
     });
     if (filteredMobTypes.length == 0) {
@@ -464,8 +480,8 @@ class Room {
   // Get the player's position in the next room based on position of door in current room
   getPlayerNextPos() {
     if (!this.door) return;
+    // Door on left side of room
     if (this.door.x == 1) {
-      // Door on left side of room
       playerNextX = 840;
       playerNextY = this.door.position.y;
     }
@@ -473,11 +489,11 @@ class Room {
     else if (this.door.x == roomWidth + arena_offset / 9.5) {
       playerNextX = 155;
       playerNextY = this.door.position.y;
-      // Door at bottom of room
+    // Door at bottom of room
     } else if (this.door.y == roomHeight - 2) {
       playerNextX = this.door.position.x;
       playerNextY = 165;
-      // Door at top of room
+    // Door at top of room
     } else if (this.door.y == 1) {
       playerNextX = this.door.position.x;
       playerNextY = 635;

@@ -28,7 +28,7 @@ class BlinkMob extends Mob {
     }
     let nearestPlayer = this.findNearestPlayer();
     let distanceToPlayer = this.findDistanceToPlayer(nearestPlayer);
-    if (nearestPlayer && distanceToPlayer < 125) {
+    if (nearestPlayer && distanceToPlayer < 125 && !game.slowMeowHandler.occuring) {
       this.blinkCooldown = this.blinkCooldownLimit;
       this.blink();
     }

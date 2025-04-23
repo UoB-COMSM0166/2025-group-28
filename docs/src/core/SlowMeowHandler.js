@@ -2,15 +2,14 @@ class SlowMeowHandler {
   constructor(game) {
     this.game = game;
     this.difficultySettings = this.game.difficultySettings;
-    this.level = 0;
+    this.level = slowMeowMax;
     this.occurring = false;
     this.startTime = 0;
     this.duration = 5000;
     this.movementSpeed = 0.3;
-    this.cooldown = 15000;
     this.lastUsed = 0;
-    this.usable = false;
-    this.soundPlayed = false;
+    this.usable = true;
+    this.soundPlayed = true;
     this.buffPenalty = false;
     if (!coop) {
       this.gain =
@@ -90,7 +89,7 @@ class SlowMeowHandler {
     let playerSlowFactor;
     if (slowActive) {
       slowFactor = this.movementSpeed;
-      playerSlowFactor = slowFactor * 1.2;
+      playerSlowFactor = 1.2;
       playbackRate = 0.75; // Slows SFX
     } else {
       slowFactor = 1.0;

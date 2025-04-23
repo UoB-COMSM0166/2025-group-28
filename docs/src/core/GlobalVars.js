@@ -13,6 +13,7 @@ let projectileWallCollisions = false;
 
 let gameCanvas;
 let themeMusic;
+let pvpTrack;
 
 let coop = false;
 let inGame = false;

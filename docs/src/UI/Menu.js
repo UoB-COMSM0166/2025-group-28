@@ -21,7 +21,7 @@ class Menu {
     sp_button.position(pageWidth / 4 - 170, pageHeight * 0.62);
     sp_button.size(170, 120);
     sp_button.mouseClicked(() => {
-      if (!muted) menuSelectSound.play();
+      if (!muted) menuClickSound.play();
       Menu.singlePlayerStart();
     });
     sp_button.style("opacity", "0.5");
@@ -34,7 +34,7 @@ class Menu {
     coop_button.position(pageWidth / 2 - 190, pageHeight * 0.62);
     coop_button.size(170, 120);
     coop_button.mouseClicked(() => {
-      if (!muted) menuSelectSound.play();
+      if (!muted) menuClickSound.play();
       Menu.coopPlayerStart();
     });
     coop_button.style("opacity", "0.5");
@@ -47,7 +47,7 @@ class Menu {
     pvp_button.position(pageWidth / 2 + 25, pageHeight * 0.62);
     pvp_button.size(170, 120);
     pvp_button.mouseClicked(() => {
-      if (!muted) menuSelectSound.play();
+      if (!muted) menuClickSound.play();
       Menu.pvpStart();
     });
     pvp_button.style("opacity", "0.5");
