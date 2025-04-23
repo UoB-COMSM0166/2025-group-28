@@ -34,11 +34,18 @@ class Room {
 
     this.dashMobCount = 0;
 
-    if (random() < 0.2) this.addLighting = true;
-    else this.addLighting = false;
+    if (
+      (game && game.difficulty != difficultyLevels.EASY) &&
+      behaviourMonitor.getRoomsCleared() >= 10 &&
+      random() < Math.min(0.75, behaviourMonitor.getRoomsCleared() / 100)
+    ) {
+       this.addLighting = true;
+    } else this.addLighting = false;
 
     this.generator = new RoomGenerator(this);
     this.handler = new RoomHandler(this);
+
+    console.log(behaviourMonitor.getRoomsCleared() / 100)
 
     this.generator.initRoom();
   }

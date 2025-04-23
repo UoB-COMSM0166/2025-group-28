@@ -156,7 +156,7 @@ function drawLighting() {
   lightingLayer.clear();
 
   // Draw a semi-transparent black rectangle over the playable area
-  lightingLayer.fill(0, 200);
+  lightingLayer.fill(0, 190);
   lightingLayer.rect(0, 0, lightingLayer.width, lightingLayer.height);
 
   let flickerP1 = noise(flickerP1Offset) * 20 - 10;
