@@ -26,6 +26,10 @@ class Room {
     } else this.canSpawnBuffMob = false;
     this.mobBuffActive = false; // Set true once BuffMob is killed, applies buff to all other mobs
 
+    if (behaviourMonitor.getRoomsCleared() >= 4) {
+      this.canSpawnBlinkMob = true;
+    } else this.canSpawnBlinkMob = false;
+
     // bonus point vars
     this.damageTakenP1 = 0;
     this.damageDealtP1 = 0;
@@ -391,14 +395,13 @@ class Room {
     let behaviourKeys = Object.keys(playerBehaviour).filter(
       (key) => playerBehaviour[key]
     );
-    /* Filter out buff mob if it can't be spawned, also filter out any mobs whose threat level would exceed
+    /* Filter out mob types if they can't be spawned, also filter out any mobs whose threat level would exceed
        the threat cap too much */
     let filteredMobTypes = mobTypes.filter((m) => {
       return (
-        ((this.canSpawnBuffMob && this.threatLevel > 0) ||
-          m.type !== BuffMob) &&
-        m.threat + this.threatLevel <=
-          this.threatCap + behaviourMonitor.getRoomsCleared() / 5
+        ((this.canSpawnBuffMob && this.threatLevel > 0) || m.type !== BuffMob) &&
+        (this.canSpawnBlinkMob || m.type !== BlinkMob) &&
+        m.threat + this.threatLevel <= this.threatCap
       );
     });
     if (filteredMobTypes.length == 0) {

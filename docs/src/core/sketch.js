@@ -178,9 +178,9 @@ function drawLighting() {
   lightingLayer.noErase();
 
   image(lightingLayer, 0, 0);
-  flickerP1Offset += 0.05;
-  flickerP2Offset += 0.05
-  flickerMobOffset += 0.05;
+  flickerP1Offset += random(0.03, 0.06);
+  flickerP2Offset += random(0.03, 0.06);
+  flickerMobOffset += random(0.03, 0.06);
   if (flickerP1Offset > 10000) flickerP1Offset = 0;
   if (flickerP2Offset > 10000) flickerP2Offset = 1000;
   if (flickerMobOffset > 10000) flickerMobOffset = 2000;
