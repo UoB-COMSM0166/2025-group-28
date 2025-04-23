@@ -11,6 +11,7 @@ body {
 
 #settings_content,
 #menuContainer,
+#pregame,
 #gameover {
   margin-left: -900px;
   display: flex;

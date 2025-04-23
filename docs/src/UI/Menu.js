@@ -48,7 +48,7 @@ class Menu {
     pvp_button.size(170, 120);
     pvp_button.mouseClicked(() => {
       if (!muted) menuSelectSound.play();
-      Menu.pvpStart()
+      Menu.pvpStart();
     });
     pvp_button.style("opacity", "0.5");
     pvp_button.attribute("draggable", "false");
@@ -118,7 +118,9 @@ class Menu {
   static pvpStart() {
     coop = false;
     pvpMode = true;
-    gameSwitch(true);
+    PreGameInterface.renderPregame();
+
+    // gameSwitch(true);
   }
 
   static singlePlayerHover() {
