@@ -57,11 +57,9 @@ class Game {
         playerB.position.y = playerNextY;
       }
     } else {
-      if (!this.pvpCheckmate()) {
-        this.currentRoom = new PvPRoom();
-        playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
-        playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
-      }
+      this.currentRoom = new PvPRoom();
+      playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
+      playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
     }
   }
 
@@ -72,24 +70,26 @@ class Game {
     return player;
   }
 
-  pvpCheckmate() {
-    let winThreshhold = pvp_rounds == 1 ? 1 : Math.round(pvp_rounds / 2);
-    let gameWon =
-      this.p1PVPTotal == winThreshhold || this.p2PVPTotal == winThreshhold;
+  getWinThreshold() {
+    return pvp_rounds == 1 ? 1 : Math.round(pvp_rounds / 2);
+  }
 
-    console.log("*** " + gameWon);
-    return gameWon;
+  pvpCheckmate() {
+    let winThreshold = this.getWinThreshold();
+    if (this.roomSeq == winThreshold) {
+      if (this.currScoreP1 >= 2) {
+        return this.p1PVPTotal + 1 >= winThreshold && this.p2PVPTotal + 1 < winThreshold;
+      }
+      if (this.currScoreP2 >= 2) {
+        return this.p2PVPTotal + 1 >= winThreshold && this.p1PVPTotal + 1 < winThreshold;
+      }
+    }
+    return this.p1PVPTotal >= winThreshold || this.p2PVPTotal >= winThreshold;
   }
 
   pvpGameCycleCheck() {
     if (this.currScoreP1 >= 2 || this.currScoreP2 >= 2) {
-      if (this.roomSeq < pvp_rounds && !transitioning && !this.pvpCheckmate()) {
-        console.log("next room");
-        transitioning = true;
-        setTimeout(() => {
-          fadingOut = true;
-        }, 3000);
-      } else if (this.roomSeq >= pvp_rounds) {
+      if (this.roomSeq >= pvp_rounds || this.pvpCheckmate()) {
         if (this.currScoreP1 >= 2 && !this.p1ScoreIncreased) {
           this.p1PVPTotal++;
           this.p1ScoreIncreased = true;
@@ -98,6 +98,11 @@ class Game {
           this.p2PVPTotal++;
           this.p2ScoreIncreased = true;
         }
+      } else if (this.roomSeq < pvp_rounds && !this.pvpCheckmate() && !transitioning) {
+        transitioning = true;
+        setTimeout(() => {
+          fadingOut = true;
+        }, 3000);
       }
     }
   }
@@ -115,8 +120,8 @@ class Game {
   }
 
   draw() {
-    if (pvpMode) this.pvpGameCycleCheck();
     this.checkIfGameOver();
+    if (pvpMode) this.pvpGameCycleCheck();
     if (!pvpMode) {
       this.currScoreP1 = Math.round(
         this.currentRoom.roomScoreAccumaltor + this.prevScoreP1

@@ -3,7 +3,7 @@ let bestof_opts = [1, 3, 5];
 var matchIndex = 0;
 var pvpBestOfCount;
 let root_x = 100;
-let root_y = 300;
+let root_y = 275;
 let toolLineY = 225;
 let toolLineX = 75;
 let footerY = 580;
@@ -11,7 +11,7 @@ let footerY = 580;
 let standard_mini_obj =
   "Kill the space dogs to unlock the door to the next room. Use slow meow to slow it down when things get hairy. Recover from overheating and regain health by collecting treats from dead mobs.";
 let pvp_mini_obj =
-  "Cat's aren't loyal. You've turned on your fellow feline. Each round is best of 3, choose between 1, 3 or 5 rounds";
+  "Cats aren't loyal. You've turned on your fellow feline. Each round is best of 3, choose between 1, 3 or 5 rounds";
 
 class PreGameInterface {
   static exitPreGameMenu() {
@@ -22,7 +22,6 @@ class PreGameInterface {
   }
 
   static startGame() {
-    console.log("ddddd");
     gameSwitch(true);
     if (!muted) menuSelectSound.play();
 
@@ -38,6 +37,7 @@ class PreGameInterface {
     backing.parent(pregameWindow);
     backing.size(pageWidth, pageHeight);
     backing.position(0, 0);
+    backing.attribute("draggable", "false");
 
     let gameType = "single player game";
     if (coop) {
@@ -84,7 +84,6 @@ class PreGameInterface {
     diff.position(100, footerY - 40);
 
     if (pvpMode) {
-      /// PreGameInterface.renderPregamePVP();
       PreGameInterface.renderDifficultySelect(true);
     } else {
       PreGameInterface.renderDifficultySelect(false);
@@ -123,10 +122,9 @@ class PreGameInterface {
     linkto.style("font-family", "ARCADE_I");
     linkto.style("color", "white");
     linkto.style("background-color", gameOrange);
-    linkto.position(630, 490);
+    linkto.position(660, 500);
     linkto.mouseClicked(() => {
       if (!muted) menuClickSound.play();
-
       PreGameInterface.showHTP();
     });
   }
@@ -160,8 +158,9 @@ class PreGameInterface {
       controls = createImg(arrow_icon);
     }
     controls.parent(pregameWindow);
-    controls.position(100, 350);
+    controls.position(85, 340);
     controls.size(ctrl_pad_x, ctrl_pad_y);
+    controls.attribute("draggable", "false");
 
     if (multiplayer) {
       let secondary_controls;
@@ -172,14 +171,16 @@ class PreGameInterface {
         secondary_controls = createImg(wasd_icon);
       }
       secondary_controls.parent(pregameWindow);
-      secondary_controls.position(offset, 350);
+      secondary_controls.position(offset, 340);
       secondary_controls.size(ctrl_pad_x, ctrl_pad_y);
+      secondary_controls.attribute("draggable", "false");
       offset += 170;
     }
     let addControls = createImg(add_ctrls);
     addControls.parent(pregameWindow);
     addControls.position(offset, 360);
     addControls.size(add_contrl_x, add_contrl_y);
+    addControls.attribute("draggable", "false");
   }
 
   static renderDifficultySelect(pvp) {
@@ -223,18 +224,15 @@ class PreGameInterface {
       diff_lvl.position(100 + offset * i, footerY);
       diff_lvl.mouseClicked(() => {
         if (!muted) menuClickSound.play();
-        console.log(i);
         if (pvp) {
           pvp_rounds = bestof_opts[i];
           matchIndex = i;
-          console.log("new pvp rounds " + pvp_rounds);
         } else {
           difficulty = i;
         }
         let current = select(
           pvp ? "#" + roundMarker[i] : "#" + difficultyNames[i]
         );
-        console.log(current);
         current.style("opacity", "1");
 
         for (let j = 0; j < 3; j++) {
@@ -242,8 +240,6 @@ class PreGameInterface {
             pvp ? "#" + roundMarker[j] : "#" + difficultyNames[j]
           );
           if (i != j) {
-            // console.log(pregameWindow.child());
-            console.log("comparing " + j + "to base " + i);
             other.style("opacity", "0.35");
           }
         }

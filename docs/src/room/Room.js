@@ -16,19 +16,23 @@ class Room {
     this.threatLevel = 0;
     this.threatCapReached = false;
 
-    // BuffMob vars
+    // Mob spawning vars
+    let roomsCleared = behaviourMonitor.getRoomsCleared();
     // Allow spawning BuffMob if player has survived 3+ rooms & playing on normal/hard/coop
     if (
       (game && game.difficulty != difficultyLevels.EASY || coop) &&
-      behaviourMonitor.getRoomsCleared() >= 3
+      roomsCleared >= 3
     ) {
       this.canSpawnBuffMob = true;
     } else this.canSpawnBuffMob = false;
     this.mobBuffActive = false; // Set true once BuffMob is killed, applies buff to all other mobs
 
-    if (behaviourMonitor.getRoomsCleared() >= 4) {
+    // Allow spawning BlinkMob in room 5+
+    if (roomsCleared >= 4) {
       this.canSpawnBlinkMob = true;
     } else this.canSpawnBlinkMob = false;
+
+    this.dashMobCount = 0;
 
     // bonus point vars
     this.damageTakenP1 = 0;
@@ -36,12 +40,11 @@ class Room {
     this.damageTakenP2 = 0;
     this.damageDealtP2 = 0;
 
-    this.dashMobCount = 0;
-
+    // Allow the lighting to dim after 10 rooms
     if (
       (game && game.difficulty != difficultyLevels.EASY) &&
-      behaviourMonitor.getRoomsCleared() >= 10 &&
-      random() < Math.min(0.75, behaviourMonitor.getRoomsCleared() / 100)
+      roomsCleared >= 10 &&
+      random() < Math.min(0.75, roomsCleared / 100)
     ) {
        this.addLighting = true;
     } else this.addLighting = false;

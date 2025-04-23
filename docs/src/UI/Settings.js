@@ -376,6 +376,7 @@ class Settings {
   static quitSettings() {
     instr_count = 0;
     settingsMode = true;
+    pause_stng_overlay = false;
     stng_div.remove();
   }
 

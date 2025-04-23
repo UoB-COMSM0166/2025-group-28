@@ -20,11 +20,7 @@ class GameUI {
       textFont(gameFont);
       textAlign(CENTER);
       fill(gameOrange);
-      let rnd = " rounds";
-      if (pvp_rounds == 1) {
-        rnd = " round";
-      }
-      text("Best of " + pvp_rounds + rnd, 230, 40);
+      text("Best of " + pvp_rounds + " round(s)", 245, 40);
       pop();
       push();
       textSize(28);

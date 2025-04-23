@@ -133,10 +133,7 @@ function fade() {
         if (!pvpMode) {
           game.currentRoom.getPlayerNextPos();
         }
-
-        if (!game.pvpCheckmate() && pvpMode) {
-          game.nextRoom();
-        }
+        game.nextRoom();
       }
     }
   } else if (fadingIn) {
@@ -152,6 +149,7 @@ function fade() {
   rect(0, 0, windowWidth, windowHeight);
 }
 
+// MOVE TO ROOM CLASS IN FUTURE //
 let flickerP1Offset = 0;
 let flickerP2Offset = 1000;
 let flickerMobOffset = 2000;
@@ -194,6 +192,7 @@ function keyPressed() {
   let music;
   if (pvpMode) music = pvpTrack;
   else music = gameMusic;
+
   // H for show settings
   if (game && keyCode == 72) {
     if (game.gameState == GameStates.PAUSE) {
@@ -201,14 +200,11 @@ function keyPressed() {
         Settings.gotoSettings();
         switchToHelp();
         pause_stng_overlay = true;
-      } else {
-        Settings.quitSettings();
-        pause_stng_overlay = false;
       }
     }
   }
-  // Quit the game with 'Q' from pause menu
 
+  // Quit the game with 'Q' from pause menu
   if (game && keyCode == 81) {
     if (game.gameState == GameStates.PAUSE && !pause_stng_overlay) {
       music.stop();
@@ -218,6 +214,7 @@ function keyPressed() {
       GameOver.gameOverReturn();
     }
   }
+
   if (game && keyCode == ESCAPE && !pause_stng_overlay) {
     if (game.gameState == GameStates.ACTIVE && !transitioning) {
       if ((playerA && playerA.isActive) || (playerB && playerB.isActive)) {
@@ -237,7 +234,6 @@ function keyPressed() {
         textSize(19);
         text("Press Q to quit game", 500, 350);
         text("Press H to show controls", 500, 400);
-
         text("Press ESC to resume", 500, 450);
         pop();
         noLoop();
@@ -248,6 +244,7 @@ function keyPressed() {
       if (!muted) music.play();
     }
   }
+
   // 192 = ` (key under Esc)
   if (keyCode == 192) {
     if (!debug) {
@@ -256,6 +253,7 @@ function keyPressed() {
       debug = false;
     }
   }
+
   // SlowMeow gets activated with 'Q' or '/'
   if (game && game.gameState == GameStates.ACTIVE) {
     if (!transitioning && !pvpMode) {
