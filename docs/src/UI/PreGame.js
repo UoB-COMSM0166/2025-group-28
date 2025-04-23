@@ -111,14 +111,20 @@ class PreGameInterface {
 
     blurb.position(600, root_y + 50);
 
-    let linkto = createP("How to play");
+    let linkto = createP("How to play >");
     linkto.parent(pregameWindow);
     linkto.style("font-size", "16px");
+    linkto.style("padding", "2px");
+
     linkto.style("font-family", "ARCADE_I");
     linkto.style("color", "white");
     linkto.style("background-color", gameOrange);
-    linkto.position(600, 450);
-    linkto.mouseClicked(PreGameInterface.showHTP);
+    linkto.position(630, 470);
+    linkto.mouseClicked(() => {
+      if (!muted) menuSelectSound.play();
+
+      PreGameInterface.showHTP();
+    });
   }
 
   static showHTP() {

@@ -71,18 +71,18 @@ class Game {
   }
 
   pvpGameCycleCheck() {
-    if (this.currScoreP1 >= 3 || this.currScoreP2 >= 3) {
+    if (this.currScoreP1 >= 2 || this.currScoreP2 >= 2) {
       if (this.roomSeq < pvp_rounds && !transitioning) {
         transitioning = true;
         setTimeout(() => {
           fadingOut = true;
         }, 3000);
       } else if (this.roomSeq >= pvp_rounds) {
-        if (this.currScoreP1 >= 3 && !this.p1ScoreIncreased) {
+        if (this.currScoreP1 >= 2 && !this.p1ScoreIncreased) {
           this.p1PVPTotal++;
           this.p1ScoreIncreased = true;
         }
-        if (this.currScoreP2 >= 3 && !this.p2ScoreIncreased) {
+        if (this.currScoreP2 >= 2 && !this.p2ScoreIncreased) {
           this.p2PVPTotal++;
           this.p2ScoreIncreased = true;
         }
@@ -149,10 +149,10 @@ class Game {
 
   updateScores() {
     if (pvpMode) {
-      if (this.currScoreP1 >= 3) {
+      if (this.currScoreP1 >= 2) {
         this.p1PVPTotal++;
       }
-      if (this.currScoreP2 >= 3) {
+      if (this.currScoreP2 >= 2) {
         this.p2PVPTotal++;
       }
       this.currScoreP1 = 0;
