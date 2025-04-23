@@ -127,6 +127,7 @@ function fade() {
       if (inGame) {
         if (!pvpMode) {
           game.currentRoom.getPlayerNextPos();
+          game.nextRoom();
         }
 
         if (!game.pvpCheckmate() && pvpMode) {

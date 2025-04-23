@@ -370,13 +370,32 @@ class Room {
 
   chooseMob(spawnX, spawnY) {
     // This is here instead of Constants.js as assets and mobs need initialising before this accesses them
-    const mobTypes = Object.freeze([
+    let mobTypes = [
       { type: MeleeMob, gif: dogmob_gif, threat: 3, counters: ["defensive"], spawnChance: 1.1 },
+      { type: DashMob, gif: dashmob_gif, threat: 3, counters: ["defensive"], spawnChance: 0 },
       { type: RangedMob, gif: rangedmob_gif, threat: 5, counters: ["aggressive"], spawnChance: 1 },
       { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.7 },
       { type: BuffMob, gif: heartMob_gif, threat: 0, counters: ["aggressive"], spawnChance: 0.3 }
-    ]);
-
+    ];
+  
+    // Gradually adjust spawn chances based on rooms cleared
+    const roomsCleared = behaviourMonitor.getRoomsCleared();
+    
+    // Decrease MeleeMob chance and increase DashMob chance as rooms increase
+    if (roomsCleared > 0) {
+      // Find the MeleeMob and DashMob in the array
+      const meleeMobIndex = mobTypes.findIndex(mob => mob.type === MeleeMob);
+      const dashMobIndex = mobTypes.findIndex(mob => mob.type === DashMob);
+      
+      if (meleeMobIndex !== -1 && dashMobIndex !== -1) {
+        // decrease MeleeMob spawn chance by 0.1 per room
+        mobTypes[meleeMobIndex].spawnChance = Math.max(0.3, 1.2 - (roomsCleared * 0.1));
+        
+        // increase DashMob spawn chance by 0.1 per room
+        mobTypes[dashMobIndex].spawnChance = Math.min(0.8, 0.0 + (roomsCleared * 0.1));
+      }
+    }
+  
     let playerBehaviour = behaviourMonitor.getBehaviourProfile();
     let behaviourKeys = Object.keys(playerBehaviour).filter(
       (key) => playerBehaviour[key]
