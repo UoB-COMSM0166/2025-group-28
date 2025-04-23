@@ -18,7 +18,7 @@ class UniversalUI {
     element.style("color", "white");
     element.style("text-align", "center");
 
-    element.style("background-color", "gray");
+    element.style("background-color", gameOrange);
     element.parent(parent);
     element.attribute("draggable", "false");
     element.size(20, 20);

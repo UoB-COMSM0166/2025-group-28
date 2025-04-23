@@ -26,7 +26,7 @@ function gameSwitch(starting) {
     pvp_button.remove();
     menuBack.remove();
     stng_button.remove();
-    difficultyButton.remove();
+    //  difficultyButton.remove();
     themeMusic.stop();
     setTimeout(() => {
       inGame = true;

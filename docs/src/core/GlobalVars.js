@@ -75,7 +75,7 @@ let slowMeowLoss = slowMeowGain / 2;
 let playbackRate = 1; // For adjusting SFX speed in slow mo
 
 let wasd_control = true;
-let pvp_rounds = 3; //var for 'best of x' system
+let pvp_rounds = 1; //var for 'best of x' system
 
 let p1_up = 87;
 let p1_down = 83;
