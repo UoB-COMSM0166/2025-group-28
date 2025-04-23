@@ -46,7 +46,12 @@ class Room {
       roomsCleared >= 10 &&
       random() < Math.min(0.75, roomsCleared / 100)
     ) {
-       this.addLighting = true;
+      this.addLighting = true;
+      this.flickerP1Offset = 0;
+      this.flickerP2Offset = 1000;
+      this.flickerMobOffset = 2000;
+      // Decrease transparency of lighting layer as rooms progress
+      this.transparency = Math.min(240, 160 + (roomsCleared / 10));
     } else this.addLighting = false;
 
     this.generator = new RoomGenerator(this);
@@ -142,6 +147,41 @@ class Room {
     }
   }
 
+  drawLighting() {
+    lightingLayer.clear();
+
+    // Draw a semi-transparent black rectangle over the playable area
+    lightingLayer.fill(0, this.transparency);
+    lightingLayer.rect(0, 0, lightingLayer.width, lightingLayer.height);
+
+    // Cut out transparent circles for light sources
+    lightingLayer.erase();
+
+    let flickerP1 = noise(this.flickerP1Offset) * 20 - 10;
+    lightingLayer.ellipse(playerA.position.x, playerA.position.y, 150 + flickerP1, 150 + flickerP1);
+    if (coop) {
+      let flickerP2 = noise(this.flickerP2Offset) * 20 - 10;
+      lightingLayer.ellipse(playerB.position.x, playerB.position.y, 150 + flickerP2, 150 + flickerP2);
+    }
+    for (let i = 0; i < this.mobs.length; i++) {
+      let mob = this.mobs[i];
+      if (mob.isActive) {
+        let flickerMob = noise(this.flickerMobOffset + i * 100) * 15 - 5;
+        lightingLayer.ellipse(mob.position.x, mob.position.y, 120 + flickerMob, 120 + flickerMob);
+      }
+    }
+
+    lightingLayer.noErase();
+
+    image(lightingLayer, 0, 0);
+    this.flickerP1Offset += random(0.03, 0.06);
+    this.flickerP2Offset += random(0.03, 0.06);
+    this.flickerMobOffset += random(0.03, 0.06);
+    if (this.flickerP1Offset > 10000) this.flickerP1Offset = 0;
+    if (this.flickerP2Offset > 10000) this.flickerP2Offset = 1000;
+    if (this.flickerMobOffset > 10000) this.flickerMobOffset = 2000;
+  }
+
   draw() {
     this.handler.drawRoomTiles();
     this.door.draw();
@@ -177,7 +217,7 @@ class Room {
 
     this.handleProjectileCollisions();
 
-    if (this.addLighting) drawLighting();
+    if (this.addLighting) this.drawLighting();
 
     PlayerHUD.drawPlayerHealthBar();
 
@@ -394,25 +434,25 @@ class Room {
       { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.7 },
       { type: BuffMob, gif: heartMob_gif, threat: 0, counters: ["aggressive"], spawnChance: 0.3 }
     ];
-  
+
     // Gradually adjust spawn chances based on rooms cleared
     const roomsCleared = behaviourMonitor.getRoomsCleared();
-    
+
     // Decrease MeleeMob chance and increase DashMob chance as rooms increase
     if (roomsCleared > 0) {
       // Find the MeleeMob and DashMob in the array
       const meleeMobIndex = mobTypes.findIndex(mob => mob.type === MeleeMob);
       const dashMobIndex = mobTypes.findIndex(mob => mob.type === DashMob);
-      
+
       if (meleeMobIndex !== -1 && dashMobIndex !== -1) {
         // decrease MeleeMob spawn chance by 0.1 per room
         mobTypes[meleeMobIndex].spawnChance = Math.max(0.3, 1.2 - (roomsCleared * 0.1));
-        
+
         // increase DashMob spawn chance by 0.1 per room
         mobTypes[dashMobIndex].spawnChance = Math.min(0.8, 0.0 + (roomsCleared * 0.1));
       }
     }
-  
+
     let playerBehaviour = behaviourMonitor.getBehaviourProfile();
     let behaviourKeys = Object.keys(playerBehaviour).filter(
       (key) => playerBehaviour[key]

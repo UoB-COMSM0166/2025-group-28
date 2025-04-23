@@ -214,7 +214,13 @@ class Player extends Sprite {
   }
 
   fire() {
-    if (!this.isActive || fadingOut || (pvpMode && fadingIn) || (!pvpMode && game.slowMeowHandler.occurring)) return;
+    if (
+      !this.isActive ||
+      fadingOut || (pvpMode && fadingIn) ||
+      (!pvpMode && game.slowMeowHandler.occurring)
+    ) {
+      return;
+    }
     if (this.fireOverheat) {
       if (!this.overheatSoundPlayed) {
         playSound(overheatStartSound, playbackRate);

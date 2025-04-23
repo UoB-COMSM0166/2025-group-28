@@ -71,7 +71,8 @@ class Game {
   }
 
   getWinThreshold() {
-    return pvp_rounds == 1 ? 1 : Math.round(pvp_rounds / 2);
+    if (pvp_rounds == 1) return 1;
+    else return Math.round(pvp_rounds / 2);
   }
 
   pvpCheckmate() {

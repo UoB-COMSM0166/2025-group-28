@@ -90,6 +90,19 @@ class Mob extends Sprite {
     }
   }
 
+  checkIfSlowMeowActive() {
+    if (!this.isActive) return;
+    if (game && game.slowMeowHandler.occurring) {
+      if (this.isSlowed) return;
+      if (!this.isBuffed) this.originalSpeed = this.speed;
+      this.speed *= game.slowMeowHandler.movementSpeed;
+      if (this instanceof DashMob) {
+        this.dashSpeed *= game.slowMeowHandler.movementSpeed;
+      }
+      this.isSlowed = true;
+    } else this.isSlowed = false;
+  }
+
   // For adding/removing BuffMob buff
   applyBuff() {
     if (this.isBuffed || !this.isActive) return;

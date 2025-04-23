@@ -88,17 +88,6 @@ class Sprite extends GameObject {
     }
   }
 
-  checkIfSlowMeowActive() {
-    if (!this.isActive) return;
-    if (game && game.slowMeowHandler.occurring) {
-      if (this.isSlowed) return;
-      if (!this.isBuffed) this.originalSpeed = this.speed;
-      this.speed *= game.slowMeowHandler.movementSpeed;
-      if (this.canDash) this.dashSpeed *= game.slowMeowHandler.movementSpeed;
-      this.isSlowed = true;
-    } else this.isSlowed = false;
-  }
-
   // Adds i-frames to the entity
   makeInvincible() {
     if (this.isInvincible || !this.isActive) return;

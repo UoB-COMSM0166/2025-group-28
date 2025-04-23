@@ -2,7 +2,6 @@ class DashMob extends MeleeMob {
   constructor(img, x, y, difficultySettings) {
     super(img, x, y, difficultySettings);
 
-    this.canDash = true;
     this.maxHealth = 80 * difficultySettings.mobHealthMult();
     this.attackDamage = 12 * difficultySettings.mobDamageMult;
     this.speed = random(1.1, 1.4) * difficultySettings.mobSpeedMult;

@@ -89,7 +89,7 @@ class SlowMeowHandler {
     let playerSlowFactor;
     if (slowActive) {
       slowFactor = this.movementSpeed;
-      playerSlowFactor = 1.2;
+      playerSlowFactor = 1.1;
       playbackRate = 0.75; // Slows SFX
     } else {
       slowFactor = 1.0;
@@ -137,7 +137,9 @@ class SlowMeowHandler {
           } else {
             mob.speed = mob.originalSpeed;
             mob.isSlowed = false;
-            if (mob.canDash) mob.dashSpeed = mob.originalDashSpeed;
+            if (mob instanceof DashMob) {
+             mob.dashSpeed = mob.originalDashSpeed;
+            }
           }
         }
       }
