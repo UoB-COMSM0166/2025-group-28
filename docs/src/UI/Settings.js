@@ -65,6 +65,7 @@ class Settings {
     howtopanel = createDiv();
     howtopanel.id("howtopanel");
     howtopanel.size(pageWidth, pageHeight);
+
     howtopanel.attribute("draggable", "false");
     howtopanel.parent(stng_div);
 
@@ -167,9 +168,11 @@ class Settings {
     stng_div = createDiv();
     stng_div.id("settings_content");
     stng_div.size(pageWidth, pageHeight);
+
     set_back = createImg(setback);
+    set_back.size(pageWidth, pageHeight);
     set_back.parent(stng_div);
-    set_back.position(0, 0);
+    //   set_back.position(0, 0);
     set_back.attribute("draggable", "false");
 
     let exit = createP("X");

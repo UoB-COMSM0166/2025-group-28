@@ -1,5 +1,5 @@
-const pageWidth = 900;
-const pageHeight = 750;
+const pageWidth = 950;
+const pageHeight = 800;
 
 // Displacement from origin to start drawing room etc. - to centre room in new larger canvas
 const arena_offset = 100;

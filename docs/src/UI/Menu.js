@@ -106,13 +106,17 @@ class Menu {
   static singlePlayerStart() {
     coop = false;
     pvpMode = false;
-    gameSwitch(true);
+    PreGameInterface.renderPregame();
+
+    //gameSwitch(true);
   }
 
   static coopPlayerStart() {
     pvpMode = false;
     coop = true;
-    gameSwitch(true);
+    PreGameInterface.renderPregame();
+
+    //gameSwitch(true);
   }
 
   static pvpStart() {

@@ -40,5 +40,7 @@ class UniversalUI {
     } else {
       up.style("background-color", gameOrange);
     }
+
+    return val;
   }
 }

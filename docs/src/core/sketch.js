@@ -1,7 +1,7 @@
 function setup() {
   noStroke();
   rectMode(CORNER);
-  gameCanvas = createCanvas(950, 800);
+  gameCanvas = createCanvas(pageWidth, pageHeight);
   // Prevent the user from right-clicking on the canvas
   document.addEventListener("contextmenu", (event) => {
     event.preventDefault();

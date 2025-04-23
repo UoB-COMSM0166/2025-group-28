@@ -105,4 +105,5 @@ let instr_1 = "assets/instruction_a.png";
 let instr_2 = "assets/instruction_pickups.png";
 let instr_3 = "assets/instruction_overheat.png";
 let instr_4 = "assets/instruction_sm.png";
-let pg_back = "assets/pg_b2.png";
+let pg_back = "assets/pg_back5.png";
+let pg_ganestart = "assets/pg_gamestart.gif";
