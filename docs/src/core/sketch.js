@@ -2,6 +2,8 @@ function setup() {
   noStroke();
   rectMode(CORNER);
   gameCanvas = createCanvas(950, 800);
+  lightingLayer = createGraphics(roomWidth * tileSize + arena_offset, roomHeight * tileSize + arena_offset);
+  lightingLayer.noStroke();
   // Prevent the user from right-clicking on the canvas
   document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
@@ -61,8 +63,11 @@ function menuStart() {
 function gameSetUp() {
   if (pvpMode) {
     if (!muted) {
-      pvpMusic.play();
-      pvpMusic.loop();
+      let pvpMusic = [pvpMusic1, pvpMusic2, pvpMusic3];
+      let track = Math.floor(random(0, pvpMusic.length));
+      pvpTrack = pvpMusic[track];
+      pvpTrack.play();
+      pvpTrack.loop();
     }
     playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
     playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
@@ -102,11 +107,11 @@ function draw() {
         }
       }
     }
+    game.draw();
     // Top UI block
     GameUI.drawUITop();
     // Bottom UI block
     GameUI.drawUIBottom();
-    game.draw();
   }
 
   // Draw fade out/in effect
@@ -144,10 +149,33 @@ function fade() {
   rect(0, 0, windowWidth, windowHeight);
 }
 
+function drawLighting() {
+  lightingLayer.clear();
+
+  // Draw a semi-transparent black rectangle over the playable are
+  lightingLayer.fill(0, 200);
+  lightingLayer.rect(0, 0, lightingLayer.width, lightingLayer.height);
+
+  // Cut out transparent circles for light sources
+  lightingLayer.erase();
+  lightingLayer.ellipse(playerA.position.x, playerA.position.y, 150, 150);
+  if (coop) {
+    lightingLayer.ellipse(playerB.position.x, playerB.position.y, 150, 150);
+  }
+  for (let mob of game.currentRoom.mobs) {
+    if (mob.isActive) {
+      lightingLayer.ellipse(mob.position.x, mob.position.y, 120, 120);
+    }
+  }
+  lightingLayer.noErase();
+
+  image(lightingLayer, 0, 0);
+}
+
 function keyPressed() {
   if (!inGame) return;
   let music;
-  if (pvpMode) music = pvpMusic;
+  if (pvpMode) music = pvpTrack;
   else music = gameMusic;
   // Quit the game with 'Q' from pause menu
   if (game && keyCode == 81) {

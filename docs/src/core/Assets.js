@@ -79,7 +79,10 @@ function preload() {
   // Music
   themeMusic = createAudio("assets/theme.mp3");
   gameMusic = createAudio("assets/gamemusic.mp3");
-  pvpMusic = createAudio("assets/pvpmusic.mp3");
+  pvpMusic1 = createAudio("assets/pvpmusic1.mp3");
+  pvpMusic2 = createAudio("assets/pvpmusic2.mp3");
+  pvpMusic3 = createAudio("assets/pvpmusic3.mp3");
+  //pvpMusic4 = createAudio("assets/pvpmusic4.mp3");
 }
 
 // HTML <img> paths (no need to preload):

@@ -34,6 +34,9 @@ class Room {
 
     this.dashMobCount = 0;
 
+    if (random() < 0.3) this.addLighting = true;
+    else this.addLighting = false;
+
     this.generator = new RoomGenerator(this);
     this.handler = new RoomHandler(this);
 
@@ -66,20 +69,6 @@ class Room {
       } else mob.removeBuff();
       if (mob instanceof RangedMob || mob instanceof BlinkMob) {
         mob.fire();
-      }
-    }
-
-    // Update items
-    for (let i = this.items.length - 1; i >= 0; i--) {
-      if (!this.items[i].isActive) continue;
-      this.items[i].update();
-      this.items[i].draw();
-      for (let player of [playerA, playerB]) {
-        if (player === playerB && !coop) continue;
-        if (player.isCollidingWith(this.items[i])) {
-          this.applyItemBuff(this.items[i], player);
-          this.items.splice(i, 1);
-        }
       }
     }
 
@@ -154,19 +143,35 @@ class Room {
     }
 
     playerA.fire();
+    playerA.draw();
     if (coop) {
       playerB.fire();
+      playerB.draw();
     }
 
-    playerA.draw();
-    PlayerHUD.drawPlayerHealthBar();
-
-    if (coop) {
-      playerB.draw();
-      PlayerHUD.drawPlayerHealthBar();
+    // Update items
+    for (let i = this.items.length - 1; i >= 0; i--) {
+      if (!this.items[i].isActive) continue;
+      this.items[i].update();
+      this.items[i].draw();
+      for (let player of [playerA, playerB]) {
+        if (player === playerB && !coop) continue;
+        if (player.isCollidingWith(this.items[i])) {
+          this.applyItemBuff(this.items[i], player);
+          this.items.splice(i, 1);
+        }
+      }
     }
 
     this.handleProjectileCollisions();
+
+    if (this.addLighting) drawLighting();
+
+    PlayerHUD.drawPlayerHealthBar();
+
+    if (coop) {
+      PlayerHUD.drawPlayerHealthBar();
+    }
 
     this.handleMobCollisions();
 
@@ -464,8 +469,8 @@ class Room {
   // Get the player's position in the next room based on position of door in current room
   getPlayerNextPos() {
     if (!this.door) return;
+    // Door on left side of room
     if (this.door.x == 1) {
-      // Door on left side of room
       playerNextX = 840;
       playerNextY = this.door.position.y;
     }
@@ -473,11 +478,11 @@ class Room {
     else if (this.door.x == roomWidth + arena_offset / 9.5) {
       playerNextX = 155;
       playerNextY = this.door.position.y;
-      // Door at bottom of room
+    // Door at bottom of room
     } else if (this.door.y == roomHeight - 2) {
       playerNextX = this.door.position.x;
       playerNextY = 165;
-      // Door at top of room
+    // Door at top of room
     } else if (this.door.y == 1) {
       playerNextX = this.door.position.x;
       playerNextY = 635;

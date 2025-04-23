@@ -163,7 +163,7 @@ class RoomGenerator {
       wallVariant == wallVariants.L1 ||
       wallVariant == wallVariants.L2
     ) {
-      return floor(random(2, 5));
+      return Math.floor(random(2, 5));
     }
   }
 
@@ -175,7 +175,7 @@ class RoomGenerator {
       wallVariant == wallVariants.L1 ||
       wallVariant == wallVariants.L2
     ) {
-      return floor(random(2, 6));
+      return Math.floor(random(2, 6));
     }
   }
 
@@ -196,9 +196,9 @@ class RoomGenerator {
   addOffset(pos) {
     let offset = Math.floor(random(0, wallBuffer));
     if (pos < roomWidth - step && pos < roomHeight - step) {
-      return floor(random(pos, pos + offset));
+      return Math.floor(random(pos, pos + offset));
     } else {
-      return floor(random(pos, pos - offset));
+      return Math.floor(random(pos, pos - offset));
     }
   }
 

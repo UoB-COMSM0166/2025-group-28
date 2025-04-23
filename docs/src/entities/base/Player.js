@@ -1,8 +1,8 @@
 class Player extends Sprite {
   constructor(img, x, y, player_x) {
     super(img, x, y, 100);
-    this.widthHitbox = 45;
-    this.heightHitbox = 60;
+    this.widthHitbox = 40;
+    this.heightHitbox = 65;
 
     this.player = player_x;
     this.controls = []; // Player control scheme
@@ -50,7 +50,15 @@ class Player extends Sprite {
     if (this.fireOverheat && this.isActive) {
       this.smokeFrameCounter++;
       if (this.smokeFrameCounter % 3 == 0) {
-        this.smokeParticles.push(new Smoke(this.position.x, this.position.y - 25));
+        // Create smoke particles from different locations based on direction player is facing
+        if (this.lastDirection == "UP") {
+          this.smokeParticles.push(new Smoke(this.position.x - 4, this.position.y - 1));
+        } else if (this.lastDirection == "DOWN") {
+          this.smokeParticles.push(new Smoke(this.position.x, this.position.y - 25));
+        } else {
+          let xOffset = 14 * this.direction.x;
+          this.smokeParticles.push(new Smoke(this.position.x - xOffset, this.position.y + 1))
+        }
       }
     }
 
@@ -68,11 +76,18 @@ class Player extends Sprite {
   }
 
   draw() {
-    // Draw smoke particles behind player
-    for (let particle of this.smokeParticles) {
-      particle.draw();
+    // Draw smoke in front/behind player based on their direction of movement
+    if (this.lastDirection == "UP") {
+      super.draw();
+      for (let particle of this.smokeParticles) {
+        particle.draw();
+      }
+    } else {
+      for (let particle of this.smokeParticles) {
+        particle.draw();
+      }
+      super.draw();
     }
-    super.draw();
   }
 
   overheatSlow() {
@@ -119,13 +134,11 @@ class Player extends Sprite {
 
     // Stops sprite animation when player isn't moving
     if (this.velocity.equals(0) || fadingOut || (pvpMode && fadingIn)) {
-      if (this.lastDirection === "LEFT") {
+      if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
         this.img.setFrame(1);
-      } else if (this.lastDirection === "RIGHT") {
-        this.img.setFrame(1);
-      } else if (this.lastDirection === "UP") {
+      } else if (this.lastDirection == "UP") {
         this.img.setFrame(13);
-      } else if (this.lastDirection === "DOWN") {
+      } else if (this.lastDirection == "DOWN") {
         this.img.setFrame(7);
       }
     }
@@ -244,15 +257,12 @@ class Player extends Sprite {
       }
       return;
     }
-    if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
-      this.img.setFrame(0);
-    } else {
-      this.img.setFrame(6);
-    }
+
+    this.setShootingFrame();
     playSound(playerGunSound, playbackRate);
     // Try to adjust starting position of projectile to be closer to player's gun
-    let xOffset = 15 * this.direction.x;
-    let yOffset = 15 * this.direction.y;
+    let xOffset = 40 * this.direction.x;
+    let yOffset = 40 * this.direction.y;
     let projectile = new Projectile(
       this.position.x + xOffset,
       this.position.y + yOffset,
@@ -271,6 +281,23 @@ class Player extends Sprite {
       this.fireOverheat = true;
       this.timesOverheated++;
     }
+  }
+
+  setShootingFrame() {
+    if (this.lastDirection == "UP") {
+      this.img.setFrame(18);
+    } else if (this.lastDirection == "DOWN") {
+      if (this.direction.x == 0) {
+        this.img.setFrame(6);
+      } else if (this.direction.x != 0) {
+        this.img.setFrame(19);
+      }
+    } else {
+      this.img.setFrame(0);
+    }
+    setTimeout(() => {
+      this.img.setFrame(this.endFrame);
+    }, Math.min(60, frameRate()));
   }
 
   resetOverheat() {
