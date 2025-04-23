@@ -149,8 +149,9 @@ function fade() {
   rect(0, 0, windowWidth, windowHeight);
 }
 
-let flickerPlayerOffset = 0;
-let flickerMobOffset = 1000;
+let flickerP1Offset = 0;
+let flickerP2Offset = 1000;
+let flickerMobOffset = 2000;
 function drawLighting() {
   lightingLayer.clear();
 
@@ -158,13 +159,14 @@ function drawLighting() {
   lightingLayer.fill(0, 200);
   lightingLayer.rect(0, 0, lightingLayer.width, lightingLayer.height);
 
-  let flickerPlayer = noise(flickerPlayerOffset) * 20 - 10;
+  let flickerP1 = noise(flickerP1Offset) * 20 - 10;
 
   // Cut out transparent circles for light sources
   lightingLayer.erase();
-  lightingLayer.ellipse(playerA.position.x, playerA.position.y, 150 + flickerPlayer, 150 + flickerPlayer);
+  lightingLayer.ellipse(playerA.position.x, playerA.position.y, 150 + flickerP1, 150 + flickerP1);
   if (coop) {
-    lightingLayer.ellipse(playerB.position.x, playerB.position.y, 150 + flickerPlayer, 150 + flickerPlayer);
+    let flickerP2 = noise(flickerP1Offset) * 20 - 10;
+    lightingLayer.ellipse(playerB.position.x, playerB.position.y, 150 + flickerP2, 150 + flickerP2);
   }
   for (let i = 0; i < game.currentRoom.mobs.length; i++) {
     let mob = game.currentRoom.mobs[i];
@@ -176,10 +178,12 @@ function drawLighting() {
   lightingLayer.noErase();
 
   image(lightingLayer, 0, 0);
-  flickerPlayerOffset += 0.05;
+  flickerP1Offset += 0.05;
+  flickerP2Offset += 0.05
   flickerMobOffset += 0.05;
-  if (flickerPlayerOffset > 10000) flickerPlayerOffset = 0;
-  if (flickerMobOffset > 10000) flickerMobOffset = 1000;
+  if (flickerP1Offset > 10000) flickerP1Offset = 0;
+  if (flickerP2Offset > 10000) flickerP2Offset = 1000;
+  if (flickerMobOffset > 10000) flickerMobOffset = 2000;
 }
 
 function keyPressed() {
