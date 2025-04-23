@@ -91,12 +91,14 @@ class Game {
   }
 
   checkIfGameOver() {
+    let winThreshhold = pvp_rounds == 1 ? 1 : Math.round(pvp_rounds / 2);
+    let gameWon =
+      this.p1PVPTotal == winThreshhold || this.p2PVPTotal == winThreshhold;
+
     if (
       (!playerA.isActive && !coop && !pvpMode) ||
       (coop && !playerA.isActive && !playerB.isActive) ||
-      (pvpMode &&
-        this.roomSeq >= pvp_rounds &&
-        this.p1PVPTotal + this.p2PVPTotal >= 3)
+      (pvpMode && gameWon)
     ) {
       setTimeout(() => {
         this.gameState = GameStates.OVER;

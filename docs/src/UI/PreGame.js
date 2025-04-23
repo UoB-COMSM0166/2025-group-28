@@ -11,7 +11,7 @@ let footerY = 580;
 let standard_mini_obj =
   "Kill the space dogs <br> to unlock the door to <br> the next room. Use slow <br> meow to slow it down <br> when things get hairy.";
 let pvp_mini_obj =
-  "Cat's aren't loyal. <br> You've turned on your <br> fellow feline. Choose <br> the number of rounds, <br> best killer of these <br> wins!";
+  "Cat's aren't loyal. <br> You've turned on your <br> fellow feline. Each <br> round is best of 3, <br> choose between 1, 3 or <br> 5 rounds";
 
 class PreGameInterface {
   static exitPreGameMenu() {
