@@ -4,24 +4,24 @@ class UniversalUI {
 
     element.style("color", "white");
     element.style("text-align", "center");
-    element.style("text-size", "25");
-
+    element.style("font-size", "28px");
     element.style("background-color", gameOrange);
     element.parent(parent);
     element.attribute("draggable", "false");
-    element.size(20, 20);
+    element.size(35, 35);
     return element;
   }
 
   static backStepper(parent) {
     let element = createP("-");
     element.style("color", "white");
+    element.style("font-size", "28px");
     element.style("text-align", "center");
 
     element.style("background-color", gameOrange);
     element.parent(parent);
     element.attribute("draggable", "false");
-    element.size(20, 20);
+    element.size(35, 35);
 
     return element;
   }

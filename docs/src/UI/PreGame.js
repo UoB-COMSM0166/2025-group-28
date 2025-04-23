@@ -2,7 +2,7 @@ let pregameWindow;
 let bestof_opts = [1, 3, 5];
 var matchIndex = 0;
 var pvpBestOfCount;
-let root_x = 250;
+let root_x = 100;
 let root_y = 300;
 let toolLineY = 225;
 let toolLineX = 75;
@@ -16,7 +16,6 @@ let pvp_mini_obj =
 class PreGameInterface {
   static exitPreGameMenu() {
     // Reset to defaults...
-
     pregameWindow.remove();
   }
 
@@ -35,12 +34,12 @@ class PreGameInterface {
     backing.size(pageWidth, pageHeight);
     backing.position(0, 0);
 
-    let gameType = "single player game *";
+    let gameType = "single player game";
     if (coop) {
-      gameType = "co-op game *";
+      gameType = "co-op game";
     }
     if (pvpMode) {
-      gameType = "player vs player game *";
+      gameType = "player vs player game";
     }
 
     let exit = createP("X");
@@ -54,7 +53,7 @@ class PreGameInterface {
     exit.parent(pregameWindow);
     exit.position(toolLineX, toolLineY);
 
-    let title = createP(" * New " + gameType);
+    let title = createP(" New " + gameType);
     title.style("color", "white");
     // title.style("background-color", "white");
 
@@ -80,10 +79,12 @@ class PreGameInterface {
     diff.position(100, footerY - 40);
 
     if (pvpMode) {
-      PreGameInterface.renderPregamePVP();
+      /// PreGameInterface.renderPregamePVP();
+      PreGameInterface.renderDifficultySelect(true);
     } else {
-      PreGameInterface.renderDifficultySelect();
+      PreGameInterface.renderDifficultySelect(false);
     }
+
     PreGameInterface.renderControlShow(pvpMode || coop);
     PreGameInterface.renderObjectives();
   }
@@ -109,16 +110,29 @@ class PreGameInterface {
     blurb.style("color", "white");
 
     blurb.position(600, root_y + 50);
+
+    let linkto = createP("How to play");
+    linkto.parent(pregameWindow);
+    linkto.style("font-size", "16px");
+    linkto.style("font-family", "ARCADE_I");
+    linkto.style("color", "white");
+    linkto.style("background-color", gameOrange);
+    linkto.position(600, 450);
+    linkto.mouseClicked(PreGameInterface.showHTP);
   }
 
+  static showHTP() {
+    Settings.gotoSettings();
+    switchToHelp();
+  }
   static renderControlShow(multiplayer) {
     let controls;
-    let offset = root_x + 20;
+    let offset = root_x + 150;
 
-    let ctrl_pad_x = 150;
+    let ctrl_pad_x = 160;
     let ctrl_pad_y = ctrl_pad_x * 1.1;
 
-    let add_contrl_x = 100;
+    let add_contrl_x = 110;
     let add_contrl_y = add_contrl_x * 1.2;
 
     let control_title = createP("controls");
@@ -150,38 +164,76 @@ class PreGameInterface {
       secondary_controls.parent(pregameWindow);
       secondary_controls.position(offset, 350);
       secondary_controls.size(ctrl_pad_x, ctrl_pad_y);
-      offset += 150;
+      offset += 170;
     }
     let addControls = createImg(add_ctrls);
     addControls.parent(pregameWindow);
-    addControls.position(offset, 350);
+    addControls.position(offset, 360);
     addControls.size(add_contrl_x, add_contrl_y);
   }
-  static renderDifficultySelect() {
+
+  static renderDifficultySelect(pvp) {
+    let roundMarker = ["A", "B", "C"];
     let baseDiffX = 320;
     let offset = 120;
-
+    let diff_lvl;
     for (let i = 0; i < 3; i++) {
-      let diff_lvl = createP(difficultyNames[i]);
-      diff_lvl.id(difficultyNames[i]);
+      if (pvp) {
+        diff_lvl = createP(bestof_opts[i]);
+      } else {
+        diff_lvl = createP(difficultyNames[i]);
+      }
+      if (pvp) {
+        diff_lvl.id(roundMarker[i]);
+      } else {
+        diff_lvl.id(difficultyNames[i]);
+      }
+
       diff_lvl.parent(pregameWindow);
-      diff_lvl.style("font-size", "15px");
-      diff_lvl.style("padding", "7px");
+      diff_lvl.style("font-size", pvp ? "18px" : "15px");
+      if (pvp) {
+        diff_lvl.style("padding", "7px");
+
+        diff_lvl.style("padding-left", "20px");
+        diff_lvl.style("padding-right", "20px");
+      } else {
+        diff_lvl.style("padding", "7px");
+      }
       diff_lvl.style("font-family", "ARCADE_I");
-      diff_lvl.style("color", "white");
-      diff_lvl.style("background-color", difficultyTints[i]);
+      diff_lvl.style("color", pvp ? "black" : "white");
+      if (!pvp) {
+        diff_lvl.style("background-color", difficultyTints[i]);
+      } else {
+        diff_lvl.style("background-color", "white");
+      }
+
       if (difficulty != i) {
         diff_lvl.style("opacity", "0.35");
       }
       diff_lvl.position(100 + offset * i, footerY);
       diff_lvl.mouseClicked(() => {
         if (!muted) menuSelectSound.play();
-        difficulty = i;
-        diff_lvl.style("opacity", "1");
+        console.log(i);
+        if (pvp) {
+          pvp_rounds = bestof_opts[i];
+          matchIndex = i;
+          console.log("new pvp rounds " + pvp_rounds);
+        } else {
+          difficulty = i;
+        }
+        let current = select(
+          pvp ? "#" + roundMarker[i] : "#" + difficultyNames[i]
+        );
+        console.log(current);
+        current.style("opacity", "1");
+
         for (let j = 0; j < 3; j++) {
-          if (j != i) {
-            console.log(pregameWindow.child());
-            let other = select("#" + difficultyNames[j]);
+          let other = select(
+            pvp ? "#" + roundMarker[j] : "#" + difficultyNames[j]
+          );
+          if (i != j) {
+            // console.log(pregameWindow.child());
+            console.log("comparing " + j + "to base " + i);
             other.style("opacity", "0.35");
           }
         }
@@ -195,10 +247,10 @@ class PreGameInterface {
     pvpBestOfCount.style("font-size", "18px");
     pvpBestOfCount.style("font-family", "ARCADE_I");
     pvpBestOfCount.parent(pregameWindow);
-    pvpBestOfCount.position(root_x + 30, footerY);
+    pvpBestOfCount.position(root_x + 50, footerY);
 
     let back = UniversalUI.backStepper(pregameWindow);
-    back.position(root_x, footerY);
+    back.position(root_x, footerY - 20);
     back.mouseClicked(() => {
       if (!muted) menuSelectSound.play();
       matchIndex = UniversalUI.stepperUpdate(0, 2, matchIndex, back, next, -1);
@@ -206,7 +258,7 @@ class PreGameInterface {
     });
 
     let next = UniversalUI.forwardStepper(pregameWindow);
-    next.position(root_x + 65, footerY);
+    next.position(root_x + 100, footerY - 20);
     next.mouseClicked(() => {
       if (!muted) menuSelectSound.play();
       matchIndex = UniversalUI.stepperUpdate(0, 2, matchIndex, back, next, 1);
@@ -224,6 +276,6 @@ class PreGameInterface {
     pvpBestOfCount.style("font-size", "18px");
     pvpBestOfCount.style("font-family", "ARCADE_I");
     pvpBestOfCount.parent(pregameWindow);
-    pvpBestOfCount.position(root_x + 30, footerY);
+    pvpBestOfCount.position(root_x + 50, footerY);
   }
 }
