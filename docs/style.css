@@ -2,7 +2,7 @@ html,
 body {
   height: 100%;
   margin: 0;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,8 +11,9 @@ body {
 
 #settings_content,
 #menuContainer,
+#pregame,
 #gameover {
-  margin-left: -900px;
+  margin-left: -950px;
   display: flex;
   flex-direction: column;
   justify-content: center;

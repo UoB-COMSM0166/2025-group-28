@@ -48,7 +48,7 @@ class Menu {
     pvp_button.size(170, 120);
     pvp_button.mouseClicked(() => {
       if (!muted) menuSelectSound.play();
-      Menu.pvpStart()
+      Menu.pvpStart();
     });
     pvp_button.style("opacity", "0.5");
     pvp_button.attribute("draggable", "false");
@@ -68,7 +68,7 @@ class Menu {
       Settings.gotoSettings();
     });
 
-    difficultyButton = createButton(
+    /*    difficultyButton = createButton(
       "Difficulty: " + difficultyNames[difficulty]
     );
     difficultyButton.parent(menuContainer);
@@ -88,7 +88,7 @@ class Menu {
     difficultyButton.style("border", "none");
     difficultyButton.style("text-align", "center");
     difficultyButton.style("vertical-align", "middle");
-    difficultyButton.style("border-radius", "10%");
+    difficultyButton.style("border-radius", "10%");*/
   }
 
   static changeDifficulty() {
@@ -106,19 +106,25 @@ class Menu {
   static singlePlayerStart() {
     coop = false;
     pvpMode = false;
-    gameSwitch(true);
+    PreGameInterface.renderPregame();
+
+    //gameSwitch(true);
   }
 
   static coopPlayerStart() {
     pvpMode = false;
     coop = true;
-    gameSwitch(true);
+    PreGameInterface.renderPregame();
+
+    //gameSwitch(true);
   }
 
   static pvpStart() {
     coop = false;
     pvpMode = true;
-    gameSwitch(true);
+    PreGameInterface.renderPregame();
+
+    // gameSwitch(true);
   }
 
   static singlePlayerHover() {
