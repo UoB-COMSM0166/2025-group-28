@@ -70,9 +70,19 @@ class Game {
     return player;
   }
 
+  pvpCheckmate() {
+    let winThreshhold = pvp_rounds == 1 ? 1 : Math.round(pvp_rounds / 2);
+    let gameWon =
+      this.p1PVPTotal == winThreshhold || this.p2PVPTotal == winThreshhold;
+
+    console.log("*** " + gameWon);
+    return gameWon;
+  }
+
   pvpGameCycleCheck() {
     if (this.currScoreP1 >= 2 || this.currScoreP2 >= 2) {
-      if (this.roomSeq < pvp_rounds && !transitioning) {
+      if (this.roomSeq < pvp_rounds && !transitioning && !this.pvpCheckmate()) {
+        console.log("next room");
         transitioning = true;
         setTimeout(() => {
           fadingOut = true;
@@ -91,14 +101,10 @@ class Game {
   }
 
   checkIfGameOver() {
-    let winThreshhold = pvp_rounds == 1 ? 1 : Math.round(pvp_rounds / 2);
-    let gameWon =
-      this.p1PVPTotal == winThreshhold || this.p2PVPTotal == winThreshhold;
-
     if (
       (!playerA.isActive && !coop && !pvpMode) ||
       (coop && !playerA.isActive && !playerB.isActive) ||
-      (pvpMode && gameWon)
+      (pvpMode && this.pvpCheckmate())
     ) {
       setTimeout(() => {
         this.gameState = GameStates.OVER;

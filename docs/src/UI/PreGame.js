@@ -16,12 +16,16 @@ let pvp_mini_obj =
 class PreGameInterface {
   static exitPreGameMenu() {
     // Reset to defaults...
+    if (!muted) menuClickSound.play();
+
     pregameWindow.remove();
   }
 
   static startGame() {
     console.log("ddddd");
     gameSwitch(true);
+    if (!muted) menuSelectSound.play();
+
     pregameWindow.remove();
   }
   static renderPregame() {
@@ -121,7 +125,7 @@ class PreGameInterface {
     linkto.style("background-color", gameOrange);
     linkto.position(630, 490);
     linkto.mouseClicked(() => {
-      if (!muted) menuSelectSound.play();
+      if (!muted) menuClickSound.play();
 
       PreGameInterface.showHTP();
     });
@@ -218,7 +222,7 @@ class PreGameInterface {
       }
       diff_lvl.position(100 + offset * i, footerY);
       diff_lvl.mouseClicked(() => {
-        if (!muted) menuSelectSound.play();
+        if (!muted) menuClickSound.play();
         console.log(i);
         if (pvp) {
           pvp_rounds = bestof_opts[i];
@@ -258,7 +262,7 @@ class PreGameInterface {
     let back = UniversalUI.backStepper(pregameWindow);
     back.position(root_x, footerY - 20);
     back.mouseClicked(() => {
-      if (!muted) menuSelectSound.play();
+      if (!muted) menuClickSound.play();
       matchIndex = UniversalUI.stepperUpdate(0, 2, matchIndex, back, next, -1);
       PreGameInterface.displayUpdate();
     });
@@ -266,7 +270,7 @@ class PreGameInterface {
     let next = UniversalUI.forwardStepper(pregameWindow);
     next.position(root_x + 100, footerY - 20);
     next.mouseClicked(() => {
-      if (!muted) menuSelectSound.play();
+      if (!muted) menuClickSound.play();
       matchIndex = UniversalUI.stepperUpdate(0, 2, matchIndex, back, next, 1);
       PreGameInterface.displayUpdate();
     });

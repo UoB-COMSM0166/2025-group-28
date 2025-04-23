@@ -128,7 +128,10 @@ function fade() {
         if (!pvpMode) {
           game.currentRoom.getPlayerNextPos();
         }
-        game.nextRoom();
+
+        if (!game.pvpCheckmate() && pvpMode) {
+          game.nextRoom();
+        }
       }
     }
   } else if (fadingIn) {
