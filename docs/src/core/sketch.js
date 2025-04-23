@@ -168,15 +168,15 @@ function keyPressed() {
   // Quit the game with 'Q' from pause menu
 
   if (game && keyCode == 81) {
-    if (game.gameState == GameStates.PAUSE) {
+    if (game.gameState == GameStates.PAUSE && !pause_stng_overlay) {
       music.stop();
       gameSwitch(false);
-    } else if (game.gameState == GameStates.OVER) {
+    } else if (game.gameState == GameStates.OVER && !pause_stng_overlay) {
       music.stop();
       GameOver.gameOverReturn();
     }
   }
-  if (game && keyCode == ESCAPE) {
+  if (game && keyCode == ESCAPE && !pause_stng_overlay) {
     if (game.gameState == GameStates.ACTIVE && !transitioning) {
       if ((playerA && playerA.isActive) || (playerB && playerB.isActive)) {
         game.gameState = GameStates.PAUSE;
