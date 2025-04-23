@@ -98,9 +98,7 @@ class Player extends Sprite {
       else if (this.slowTimer == 150) this.speed = 1.8;
       else if (this.slowTimer == 200) this.speed = 2.4;
       else if (this.slowTimer > 200) this.speed = 2.75;
-      if (pvpMode || !game.slowMeowHandler.occurring) {
-        this.slowTimer++;
-      }
+      this.slowTimer++;
       this.originalSpeed = this.speed;
     }
   }
@@ -216,7 +214,7 @@ class Player extends Sprite {
   }
 
   fire() {
-    if (!this.isActive || fadingOut || (pvpMode && fadingIn)) return;
+    if (!this.isActive || fadingOut || (pvpMode && fadingIn) || (!pvpMode && game.slowMeowHandler.occurring)) return;
     if (this.fireOverheat) {
       if (!this.overheatSoundPlayed) {
         playSound(overheatStartSound, playbackRate);

@@ -34,7 +34,7 @@ class Room {
 
     this.dashMobCount = 0;
 
-    if (random() < 0.3) this.addLighting = true;
+    if (random() < 0.2) this.addLighting = true;
     else this.addLighting = false;
 
     this.generator = new RoomGenerator(this);

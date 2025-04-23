@@ -149,27 +149,37 @@ function fade() {
   rect(0, 0, windowWidth, windowHeight);
 }
 
+let flickerPlayerOffset = 0;
+let flickerMobOffset = 1000;
 function drawLighting() {
   lightingLayer.clear();
 
-  // Draw a semi-transparent black rectangle over the playable are
+  // Draw a semi-transparent black rectangle over the playable area
   lightingLayer.fill(0, 200);
   lightingLayer.rect(0, 0, lightingLayer.width, lightingLayer.height);
 
+  let flickerPlayer = noise(flickerPlayerOffset) * 20 - 10;
+
   // Cut out transparent circles for light sources
   lightingLayer.erase();
-  lightingLayer.ellipse(playerA.position.x, playerA.position.y, 150, 150);
+  lightingLayer.ellipse(playerA.position.x, playerA.position.y, 150 + flickerPlayer, 150 + flickerPlayer);
   if (coop) {
-    lightingLayer.ellipse(playerB.position.x, playerB.position.y, 150, 150);
+    lightingLayer.ellipse(playerB.position.x, playerB.position.y, 150 + flickerPlayer, 150 + flickerPlayer);
   }
-  for (let mob of game.currentRoom.mobs) {
+  for (let i = 0; i < game.currentRoom.mobs.length; i++) {
+    let mob = game.currentRoom.mobs[i];
     if (mob.isActive) {
-      lightingLayer.ellipse(mob.position.x, mob.position.y, 120, 120);
+      let flickerMob = noise(flickerMobOffset + i * 100) * 15 - 5;
+      lightingLayer.ellipse(mob.position.x, mob.position.y, 120 + flickerMob, 120 + flickerMob);
     }
   }
   lightingLayer.noErase();
 
   image(lightingLayer, 0, 0);
+  flickerPlayerOffset += 0.05;
+  flickerMobOffset += 0.05;
+  if (flickerPlayerOffset > 10000) flickerPlayerOffset = 0;
+  if (flickerMobOffset > 10000) flickerMobOffset = 1000;
 }
 
 function keyPressed() {
