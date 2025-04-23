@@ -9,9 +9,9 @@ let toolLineX = 75;
 let footerY = 580;
 
 let standard_mini_obj =
-  "Kill the space dogs <br> to unlock the door to <br> the next room. Use slow <br> meow to slow it down <br> when things get hairy.";
+  "Kill the space dogs to unlock the door to the next room. Use slow meow to slow it down when things get hairy. Recover from overheating and regain health by collecting treats from dead mobs.";
 let pvp_mini_obj =
-  "Cat's aren't loyal. <br> You've turned on your <br> fellow feline. Each <br> round is best of 3, <br> choose between 1, 3 or <br> 5 rounds";
+  "Cat's aren't loyal. You've turned on your fellow feline. Each round is best of 3, choose between 1, 3 or 5 rounds";
 
 class PreGameInterface {
   static exitPreGameMenu() {
@@ -20,6 +20,7 @@ class PreGameInterface {
   }
 
   static startGame() {
+    console.log("ddddd");
     gameSwitch(true);
     pregameWindow.remove();
   }
@@ -84,7 +85,6 @@ class PreGameInterface {
     } else {
       PreGameInterface.renderDifficultySelect(false);
     }
-
     PreGameInterface.renderControlShow(pvpMode || coop);
     PreGameInterface.renderObjectives();
   }
@@ -96,7 +96,7 @@ class PreGameInterface {
     title.style("font-size", "18px");
     title.style("font-family", "ARCADE_I");
     title.style("padding", "2px");
-    title.position(600, root_y);
+    title.position(575, root_y);
     title.parent(pregameWindow);
 
     let objText = standard_mini_obj;
@@ -108,8 +108,8 @@ class PreGameInterface {
     blurb.style("font-size", "12px");
     blurb.style("font-family", "ARCADE_I");
     blurb.style("color", "white");
-
-    blurb.position(600, root_y + 50);
+    blurb.position(575, root_y + 50);
+    blurb.size(305, 200);
 
     let linkto = createP("How to play >");
     linkto.parent(pregameWindow);
@@ -119,7 +119,7 @@ class PreGameInterface {
     linkto.style("font-family", "ARCADE_I");
     linkto.style("color", "white");
     linkto.style("background-color", gameOrange);
-    linkto.position(630, 470);
+    linkto.position(630, 490);
     linkto.mouseClicked(() => {
       if (!muted) menuSelectSound.play();
 
