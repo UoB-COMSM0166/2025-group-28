@@ -40,7 +40,13 @@ let howtopanel;
 
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
-let difficultyTints = ["#4d63445A", "#a6aba45A", "#ba29225A"];
+
+let difficultyTints = ["#52BB36", "#969190", "#D14042"];
+
+//77,99,68
+//166,171,164
+//186,41,34
+
 let diffTint = difficultyTints[0];
 let difficultyButton;
 

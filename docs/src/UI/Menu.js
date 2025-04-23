@@ -68,7 +68,7 @@ class Menu {
       Settings.gotoSettings();
     });
 
-    difficultyButton = createButton(
+    /*    difficultyButton = createButton(
       "Difficulty: " + difficultyNames[difficulty]
     );
     difficultyButton.parent(menuContainer);
@@ -88,7 +88,7 @@ class Menu {
     difficultyButton.style("border", "none");
     difficultyButton.style("text-align", "center");
     difficultyButton.style("vertical-align", "middle");
-    difficultyButton.style("border-radius", "10%");
+    difficultyButton.style("border-radius", "10%");*/
   }
 
   static changeDifficulty() {

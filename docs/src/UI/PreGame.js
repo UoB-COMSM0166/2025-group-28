@@ -82,11 +82,29 @@ class PreGameInterface {
 
     for (let i = 0; i < 3; i++) {
       let diff_lvl = createP(difficultyNames[i]);
+      diff_lvl.id(difficultyNames[i]);
       diff_lvl.parent(pregameWindow);
       diff_lvl.style("font-size", "18px");
+      diff_lvl.style("padding", "10px");
       diff_lvl.style("font-family", "ARCADE_I");
       diff_lvl.style("color", "white");
+      diff_lvl.style("background-color", difficultyTints[i]);
+      if (difficulty != i) {
+        diff_lvl.style("opacity", "0.35");
+      }
       diff_lvl.position(baseDiffX + offset * i, 300);
+      diff_lvl.mouseClicked(() => {
+        if (!muted) menuSelectSound.play();
+        difficulty = i;
+        diff_lvl.style("opacity", "1");
+        for (let j = 0; j < 3; j++) {
+          if (j != i) {
+            console.log(pregameWindow.child());
+            let other = select("#" + difficultyNames[j]);
+            other.style("opacity", "0.35");
+          }
+        }
+      });
     }
   }
 
@@ -108,6 +126,7 @@ class PreGameInterface {
     let back = UniversalUI.backStepper(pregameWindow);
     back.position(root_x, root_y);
     back.mouseClicked(() => {
+      if (!muted) menuSelectSound.play();
       matchIndex = UniversalUI.stepperUpdate(0, 3, matchIndex, back, next, -1);
       PreGameInterface.displayUpdate();
     });
@@ -115,6 +134,7 @@ class PreGameInterface {
     let next = UniversalUI.forwardStepper(pregameWindow);
     next.position(root_x + 65, root_y);
     next.mouseClicked(() => {
+      if (!muted) menuSelectSound.play();
       matchIndex = UniversalUI.stepperUpdate(0, 3, matchIndex, back, next, 1);
       PreGameInterface.displayUpdate();
     });
