@@ -45,8 +45,6 @@ class Room {
     this.generator = new RoomGenerator(this);
     this.handler = new RoomHandler(this);
 
-    console.log(behaviourMonitor.getRoomsCleared() / 100)
-
     this.generator.initRoom();
   }
 

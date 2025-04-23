@@ -295,7 +295,7 @@ class Player extends Sprite {
     }
     setTimeout(() => {
       this.img.setFrame(this.endFrame);
-    }, Math.min(60, frameRate()));
+    }, 60);
   }
 
   resetOverheat() {
@@ -304,7 +304,7 @@ class Player extends Sprite {
     this.slowTimer = 0;
     this.fireOverheat = false;
     if (!pvpMode && game.slowMeowHandler.occurring) {
-      this.speed = 2.75 * (game.slowMeowHandler.movementSpeed * 1.2);
+      this.speed = 2.75 * 1.2;
     } else {
       this.speed = 2.75;
     }
