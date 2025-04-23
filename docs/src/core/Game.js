@@ -76,7 +76,7 @@ class Game {
 
   pvpCheckmate() {
     let winThreshold = this.getWinThreshold();
-    if (this.roomSeq == winThreshold) {
+    if (this.roomSeq == winThreshold && winThreshold > 1) {
       if (this.currScoreP1 >= 2) {
         return this.p1PVPTotal + 1 >= winThreshold && this.p2PVPTotal + 1 < winThreshold;
       }
