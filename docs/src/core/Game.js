@@ -57,9 +57,11 @@ class Game {
         playerB.position.y = playerNextY;
       }
     } else {
-      this.currentRoom = new PvPRoom();
-      playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
-      playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
+      if (!this.pvpCheckmate()) {
+        this.currentRoom = new PvPRoom();
+        playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
+        playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
+      }
     }
   }
 
