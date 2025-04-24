@@ -6,7 +6,7 @@ class SlowMeowHandler {
     this.occurring = false;
     this.startTime = 0;
     this.duration = 5000;
-    this.movementSpeed = 0.3;
+    this.movementSpeed = 0.25;
     this.lastUsed = 0;
     this.usable = true;
     this.soundPlayed = true;

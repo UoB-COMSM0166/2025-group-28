@@ -38,6 +38,8 @@ class Player extends Sprite {
     this.smokeParticles = [];
     this.smokeFrameCounter = 0; // Push smoke particles to array every x frames
 
+    this.warpParticles = [];
+
     // For behaviour monitoring
     this.timesHurt = 0;
     this.timesHeatLevelHigh = 0;
@@ -46,6 +48,18 @@ class Player extends Sprite {
 
   update() {
     super.update();
+    if (game.slowMeowHandler.occurring && this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
+      // Create particle burst
+      let offsetX = random(-15, 15);
+      let offsetY = random(-30, 30);
+      this.warpParticles.push(new Warp(this.position.x + offsetX, this.position.y + offsetY));
+    } 
+    for (let i = this.warpParticles.length - 1; i >= 0; i--) {
+      this.warpParticles[i].update();
+      if (this.warpParticles[i].isFinished()) {
+        this.warpParticles.splice(i, 1);
+      }
+    }
 
     if (this.fireOverheat && this.isActive) {
       this.smokeFrameCounter++;
@@ -87,6 +101,9 @@ class Player extends Sprite {
         particle.draw();
       }
       super.draw();
+    }
+    for (let warp of this.warpParticles) {
+      warp.draw();
     }
   }
 
