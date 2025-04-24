@@ -362,12 +362,17 @@ class Settings {
 
   static soundToggle() {
     muted = !muted;
+    let music;
+    if (pvpMode) music = pvpTrack;
+    else music = gameMusic;
     if (!muted) {
-      themeMusic.play();
+      if (!inGame) themeMusic.play();
+      else music.play();
       sound_on.style("background-color", "rgb(255, 109, 0)");
       sound_off.style("background-color", "transparent");
     } else {
-      themeMusic.stop();
+      if (!inGame) themeMusic.stop();
+      else music.stop();
       sound_off.style("background-color", "rgb(106, 104, 102)");
       sound_on.style("background-color", "transparent");
     }
