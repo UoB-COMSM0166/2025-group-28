@@ -48,7 +48,7 @@ class Player extends Sprite {
 
   update() {
     super.update();
-    if (game.slowMeowHandler.occurring && this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
+    if (game.slowMeowHandler && game.slowMeowHandler.occurring && this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
       // slow meow particle burst
       let offsetX = random(-15, 15);
       let offsetY = random(-30, 30);
