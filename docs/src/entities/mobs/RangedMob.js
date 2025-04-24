@@ -2,6 +2,7 @@ class RangedMob extends Mob {
   constructor(img, x, y, difficultySettings) {
     super(img, x, y, difficultySettings);
     this.widthHitbox = 45;
+    this.widthModel = 75;
     this.maxHealth = 60 * difficultySettings.mobHealthMult();
     this.health = this.maxHealth;
     this.speed = random(0.7, 1.0) * difficultySettings.mobSpeedMult;
@@ -12,7 +13,7 @@ class RangedMob extends Mob {
     this.fireCooldownLimit = 100;
     this.deathSound = rangedMobDeathSound;
     if (game.difficulty != difficultyLevels.EASY &&
-      random() < 0.4
+      random() < 1
     ) {
       this.canRapidFire = true;
       this.isRapidFiring = false;
@@ -32,7 +33,7 @@ class RangedMob extends Mob {
 
   update() {
     if (!this.isActive || this.isInvincible) return;
-    if (!this.canRapidFire || this.handleBuffedState()) {
+    if (!this.canRapidFire || this.handleBuffedState() || game.slowMeowHandler.occurring) {
       super.update();
       return;
     }
@@ -66,7 +67,7 @@ class RangedMob extends Mob {
   }
 
   fire() {
-    if (!this.isActive || (this.canRapidFire && this.isRapidFiring)) {
+    if (!this.isActive || (this.canRapidFire && this.isRapidFiring) || game.slowMeowHandler.occurring) {
       return;
     }
     if (this.fireReady) {
@@ -76,7 +77,7 @@ class RangedMob extends Mob {
         this.velocity.x,
         this.velocity.y,
         this.projectileSpeed,
-        fireball,
+        mobProjectileA,
         this
       );
       projectileManager.addProjectile(newProjectile);
@@ -126,7 +127,7 @@ class RangedMob extends Mob {
       direction.x,
       direction.y,
       this.projectileSpeed,
-      fireball,
+      mobProjectileA,
       this
     );
     projectileManager.addProjectile(newProjectile);
@@ -135,6 +136,8 @@ class RangedMob extends Mob {
   }
 
   handleRapidFireCooldown() {
+    //slowmeow pauses cooldown
+    if (game.slowMeowHandler.occurring) return;
     if (this.rapidFireCooldown < this.rapidFireCooldownLimit) {
       this.rapidFireCooldown++;
     } else {

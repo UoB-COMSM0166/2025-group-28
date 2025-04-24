@@ -30,7 +30,8 @@ class Mob extends Sprite {
   fireUpdate() {
     if (
       (playerA && !playerA.isActive) &&
-      (!coop || (playerB && !playerB.isActive))
+      (!coop || (playerB && !playerB.isActive)) ||
+      game.slowMeowHandler.occuring
     ) {
       return;
     }

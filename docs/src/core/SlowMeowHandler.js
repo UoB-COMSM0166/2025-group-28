@@ -5,7 +5,7 @@ class SlowMeowHandler {
     this.level = slowMeowMax;
     this.occurring = false;
     this.startTime = 0;
-    this.duration = 5000;
+    this.duration = 3500;
     this.movementSpeed = 0.25;
     this.lastUsed = 0;
     this.usable = true;

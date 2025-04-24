@@ -35,7 +35,7 @@ class DashMob extends MeleeMob {
       super.update();
       return;
     }
-    if (this.isPreparingToDash) {
+    if (this.isPreparingToDash && !game.slowMeowHandler.occurring) {
       this.preDashPauseTimer--;
       if (this.preDashPauseTimer <= 0) {
         this.isPreparingToDash = false;
@@ -56,7 +56,7 @@ class DashMob extends MeleeMob {
         this.updateTrail();
       }
     } else if (this.dashCooldown < this.dashCooldownLimit) {
-      this.dashCooldown++;
+      if (!game.slowMeowHandler.occurring) this.dashCooldown++;
     } else {
       let nearestPlayer = this.findNearestPlayer();
       if (nearestPlayer && this.findDistanceToPlayer(nearestPlayer) < 175) {
@@ -129,7 +129,8 @@ class DashMob extends MeleeMob {
       this.dashCooldown < this.dashCooldownLimit ||
       !player ||
       player.isInvincible ||
-      !player.isActive
+      !player.isActive ||
+      game.slowMeowHandler.occurring
     ) return;
     this.isPreparingToDash = true;
     this.makeInvincible();
@@ -157,10 +158,10 @@ class DashMob extends MeleeMob {
     let distanceToPlayer = this.findDistanceToPlayer(player);
     let dashDistance;
     if (!player.velocity.equals(0)) {
-      dashDistance = min(random(120, 150), distanceToPlayer - random(10, 30));
+      dashDistance = min(random(150,200), distanceToPlayer);
     // Dash closer to/to player's position if they are stationary
     } else {
-      dashDistance = min(random(150, distanceToPlayer), distanceToPlayer);
+      dashDistance = min(150, distanceToPlayer);
     }
 
     let dashOffset = dashDirection.mult(dashDistance);

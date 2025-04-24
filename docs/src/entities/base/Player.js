@@ -49,7 +49,7 @@ class Player extends Sprite {
   update() {
     super.update();
     if (game.slowMeowHandler.occurring && this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
-      // Create particle burst
+      // slow meow particle burst
       let offsetX = random(-15, 15);
       let offsetY = random(-30, 30);
       this.warpParticles.push(new Warp(this.position.x + offsetX, this.position.y + offsetY));
@@ -96,14 +96,17 @@ class Player extends Sprite {
       for (let particle of this.smokeParticles) {
         particle.draw();
       }
+      for (let warp of this.warpParticles) {
+        warp.draw();
+      }
     } else {
+      for (let warp of this.warpParticles) {
+        warp.draw();
+      }
       for (let particle of this.smokeParticles) {
         particle.draw();
       }
       super.draw();
-    }
-    for (let warp of this.warpParticles) {
-      warp.draw();
     }
   }
 

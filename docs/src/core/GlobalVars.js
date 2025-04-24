@@ -72,8 +72,8 @@ let playerNextX, playerNextY;
 let baseThreatLimit = 10;
 let threatScaleFactor = 2;
 
-let slowMeowGain = 10;
-let slowMeowLoss = slowMeowGain / 2;
+let slowMeowGain = 15;
+let slowMeowLoss = slowMeowGain / 3;
 
 let playbackRate = 1; // For adjusting SFX speed in slow mo
 
