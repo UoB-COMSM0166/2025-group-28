@@ -159,6 +159,7 @@ function keyPressed() {
   if (game && keyCode == 72) {
     if (game.gameState == GameStates.PAUSE) {
       if (!pause_stng_overlay) {
+        if (!muted) menuClickSound.play();
         Settings.gotoSettings();
         switchToHelp();
         pause_stng_overlay = true;

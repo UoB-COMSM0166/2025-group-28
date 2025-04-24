@@ -18,8 +18,6 @@ class DashMob extends MeleeMob {
     this.preDashPauseTimer = 0;
     this.trail = [];
     this.trailMaxLength = 10;
-    game.currentRoom.threatLevel += 2;
-    game.currentRoom.dashMobCount++;
 
     this.health = this.maxHealth;
     this.originalSpeed = this.speed;

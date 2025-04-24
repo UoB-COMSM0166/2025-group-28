@@ -32,8 +32,6 @@ class Room {
       this.canSpawnBlinkMob = true;
     } else this.canSpawnBlinkMob = false;
 
-    this.dashMobCount = 0;
-
     // bonus point vars
     this.damageTakenP1 = 0;
     this.damageDealtP1 = 0;
@@ -429,7 +427,7 @@ class Room {
     // This is here instead of Constants.js as assets and mobs need initialising before this accesses them
     let mobTypes = [
       { type: MeleeMob, gif: dogmob_gif, threat: 3, counters: ["defensive"], spawnChance: 1.1 },
-      { type: DashMob, gif: dashmob_gif, threat: 3, counters: ["defensive"], spawnChance: 0 },
+      { type: DashMob, gif: dashmob_gif, threat: 5, counters: ["defensive"], spawnChance: 0 },
       { type: RangedMob, gif: rangedmob_gif, threat: 5, counters: ["aggressive"], spawnChance: 1 },
       { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.7 },
       { type: BuffMob, gif: heartMob_gif, threat: 0, counters: ["aggressive"], spawnChance: 0.3 }
