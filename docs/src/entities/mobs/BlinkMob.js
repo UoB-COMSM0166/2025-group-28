@@ -28,9 +28,13 @@ class BlinkMob extends Mob {
     }
     let nearestPlayer = this.findNearestPlayer();
     let distanceToPlayer = this.findDistanceToPlayer(nearestPlayer);
-    if (nearestPlayer && distanceToPlayer < 125 && !game.slowMeowHandler.occuring) {
-      this.blinkCooldown = this.blinkCooldownLimit;
-      this.blink();
+    if (nearestPlayer) {
+      if ((!game.slowMeowHandler.occurring && distanceToPlayer < 125) ||
+          (game.slowMeowHandler.occurring && this.isCollidingWith(nearestPlayer))
+      ) {
+        this.blinkCooldown = this.blinkCooldownLimit;
+        this.blink();
+      }
     }
   }
 
@@ -65,7 +69,7 @@ class BlinkMob extends Mob {
   }
 
   blink() {
-    if (this.blinkCooldown < this.blinkCooldownLimit || game.slowMeowHandler.occurring) return;
+    if (this.blinkCooldown < this.blinkCooldownLimit) return;
     let spawnX, spawnY;
     let spawnAttempts = 0;
     while (spawnAttempts < 100) {
