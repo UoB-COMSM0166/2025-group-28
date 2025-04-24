@@ -23,7 +23,7 @@ class BlinkMob extends Mob {
   update() {
     if (!this.isActive) return;
     super.update();
-    if (this.blinkCooldown < this.blinkCooldownLimit) {
+    if (!game.slowMeowHandler.occurring && this.blinkCooldown < this.blinkCooldownLimit) {
       this.blinkCooldown++;
     }
     let nearestPlayer = this.findNearestPlayer();
@@ -35,7 +35,7 @@ class BlinkMob extends Mob {
   }
 
   fire() {
-    if (!this.isActive || !this.fireReady) return;
+    if (!this.isActive || !this.fireReady || game.slowMeowHandler.occurring) return;
     if (this.blinkCooldown >= this.blinkCooldownLimit) {
       this.blink();
     }
@@ -54,7 +54,7 @@ class BlinkMob extends Mob {
         velocityX,
         velocityY,
         this.projectileSpeed + 1,
-        fireball,
+        mobProjectileB,
         this
       );
       projectileManager.addProjectile(newProjectile);
@@ -65,7 +65,7 @@ class BlinkMob extends Mob {
   }
 
   blink() {
-    if (this.blinkCooldown < this.blinkCooldownLimit) return;
+    if (this.blinkCooldown < this.blinkCooldownLimit || game.slowMeowHandler.occurring) return;
     let spawnX, spawnY;
     let spawnAttempts = 0;
     while (spawnAttempts < 100) {

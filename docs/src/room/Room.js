@@ -27,8 +27,8 @@ class Room {
     } else this.canSpawnBuffMob = false;
     this.mobBuffActive = false; // Set true once BuffMob is killed, applies buff to all other mobs
 
-    // Allow spawning BlinkMob in room 5+
-    if (roomsCleared >= 4) {
+    // Allow spawning BlinkMob in room 4+
+    if (roomsCleared >= 3) {
       this.canSpawnBlinkMob = true;
     } else this.canSpawnBlinkMob = false;
 

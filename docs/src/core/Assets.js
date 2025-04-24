@@ -19,7 +19,8 @@ function preload() {
   doorImg = loadImage("assets/spacedoor.gif");
   doorOpenImg = loadImage("assets/spacedoorOpen.gif");
   bullet = loadImage("assets/projectileM1.gif");
-  fireball = loadImage("assets/fireballAI.png");
+  mobProjectileA = loadImage("assets/projectileM2v2.gif");
+  mobProjectileB = loadImage("assets/projectileM3.gif");
   buttonPrompt = loadImage("assets/doorprompt.gif");
   pixelHeart = loadImage("assets/heart.gif");
   pixelEnergy = loadImage("assets/energy.gif");

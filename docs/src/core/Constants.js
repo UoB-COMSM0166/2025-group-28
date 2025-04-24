@@ -66,8 +66,8 @@ const difficultySettings = Object.freeze([
     baseDefensiveRating: 5,
     heatGain: 20,
     heatDecay: 0.5,
-    slowMeowGainMult: 1.5,
-    slowMeowLossMult: 1.0,
+    slowMeowGainMult: 1.25,
+    slowMeowLossMult: 0.75,
     heartHealth: 25,
   },
   {
@@ -102,8 +102,8 @@ const difficultySettings = Object.freeze([
     baseDefensiveRating: 3,
     heatGain: 18,
     heatDecay: 0.6,
-    slowMeowGainMult: 1.0,
-    slowMeowLossMult: 2.0,
+    slowMeowGainMult: 0.75,
+    slowMeowLossMult: 1.5,
     heartHealth: 15,
   },
 ]);
