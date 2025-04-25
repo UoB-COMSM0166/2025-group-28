@@ -28,7 +28,6 @@ function gameSwitch(starting) {
     pvp_button.remove();
     menuBack.remove();
     stng_button.remove();
-    //  difficultyButton.remove();
     themeMusic.stop();
     setTimeout(() => {
       inGame = true;
@@ -155,7 +154,7 @@ function keyPressed() {
   if (pvpMode) music = pvpTrack;
   else music = gameMusic;
 
-  // H for show settings
+  // H to show settings
   if (game && keyCode == 72) {
     if (game.gameState == GameStates.PAUSE) {
       if (!pause_stng_overlay) {

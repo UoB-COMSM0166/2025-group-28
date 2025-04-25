@@ -60,8 +60,6 @@ class PreGameInterface {
 
     let title = createP(" New " + gameType);
     title.style("color", "white");
-    // title.style("background-color", "white");
-
     title.style("font-size", "18px");
     title.style("font-family", "ARCADE_I");
     title.position(pageWidth / 2 - title.size.width / 2, toolLineY);
@@ -185,7 +183,6 @@ class PreGameInterface {
 
   static renderDifficultySelect(pvp) {
     let roundMarker = ["A", "B", "C"];
-    let baseDiffX = 320;
     let offset = 120;
     let diff_lvl;
     for (let i = 0; i < 3; i++) {

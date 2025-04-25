@@ -27,7 +27,10 @@ class SlowMeowHandler {
   reset() {
     if (this.occurring) this.level = 0;
     // Slow mo end sound should only play if slow meow was active when moving rooms
-    let playSounds = this.occurring;
+    let playSounds;
+    if (playerA.isActive && (!coop || playerB.isActive)) {
+      playSounds = this.occurring;
+    } else playSounds = false;
     this.occurring = false;
     this.apply(this.occurring, playSounds);
   }
@@ -89,7 +92,7 @@ class SlowMeowHandler {
     let playerSlowFactor;
     if (slowActive) {
       slowFactor = this.movementSpeed;
-      playerSlowFactor = 1.1;
+      playerSlowFactor = 1.2;
       playbackRate = 0.75; // Slows SFX
     } else {
       slowFactor = 1.0;

@@ -77,7 +77,10 @@ class Sprite extends GameObject {
   isDead() {
     if (this.health <= 0) {
       this.isActive = false;
-      if (this instanceof Player) this.resetOverheat();
+      if (this instanceof Player) {
+        this.resetOverheat();
+        if (!pvpMode) game.slowMeowHandler.reset();
+      }
       if (!childMode) playSound(bloodSound2, playbackRate, true);
       if (this.deathSound) {
         if (this instanceof BuffMob && game.currentRoom.mobs.length <= 1) {
