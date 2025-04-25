@@ -314,8 +314,7 @@ function processCommand() {
   // Toggle mob buff effect
   } else if (command == "buffmobs") {
     if (!pvpMode && game && game.currentRoom) {
-      let mobBuffActive = game.currentRoom.mobBuffActive;
-      mobBuffActive = !mobBuffActive;
+      game.currentRoom.mobBuffActive = !game.currentRoom.mobBuffActive;
     }
   // Spawn desired mob type in top left corner of room
   } else if (mobCommands[command] && game && game.currentRoom) {
