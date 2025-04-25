@@ -28,7 +28,7 @@ class SlowMeowHandler {
     if (this.occurring) this.level = 0;
     // Slow mo end sound should only play if slow meow was active when moving rooms
     let playSounds;
-    if (playerA.isActive && (!coop || playerB.isActive)) {
+    if (playerA.isActive || (coop && playerB.isActive)) {
       playSounds = this.occurring;
     } else playSounds = false;
     this.occurring = false;

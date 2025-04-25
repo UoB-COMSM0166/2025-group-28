@@ -219,8 +219,10 @@ function keyPressed() {
   // SlowMeow gets activated with 'Q' or '/'
   if (game && game.gameState == GameStates.ACTIVE) {
     if (!transitioning && !pvpMode) {
-      if (keyCode == 81 || keyCode == 191) {
-        game.slowMeowHandler.activate();
+      if (playerA.isActive || (coop && playerB.isActive)) {
+        if (keyCode == 81 || keyCode == 191) {
+          game.slowMeowHandler.activate();
+        }
       }
     }
   }
