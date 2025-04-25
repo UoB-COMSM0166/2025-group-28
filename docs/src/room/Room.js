@@ -42,14 +42,14 @@ class Room {
     if (
       (game && game.difficulty != difficultyLevels.EASY) &&
       roomsCleared >= 10 &&
-      random() < Math.min(0.75, roomsCleared / 100)
+      random() < Math.min(0.75, roomsCleared / 50)
     ) {
       this.addLighting = true;
       this.flickerP1Offset = 0;
       this.flickerP2Offset = 1000;
       this.flickerMobOffset = 2000;
       // Decrease transparency of lighting layer as rooms progress
-      this.transparency = Math.min(240, 160 + (roomsCleared / 10));
+      this.transparency = Math.min(240, 160 + (roomsCleared / 5));
     } else this.addLighting = false;
 
     this.generator = new RoomGenerator(this);
