@@ -429,7 +429,7 @@ class Room {
       { type: MeleeMob, gif: dogmob_gif, threat: 3, counters: ["defensive"], spawnChance: 1.1 },
       { type: DashMob, gif: dashmob_gif, threat: 5, counters: ["defensive"], spawnChance: 0 },
       { type: RangedMob, gif: rangedmob_gif, threat: 5, counters: ["aggressive"], spawnChance: 1 },
-      { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.7 },
+      { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.6 },
       { type: BuffMob, gif: heartMob_gif, threat: 0, counters: ["aggressive"], spawnChance: 0.3 }
     ];
 
@@ -437,17 +437,17 @@ class Room {
     const roomsCleared = behaviourMonitor.getRoomsCleared();
 
     // Decrease MeleeMob chance and increase DashMob chance as rooms increase
-    if (roomsCleared > 0) {
+    if (roomsCleared > this.difficultySettings.dashMobRequirement) {
       // Find the MeleeMob and DashMob in the array
       const meleeMobIndex = mobTypes.findIndex(mob => mob.type === MeleeMob);
       const dashMobIndex = mobTypes.findIndex(mob => mob.type === DashMob);
 
       if (meleeMobIndex !== -1 && dashMobIndex !== -1) {
-        // decrease MeleeMob spawn chance by 0.1 per room
-        mobTypes[meleeMobIndex].spawnChance = Math.max(0.3, 1.2 - (roomsCleared * 0.1));
+        // decrease MeleeMob spawn chance by 0.05 per room
+        mobTypes[meleeMobIndex].spawnChance = Math.max(0.5, 1.2 - (roomsCleared * 0.05));
 
         // increase DashMob spawn chance by 0.1 per room
-        mobTypes[dashMobIndex].spawnChance = Math.min(0.8, 0.0 + (roomsCleared * 0.1));
+        mobTypes[dashMobIndex].spawnChance = Math.min(0.7, 0.0 + (roomsCleared * 0.1));
       }
     }
 

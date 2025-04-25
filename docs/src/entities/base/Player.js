@@ -31,6 +31,7 @@ class Player extends Sprite {
     this.slowTimer = 0;
 
     this.bloodColour = color(210, 0, 0, 0);
+    this.projectileColour = color(255, 215, 80, 255);
 
     this.deathSound = playerDeathSound;
     this.painSound = [playerPainSound1, playerPainSound2];
@@ -53,7 +54,7 @@ class Player extends Sprite {
       let offsetX = random(-15, 15);
       let offsetY = random(-30, 30);
       this.warpParticles.push(new Warp(this.position.x + offsetX, this.position.y + offsetY));
-    } 
+    }
     for (let i = this.warpParticles.length - 1; i >= 0; i--) {
       this.warpParticles[i].update();
       if (this.warpParticles[i].isFinished()) {

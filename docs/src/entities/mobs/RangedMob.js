@@ -10,6 +10,7 @@ class RangedMob extends Mob {
     this.attackDamage = 8 * difficultySettings.mobDamageMult;
     this.projectileSpeed = 4;
     this.bloodColour = color(255, 215, 80, 255);
+    this.projectileColour = color(255, 132, 93, 255);
     this.fireCooldownLimit = 100;
     this.deathSound = rangedMobDeathSound;
     if (game.difficulty != difficultyLevels.EASY &&
@@ -142,7 +143,7 @@ class RangedMob extends Mob {
       this.rapidFireCooldown++;
     } else {
       let rapidFireChance = random();
-      if (rapidFireChance < 0.2) {
+      if (rapidFireChance < 0.15) {
         this.makeInvincible();
         playSound(rapidFireChargeSound, playbackRate, true);
         this.rapidFireReady = true;
