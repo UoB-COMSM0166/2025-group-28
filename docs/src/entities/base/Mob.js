@@ -17,13 +17,15 @@ class Mob extends Sprite {
 
   update() {
     if (!this.isActive) return;
-    let nearestPlayer = this.findNearestPlayer();
-    if (nearestPlayer) {
-      this.moveTowards(nearestPlayer);
-    } else {
-      this.velocity.set(0, 0);
+    if (!(this instanceof BuffMob)) {
+      let nearestPlayer = this.findNearestPlayer();
+      if (nearestPlayer) {
+        this.moveTowards(nearestPlayer);
+      } else {
+        this.velocity.set(0, 0);
+      }
+      this.fireUpdate();
     }
-    this.fireUpdate();
     super.update();
   }
 
@@ -89,6 +91,19 @@ class Mob extends Sprite {
       if (playerA.isActive) return playerA;
       else return null;
     }
+  }
+
+  checkIfSlowMeowActive() {
+    if (!this.isActive) return;
+    if (game && game.slowMeowHandler.occurring) {
+      if (this.isSlowed) return;
+      if (!this.isBuffed) this.originalSpeed = this.speed;
+      this.speed *= game.slowMeowHandler.movementSpeed;
+      if (this instanceof DashMob) {
+        this.dashSpeed *= game.slowMeowHandler.movementSpeed;
+      }
+      this.isSlowed = true;
+    } else this.isSlowed = false;
   }
 
   // For adding/removing BuffMob buff

@@ -64,31 +64,9 @@ class Menu {
     stng_button.mouseOver(Menu.stngHover);
     stng_button.mouseOut(Menu.stngEndHover);
     stng_button.mouseClicked(() => {
-      if (!muted) menuSelectSound.play();
+      if (!muted) menuClickSound.play();
       Settings.gotoSettings();
     });
-
-    /*    difficultyButton = createButton(
-      "Difficulty: " + difficultyNames[difficulty]
-    );
-    difficultyButton.parent(menuContainer);
-    difficultyButton.position(pageWidth / 3 + 60, pageHeight * 0.8);
-    difficultyButton.mouseClicked(() => {
-      if (!muted) menuClickSound.play();
-      Menu.changeDifficulty();
-    });
-    difficultyButton.size(160, 55);
-    difficultyButton.attribute("draggable", "false");
-    difficultyButton.class("menu-button");
-    difficultyButton.style("background-color", diffTint);
-    difficultyButton.style("color", "white");
-    difficultyButton.style("padding", "10px 10px");
-    difficultyButton.style("font-size", "12px");
-    difficultyButton.style("font-family", "ARCADE_I");
-    difficultyButton.style("border", "none");
-    difficultyButton.style("text-align", "center");
-    difficultyButton.style("vertical-align", "middle");
-    difficultyButton.style("border-radius", "10%");*/
   }
 
   static changeDifficulty() {
@@ -107,24 +85,18 @@ class Menu {
     coop = false;
     pvpMode = false;
     PreGameInterface.renderPregame();
-
-    //gameSwitch(true);
   }
 
   static coopPlayerStart() {
     pvpMode = false;
     coop = true;
     PreGameInterface.renderPregame();
-
-    //gameSwitch(true);
   }
 
   static pvpStart() {
     coop = false;
     pvpMode = true;
     PreGameInterface.renderPregame();
-
-    // gameSwitch(true);
   }
 
   static singlePlayerHover() {

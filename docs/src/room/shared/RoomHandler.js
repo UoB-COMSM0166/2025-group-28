@@ -126,7 +126,7 @@ class RoomHandler {
             tileSize,
             tileSize
           );
-          if (debug) {
+          if (drawCollisions) {
             // TESTING - draw collision box
             fill(0, 200, 0, 100);
             rect(

@@ -31,6 +31,7 @@ function preload() {
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   dashmob_gif = loadImage("assets/dashmob.gif");
   rangedmob_gif = loadImage("assets/yellowDogMob2.gif");
+  rapidfiremob_gif = loadImage("assets/rapidfiremob.gif");
   blinkMobGif = loadImage("assets/purpleDogMob.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
@@ -84,7 +85,6 @@ function preload() {
   pvpMusic1 = createAudio("assets/pvpmusic1.mp3");
   pvpMusic2 = createAudio("assets/pvpmusic2.mp3");
   pvpMusic3 = createAudio("assets/pvpmusic3.mp3");
-  //pvpMusic4 = createAudio("assets/pvpmusic4.mp3");
 }
 
 // HTML <img> paths (no need to preload):

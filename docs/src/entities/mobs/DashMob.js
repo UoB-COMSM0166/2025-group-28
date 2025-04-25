@@ -2,15 +2,17 @@ class DashMob extends MeleeMob {
   constructor(img, x, y, difficultySettings) {
     super(img, x, y, difficultySettings);
 
-    this.canDash = true;
     this.maxHealth = 80 * difficultySettings.mobHealthMult();
+    this.health = this.maxHealth;
     this.attackDamage = 12 * difficultySettings.mobDamageMult;
     this.speed = random(1.1, 1.4) * difficultySettings.mobSpeedMult;
+    this.originalSpeed = this.speed;
     this.dashSpeed = this.speed * 3;
     this.originalDashSpeed = this.dashSpeed;
     this.dashDuration = 20;
     this.dashCooldown = Math.floor(random(25, 75));
     this.dashCooldownLimit = Math.floor(random(180, 250));
+    this.originalCooldownLimit = this.dashCooldownLimit;
     this.dashTimer = 0;
     this.isDashing = false;
     this.dashProgress = 0;
@@ -19,13 +21,8 @@ class DashMob extends MeleeMob {
     this.preDashPauseTimer = 0;
     this.trail = [];
     this.trailMaxLength = 10;
-    game.currentRoom.threatLevel += 2;
-    game.currentRoom.dashMobCount++;
 
-    this.health = this.maxHealth;
-    this.originalSpeed = this.speed;
-    this.bloodColour = color(0, 251, 127, 0);
-
+    this.bloodColour = color(70, 250, 160, 255);
     this.checkIfSlowMeowActive();
   }
 
@@ -60,8 +57,12 @@ class DashMob extends MeleeMob {
     } else {
       let nearestPlayer = this.findNearestPlayer();
       if (nearestPlayer && this.findDistanceToPlayer(nearestPlayer) < 175) {
-        let dashChance = random(0, 5);
-        if (dashChance < 0.2) {
+        let dashChance = 0.2;
+        if (behaviourMonitor.getBehaviourProfile().aggressive) {
+          dashChance *= 2;
+          this.dashCooldownLimit = this.originalCooldownLimit - Math.floor(random(15, 30));
+        } else this.dashCooldown = this.originalCooldownLimit;
+        if (random(0, 5) < dashChance) {
           this.prepareToDash(nearestPlayer);
         }
       }

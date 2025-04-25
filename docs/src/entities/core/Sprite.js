@@ -1,5 +1,4 @@
 class Sprite extends GameObject {
-
   constructor(img, x, y, maxHealth) {
     super(x, y);
 
@@ -77,26 +76,19 @@ class Sprite extends GameObject {
   isDead() {
     if (this.health <= 0) {
       this.isActive = false;
+      if (this instanceof Player) {
+        this.resetOverheat();
+        if (!pvpMode) game.slowMeowHandler.reset();
+      }
       if (!childMode) playSound(bloodSound2, playbackRate, true);
       if (this.deathSound) {
-        if (this instanceof BuffMob && game.currentRoom.mobs.length <= 1) {
-          playSound(this.deathSound, playbackRate, true);
-        } else if (!(this instanceof BuffMob)) {
+        if ((this instanceof BuffMob && game.currentRoom.mobs.length <= 1) ||
+            (!(this instanceof BuffMob))
+        ) {
           playSound(this.deathSound, playbackRate, true);
         }
       }
     }
-  }
-
-  checkIfSlowMeowActive() {
-    if (!this.isActive) return;
-    if (game && game.slowMeowHandler.occurring) {
-      if (this.isSlowed) return;
-      if (!this.isBuffed) this.originalSpeed = this.speed;
-      this.speed *= game.slowMeowHandler.movementSpeed;
-      if (this.canDash) this.dashSpeed *= game.slowMeowHandler.movementSpeed;
-      this.isSlowed = true;
-    } else this.isSlowed = false;
   }
 
   // Adds i-frames to the entity
@@ -134,7 +126,7 @@ class Sprite extends GameObject {
       pop();
     }
 
-    if (debug) {
+    if (drawCollisions) {
       // TESTING - draw collision boxes
       fill(0, 200, 0, 100);
       rect(
