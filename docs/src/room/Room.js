@@ -155,17 +155,19 @@ class Room {
     // Cut out transparent circles for light sources
     lightingLayer.erase();
 
-    let flickerP1 = noise(this.flickerP1Offset) * 20 - 10;
-    lightingLayer.ellipse(playerA.position.x, playerA.position.y, 150 + flickerP1, 150 + flickerP1);
-    if (coop) {
+    if (playerA.isActive) {
+      let flickerP1 = noise(this.flickerP1Offset) * 20 - 10;
+      this.drawLightGradient(playerA.position.x, playerA.position.y, 160, flickerP1);
+    }
+    if (coop && playerB.isActive) {
       let flickerP2 = noise(this.flickerP2Offset) * 20 - 10;
-      lightingLayer.ellipse(playerB.position.x, playerB.position.y, 150 + flickerP2, 150 + flickerP2);
+      this.drawLightGradient(playerB.position.x, playerB.position.y, 160, flickerP2);
     }
     for (let i = 0; i < this.mobs.length; i++) {
       let mob = this.mobs[i];
       if (mob.isActive) {
         let flickerMob = noise(this.flickerMobOffset + i * 100) * 15 - 5;
-        lightingLayer.ellipse(mob.position.x, mob.position.y, 120 + flickerMob, 120 + flickerMob);
+        this.drawLightGradient(mob.position.x, mob.position.y, 140, flickerMob);
       }
     }
 
@@ -178,6 +180,15 @@ class Room {
     if (this.flickerP1Offset > 10000) this.flickerP1Offset = 0;
     if (this.flickerP2Offset > 10000) this.flickerP2Offset = 1000;
     if (this.flickerMobOffset > 10000) this.flickerMobOffset = 2000;
+  }
+
+  drawLightGradient(x, y, radius, flicker) {
+    for (let r = radius; r > 0; r -= 5) {
+      // Gradually reduce alpha around edge of circle
+      let alpha = map(r, 0, radius, 255, 0);
+      lightingLayer.fill(0, 0, 0, alpha);
+      lightingLayer.ellipse(x, y, r + flicker, r + flicker);
+    }
   }
 
   draw() {
@@ -429,26 +440,17 @@ class Room {
       { type: MeleeMob, gif: dogmob_gif, threat: 3, counters: ["defensive"], spawnChance: 1.1 },
       { type: DashMob, gif: dashmob_gif, threat: 5, counters: ["defensive"], spawnChance: 0 },
       { type: RangedMob, gif: rangedmob_gif, threat: 5, counters: ["aggressive"], spawnChance: 1 },
-      { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.6 },
+      { type: RapidFireMob, gif: rapidfiremob_gif, threat: 5, counters: ["aggressive"], spawnChance: 0 },
+      { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.65 },
       { type: BuffMob, gif: heartMob_gif, threat: 0, counters: ["aggressive"], spawnChance: 0.3 }
     ];
 
-    // Gradually adjust spawn chances based on rooms cleared
+    // Gradually adjust certain spawn chances based on rooms cleared
     const roomsCleared = behaviourMonitor.getRoomsCleared();
 
-    // Decrease MeleeMob chance and increase DashMob chance as rooms increase
-    if (roomsCleared > this.difficultySettings.dashMobRequirement) {
-      // Find the MeleeMob and DashMob in the array
-      const meleeMobIndex = mobTypes.findIndex(mob => mob.type === MeleeMob);
-      const dashMobIndex = mobTypes.findIndex(mob => mob.type === DashMob);
-
-      if (meleeMobIndex !== -1 && dashMobIndex !== -1) {
-        // decrease MeleeMob spawn chance by 0.05 per room
-        mobTypes[meleeMobIndex].spawnChance = Math.max(0.5, 1.2 - (roomsCleared * 0.05));
-
-        // increase DashMob spawn chance by 0.1 per room
-        mobTypes[dashMobIndex].spawnChance = Math.min(0.7, 0.0 + (roomsCleared * 0.1));
-      }
+    // Decrease MeleeMob/RangedMob chance & increase DashMob/RapidFireMob chance as rooms increase
+    if (roomsCleared > this.difficultySettings.newMobRequirement) {
+      this.updateSpawnChances(mobTypes, roomsCleared);
     }
 
     let playerBehaviour = behaviourMonitor.getBehaviourProfile();
@@ -500,15 +502,37 @@ class Room {
     }
   }
 
+  updateSpawnChances(mobTypes, roomsCleared) {
+    // Find the MeleeMob and DashMob in the array
+    const meleeMobIndex = mobTypes.findIndex(mob => mob.type === MeleeMob);
+    const dashMobIndex = mobTypes.findIndex(mob => mob.type === DashMob);
+
+    if (meleeMobIndex != -1 && dashMobIndex != -1) {
+      // Decrease MeleeMob spawn chance by 0.05 per room
+      mobTypes[meleeMobIndex].spawnChance = Math.max(0.6, 1.1 - (roomsCleared * 0.05));
+
+      // Increase DashMob spawn chance by 0.1 per room
+      mobTypes[dashMobIndex].spawnChance = Math.min(0.5, 0 + (roomsCleared * 0.1));
+    }
+
+    const rangedMobIndex = mobTypes.findIndex(mob => mob.type === RangedMob);
+    const rapidFireMobIndex = mobTypes.findIndex(mob => mob.type === RapidFireMob);
+
+    if (rangedMobIndex != -1 && rapidFireMobIndex != -1) {
+      mobTypes[rangedMobIndex].spawnChance = Math.max(0.5, 1 - (roomsCleared * 0.05));
+      mobTypes[rapidFireMobIndex].spawnChance = Math.min(0.5, 0 + (roomsCleared * 0.1));
+    }
+  }
+
   rollItemDrop(mob) {
     if (!mob || mob instanceof BuffMob) return;
     let roll = random(0, 200);
     let item;
     if (!this.handler.checkInsideWall(mob.position.x, mob.position.y)) {
-      if (roll < 29) {
+      if (roll < 24) {
         item = new Heart(mob.position.x, mob.position.y, pixelHeart);
         this.items.push(item);
-      } else if (roll > 29 && roll < 64) {
+      } else if (roll > 24 && roll < 59) {
         item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
         this.items.push(item);
       }

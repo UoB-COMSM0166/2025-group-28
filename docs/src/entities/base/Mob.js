@@ -17,13 +17,15 @@ class Mob extends Sprite {
 
   update() {
     if (!this.isActive) return;
-    let nearestPlayer = this.findNearestPlayer();
-    if (nearestPlayer) {
-      this.moveTowards(nearestPlayer);
-    } else {
-      this.velocity.set(0, 0);
+    if (!(this instanceof BuffMob)) {
+      let nearestPlayer = this.findNearestPlayer();
+      if (nearestPlayer) {
+        this.moveTowards(nearestPlayer);
+      } else {
+        this.velocity.set(0, 0);
+      }
+      this.fireUpdate();
     }
-    this.fireUpdate();
     super.update();
   }
 

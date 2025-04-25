@@ -3,8 +3,10 @@ class DashMob extends MeleeMob {
     super(img, x, y, difficultySettings);
 
     this.maxHealth = 80 * difficultySettings.mobHealthMult();
+    this.health = this.maxHealth;
     this.attackDamage = 12 * difficultySettings.mobDamageMult;
     this.speed = random(1.1, 1.4) * difficultySettings.mobSpeedMult;
+    this.originalSpeed = this.speed;
     this.dashSpeed = this.speed * 3;
     this.originalDashSpeed = this.dashSpeed;
     this.dashDuration = 20;
@@ -20,10 +22,7 @@ class DashMob extends MeleeMob {
     this.trail = [];
     this.trailMaxLength = 10;
 
-    this.health = this.maxHealth;
-    this.originalSpeed = this.speed;
-    this.bloodColour = color(0, 251, 127, 0);
-
+    this.bloodColour = color(70, 250, 160, 255);
     this.checkIfSlowMeowActive();
   }
 

@@ -13,6 +13,7 @@ function setup() {
     event.preventDefault();
   });
   menuBack = createVideo(menuimg, Menu.renderMenu);
+
   if (inGame) {
     gameSetUp();
   }
@@ -155,7 +156,7 @@ function keyPressed() {
   else music = gameMusic;
 
   // H to show settings
-  if (game && keyCode == 72) {
+  if (game && keyCode == 72 && !commandPrompt) {
     if (game.gameState == GameStates.PAUSE) {
       if (!pause_stng_overlay) {
         if (!muted) menuClickSound.play();
@@ -167,8 +168,9 @@ function keyPressed() {
   }
 
   // Quit the game with 'Q' from pause menu
-  if (game && keyCode == 81) {
+  if (game && keyCode == 81 && !commandPrompt) {
     if (game.gameState == GameStates.PAUSE && !pause_stng_overlay) {
+      inPauseMenu = false;
       music.stop();
       gameSwitch(false);
     } else if (game.gameState == GameStates.OVER && !pause_stng_overlay) {
@@ -177,10 +179,12 @@ function keyPressed() {
     }
   }
 
-  if (game && keyCode == ESCAPE && !pause_stng_overlay) {
+  // Pause the game with 'Esc'
+  if (game && keyCode == ESCAPE && !pause_stng_overlay && !commandPrompt) {
     if (game.gameState == GameStates.ACTIVE && !transitioning) {
       if ((playerA && playerA.isActive) || (playerB && playerB.isActive)) {
         game.gameState = GameStates.PAUSE;
+        inPauseMenu = true;
         if (!muted) {
           menuClickSound.play();
           music.pause();
@@ -203,22 +207,35 @@ function keyPressed() {
     } else if (game.gameState == GameStates.PAUSE) {
       loop();
       game.gameState = GameStates.ACTIVE;
+      inPauseMenu = false;
       if (!muted) music.play();
     }
   }
 
   // 192 = ` (key under Esc)
   if (keyCode == 192) {
-    if (!debug) {
-      debug = true;
+    if (!commandPrompt) {
+      if (game.gameState == GameStates.ACTIVE) {
+        game.gameState = GameStates.PAUSE;
+      }
+      commandPrompt = true;
+      inputField = createInput();
+      inputField.position(width - 318, height + 40);
+      inputField.size(190);
+      inputField.changed(processCommand);
     } else {
-      debug = false;
+      if (!inPauseMenu && game.gameState == GameStates.PAUSE) {
+        game.gameState = GameStates.ACTIVE;
+      }
+      commandPrompt = false;
+      inputField.remove();
+      inputField = null;
     }
   }
 
   // SlowMeow gets activated with 'Q' or '/'
   if (game && game.gameState == GameStates.ACTIVE) {
-    if (!transitioning && !pvpMode) {
+    if (!transitioning && !pvpMode && !commandPrompt) {
       if (playerA.isActive || (coop && playerB.isActive)) {
         if (keyCode == 81 || keyCode == 191) {
           game.slowMeowHandler.activate();
@@ -250,4 +267,61 @@ function playSound(sound, rate, randomVolume = false) {
     gainNode.disconnect();
   };
   source.start();
+}
+
+// Command system to improve debugging/testing experience
+function processCommand() {
+  if (!inGame || !commandPrompt) return;
+
+  // For mob spawning commands (needs to be here instead of Constants.js)
+  const mobCommands = {
+    "spawnblinkmob": { type: BlinkMob, img: blinkMobGif },
+    "spawnbuffmob": { type: BuffMob, img: heartMob_gif },
+    "spawndashmob": { type: DashMob, img: dashmob_gif },
+    "spawnmeleemob": { type: MeleeMob, img: dogmob_gif },
+    "spawnrangedmob": { type: RangedMob, img: rangedmob_gif },
+    "spawnrapidfiremob": { type: RapidFireMob, img: rapidfiremob_gif }
+  };
+
+  let command = inputField.value().toLowerCase();
+
+  // Make players invulnerable
+  if (command == "god") {
+    if (playerA) {
+      playerA.maxHealth = Infinity;
+      playerA.health = Infinity;
+    }
+    if (playerB && playerB.isActive) {
+      playerB.maxHealth = Infinity;
+      playerB.health = Infinity;
+    }
+  // Disable heat gain when shooting
+  } else if (command == "coolforcats") {
+    if (playerA) playerA.heatGain = 0;
+    if (playerB) playerB.heatGain = 0;
+  // Maxing slow meow level only takes 1 kill
+  } else if (command == "fastmeow") {
+    if (game && game.slowMeowHandler) {
+      game.difficultySettings.slowMeowGainMult = 20;
+    }
+  // Players kill everything in 1 shot
+  } else if (command == "pestcontrol") {
+    if (playerA) playerA.attackDamage = 1000;
+    if (playerB) playerB.attackDamage = 1000;
+  // Toggle drawing of object collision boxes
+  } else if (command == "drawcollisions") {
+    drawCollisions = !drawCollisions;
+  // Toggle mob buff effect
+  } else if (command == "buffmobs") {
+    if (!pvpMode && game && game.currentRoom) {
+      let mobBuffActive = game.currentRoom.mobBuffActive;
+      mobBuffActive = !mobBuffActive;
+    }
+  // Spawn desired mob type in top left corner of room
+  } else if (mobCommands[command] && game && game.currentRoom) {
+    let { type, img } = mobCommands[command];
+    let newMob = new type(img, 150, 150, game.difficultySettings);
+    game.currentRoom.mobs.push(newMob);
+  }
+  inputField.value(""); // Clear input field after command entered
 }

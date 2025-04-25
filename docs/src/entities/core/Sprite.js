@@ -1,5 +1,4 @@
 class Sprite extends GameObject {
-
   constructor(img, x, y, maxHealth) {
     super(x, y);
 
@@ -83,9 +82,9 @@ class Sprite extends GameObject {
       }
       if (!childMode) playSound(bloodSound2, playbackRate, true);
       if (this.deathSound) {
-        if (this instanceof BuffMob && game.currentRoom.mobs.length <= 1) {
-          playSound(this.deathSound, playbackRate, true);
-        } else if (!(this instanceof BuffMob)) {
+        if ((this instanceof BuffMob && game.currentRoom.mobs.length <= 1) ||
+            (!(this instanceof BuffMob))
+        ) {
           playSound(this.deathSound, playbackRate, true);
         }
       }
@@ -127,7 +126,7 @@ class Sprite extends GameObject {
       pop();
     }
 
-    if (debug) {
+    if (drawCollisions) {
       // TESTING - draw collision boxes
       fill(0, 200, 0, 100);
       rect(

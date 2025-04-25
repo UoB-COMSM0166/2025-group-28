@@ -31,6 +31,7 @@ function preload() {
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
   dashmob_gif = loadImage("assets/dashmob.gif");
   rangedmob_gif = loadImage("assets/yellowDogMob2.gif");
+  rapidfiremob_gif = loadImage("assets/rapidfiremob.gif");
   blinkMobGif = loadImage("assets/purpleDogMob.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");

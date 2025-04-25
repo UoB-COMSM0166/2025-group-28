@@ -17,8 +17,8 @@ let pvpTrack;
 
 let coop = false;
 let inGame = false;
+let inPauseMenu = false;
 let childMode = false;
-let debug = false;
 let sp_button;
 let coop_button;
 let stng_button;
@@ -87,3 +87,7 @@ let p2_down = 40;
 let p2_left = 37;
 let p2_right = 39;
 let p2_shoot = 13;
+
+// Debugging vars
+let commandPrompt = false;
+let drawCollisions = false;
