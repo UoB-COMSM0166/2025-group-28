@@ -143,7 +143,7 @@ class Settings {
 
     instr = createImg(instr_1);
     instr.parent(howtopanel);
-    instr.position(455, 310);
+    instr.position(475, 310);
     instr.size(360, 360);
     instr.attribute("draggable", "false");
   }
@@ -157,7 +157,7 @@ class Settings {
     instr.remove();
     instr = createImg(instruction_set[instr_count]);
     instr.parent(howtopanel);
-    instr.position(455, 310);
+    instr.position(475, 310);
     instr.size(360, 360);
     instr.attribute("draggable", "false");
     Settings.updateArrowColours();

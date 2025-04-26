@@ -6,6 +6,7 @@ class RoomHandler {
 
   updateProjectiles() {
     for (let p of projectileManager.projectilesFired) {
+      if (!p.isActive) continue;
       if (
         p.position.x < (tileSize * 2.75) + arena_offset ||
         p.position.x > (roomWidth * tileSize) - (tileSize * 2.75) + arena_offset ||
@@ -26,6 +27,7 @@ class RoomHandler {
   }
 
   handleWallCollision(player, wall) {
+    if (!player || !player.isActive || !wall) return;
     // Calculate the boundaries of both objects
     const playerLeft = player.position.x - player.widthHitbox / 2;
     const playerRight = player.position.x + player.widthHitbox / 2;

@@ -1,7 +1,7 @@
 let pregameWindow;
 let bestof_opts = [1, 3, 5];
-var pvpMatchIndex = 0;
-var standardMatchIndex = 0;
+var roundIndex = 0;
+var difficultyIndex = 0;
 var pvpBestOfCount;
 let root_x = 100;
 let root_y = 275;
@@ -10,9 +10,10 @@ let toolLineX = 75;
 let footerY = 580;
 
 let standard_mini_obj =
-  "Kill the space dogs to unlock the door to the next room. Use slow meow to slow it down when things get hairy. Recover from overheating and regain health by collecting treats from dead mobs.";
+  "Kill the space dogs to unlock the door to the next room. Use slow meow to slow it down when things get hairy. Recover " +
+  "from overheating and regain health by collecting treats from dead mobs.";
 let pvp_mini_obj =
-  "Cats aren't loyal. You've turned on your fellow feline. Each round is best of 3, choose between 1, 3 or 5 rounds";
+  "Cats aren't loyal. You've turned on your fellow feline. Each round is a best of 3 - choose between 1, 3 or 5 rounds.";
 
 class PreGameInterface {
   static exitPreGameMenu() {
@@ -66,10 +67,11 @@ class PreGameInterface {
     title.parent(pregameWindow);
     title.style("text-align", "center");
 
-    let go = createImg(pg_ganestart);
+    let go = createImg(pg_gamestart);
     go.parent(pregameWindow);
     go.size(120, 80);
     go.position(750, footerY - 30);
+    go.attribute("draggable", "false");
     go.mouseClicked(PreGameInterface.startGame);
 
     let diff = createP(pvpMode ? "Rounds" : "Difficulty");
@@ -142,7 +144,7 @@ class PreGameInterface {
     let ctrl_pad_x = 160;
     let ctrl_pad_y = ctrl_pad_x * 1.1;
 
-    let add_contrl_x;
+    let add_contrl_x = 110;
     let add_contrl_y;
 
     let control_title = createP("controls");
@@ -180,12 +182,10 @@ class PreGameInterface {
     }
     if (pvpMode) {
       addControls = createImg(add_ctrls_pvp);
-      add_contrl_x = 110;
       add_contrl_y = add_contrl_x / 1.6;
       offset_y = 345;
     } else {
       addControls = createImg(add_ctrls);
-      add_contrl_x = 110;
       add_contrl_y = add_contrl_x * 1.2;
       offset_y = 360;
     }
@@ -229,7 +229,7 @@ class PreGameInterface {
         diff_lvl.style("background-color", "white");
       }
 
-      if ((pvp && pvpMatchIndex != i) || (!pvp && standardMatchIndex != i)) {
+      if ((pvp && roundIndex != i) || (!pvp && difficultyIndex != i)) {
         diff_lvl.style("opacity", "0.35");
       }
       diff_lvl.position(100 + offset * i, footerY);
@@ -237,10 +237,10 @@ class PreGameInterface {
         if (!muted) menuClickSound.play();
         if (pvp) {
           pvp_rounds = bestof_opts[i];
-          pvpMatchIndex = i;
+          roundIndex = i;
         } else {
           difficulty = i;
-          standardMatchIndex = i;
+          difficultyIndex = i;
         }
         let current = select(
           pvp ? "#" + roundMarker[i] : "#" + difficultyNames[i]
@@ -271,7 +271,7 @@ class PreGameInterface {
     back.position(root_x, footerY - 20);
     back.mouseClicked(() => {
       if (!muted) menuClickSound.play();
-      pvpMatchIndex = UniversalUI.stepperUpdate(0, 2, pvpMatchIndex, back, next, -1);
+      roundIndex = UniversalUI.stepperUpdate(0, 2, roundIndex, back, next, -1);
       PreGameInterface.displayUpdate();
     });
 
@@ -279,7 +279,7 @@ class PreGameInterface {
     next.position(root_x + 100, footerY - 20);
     next.mouseClicked(() => {
       if (!muted) menuClickSound.play();
-      pvpMatchIndex = UniversalUI.stepperUpdate(0, 2, pvpMatchIndex, back, next, 1);
+      roundIndex = UniversalUI.stepperUpdate(0, 2, roundIndex, back, next, 1);
       PreGameInterface.displayUpdate();
     });
   }
@@ -287,7 +287,7 @@ class PreGameInterface {
   static displayUpdate() {
     pvpBestOfCount.remove();
 
-    pvp_rounds = bestof_opts[pvpMatchIndex];
+    pvp_rounds = bestof_opts[roundIndex];
 
     pvpBestOfCount = createP(pvp_rounds);
     pvpBestOfCount.style("color", "white");
