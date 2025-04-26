@@ -204,9 +204,11 @@ class Room {
     }
 
     playerA.fire();
+    playerA.handleSlowMeow();
     playerA.draw();
     if (coop) {
       playerB.fire();
+      playerB.handleSlowMeow();
       playerB.draw();
     }
 

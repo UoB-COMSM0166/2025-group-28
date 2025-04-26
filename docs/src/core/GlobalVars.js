@@ -81,12 +81,14 @@ let p1_down = 83;
 let p1_left = 65;
 let p1_right = 68;
 let p1_shoot = 32;
+let p1_slowmeow = 81;
 
 let p2_up = 38;
 let p2_down = 40;
 let p2_left = 37;
 let p2_right = 39;
 let p2_shoot = 13;
+let p2_slowmeow = 191;
 
 // Debugging vars
 let commandPrompt = false;

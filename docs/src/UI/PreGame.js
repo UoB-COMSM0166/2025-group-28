@@ -139,9 +139,9 @@ class PreGameInterface {
     let addControls;
 
     let offset_x = root_x + 150;
-    let offset_y;
+    let offset_y = 345;
 
-    let ctrl_pad_x = 160;
+    let ctrl_pad_x = 180;
     let ctrl_pad_y = ctrl_pad_x * 1.1;
 
     let add_contrl_x = 110;
@@ -157,9 +157,11 @@ class PreGameInterface {
     control_title.position(100, root_y);
 
     if (wasd_control) {
-      controls = createImg(wasd_icon);
+      if (!pvpMode) controls = createImg(wasd_icon);
+      else controls = createImg(wasd_icon_pvp);
     } else {
-      controls = createImg(arrow_icon);
+      if (!pvpMode) controls = createImg(arrow_icon);
+      else controls = createImg(arrow_icon_pvp);
     }
     controls.parent(pregameWindow);
     controls.position(85, 340);
@@ -170,9 +172,11 @@ class PreGameInterface {
       let secondary_controls;
 
       if (wasd_control) {
-        secondary_controls = createImg(arrow_icon);
+        if (!pvpMode) secondary_controls = createImg(arrow_icon);
+        else secondary_controls = createImg(arrow_icon_pvp);
       } else {
-        secondary_controls = createImg(wasd_icon);
+        if (!pvpMode) secondary_controls = createImg(wasd_icon);
+        else secondary_controls = createImg(wasd_icon_pvp);
       }
       secondary_controls.parent(pregameWindow);
       secondary_controls.position(offset_x, 340);
@@ -180,15 +184,9 @@ class PreGameInterface {
       secondary_controls.attribute("draggable", "false");
       offset_x += 170;
     }
-    if (pvpMode) {
-      addControls = createImg(add_ctrls_pvp);
-      add_contrl_y = add_contrl_x / 1.6;
-      offset_y = 345;
-    } else {
-      addControls = createImg(add_ctrls);
-      add_contrl_y = add_contrl_x * 1.2;
-      offset_y = 360;
-    }
+
+    addControls = createImg(add_ctrls);
+    add_contrl_y = add_contrl_x / 1.6;
     addControls.parent(pregameWindow);
     addControls.position(offset_x, offset_y);
     addControls.size(add_contrl_x, add_contrl_y);

@@ -50,7 +50,8 @@ class Player extends Sprite {
 
   update() {
     super.update();
-    if (game.slowMeowHandler && game.slowMeowHandler.occurring && this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
+    if (game.slowMeowHandler && game.slowMeowHandler.occurring &&
+      this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
       // Slow meow particle burst
       let offsetX = random(-15, 15);
       let offsetY = random(-30, 30);
@@ -345,6 +346,23 @@ class Player extends Sprite {
       this.speed = 2.75;
     }
     this.originalSpeed = 2.75;
+  }
+
+  handleSlowMeow() {
+    if (!game || game.gameState != GameStates.ACTIVE ||
+      transitioning || commandPrompt ||
+      (!playerA.isActive && (!coop || !playerB.isActive))
+    ) {
+      return;
+    }
+    // 'Q' key for player 1
+    if (this.player === playerNumber.PLAYER_1 && keyIsDown(p1_slowmeow)) {
+      game.slowMeowHandler.activate();
+    }
+    // '/' key for player 2
+    else if (this.player === playerNumber.PLAYER_2 && keyIsDown(p2_slowmeow)) {
+      game.slowMeowHandler.activate();
+    }
   }
 
   // For behaviour monitoring
