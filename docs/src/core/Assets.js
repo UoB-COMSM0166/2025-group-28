@@ -107,7 +107,6 @@ let wasd_icon_pvp = "assets/wasd_icon_pvp.png";
 let arrow_icon_pvp = "assets/arrowpad_icon_pvp.png";
 
 let add_ctrls = "assets/additional_controls.png";
-let add_ctrls_pvp = "assets/additional_controls_pvp.png";
 
 let instr_1 = "assets/instruction_a.png";
 let instr_2 = "assets/instruction_pickups.png";

@@ -139,7 +139,7 @@ class PreGameInterface {
     let addControls;
 
     let offset_x = root_x + 150;
-    let offset_y = 345;
+    let offset_y = 350;
 
     let ctrl_pad_x = 180;
     let ctrl_pad_y = ctrl_pad_x * 1.1;
