@@ -10,7 +10,8 @@ let toolLineX = 75;
 let footerY = 580;
 
 let standard_mini_obj =
-  "Kill the space dogs to unlock the door to the next room. Use slow meow to slow it down when things get hairy. Recover from overheating and regain health by collecting treats from dead mobs.";
+  "Kill the space dogs to unlock the door to the next room. Use slow meow to slow it down when things get hairy. Recover " +
+  "from overheating and regain health by collecting treats from dead mobs.";
 let pvp_mini_obj =
   "Cats aren't loyal. You've turned on your fellow feline. Each round is a best of 3 - choose between 1, 3 or 5 rounds.";
 
@@ -66,10 +67,11 @@ class PreGameInterface {
     title.parent(pregameWindow);
     title.style("text-align", "center");
 
-    let go = createImg(pg_ganestart);
+    let go = createImg(pg_gamestart);
     go.parent(pregameWindow);
     go.size(120, 80);
     go.position(750, footerY - 30);
+    go.attribute("draggable", "false");
     go.mouseClicked(PreGameInterface.startGame);
 
     let diff = createP(pvpMode ? "Rounds" : "Difficulty");

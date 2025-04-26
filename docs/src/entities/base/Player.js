@@ -92,9 +92,9 @@ class Player extends Sprite {
   }
 
   draw() {
-    if (this.tintTimer > 0) {
+    if (this.tintTimer > 0 && this.isActive) {
       // Player briefly flashes green when picking up an item
-      if (floor(this.tintTimer / 100) % 3 == 0) {
+      if (Math.floor(this.tintTimer / 100) % 3 == 0) {
         tint(165, 255, 127);
       }
       this.tintTimer -= deltaTime;
