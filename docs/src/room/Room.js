@@ -546,7 +546,7 @@ class Room {
         if (!muted) itemSound1.play();
       } else {
         if (!muted) itemSound2.play();
-        player.tintTimer = 650;
+        player.tintTimer = 700;
         player.health = Math.min(
           player.maxHealth,
           player.health + this.difficultySettings.heartHealth
