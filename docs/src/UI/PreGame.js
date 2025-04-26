@@ -134,13 +134,16 @@ class PreGameInterface {
 
   static renderControlShow(multiplayer) {
     let controls;
-    let offset = root_x + 150;
+    let addControls;
+
+    let offset_x = root_x + 150;
+    let offset_y;
 
     let ctrl_pad_x = 160;
     let ctrl_pad_y = ctrl_pad_x * 1.1;
 
-    let add_contrl_x = 110;
-    let add_contrl_y = add_contrl_x * 1.2;
+    let add_contrl_x;
+    let add_contrl_y;
 
     let control_title = createP("controls");
     control_title.style("color", "black");
@@ -170,14 +173,24 @@ class PreGameInterface {
         secondary_controls = createImg(wasd_icon);
       }
       secondary_controls.parent(pregameWindow);
-      secondary_controls.position(offset, 340);
+      secondary_controls.position(offset_x, 340);
       secondary_controls.size(ctrl_pad_x, ctrl_pad_y);
       secondary_controls.attribute("draggable", "false");
-      offset += 170;
+      offset_x += 170;
     }
-    let addControls = createImg(add_ctrls);
+    if (pvpMode) {
+      addControls = createImg(add_ctrls_pvp);
+      add_contrl_x = 110;
+      add_contrl_y = add_contrl_x / 1.6;
+      offset_y = 345;
+    } else {
+      addControls = createImg(add_ctrls);
+      add_contrl_x = 110;
+      add_contrl_y = add_contrl_x * 1.2;
+      offset_y = 360;
+    }
     addControls.parent(pregameWindow);
-    addControls.position(offset, 360);
+    addControls.position(offset_x, offset_y);
     addControls.size(add_contrl_x, add_contrl_y);
     addControls.attribute("draggable", "false");
   }
