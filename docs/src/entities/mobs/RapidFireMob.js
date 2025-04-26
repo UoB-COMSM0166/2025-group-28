@@ -93,7 +93,7 @@ class RapidFireMob extends RangedMob {
       this
     );
     projectileManager.addProjectile(newProjectile);
-    behaviourMonitor.updateTimesMobsFired(this.maxProjectiles);
+    behaviourMonitor.updateTimesMobsFired(1);
     playSound(mobProjectileSound, playbackRate, true);
   }
 
