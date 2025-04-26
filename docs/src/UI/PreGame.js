@@ -1,6 +1,7 @@
 let pregameWindow;
 let bestof_opts = [1, 3, 5];
-var matchIndex = 0;
+var pvpMatchIndex = 0;
+var standardMatchIndex = 0;
 var pvpBestOfCount;
 let root_x = 100;
 let root_y = 275;
@@ -17,18 +18,17 @@ class PreGameInterface {
   static exitPreGameMenu() {
     // Reset to defaults...
     if (!muted) menuClickSound.play();
-
     pregameWindow.remove();
   }
 
   static startGame() {
     gameSwitch(true);
     if (!muted) menuSelectSound.play();
-
     pregameWindow.remove();
   }
+
   static renderPregame() {
-    // determine UI/options based on globals...
+    // Determine UI/options based on globals...
     pregameWindow = createDiv();
     pregameWindow.id("pregame");
     pregameWindow.size(pageWidth, pageHeight);
@@ -131,15 +131,19 @@ class PreGameInterface {
     Settings.gotoSettings();
     switchToHelp();
   }
+
   static renderControlShow(multiplayer) {
     let controls;
-    let offset = root_x + 150;
+    let addControls;
+
+    let offset_x = root_x + 150;
+    let offset_y;
 
     let ctrl_pad_x = 160;
     let ctrl_pad_y = ctrl_pad_x * 1.1;
 
-    let add_contrl_x = 110;
-    let add_contrl_y = add_contrl_x * 1.2;
+    let add_contrl_x;
+    let add_contrl_y;
 
     let control_title = createP("controls");
     control_title.style("color", "black");
@@ -169,14 +173,24 @@ class PreGameInterface {
         secondary_controls = createImg(wasd_icon);
       }
       secondary_controls.parent(pregameWindow);
-      secondary_controls.position(offset, 340);
+      secondary_controls.position(offset_x, 340);
       secondary_controls.size(ctrl_pad_x, ctrl_pad_y);
       secondary_controls.attribute("draggable", "false");
-      offset += 170;
+      offset_x += 170;
     }
-    let addControls = createImg(add_ctrls);
+    if (pvpMode) {
+      addControls = createImg(add_ctrls_pvp);
+      add_contrl_x = 110;
+      add_contrl_y = add_contrl_x / 1.6;
+      offset_y = 345;
+    } else {
+      addControls = createImg(add_ctrls);
+      add_contrl_x = 110;
+      add_contrl_y = add_contrl_x * 1.2;
+      offset_y = 360;
+    }
     addControls.parent(pregameWindow);
-    addControls.position(offset, 360);
+    addControls.position(offset_x, offset_y);
     addControls.size(add_contrl_x, add_contrl_y);
     addControls.attribute("draggable", "false");
   }
@@ -215,7 +229,7 @@ class PreGameInterface {
         diff_lvl.style("background-color", "white");
       }
 
-      if (difficulty != i) {
+      if ((pvp && pvpMatchIndex != i) || (!pvp && standardMatchIndex != i)) {
         diff_lvl.style("opacity", "0.35");
       }
       diff_lvl.position(100 + offset * i, footerY);
@@ -223,9 +237,10 @@ class PreGameInterface {
         if (!muted) menuClickSound.play();
         if (pvp) {
           pvp_rounds = bestof_opts[i];
-          matchIndex = i;
+          pvpMatchIndex = i;
         } else {
           difficulty = i;
+          standardMatchIndex = i;
         }
         let current = select(
           pvp ? "#" + roundMarker[i] : "#" + difficultyNames[i]
@@ -256,7 +271,7 @@ class PreGameInterface {
     back.position(root_x, footerY - 20);
     back.mouseClicked(() => {
       if (!muted) menuClickSound.play();
-      matchIndex = UniversalUI.stepperUpdate(0, 2, matchIndex, back, next, -1);
+      pvpMatchIndex = UniversalUI.stepperUpdate(0, 2, pvpMatchIndex, back, next, -1);
       PreGameInterface.displayUpdate();
     });
 
@@ -264,7 +279,7 @@ class PreGameInterface {
     next.position(root_x + 100, footerY - 20);
     next.mouseClicked(() => {
       if (!muted) menuClickSound.play();
-      matchIndex = UniversalUI.stepperUpdate(0, 2, matchIndex, back, next, 1);
+      pvpMatchIndex = UniversalUI.stepperUpdate(0, 2, pvpMatchIndex, back, next, 1);
       PreGameInterface.displayUpdate();
     });
   }
@@ -272,7 +287,7 @@ class PreGameInterface {
   static displayUpdate() {
     pvpBestOfCount.remove();
 
-    pvp_rounds = bestof_opts[matchIndex];
+    pvp_rounds = bestof_opts[pvpMatchIndex];
 
     pvpBestOfCount = createP(pvp_rounds);
     pvpBestOfCount.style("color", "white");
