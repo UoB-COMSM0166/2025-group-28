@@ -29,6 +29,7 @@ class Player extends Sprite {
     this.startFrame = 7;
     this.endFrame = 9;
     this.slowTimer = 0;
+    this.tintTimer = 0; // For tinting the player when they pick up an item
 
     this.bloodColour = color(210, 0, 0, 0);
     this.projectileColour = color(255, 215, 80, 255);
@@ -50,7 +51,7 @@ class Player extends Sprite {
   update() {
     super.update();
     if (game.slowMeowHandler && game.slowMeowHandler.occurring && this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
-      // slow meow particle burst
+      // Slow meow particle burst
       let offsetX = random(-15, 15);
       let offsetY = random(-30, 30);
       this.warpParticles.push(new Warp(this.position.x + offsetX, this.position.y + offsetY));
@@ -91,7 +92,14 @@ class Player extends Sprite {
   }
 
   draw() {
-    // Draw smoke in front/behind player based on their direction of movement
+    if (this.tintTimer > 0) {
+      // Player briefly flashes green when picking up an item
+      if (floor(this.tintTimer / 100) % 3 == 0) {
+        tint(165, 255, 127);
+      }
+      this.tintTimer -= deltaTime;
+    }
+    // Draw particles in front/behind player based on their direction of movement
     if (this.lastDirection == "UP") {
       super.draw();
       for (let particle of this.smokeParticles) {
@@ -109,6 +117,7 @@ class Player extends Sprite {
       }
       super.draw();
     }
+    noTint();
   }
 
   overheatSlow() {

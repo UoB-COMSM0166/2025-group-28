@@ -542,18 +542,25 @@ class Room {
   applyItemBuff(item, player) {
     if (!item || !item.isActive || !player || !player.isActive) return;
     if (item instanceof Heart) {
-      if (!muted) {
-        if (player.health >= player.maxHealth) itemSound1.play();
-        else itemSound2.play();
+      if (player.health >= player.maxHealth) {
+        if (!muted) itemSound1.play();
+      } else {
+        if (!muted) itemSound2.play();
+        player.tintTimer = 650;
+        player.health = Math.min(
+          player.maxHealth,
+          player.health + this.difficultySettings.heartHealth
+        );
       }
-      player.health = Math.min(player.maxHealth, player.health + this.difficultySettings.heartHealth);
     } else if (item instanceof Energy) {
-      if (!muted) {
-        if (player.fireCooldown <= 0) itemSound1.play();
-        else itemSound2.play();
+      if (player.fireCooldown <= 0) {
+        if (!muted) itemSound1.play();
+      } else {
+        if (!muted) itemSound2.play();
+        player.tintTimer = 700;
+        if (player.fireOverheat) playSound(overheatEndSound, playbackRate);
+        player.resetOverheat();
       }
-      if (player.fireOverheat) playSound(overheatEndSound, playbackRate);
-      player.resetOverheat();
     }
     item.isActive = false;
   }
