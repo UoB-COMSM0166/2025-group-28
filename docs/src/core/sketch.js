@@ -287,7 +287,7 @@ function processCommand() {
 
   // Make players invulnerable
   if (command == "god") {
-    if (playerA) {
+    if (playerA && playerA.isActive) {
       playerA.maxHealth = Infinity;
       playerA.health = Infinity;
     }
