@@ -306,7 +306,7 @@ function processCommand() {
       game.currentRoom.mobBuffActive = !game.currentRoom.mobBuffActive;
     }
   // Spawn desired mob type in top left corner of room
-  } else if (mobCommands[command] && game && game.currentRoom) {
+  } else if (mobCommands[command] && game && game.currentRoom && !pvpMode) {
     let { type, img } = mobCommands[command];
     let newMob = new type(img, 150, 150, game.difficultySettings);
     game.currentRoom.mobs.push(newMob);

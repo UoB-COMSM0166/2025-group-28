@@ -350,17 +350,15 @@ class Player extends Sprite {
 
   handleSlowMeow() {
     if (!game || game.gameState != GameStates.ACTIVE ||
-      transitioning || commandPrompt ||
-      (!playerA.isActive && (!coop || !playerB.isActive))
-    ) {
+      transitioning || commandPrompt) {
       return;
     }
     // 'Q' key for player 1
-    if (this.player === playerNumber.PLAYER_1 && keyIsDown(p1_slowmeow)) {
+    if (this.player === playerNumber.PLAYER_1 && playerA.isActive && keyIsDown(p1_slowmeow)) {
       game.slowMeowHandler.activate();
     }
     // '/' key for player 2
-    else if (this.player === playerNumber.PLAYER_2 && keyIsDown(p2_slowmeow)) {
+    else if (this.player === playerNumber.PLAYER_2 && playerB.isActive && keyIsDown(p2_slowmeow)) {
       game.slowMeowHandler.activate();
     }
   }
