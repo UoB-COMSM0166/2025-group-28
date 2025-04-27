@@ -45,26 +45,40 @@ class RoomGenerator {
     const skipTiles = Array.from({ length: roomHeight }, () =>
       Array(roomWidth).fill(false)
     );
-  
-    for (let j = 0; j < roomHeight - 2; j++) {
-      for (let i = 0; i < roomWidth - 2; i++) {
+    
+    for (let j = 0; j < roomHeight - 3; j++) {
+      for (let i = 0; i < roomWidth - 3; i++) {
         if (skipTiles[j][i]) continue;
   
         const tile = this.room.roomLayout[j][i];
         if (tile.type === tileTypes.FLOOR && this.rollTileTrapChance()) {
-          const trapTypeRoll = Math.random();
-  
-          if (trapTypeRoll < 0.33 && this.canPlaceTrapSQR(i, j, 2)) {
+          if (game && game.difficulty == difficultyLevels.HARD){
+            const trapTypeRoll = Math.random();
+            if (trapTypeRoll < 0.33 && this.canPlaceTrapSQR(i,j,3)){
+              this.createTrapSQR(i, j, 3);
+              this.markSkipTilesSQR(skipTiles, i, j, 3);
+            }
+            if ((trapTypeRoll >= 0.33 && trapTypeRoll < 0.66) && this.canPlaceTrapPLUS(i,j)){
+              this.createTrapPLUS(i, j);
+              this.markSkipTilesPLUS(skipTiles, i, j);
+            }
+            if ((0.66 < trapTypeRoll) && this.canPlaceTrapSQR(i,j,2)){
+              this.createTrapSQR(i, j, 2);
+              this.markSkipTilesSQR(skipTiles, i, j, 2);
+            }
+          } else if ((game && game.difficulty != difficultyLevels.EASY) && (game && game.difficulty != difficultyLevels.HARD)){
+            const trapTypeRoll = Math.random();
+            if ((trapTypeRoll < 0.5) && this.canPlaceTrapPLUS(i,j)){
+              this.createTrapPLUS(i, j);
+              this.markSkipTilesPLUS(skipTiles, i, j);
+            }
+            if ((trapTypeRoll > 0.5) && this.canPlaceTrapSQR(i,j,2)){
+              this.createTrapSQR(i, j, 2);
+              this.markSkipTilesSQR(skipTiles, i, j, 2);
+            }
+          } else if ((game && game.difficulty == difficultyLevels.EASY)){
             this.createTrapSQR(i, j, 2);
             this.markSkipTilesSQR(skipTiles, i, j, 2);
-
-          } else if (trapTypeRoll < 0.66 && this.canPlaceTrapSQR(i, j, 3)) {
-            this.createTrapSQR(i, j, 3);
-            this.markSkipTilesSQR(skipTiles, i, j, 3);
-
-          } else if (this.canPlaceTrapPLUS(i, j)) {
-            this.createTrapPLUS(i, j);
-            this.markSkipTilesPLUS(skipTiles, i, j);
           }
         }
       }
