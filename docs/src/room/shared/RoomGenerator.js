@@ -168,13 +168,13 @@ class RoomGenerator {
 
   rollTileTrapChance() {
     if (game && game.difficulty == difficultyLevels.HARD){
-      return Math.random() < 0.006;
+      return Math.random() < 0.0025;
     }
     else if ((game && game.difficulty != difficultyLevels.EASY) && (game && game.difficulty != difficultyLevels.HARD)){
-      return Math.random()  < 0.005
+      return Math.random()  < 0.002
     }
     else if (game && game.difficulty == difficultyLevels.EASY){
-      return Math.random() < 0.004
+      return Math.random() < 0.0015
     }
   }
 
