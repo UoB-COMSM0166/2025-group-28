@@ -95,7 +95,15 @@ class Room {
           if (player === playerB && !coop) continue;
           if (player.isCollidingWith(tile)) {
             if (!player.isInvincible) {
-              player.takeDamage(5);
+              if ((game && game.difficulty == difficultyLevels.HARD)){
+                player.takeDamage(15)
+              }
+              else if ((game && game.difficulty != difficultyLevels.EASY) && (game && game.difficulty != difficultyLevels.HARD)){
+                player.takeDamage(10);
+              }
+              else if ((game && game.difficulty == difficultyLevels.EASY)){
+                player.takeDamage(5)
+              }
               this.generator.createParticles(Blood, player.position.x, player.position.y, player.bloodColour);
               player.makeInvincible();
             }

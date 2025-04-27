@@ -95,13 +95,14 @@ class Sprite extends GameObject {
   }
 
   // Adds i-frames to the entity
-  makeInvincible() {
+  makeInvincible(altInvincibleDuration) {
     if (this.isInvincible || !this.isActive) return;
     if (this instanceof Player) this.timesHurt++;
     this.isInvincible = true;
     this.invincibilityStartTime = millis();
     this.lastFlashTime = millis();
     this.isFlashing = true;
+    this.invincibilityDuration = altInvincibleDuration || 1000;
   }
 
   draw() {

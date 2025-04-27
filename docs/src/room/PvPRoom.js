@@ -54,8 +54,9 @@ class PvPRoom {
         for (let player of [playerA, playerB]) {
           if (player.isCollidingWith(tile)) {
             if (!player.isInvincible) {
-              player.takeDamage(5);
+              player.takeDamage(25);
               this.generator.createParticles(Blood, player.position.x, player.position.y, player.bloodColour);
+              player.makeInvincible(500);
             }
           }
         }
@@ -186,10 +187,10 @@ class PvPRoom {
     if (validSpawn) {
       if (player === playerB) {
         playerB = new Player(player.img, spawnX, spawnY, player.player);
-        playerB.makeInvincible();
+        playerB.makeInvincible(500);
       } else {
         playerA = new Player(player.img, spawnX, spawnY, player.player);
-        playerA.makeInvincible();
+        playerA.makeInvincible(500);
       }
     }
   }

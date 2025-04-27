@@ -46,8 +46,8 @@ class RoomGenerator {
       Array(roomWidth).fill(false)
     );
     
-    for (let j = 0; j < roomHeight - 3; j++) {
-      for (let i = 0; i < roomWidth - 3; i++) {
+    for (let j = wallBuffer; j < roomHeight - wallBuffer; j++) {
+      for (let i = wallBuffer; i < roomWidth - wallBuffer; i++) {
         if (skipTiles[j][i]) continue;
   
         const tile = this.room.roomLayout[j][i];
@@ -167,7 +167,15 @@ class RoomGenerator {
   }
 
   rollTileTrapChance() {
-    return Math.random() < 0.002;
+    if (game && game.difficulty == difficultyLevels.HARD){
+      return Math.random() < 0.006;
+    }
+    else if ((game && game.difficulty != difficultyLevels.EASY) && (game && game.difficulty != difficultyLevels.HARD)){
+      return Math.random()  < 0.005
+    }
+    else if (game && game.difficulty == difficultyLevels.EASY){
+      return Math.random() < 0.004
+    }
   }
 
   // Creates square wall pattern
