@@ -86,8 +86,8 @@ class Room {
         mob.fire();
       }
     }
-
-    // Handle trap collisions
+    
+  // Handle trap collisions
   for (let tileArr of this.roomLayout) {
     for (let tile of tileArr) {
       if (tile.type === tileTypes.TRAP) {
