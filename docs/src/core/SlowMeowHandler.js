@@ -2,15 +2,14 @@ class SlowMeowHandler {
   constructor(game) {
     this.game = game;
     this.difficultySettings = this.game.difficultySettings;
-    this.level = 0;
+    this.level = slowMeowMax;
     this.occurring = false;
     this.startTime = 0;
-    this.duration = 5000;
-    this.movementSpeed = 0.3;
-    this.cooldown = 15000;
+    this.duration = 3500;
+    this.movementSpeed = 0.25;
     this.lastUsed = 0;
-    this.usable = false;
-    this.soundPlayed = false;
+    this.usable = true;
+    this.soundPlayed = true;
     this.buffPenalty = false;
     if (!coop) {
       this.gain =
@@ -28,7 +27,10 @@ class SlowMeowHandler {
   reset() {
     if (this.occurring) this.level = 0;
     // Slow mo end sound should only play if slow meow was active when moving rooms
-    let playSounds = this.occurring;
+    let playSounds;
+    if (playerA.isActive || (coop && playerB.isActive)) {
+      playSounds = this.occurring;
+    } else playSounds = false;
     this.occurring = false;
     this.apply(this.occurring, playSounds);
   }
@@ -90,7 +92,7 @@ class SlowMeowHandler {
     let playerSlowFactor;
     if (slowActive) {
       slowFactor = this.movementSpeed;
-      playerSlowFactor = slowFactor * 1.2;
+      playerSlowFactor = 1.2;
       playbackRate = 0.75; // Slows SFX
     } else {
       slowFactor = 1.0;
@@ -138,7 +140,9 @@ class SlowMeowHandler {
           } else {
             mob.speed = mob.originalSpeed;
             mob.isSlowed = false;
-            if (mob.canDash) mob.dashSpeed = mob.originalDashSpeed;
+            if (mob instanceof DashMob) {
+             mob.dashSpeed = mob.originalDashSpeed;
+            }
           }
         }
       }

@@ -17,20 +17,23 @@ class Mob extends Sprite {
 
   update() {
     if (!this.isActive) return;
-    let nearestPlayer = this.findNearestPlayer();
-    if (nearestPlayer) {
-      this.moveTowards(nearestPlayer);
-    } else {
-      this.velocity.set(0, 0);
+    if (!(this instanceof BuffMob)) {
+      let nearestPlayer = this.findNearestPlayer();
+      if (nearestPlayer) {
+        this.moveTowards(nearestPlayer);
+      } else {
+        this.velocity.set(0, 0);
+      }
+      this.fireUpdate();
     }
-    this.fireUpdate();
     super.update();
   }
 
   fireUpdate() {
     if (
       (playerA && !playerA.isActive) &&
-      (!coop || (playerB && !playerB.isActive))
+      (!coop || (playerB && !playerB.isActive)) ||
+      game.slowMeowHandler.occuring
     ) {
       return;
     }
@@ -42,7 +45,7 @@ class Mob extends Sprite {
   }
 
   moveTowards(player) {
-    if (!player.isActive) return;
+    if (!player || !player.isActive) return;
     // Moves smoothly towards whichever player is nearest
     let xDirection = player.position.x - this.position.x;
     let yDirection = player.position.y - this.position.y;
@@ -90,30 +93,44 @@ class Mob extends Sprite {
     }
   }
 
+  checkIfSlowMeowActive() {
+    if (!this.isActive) return;
+    if (game && game.slowMeowHandler.occurring) {
+      if (this.isSlowed) return;
+      if (!this.isBuffed) this.originalSpeed = this.speed;
+      this.speed *= game.slowMeowHandler.movementSpeed;
+      if (this instanceof DashMob) {
+        this.dashSpeed *= game.slowMeowHandler.movementSpeed;
+      }
+      this.isSlowed = true;
+    } else this.isSlowed = false;
+  }
+
   // For adding/removing BuffMob buff
   applyBuff() {
-    if (!this.isBuffed) {
-      this.isInvincible = false;
-      if (!this.isSlowed) this.originalSpeed = this.speed;
-      this.speed *= 1.75;
-      this.originalSpeed *= 1.75;
-      this.attackDamage *= 1.5;
-      this.maxHealth *= 2;
-      this.health *= 2;
-      this.fireCooldownLimit *= 0.5;
-      this.isBuffed = true;
-    }
+    if (this.isBuffed || !this.isActive) return;
+    this.isInvincible = false;
+    this.invincibilityStartTime = 0;
+    this.isFlashing = false;
+    this.lastFlashTime = 0;
+    if (!this.isSlowed) this.originalSpeed = this.speed;
+    this.speed *= 1.75;
+    this.originalSpeed *= 1.75;
+    this.attackDamage *= 1.5;
+    this.maxHealth *= 2;
+    this.health *= 2;
+    this.fireCooldownLimit *= 0.5;
+    this.isBuffed = true;
   }
 
   removeBuff() {
-    if (this.isBuffed) {
-      this.speed /= 1.75;
-      this.originalSpeed /= 1.75;
-      this.attackDamage /= 1.5;
-      this.maxHealth /= 2;
-      this.health /= 2;
-      this.fireCooldownLimit /= 0.5;
-      this.isBuffed = false;
-    }
+    if (!this.isBuffed || !this.isActive) return;
+    this.speed /= 1.75;
+    this.originalSpeed /= 1.75;
+    this.attackDamage /= 1.5;
+    this.maxHealth /= 2;
+    this.health /= 2;
+    this.fireCooldownLimit /= 0.5;
+    this.isBuffed = false;
   }
 }

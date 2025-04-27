@@ -6,6 +6,7 @@ class RoomHandler {
 
   updateProjectiles() {
     for (let p of projectileManager.projectilesFired) {
+      if (!p.isActive) continue;
       if (
         p.position.x < (tileSize * 2.75) + arena_offset ||
         p.position.x > (roomWidth * tileSize) - (tileSize * 2.75) + arena_offset ||
@@ -26,6 +27,7 @@ class RoomHandler {
   }
 
   handleWallCollision(player, wall) {
+    if (!player || !player.isActive || !wall) return;
     // Calculate the boundaries of both objects
     const playerLeft = player.position.x - player.widthHitbox / 2;
     const playerRight = player.position.x + player.widthHitbox / 2;
@@ -79,10 +81,23 @@ class RoomHandler {
     }
   }
 
+  checkWallCollisions() {
+    for (let tileArr of this.room.roomLayout) {
+      for (let tile of tileArr) {
+        if (tile.type == tileTypes.WALL) {
+          this.handleWallCollision(playerA, tile);
+          if (coop || pvpMode) {
+            this.handleWallCollision(playerB, tile);
+          }
+        }
+      }
+    }
+  }
+
   checkInsideWall(x, y) {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
-        if (this.room.roomLayout[j][i].type === tileTypes.WALL) {
+        if (this.room.roomLayout[j][i].type == tileTypes.WALL) {
           let wallX = this.room.roomLayout[j][i].position.x;
           let wallY = this.room.roomLayout[j][i].position.y;
           let wallWidth = this.room.roomLayout[j][i].widthHitbox;
@@ -113,7 +128,7 @@ class RoomHandler {
             tileSize,
             tileSize
           );
-          if (debug) {
+          if (drawCollisions) {
             // TESTING - draw collision box
             fill(0, 200, 0, 100);
             rect(

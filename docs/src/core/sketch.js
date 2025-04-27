@@ -1,7 +1,9 @@
 function setup() {
   noStroke();
   rectMode(CORNER);
-  gameCanvas = createCanvas(950, 800);
+  gameCanvas = createCanvas(pageWidth, pageHeight);
+  lightingLayer = createGraphics(roomWidth * tileSize + arena_offset, roomHeight * tileSize + arena_offset);
+  lightingLayer.noStroke();
   // Prevent the user from right-clicking on the canvas
   document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
@@ -11,6 +13,7 @@ function setup() {
     event.preventDefault();
   });
   menuBack = createVideo(menuimg, Menu.renderMenu);
+
   if (inGame) {
     gameSetUp();
   }
@@ -19,15 +22,19 @@ function setup() {
 function gameSwitch(starting) {
   // Used to switch between game start/menu
   if (starting) {
+    transitioning = true;
+    fadingOut = true;
     sp_button.remove();
     coop_button.remove();
     pvp_button.remove();
     menuBack.remove();
     stng_button.remove();
-    difficultyButton.remove();
-    inGame = true;
-    gameSetUp();
-    loop();
+    themeMusic.stop();
+    setTimeout(() => {
+      inGame = true;
+      gameSetUp();
+      loop();
+    }, 750);
   } else {
     inGame = false;
     gameOver = false;
@@ -53,16 +60,14 @@ function menuStart() {
   menuBack.loop();
 }
 
-function quitSettings() {
-  stng_div.remove();
-}
-
 function gameSetUp() {
-  themeMusic.stop();
   if (pvpMode) {
     if (!muted) {
-      pvpMusic.play();
-      pvpMusic.loop();
+      let pvpMusic = [pvpMusic1, pvpMusic2, pvpMusic3];
+      let track = Math.floor(random(0, pvpMusic.length));
+      pvpTrack = pvpMusic[track];
+      pvpTrack.play();
+      pvpTrack.loop();
     }
     playerA = new Player(astrocat_gif, 160, 300, playerNumber.PLAYER_1);
     playerB = new Player(astrocat_gif_p2, 835, 300, playerNumber.PLAYER_2);
@@ -82,7 +87,10 @@ function gameSetUp() {
 }
 
 function draw() {
-  if (!inGame) return;
+  if (!inGame) {
+    if (fadingOut) fade();
+    return;
+  }
   if (game.gameState == GameStates.ACTIVE) {
     background(0); // Refreshes the canvas background to fix the sprite ghosting effect
     if (game.currentRoom && game.currentRoom.isCleared == true) {
@@ -99,24 +107,34 @@ function draw() {
         }
       }
     }
+    game.draw();
     // Top UI block
     GameUI.drawUITop();
     // Bottom UI block
     GameUI.drawUIBottom();
-    game.draw();
   }
 
   // Draw fade out/in effect
+  if (fadingOut || fadingIn) fade();
+  if (game.gameState == GameStates.OVER && !gameOver) {
+    GameOver.renderGameOverInterface();
+    gameOver = true;
+  }
+}
+
+function fade() {
   if (fadingOut) {
     fadeAlpha += 10;
     if (fadeAlpha >= 255) {
       fadeAlpha = 255;
       fadingOut = false;
       fadingIn = true;
-      if (!pvpMode) {
-        game.currentRoom.getPlayerNextPos();
+      if (inGame) {
+        if (!pvpMode) {
+          game.currentRoom.getPlayerNextPos();
+        }
+        game.nextRoom();
       }
-      game.nextRoom();
     }
   } else if (fadingIn) {
     fadeAlpha -= 10;
@@ -129,32 +147,48 @@ function draw() {
   noStroke();
   fill(0, fadeAlpha);
   rect(0, 0, windowWidth, windowHeight);
-  if (game.gameState == GameStates.OVER && !gameOver) {
-    GameOver.renderGameOverInterface();
-    gameOver = true;
-  }
 }
 
 function keyPressed() {
   if (!inGame) return;
   let music;
-  if (pvpMode) music = pvpMusic;
+  if (pvpMode) music = pvpTrack;
   else music = gameMusic;
-  // Quit the game with 'Q' from pause menu
-  if (game && keyCode == 81) {
+
+  // H to show settings
+  if (game && keyCode == 72 && !commandPrompt) {
     if (game.gameState == GameStates.PAUSE) {
+      if (!pause_stng_overlay) {
+        if (!muted) menuClickSound.play();
+        Settings.gotoSettings();
+        switchToHelp();
+        pause_stng_overlay = true;
+      }
+    }
+  }
+
+  // Quit the game with 'Q' from pause menu
+  if (game && keyCode == 81 && !commandPrompt) {
+    if (game.gameState == GameStates.PAUSE && !pause_stng_overlay) {
+      inPauseMenu = false;
       music.stop();
       gameSwitch(false);
-    } else if (game.gameState == GameStates.OVER) {
+    } else if (game.gameState == GameStates.OVER && !pause_stng_overlay) {
       music.stop();
       GameOver.gameOverReturn();
     }
   }
-  if (game && keyCode == ESCAPE) {
+
+  // Pause the game with 'Esc'
+  if (game && keyCode == ESCAPE && !pause_stng_overlay && !commandPrompt) {
     if (game.gameState == GameStates.ACTIVE && !transitioning) {
       if ((playerA && playerA.isActive) || (playerB && playerB.isActive)) {
         game.gameState = GameStates.PAUSE;
-        if (!muted) music.pause();
+        inPauseMenu = true;
+        if (!muted) {
+          menuClickSound.play();
+          music.pause();
+        }
         push();
         fill("rgba(0, 0, 0, 0.6)");
         let pauseMask = rect(0, 0, pageWidth, pageHeight);
@@ -165,30 +199,37 @@ function keyPressed() {
         text("Game Paused", 500, 300);
         textSize(19);
         text("Press Q to quit game", 500, 350);
-        text("Press ESC to resume", 500, 400);
+        text("Press H to show controls", 500, 400);
+        text("Press ESC to resume", 500, 450);
         pop();
         noLoop();
       }
     } else if (game.gameState == GameStates.PAUSE) {
       loop();
       game.gameState = GameStates.ACTIVE;
+      inPauseMenu = false;
       if (!muted) music.play();
     }
   }
+
   // 192 = ` (key under Esc)
   if (keyCode == 192) {
-    if (!debug) {
-      debug = true;
-    } else {
-      debug = false;
-    }
-  }
-  // SlowMeow gets activated with 'Q' or '/'
-  if (game && game.gameState == GameStates.ACTIVE) {
-    if (!transitioning && !pvpMode) {
-      if (keyCode == 81 || keyCode == 191) {
-        game.slowMeowHandler.activate();
+    if (!commandPrompt) {
+      if (game.gameState == GameStates.ACTIVE) {
+        game.gameState = GameStates.PAUSE;
       }
+      commandPrompt = true;
+      inputField = createInput();
+      inputField.position(width - 318, height + 40);
+      inputField.size(190);
+      inputField.changed(processCommand);
+    } else {
+      if (!inPauseMenu && game.gameState == GameStates.PAUSE) {
+        game.gameState = GameStates.ACTIVE;
+      }
+      commandPrompt = false;
+      inputField.remove();
+      inputField = null;
     }
   }
 }
@@ -215,4 +256,60 @@ function playSound(sound, rate, randomVolume = false) {
     gainNode.disconnect();
   };
   source.start();
+}
+
+// Command system to improve debugging/testing experience
+function processCommand() {
+  if (!inGame || !commandPrompt) return;
+
+  // For mob spawning commands (needs to be here instead of Constants.js)
+  const mobCommands = {
+    "spawnblinkmob": { type: BlinkMob, img: blinkMobGif },
+    "spawnbuffmob": { type: BuffMob, img: heartMob_gif },
+    "spawndashmob": { type: DashMob, img: dashmob_gif },
+    "spawnmeleemob": { type: MeleeMob, img: dogmob_gif },
+    "spawnrangedmob": { type: RangedMob, img: rangedmob_gif },
+    "spawnrapidfiremob": { type: RapidFireMob, img: rapidfiremob_gif }
+  };
+
+  let command = inputField.value().toLowerCase();
+
+  // Make players invulnerable
+  if (command == "god") {
+    if (playerA && playerA.isActive) {
+      playerA.maxHealth = Infinity;
+      playerA.health = Infinity;
+    }
+    if (playerB && playerB.isActive) {
+      playerB.maxHealth = Infinity;
+      playerB.health = Infinity;
+    }
+  // Disable heat gain when shooting
+  } else if (command == "coolforcats") {
+    if (playerA) playerA.heatGain = 0;
+    if (playerB) playerB.heatGain = 0;
+  // Maxing slow meow level only takes 1 kill
+  } else if (command == "fastmeow") {
+    if (game && game.slowMeowHandler) {
+      game.difficultySettings.slowMeowGainMult = 20;
+    }
+  // Players kill everything in 1 shot
+  } else if (command == "pestcontrol") {
+    if (playerA) playerA.attackDamage = 1000;
+    if (playerB) playerB.attackDamage = 1000;
+  // Toggle drawing of object collision boxes
+  } else if (command == "drawcollisions") {
+    drawCollisions = !drawCollisions;
+  // Toggle mob buff effect
+  } else if (command == "buffmobs") {
+    if (!pvpMode && game && game.currentRoom) {
+      game.currentRoom.mobBuffActive = !game.currentRoom.mobBuffActive;
+    }
+  // Spawn desired mob type in top left corner of room
+  } else if (mobCommands[command] && game && game.currentRoom && !pvpMode) {
+    let { type, img } = mobCommands[command];
+    let newMob = new type(img, 150, 150, game.difficultySettings);
+    game.currentRoom.mobs.push(newMob);
+  }
+  inputField.value(""); // Clear input field after command entered
 }

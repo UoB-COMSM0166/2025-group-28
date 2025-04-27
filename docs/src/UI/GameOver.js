@@ -55,7 +55,7 @@ class GameOver {
   static gameOverReturn() {
     gameOverContainer.remove();
     if (pvpMode) {
-      pvpMusic.stop();
+      pvpTrack.stop();
     } else {
       gameMusic.stop();
     }

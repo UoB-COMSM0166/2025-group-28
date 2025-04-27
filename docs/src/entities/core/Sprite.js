@@ -1,5 +1,4 @@
 class Sprite extends GameObject {
-
   constructor(img, x, y, maxHealth) {
     super(x, y);
 
@@ -44,7 +43,7 @@ class Sprite extends GameObject {
   }
 
   handleKnockback() {
-    if (game.slowMeowHandler.occurring) {
+    if (!pvpMode && game.slowMeowHandler.occurring) {
       // Slow knockback speed if slow meow active
       let adjustedVelocity = p5.Vector.mult(
         this.knockbackVelocity,
@@ -59,7 +58,7 @@ class Sprite extends GameObject {
   }
 
   takeDamage(amount) {
-    if (this.isInvincible) return;
+    if (!this.isActive || this.isInvincible) return;
     if (this.lastSoundTime == 0 || millis() - this.lastSoundTime > this.soundCooldown) {
       if (!childMode && this.health - amount > 0) {
         playSound(bloodSound1, playbackRate, true);
@@ -71,80 +70,74 @@ class Sprite extends GameObject {
       }
     }
     this.health = Math.max(0, this.health - amount);
-    this.isDead();
+    if (this.health <= 0) this.isDead();
   }
 
   isDead() {
-    if (this.health <= 0) {
-      this.isActive = false;
-      if (!childMode) playSound(bloodSound2, playbackRate, true);
-      if (this.deathSound) {
-        if (this instanceof BuffMob && game.currentRoom.mobs.length <= 1) {
-          playSound(this.deathSound, playbackRate, true);
-        } else if (!(this instanceof BuffMob)) {
-          playSound(this.deathSound, playbackRate, true);
+    if (this.health > 0) return;
+    this.isActive = false;
+    if (this instanceof Player) {
+      this.resetOverheat();
+      if (!pvpMode) {
+        if (!playerA.isActive && (!coop || !playerB.isActive)) {
+          game.slowMeowHandler.reset();
         }
       }
     }
-  }
-
-  checkIfSlowMeowActive() {
-    if (game && game.slowMeowHandler.occurring) {
-      if (this.isSlowed) return;
-      if (!this.isBuffed) this.originalSpeed = this.speed;
-      this.speed *= game.slowMeowHandler.movementSpeed;
-      if (this.canDash) this.dashSpeed *= game.slowMeowHandler.movementSpeed;
-      this.isSlowed = true;
-    } else this.isSlowed = false;
+    if (!childMode) playSound(bloodSound2, playbackRate, true);
+    if (this.deathSound) {
+      if ((this instanceof BuffMob && game.currentRoom.mobs.length <= 1) ||
+          (!(this instanceof BuffMob))
+      ) {
+        playSound(this.deathSound, playbackRate, true);
+      }
+    }
   }
 
   // Adds i-frames to the entity
   makeInvincible() {
-    if (!this.isInvincible) {
-      if (this instanceof Player) this.timesHurt++;
-      this.isInvincible = true;
-      this.invincibilityStartTime = millis();
-      this.lastFlashTime = millis();
-      this.isFlashing = true;
-    }
+    if (this.isInvincible || !this.isActive) return;
+    if (this instanceof Player) this.timesHurt++;
+    this.isInvincible = true;
+    this.invincibilityStartTime = millis();
+    this.lastFlashTime = millis();
+    this.isFlashing = true;
   }
 
   draw() {
-    if (this.isActive) {
-      // Handle invincibility/flashing effect
-      if (this.isInvincible) {
-        let currentTime = millis();
-        if (currentTime - this.invincibilityStartTime > this.invincibilityDuration) {
-          this.isInvincible = false;
-          this.isFlashing = false;
-        } else if (currentTime - this.lastFlashTime > this.flashInterval) {
-          this.isFlashing = !this.isFlashing;
-          this.lastFlashTime = currentTime;
-        }
-      }
-
-      // Draw sprite only if not flashing
-      if (!this.isFlashing) {
-        push();
-        if (this.isBuffed) tint(210, 0, 0, 255); // Apply red tint if buffed
-        translate(this.position.x, this.position.y);
-        scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
-        image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
-        noTint(); // Prevent tint from affecting other sprites
-        pop();
-      }
-
-      if (debug) {
-        // TESTING - draw collision boxes
-        fill(0, 200, 0, 100);
-        rect(
-          this.position.x - this.widthHitbox / 2,
-          this.position.y - this.heightHitbox / 2,
-          this.widthHitbox,
-          this.heightHitbox
-        );
+    if (!this.isActive) return;
+    // Handle invincibility/flashing effect
+    if (this.isInvincible) {
+      let currentTime = millis();
+      if (currentTime - this.invincibilityStartTime > this.invincibilityDuration) {
+        this.isInvincible = false;
+        this.isFlashing = false;
+      } else if (currentTime - this.lastFlashTime > this.flashInterval) {
+        this.isFlashing = !this.isFlashing;
+        this.lastFlashTime = currentTime;
       }
     }
-  }
 
+    // Draw sprite only if not flashing
+    if (!this.isFlashing) {
+      push();
+      if (this.isBuffed) tint(210, 0, 0, 255); // Apply red tint if buffed
+      translate(this.position.x, this.position.y);
+      scale(this.scaleX, 1); // Flip the sprite depending on the movement direction
+      image(this.img, -this.widthModel / 2, -this.heightModel / 2, this.widthModel, this.heightModel);
+      noTint(); // Prevent tint from affecting other sprites
+      pop();
+    }
+
+    if (drawCollisions) {
+      // TESTING - draw collision boxes
+      fill(0, 200, 0, 100);
+      rect(
+        this.position.x - this.widthHitbox / 2,
+        this.position.y - this.heightHitbox / 2,
+        this.widthHitbox,
+        this.heightHitbox
+      );
+    }
+  }
 }

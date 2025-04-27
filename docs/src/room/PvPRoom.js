@@ -25,10 +25,26 @@ class PvPRoom {
   update() {
     this.handler.updateProjectiles();
 
+    // Resets every cycle - stops two announcements being played in the same update cycle
+    let announcementPlayed = false;
+
     if (!playerA.isActive) {
-      this.handlePlayerScores(playerA, "p2Score", "p2ScoreIncreased");
-    } else if (!playerB.isActive) {
-      this.handlePlayerScores(playerB, "p1Score", "p1ScoreIncreased");
+      this.handlePlayerScores(
+        playerA,
+        "p2Score",
+        "p2ScoreIncreased",
+        announcementPlayed
+      );
+      announcementPlayed = true;
+    }
+    if (!playerB.isActive) {
+      this.handlePlayerScores(
+        playerB,
+        "p1Score",
+        "p1ScoreIncreased",
+        announcementPlayed
+      );
+      announcementPlayed = true;
     }
 
   // Handle trap collisions
@@ -49,21 +65,15 @@ class PvPRoom {
   }
 
     // Handles wall collisions
-    for (let tileArr of this.roomLayout) {
-      for (let tile of tileArr) {
-        if (tile.type == tileTypes.WALL) {
-          this.handler.handleWallCollision(playerA, tile);
-          this.handler.handleWallCollision(playerB, tile);
-        }
-      }
-    }
+    this.handler.checkWallCollisions();
 
     // Players
     playerA.update();
     playerB.update();
   }
 
-  handlePlayerScores(player, playerScore, scoreIncreased) {
+  handlePlayerScores(player, playerScore, scoreIncreased, announcementPlayed) {
+    if (!player) return;
     if (!player.isActive && !this[scoreIncreased]) {
       this[playerScore]++;
       if (!muted) {
@@ -76,12 +86,12 @@ class PvPRoom {
             random(0, this.announcerSounds.length)
           );
         } while (randomAnnouncement === this.prevAnnouncement);
-        if (!muted) {
+        if (!muted && !announcementPlayed) {
           this.announcerSounds[randomAnnouncement].play();
         }
         this.prevAnnouncement = randomAnnouncement;
       }, 500);
-      if (this[playerScore] < 3) {
+      if (this[playerScore] < 2) {
         setTimeout(() => {
           this.respawnPlayer(player);
           this[scoreIncreased] = false;
@@ -140,6 +150,7 @@ class PvPRoom {
   }
 
   respawnPlayer(player) {
+    if (!player) return;
     let spawnX, spawnY;
     let validSpawn = false;
     let spawnAttempts = 0;
@@ -163,7 +174,10 @@ class PvPRoom {
         enemy.position.x,
         enemy.position.y
       );
-      if (distanceFromEnemy > 300 && !this.handler.checkInsideWall(spawnX, spawnY)) {
+      if (
+        distanceFromEnemy > 300 &&
+        !this.handler.checkInsideWall(spawnX, spawnY)
+      ) {
         validSpawn = true;
         break;
       }

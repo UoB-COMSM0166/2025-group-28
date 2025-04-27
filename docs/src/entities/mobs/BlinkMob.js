@@ -12,6 +12,7 @@ class BlinkMob extends Mob {
     this.attackDamage = 6 * difficultySettings.mobDamageMult;
     this.projectileSpeed = 2;
     this.bloodColour = color(135, 20, 103, 255);
+    this.projectileColour = color(216, 132, 255, 255);
     this.fireCooldown = Math.floor(random(35, 50));
     this.fireCooldownLimit = Math.floor(random(160, 175));
     this.blinkCooldown = this.fireCooldown;
@@ -21,48 +22,51 @@ class BlinkMob extends Mob {
   }
 
   update() {
+    if (!this.isActive) return;
     super.update();
-    if (this.blinkCooldown < this.blinkCooldownLimit) {
+    if (!game.slowMeowHandler.occurring && this.blinkCooldown < this.blinkCooldownLimit) {
       this.blinkCooldown++;
     }
     let nearestPlayer = this.findNearestPlayer();
     let distanceToPlayer = this.findDistanceToPlayer(nearestPlayer);
-    if (nearestPlayer && distanceToPlayer < 125) {
-      this.blinkCooldown = this.blinkCooldownLimit;
-      this.blink();
+    if (nearestPlayer) {
+      if ((!game.slowMeowHandler.occurring && distanceToPlayer < 125) ||
+          (game.slowMeowHandler.occurring && this.isCollidingWith(nearestPlayer))
+      ) {
+        this.blinkCooldown = this.blinkCooldownLimit;
+        this.blink();
+      }
     }
   }
 
   fire() {
-    if (!this.isActive) return;
-    if (this.fireReady) {
-      if (this.blinkCooldown >= this.blinkCooldownLimit) {
-        this.blink();
-      }
-      let projectileCount = 9;
-      let angleIncrement = (2 * Math.PI) / projectileCount;
-
-      for (let i = 0; i < projectileCount; i++) {
-        let angle = i * angleIncrement;
-
-        let velocityX = Math.cos(angle) * this.projectileSpeed;
-        let velocityY = Math.sin(angle) * this.projectileSpeed;
-
-        let newProjectile = new Projectile(
-          this.position.x,
-          this.position.y,
-          velocityX,
-          velocityY,
-          this.projectileSpeed + 1,
-          fireball,
-          this
-        );
-        projectileManager.addProjectile(newProjectile);
-      }
-      behaviourMonitor.updateTimesMobsFired(projectileCount);
-      playSound(mobProjectileSound, playbackRate);
-      this.fireReady = false;
+    if (!this.isActive || !this.fireReady || game.slowMeowHandler.occurring) return;
+    if (this.blinkCooldown >= this.blinkCooldownLimit) {
+      this.blink();
     }
+    let projectileCount = 9;
+    let angleIncrement = (2 * Math.PI) / projectileCount;
+
+    for (let i = 0; i < projectileCount; i++) {
+      let angle = i * angleIncrement;
+
+      let velocityX = Math.cos(angle) * this.projectileSpeed;
+      let velocityY = Math.sin(angle) * this.projectileSpeed;
+
+      let newProjectile = new Projectile(
+        this.position.x,
+        this.position.y,
+        velocityX,
+        velocityY,
+        this.projectileSpeed + 1,
+        mobProjectileB,
+        this
+      );
+      projectileManager.addProjectile(newProjectile);
+    }
+    behaviourMonitor.updateTimesMobsFired(projectileCount);
+    playSound(mobProjectileSound, playbackRate);
+    this.fireReady = false;
   }
 
   blink() {

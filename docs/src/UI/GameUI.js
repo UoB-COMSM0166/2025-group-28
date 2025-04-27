@@ -12,6 +12,23 @@ class GameUI {
     } else {
       roomNumber = "Round " + game.roomSeq;
     }
+
+    if (pvpMode) {
+      pop();
+      push();
+      textSize(16);
+      textFont(gameFont);
+      textAlign(CENTER);
+      fill(gameOrange);
+      text("Best of " + pvp_rounds + " round(s)", 245, 40);
+      pop();
+      push();
+      textSize(28);
+      textFont(gameFont);
+      textAlign(CENTER);
+      fill(255, 255, 255);
+    }
+
     text(roomNumber, 200, 80);
     if (!coop && !pvpMode) {
       scoreNumber = "Score:" + game.currScoreP1;
@@ -78,8 +95,12 @@ class GameUI {
       ) {
         slowMeowIndicator = "SLOW MEOW:BLOCKED";
         textColour = [210, 0, 0];
-      } else if (!game.slowMeowHandler.usable || game.slowMeowHandler.occurring) {
-        slowMeowIndicator = "SLOW MEOW:" + Math.floor(game.slowMeowHandler.level) + "%";
+      } else if (
+        !game.slowMeowHandler.usable ||
+        game.slowMeowHandler.occurring
+      ) {
+        slowMeowIndicator =
+          "SLOW MEOW:" + Math.floor(game.slowMeowHandler.level) + "%";
         textColour = [100, 150, 255];
       } else if (game.slowMeowHandler.usable) {
         slowMeowIndicator = "SLOW MEOW:READY";

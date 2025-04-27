@@ -8,6 +8,7 @@ class Particle {
   }
 
   update() {
+    if (this.lifespan <= 0) return;
     // Deactive any particles that leave the room boundaries
     if (
       this.position.x < (tileSize * 2) + arena_offset ||

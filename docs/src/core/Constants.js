@@ -1,5 +1,5 @@
-const pageWidth = 900;
-const pageHeight = 750;
+const pageWidth = 950;
+const pageHeight = 800;
 
 // Displacement from origin to start drawing room etc. - to centre room in new larger canvas
 const arena_offset = 100;
@@ -67,9 +67,10 @@ const difficultySettings = Object.freeze([
     baseDefensiveRating: 5,
     heatGain: 20,
     heatDecay: 0.5,
-    slowMeowGainMult: 1.5,
-    slowMeowLossMult: 1.0,
+    slowMeowGainMult: 1.25,
+    slowMeowLossMult: 0.75,
     heartHealth: 25,
+    newMobRequirement: 4,
   },
   {
     // Normal mode
@@ -88,6 +89,7 @@ const difficultySettings = Object.freeze([
     slowMeowGainMult: 1.0,
     slowMeowLossMult: 1.0,
     heartHealth: 20,
+    newMobRequirement: 2,
   },
   {
     // Hard mode
@@ -103,9 +105,10 @@ const difficultySettings = Object.freeze([
     baseDefensiveRating: 3,
     heatGain: 18,
     heatDecay: 0.6,
-    slowMeowGainMult: 1.0,
-    slowMeowLossMult: 2.0,
+    slowMeowGainMult: 0.75,
+    slowMeowLossMult: 1.5,
     heartHealth: 15,
+    newMobRequirement: 0,
   },
 ]);
 

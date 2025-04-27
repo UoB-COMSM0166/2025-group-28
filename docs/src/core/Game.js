@@ -5,6 +5,7 @@ class Game {
       this.difficulty = difficultyLevel;
       this.difficultySettings = difficultySettings[this.difficulty];
       this.currentRoom = new Room(this.difficultySettings);
+      this.slowMeowHandler = new SlowMeowHandler(this);
     } else {
       this.difficulty = difficultyLevels.NORMAL;
       this.difficultySettings = difficultySettings[this.difficulty];
@@ -24,19 +25,17 @@ class Game {
     this.p1ScoreIncreased = false;
     this.p2ScoreIncreased = false;
     this.winningPVP;
-
-    this.slowMeowHandler = new SlowMeowHandler(this);
   }
 
   nextRoom() {
     this.roomSeq++;
     // Clear projectile array to stop projectiles in previous room persisting in next room
     projectileManager.projectilesFired = [];
+    this.updateScores();
     if (!pvpMode) {
       behaviourMonitor.updateRoomsCleared();
       // End slow meow to prevent movement speed bugs on room transition
       this.slowMeowHandler.reset();
-      this.updateScores();
       // Set up next room
       this.currentRoom = new Room(this.difficultySettings);
       if (coop) {
@@ -71,22 +70,40 @@ class Game {
     return player;
   }
 
+  getWinThreshold() {
+    if (pvp_rounds == 1) return 1;
+    else return Math.round(pvp_rounds / 2);
+  }
+
+  pvpCheckmate() {
+    let winThreshold = this.getWinThreshold();
+    if (this.roomSeq == winThreshold && winThreshold > 1) {
+      if (this.currScoreP1 >= 2) {
+        return this.p1PVPTotal + 1 >= winThreshold && this.p2PVPTotal + 1 < winThreshold;
+      }
+      if (this.currScoreP2 >= 2) {
+        return this.p2PVPTotal + 1 >= winThreshold && this.p1PVPTotal + 1 < winThreshold;
+      }
+    }
+    return this.p1PVPTotal >= winThreshold || this.p2PVPTotal >= winThreshold;
+  }
+
   pvpGameCycleCheck() {
-    if (this.currScoreP1 >= 3 || this.currScoreP2 >= 3) {
-      if (this.roomSeq < pvp_rounds && !transitioning) {
+    if (this.currScoreP1 >= 2 || this.currScoreP2 >= 2) {
+      if (this.roomSeq >= pvp_rounds || this.pvpCheckmate()) {
+        if (this.currScoreP1 >= 2 && !this.p1ScoreIncreased) {
+          this.p1PVPTotal++;
+          this.p1ScoreIncreased = true;
+        }
+        if (this.currScoreP2 >= 2 && !this.p2ScoreIncreased) {
+          this.p2PVPTotal++;
+          this.p2ScoreIncreased = true;
+        }
+      } else if (this.roomSeq < pvp_rounds && !this.pvpCheckmate() && !transitioning) {
         transitioning = true;
         setTimeout(() => {
           fadingOut = true;
         }, 3000);
-      } else if (this.roomSeq >= pvp_rounds) {
-        if (this.currScoreP1 >= 3 && !this.p1ScoreIncreased) {
-          this.p1PVPTotal++;
-          this.p1ScoreIncreased = true;
-        }
-        if (this.currScoreP2 >= 3 && !this.p2ScoreIncreased) {
-          this.p2PVPTotal++;
-          this.p2ScoreIncreased = true;
-        }
       }
     }
   }
@@ -95,9 +112,7 @@ class Game {
     if (
       (!playerA.isActive && !coop && !pvpMode) ||
       (coop && !playerA.isActive && !playerB.isActive) ||
-      (pvpMode &&
-        this.roomSeq >= pvp_rounds &&
-        this.p1PVPTotal + this.p2PVPTotal >= 3)
+      (pvpMode && this.pvpCheckmate())
     ) {
       setTimeout(() => {
         this.gameState = GameStates.OVER;
@@ -106,8 +121,8 @@ class Game {
   }
 
   draw() {
-    if (pvpMode) this.pvpGameCycleCheck();
     this.checkIfGameOver();
+    if (pvpMode) this.pvpGameCycleCheck();
     if (!pvpMode) {
       this.currScoreP1 = Math.round(
         this.currentRoom.roomScoreAccumaltor + this.prevScoreP1
@@ -150,10 +165,10 @@ class Game {
 
   updateScores() {
     if (pvpMode) {
-      if (this.currScoreP1 >= 3) {
+      if (this.currScoreP1 >= 2) {
         this.p1PVPTotal++;
       }
-      if (this.currScoreP2 >= 3) {
+      if (this.currScoreP2 >= 2) {
         this.p2PVPTotal++;
       }
       this.currScoreP1 = 0;
