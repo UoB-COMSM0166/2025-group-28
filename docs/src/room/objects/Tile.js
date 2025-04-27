@@ -13,7 +13,6 @@ class Tile extends GameObject {
       this.heightHitbox = tileSize;
       this.position.x = tileSize * x + arena_offset;
       this.position.y = tileSize * y + arena_offset;
-      this.attackDamage = MeleeMob.attackDamage;
     }
   }
 }

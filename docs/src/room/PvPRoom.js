@@ -56,7 +56,6 @@ class PvPRoom {
             if (!player.isInvincible) {
               player.takeDamage(5);
               this.generator.createParticles(Blood, player.position.x, player.position.y, player.bloodColour);
-              player.makeInvincible();
             }
           }
         }
