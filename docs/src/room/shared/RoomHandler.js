@@ -153,7 +153,7 @@ class RoomHandler {
         }
         else if (this.room.roomLayout[j][i].type == tileTypes.TRAP){
           image(
-            trapTile,
+            this.room.currentTileColours[2],
             tileSize * i + arena_offset,
             tileSize * j + arena_offset,
             tileSize,
