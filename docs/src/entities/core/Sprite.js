@@ -70,23 +70,26 @@ class Sprite extends GameObject {
       }
     }
     this.health = Math.max(0, this.health - amount);
-    this.isDead();
+    if (this.health <= 0) this.isDead();
   }
 
   isDead() {
-    if (this.health <= 0) {
-      this.isActive = false;
-      if (this instanceof Player) {
-        this.resetOverheat();
-        if (!pvpMode) game.slowMeowHandler.reset();
-      }
-      if (!childMode) playSound(bloodSound2, playbackRate, true);
-      if (this.deathSound) {
-        if ((this instanceof BuffMob && game.currentRoom.mobs.length <= 1) ||
-            (!(this instanceof BuffMob))
-        ) {
-          playSound(this.deathSound, playbackRate, true);
+    if (this.health > 0) return;
+    this.isActive = false;
+    if (this instanceof Player) {
+      this.resetOverheat();
+      if (!pvpMode) {
+        if (!playerA.isActive && (!coop || !playerB.isActive)) {
+          game.slowMeowHandler.reset();
         }
+      }
+    }
+    if (!childMode) playSound(bloodSound2, playbackRate, true);
+    if (this.deathSound) {
+      if ((this instanceof BuffMob && game.currentRoom.mobs.length <= 1) ||
+          (!(this instanceof BuffMob))
+      ) {
+        playSound(this.deathSound, playbackRate, true);
       }
     }
   }

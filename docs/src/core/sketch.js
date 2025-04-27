@@ -232,17 +232,6 @@ function keyPressed() {
       inputField = null;
     }
   }
-
-  // SlowMeow gets activated with 'Q' or '/'
-  if (game && game.gameState == GameStates.ACTIVE) {
-    if (!transitioning && !pvpMode && !commandPrompt) {
-      if (playerA.isActive || (coop && playerB.isActive)) {
-        if (keyCode == 81 || keyCode == 191) {
-          game.slowMeowHandler.activate();
-        }
-      }
-    }
-  }
 }
 
 // Used for slowing down sounds in slow mo
@@ -317,7 +306,7 @@ function processCommand() {
       game.currentRoom.mobBuffActive = !game.currentRoom.mobBuffActive;
     }
   // Spawn desired mob type in top left corner of room
-  } else if (mobCommands[command] && game && game.currentRoom) {
+  } else if (mobCommands[command] && game && game.currentRoom && !pvpMode) {
     let { type, img } = mobCommands[command];
     let newMob = new type(img, 150, 150, game.difficultySettings);
     game.currentRoom.mobs.push(newMob);

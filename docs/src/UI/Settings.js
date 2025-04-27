@@ -100,14 +100,14 @@ class Settings {
       controlDisplay = createImg(arrow_icon);
     }
     controlDisplay.parent(howtopanel);
-    controlDisplay.position(20, 310);
-    controlDisplay.size(200, 230);
+    controlDisplay.position(0, 310);
+    controlDisplay.size(230, 250);
     controlDisplay.attribute("draggable", "false");
 
     let slowmeowhelp = createImg(add_ctrls);
     slowmeowhelp.parent(howtopanel);
-    slowmeowhelp.position(240, 320);
-    slowmeowhelp.size(140, 170);
+    slowmeowhelp.position(210, 325);
+    slowmeowhelp.size(120, 75);
     slowmeowhelp.attribute("draggable", "false");
 
     instBack = createP("<<");
@@ -239,7 +239,7 @@ class Settings {
     wasd = createImg(wasd_icon);
     wasd.parent(settingpanel);
     wasd.position(320, 100);
-    wasd.size(150, 160);
+    wasd.size(170, 180);
     wasd.attribute("draggable", "false");
     wasd.mouseClicked(() => {
       if (!muted) menuClickSound.play();
@@ -249,7 +249,7 @@ class Settings {
     arrow = createImg(arrow_icon);
     arrow.parent(settingpanel);
     arrow.position(500, 100);
-    arrow.size(150, 160);
+    arrow.size(160, 180);
     arrow.attribute("draggable", "false");
     arrow.mouseClicked(() => {
       if (!muted) menuClickSound.play();
@@ -391,24 +391,28 @@ class Settings {
       p1_left = 65;
       p1_right = 68;
       p1_shoot = 32;
+      p1_slowmeow = 81;
 
       p2_up = 38;
       p2_down = 40;
       p2_left = 37;
       p2_right = 39;
       p2_shoot = 13;
+      p2_slowmeow = 191;
     } else {
       p1_up = 38;
       p1_down = 40;
       p1_left = 37;
       p1_right = 39;
       p1_shoot = 13;
+      p1_slowmeow = 191;
 
       p2_up = 87;
       p2_down = 83;
       p2_left = 65;
       p2_right = 68;
       p2_shoot = 32;
+      p2_slowmeow = 81;
     }
   }
 }
