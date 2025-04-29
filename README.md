@@ -191,7 +191,8 @@ Using Wilcoxon Signed-Rank Test, both test results got W test statistic of 7.5. 
 ### Design
 
 ## Class Design
-<img width="1326" alt="image" src="https://github.com/user-attachments/assets/c917073a-db05-4221-8843-9dbd28e955f7" />
+<img width="1180" alt="image" src="https://github.com/user-attachments/assets/c3675008-9ef7-49b8-99fc-34f1edc8496e" />
+
 
 - [Design documents](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/DesignDoc.md) 
 
