@@ -46,41 +46,41 @@ classDiagram
 
     class Mob {
         <<abstract>>
-        +behaviorType
+        +health
+        +hitBoxWidth
+        +hitBoxHeight
+        +image
         +damage
-        +followPlayer()
-        +attack()
-        +applyDifficulty(Level.getDifficulty)
+        +moveTowardsPlayer()
     }
 
     class MeleeMob {
-        +type
-        +biteAtPlayer()
     }
 
     class RangedMob {
-        +mouseAbility
-        +useAbility()
+        +fire()
     }
 
     class BlinkMob {
-        +mouseAbility
-        +useAbility()
+        +blink()
     }
 
     class BuffMob {
-        +mouseAbility
-        +useAbility()
+        +handleIdleState()
+        +moveToPosition()
     }
 
     class DashMob {
-        +mouseAbility
-        +useAbility()
+        +updateTrail()
+        +prepareToDash()
+        +dash()
     }
 
     class RapidFireMob {
-        +mouseAbility
-        +useAbility()
+        +rapidFireCooldown
+        +rapidFireCooldownLimit
+        +beginRapidFire()
+        +handleRapidFire()
     }
 
     class Item {
@@ -125,16 +125,10 @@ classDiagram
     }
 
     class Tile {
-        +isWalkable
-        +isDestructible
+        +tileType
         +draw()
     }
 
-    class Wall {
-        +isWalkable = false
-        +isDestructible
-        +draw()
-    }
 
     class RoomHandler {
         +currentRoom
@@ -172,8 +166,8 @@ classDiagram
     Mob <|-- RangedMob
     Mob <|-- BlinkMob
     Mob <|-- BuffMob
-    Mob <|-- DashMob
-    Mob <|-- RapidFireMob
+    MeleeMob <|-- DashMob
+    RangedMob <|-- RapidFireMob
     GameObject <|-- Tile
     GameObject <|-- Sprite
     GameObject <|-- Projectile
@@ -182,6 +176,3 @@ classDiagram
     Item <|-- Energy
   
 
-    Item <|-- Weapon
-    Item <|-- Potion
-  
