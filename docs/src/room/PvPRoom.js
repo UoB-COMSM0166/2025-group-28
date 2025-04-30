@@ -47,22 +47,8 @@ class PvPRoom {
       announcementPlayed = true;
     }
 
-  // Handle trap collisions
-  for (let tileArr of this.roomLayout) {
-    for (let tile of tileArr) {
-      if (tile.type === tileTypes.TRAP) {
-        for (let player of [playerA, playerB]) {
-          if (player.isCollidingWith(tile)) {
-            if (!player.isInvincible) {
-              player.takeDamage(25);
-              this.generator.createParticles(Blood, player.position.x, player.position.y, player.bloodColour);
-              player.makeInvincible(500);
-            }
-          }
-        }
-      }
-    }
-  }
+    // Handle trap collisions
+    this.handler.handleTrapCollisions();
 
     // Handles wall collisions
     this.handler.checkWallCollisions();

@@ -71,6 +71,7 @@ const difficultySettings = Object.freeze([
     slowMeowLossMult: 0.75,
     heartHealth: 25,
     newMobRequirement: 4,
+    trapDamage: 5,
   },
   {
     // Normal mode
@@ -90,6 +91,7 @@ const difficultySettings = Object.freeze([
     slowMeowLossMult: 1.0,
     heartHealth: 20,
     newMobRequirement: 2,
+    trapDamage: 10,
   },
   {
     // Hard mode
@@ -109,6 +111,7 @@ const difficultySettings = Object.freeze([
     slowMeowLossMult: 1.5,
     heartHealth: 15,
     newMobRequirement: 0,
+    trapDamage: 15,
   },
 ]);
 

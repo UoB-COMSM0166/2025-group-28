@@ -2,7 +2,6 @@
 class RoomGenerator {
   constructor(currentRoom) {
     this.room = currentRoom;
-    
   }
 
   initRoom() {
@@ -37,46 +36,44 @@ class RoomGenerator {
       this.room.roomLayout.push(roomTiles);
     }
     this.scanRoom();
-    this.maybeAddTrapsToFloorTiles();
+    this.addTrapTiles();
     if (this.room instanceof Room) this.addDoor();
   }
 
-  maybeAddTrapsToFloorTiles() {
+  addTrapTiles() {
     const skipTiles = Array.from({ length: roomHeight }, () =>
       Array(roomWidth).fill(false)
     );
-    
     for (let j = wallBuffer; j < roomHeight - wallBuffer - 1 ; j++) {
       for (let i = wallBuffer; i < roomWidth - wallBuffer - 1; i++) {
         if (skipTiles[j][i]) continue;
-  
         const tile = this.room.roomLayout[j][i];
         if (tile.type === tileTypes.FLOOR && this.rollTileTrapChance()) {
-          if (game && game.difficulty == difficultyLevels.HARD){
+          if (game && game.difficulty == difficultyLevels.HARD) {
             const trapTypeRoll = Math.random();
-            if (trapTypeRoll < 0.33 && this.canPlaceTrapSQR(i,j,3)){
+            if (trapTypeRoll < 0.33 && this.canPlaceTrapSQR(i, j, 3)) {
               this.createTrapSQR(i, j, 3);
               this.markSkipTilesSQR(skipTiles, i, j, 3);
             }
-            if ((trapTypeRoll >= 0.33 && trapTypeRoll < 0.66) && this.canPlaceTrapPLUS(i,j)){
+            if ((trapTypeRoll >= 0.33 && trapTypeRoll < 0.66) && this.canPlaceTrapPLUS(i, j)) {
               this.createTrapPLUS(i, j);
               this.markSkipTilesPLUS(skipTiles, i, j);
             }
-            if ((0.66 < trapTypeRoll) && this.canPlaceTrapSQR(i,j,2)){
+            if ((0.66 < trapTypeRoll) && this.canPlaceTrapSQR(i, j, 2)) {
               this.createTrapSQR(i, j, 2);
               this.markSkipTilesSQR(skipTiles, i, j, 2);
             }
-          } else if ((game && game.difficulty != difficultyLevels.EASY) && (game && game.difficulty != difficultyLevels.HARD)){
+          } else if (game && game.difficulty == difficultyLevels.NORMAL) {
             const trapTypeRoll = Math.random();
-            if ((trapTypeRoll < 0.5) && this.canPlaceTrapPLUS(i,j)){
+            if ((trapTypeRoll < 0.5) && this.canPlaceTrapPLUS(i, j)) {
               this.createTrapPLUS(i, j);
               this.markSkipTilesPLUS(skipTiles, i, j);
             }
-            if ((trapTypeRoll > 0.5) && this.canPlaceTrapSQR(i,j,2)){
+            if ((trapTypeRoll > 0.5) && this.canPlaceTrapSQR(i, j, 2)) {
               this.createTrapSQR(i, j, 2);
               this.markSkipTilesSQR(skipTiles, i, j, 2);
             }
-          } else if ((game && game.difficulty == difficultyLevels.EASY)){
+          } else if ((game && game.difficulty == difficultyLevels.EASY)) {
             this.createTrapSQR(i, j, 2);
             this.markSkipTilesSQR(skipTiles, i, j, 2);
           }
@@ -90,11 +87,10 @@ class RoomGenerator {
       for (let i = 0; i < trapSize; i++) {
         const tx = x + i;
         const ty = y + j;
-  
         if (
           tx >= this.room.roomLayout[0].length ||
           ty >= this.room.roomLayout.length ||
-          this.room.roomLayout[ty][tx].type !== tileTypes.FLOOR
+          this.room.roomLayout[ty][tx].type != tileTypes.FLOOR
         ) {
           return false;
         }
@@ -102,7 +98,6 @@ class RoomGenerator {
     }
     return true;
   }
-  
 
   createTrapSQR(x, y, trapSize) {
     for (let j = 0; j < trapSize; j++) {
@@ -110,7 +105,7 @@ class RoomGenerator {
         const tx = x + i;
         const ty = y + j;
         const currentTile = this.room.roomLayout[ty][tx];
-        if (currentTile.type !== tileTypes.WALL) {
+        if (currentTile.type != tileTypes.WALL) {
           this.room.roomLayout[ty][tx] = new Tile(tileTypes.TRAP, tx, ty);
         }
       }
@@ -129,7 +124,7 @@ class RoomGenerator {
     return positions.every(([tx, ty]) =>
       tx < roomWidth &&
       ty < roomHeight &&
-      this.room.roomLayout[ty][tx].type === tileTypes.FLOOR
+      this.room.roomLayout[ty][tx].type == tileTypes.FLOOR
     );
   }
 
@@ -173,13 +168,11 @@ class RoomGenerator {
   }
 
   rollTileTrapChance() {
-    if (game && game.difficulty == difficultyLevels.HARD){
+    if (game && game.difficulty == difficultyLevels.HARD) {
       return Math.random() < 0.0025;
-    }
-    else if ((game && game.difficulty != difficultyLevels.EASY) && (game && game.difficulty != difficultyLevels.HARD)){
-      return Math.random()  < 0.002;
-    }
-    else if (game && game.difficulty == difficultyLevels.EASY){
+    } else if (game && game.difficulty == difficultyLevels.NORMAL) {
+      return Math.random() < 0.002;
+    } else if (game && game.difficulty == difficultyLevels.EASY) {
       return Math.random() < 0.0015;
     }
   }
