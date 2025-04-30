@@ -13,14 +13,14 @@ function preload() {
   tile_lightlightBlue = loadImage("assets/alternatetile10.png");
   walltile = loadImage("assets/wall_tile_m3.png");
   trapTile = loadImage("assets/Trap.png");
-  trapTileBlood = loadImage("assets/TrapWblood.png");
+
   trapTileAlt = loadImage("assets/TrapAlt.png");
   tileColours1 = [tile_darkGrey, tile_lightGrey, trapTileAlt];
   tileColours2 = [tile_darkBlue, tile_lightBlue, trapTileAlt];
   tileColours3 = [tile_darkYellow, tile_lightYellow,trapTile];
-  tileColours4 = [tile_lightTurquoise, tile_darkTurquoise, trapTileBlood];
+  tileColours4 = [tile_lightTurquoise, tile_darkTurquoise, trapTile];
   tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue, trapTileAlt];
-  tileColours5 = [tile_darkPurple, tile_lightPurple, trapTileBlood];
+  tileColours5 = [tile_darkPurple, tile_lightPurple, trapTile];
 
 
 
