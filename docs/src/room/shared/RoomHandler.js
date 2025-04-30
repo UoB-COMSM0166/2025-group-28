@@ -114,10 +114,12 @@ class RoomHandler {
   }
 
   // Also checks if inside trap tiles
-  checkInsideWall(x, y) {
+  checkInsideWall(x, y, checkTraps = false) {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
-        if (this.room.roomLayout[j][i].type != tileTypes.FLOOR) {
+        if (this.room.roomLayout[j][i].type == tileTypes.WALL ||
+          (checkTraps && this.room.roomLayout[j][i].type == tileTypes.TRAP)
+        ) {
           let wallX = this.room.roomLayout[j][i].position.x;
           let wallY = this.room.roomLayout[j][i].position.y;
           let wallWidth = this.room.roomLayout[j][i].widthHitbox;

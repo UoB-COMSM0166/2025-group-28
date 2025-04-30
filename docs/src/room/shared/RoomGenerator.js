@@ -168,13 +168,10 @@ class RoomGenerator {
   }
 
   rollTileTrapChance() {
-    if (game && game.difficulty == difficultyLevels.HARD) {
-      return Math.random() < 0.0025;
-    } else if (game && game.difficulty == difficultyLevels.NORMAL) {
-      return Math.random() < 0.002;
-    } else if (game && game.difficulty == difficultyLevels.EASY) {
+    if (!game) return;
+    if (game.difficulty == difficultyLevels.EASY) {
       return Math.random() < 0.0015;
-    }
+    } else return Math.random() < 0.002;
   }
 
   // Creates square wall pattern

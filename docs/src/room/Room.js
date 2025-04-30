@@ -533,7 +533,7 @@ class Room {
     if (!mob || mob instanceof BuffMob) return;
     let roll = random(0, 200);
     let item;
-    if (!this.handler.checkInsideWall(mob.position.x, mob.position.y)) {
+    if (!this.handler.checkInsideWall(mob.position.x, mob.position.y, true)) {
       if (roll < 24) {
         item = new Heart(mob.position.x, mob.position.y, pixelHeart);
         this.items.push(item);

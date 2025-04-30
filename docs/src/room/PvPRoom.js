@@ -162,7 +162,7 @@ class PvPRoom {
       );
       if (
         distanceFromEnemy > 300 &&
-        !this.handler.checkInsideWall(spawnX, spawnY)
+        !this.handler.checkInsideWall(spawnX, spawnY, true)
       ) {
         validSpawn = true;
         break;
