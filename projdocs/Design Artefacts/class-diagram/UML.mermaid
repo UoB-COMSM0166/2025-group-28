@@ -1,167 +1,158 @@
+---
+config:
+  theme: neo
+  layout: elk
+  look: neo
+---
 classDiagram
     class Game {
-        +currentRoom
-        +player
-        +gameState
-        +setup()
+        +currentRoom : Room
+        +player : Player
+        +difficulty
+        +score : number
+        +slowMeowHandler
+        +nextRoom()
         +update()
         +draw()
         +handleInput()
     }
-
     class GameObject {
         <<abstract>>
-        +pos
-        +vel
-        +widthHitBox
-        +heightHitBox
-        +widthModel
-        +heightModel
-        +color
-        +isActive
+        +pos : vector
+        +vel : vector
+        +widthHitBox : number
+        +heightHitBox : number
+        +widthModel : number
+        +heightModel : number
+        +isActive : boolean
         +update()
         +draw()
     }
-
     class Sprite {
         <<abstract>>
-        +health
-        +speed
-        +direction
+        +health : number
+        +speed : number
+        +direction : vector
         +activeEffects
-        +move()
-        +isColliding(Sprite)
         +takeDamage(amount)
         +draw()
     }
-
     class Player {
-        +fireRate
-        +lastShot
-        +inventory
+        +fireRate : number
+        +lastShot : number
         +shoot()
+        +move()
         +pickupItem()
         +handleInput()
     }
-
     class Mob {
         <<abstract>>
-        +behaviorType
+        +hitBoxWidth : number
+        +hitBoxHeight : number
+        +image
         +damage
-        +followPlayer()
-        +attack()
-        +applyDifficulty(Level.getDifficulty)
+        +moveTowardsPlayer()
     }
-
-    class Dog {
-        +type
-        +biteAtPlayer()
+    class MeleeMob {
     }
-
-    class Mouse {
-        +mouseAbility
-        +useAbility()
+    class RangedMob {
+        +fire()
     }
-
+    class BlinkMob {
+        +blink()
+    }
+    class BuffMob {
+        +handleIdleState()
+        +moveToPosition()
+    }
+    class DashMob {
+        +updateTrail()
+        +prepareToDash()
+        +dash()
+    }
+    class RapidFireMob {
+        +rapidFireCooldown : number
+        +rapidFireCooldownLimit : number
+        +beginRapidFire()
+        +handleRapidFire()
+    }
     class Item {
-        +effect
-        +isPickedUp
-        +apply(player)
+        +image 
     }
-
+    class Heart {
+        +draw()
+    }
+    class Energy {
+        +draw()
+    }
     class Projectile {
         +damage
         +lifetime
         +update()
         +checkCollisions()
     }
-
     class Room {
         +width
         +height
-        +mobs
-        +items
-        +doors
-        +tiles
+        +mobs : Mob[]
+        +projectiles : Projectile[]
+        +items : Item[]
+        +door : Door
+        +tiles : Tile[][]
         +update()
-        +draw(RoomType)
+        +draw()
         +addMob()
         +removMob()
     }
-
     class Door {
-        +isOpen
+        +isOpen : boolean
         +direction
         +targetRoom
         +open()
         +close()
     }
-
     class Tile {
-        +isWalkable
-        +isDestructible
+        +tileType
         +draw()
     }
-
-    class Wall {
-        +isWalkable = false
-        +isDestructible
-        +draw()
+    class RoomHandler {
+        +currentRoom : Room
+        +handleCollisions(GameObject)
+        +updateProjectiles()
     }
-
-
-
-    class Level {
-        +number
-        +rooms
+    class RoomGenerator {
+        +currentRoom : Room
+        +initRoom()
+        +addTraps()
+        +addWalls()
+        +addDoors()
+    }
+    class SlowMeowHandler {
         +currentRoom
-        +isCleared
-        +difficultyMultiplier
-        +generateRooms()
-        +connectRooms()
-        +moveToRoom(direction)
-        +checkClear()
-        +getDifficulty()
+        +applySlowMeow()
     }
-
-    class RoomType {
-        <<Enumeration>>
-        +ARMOURY
-        +CARGOBAY
-        +ENGINEERINGBAY
-        +CANTEEN
-        +BARRACKS
-        +HANGAR
-        +BRIDGE
-
-    }
-
-    class Weapon {
-
-    }
-
-    class Potion {
-
-    }
-
-    Game *-- Level
-    Game *-- Player
-    Level *-- Room
+    Game o-- Player
+    Game *-- Room
     Room *-- Door
-    Room o-- Mob
-    Room o-- Item
-    GameObject <|-- Sprite
+    Room *-- Mob
+    Room *-- Item
+    Room *-- Tile
+    Room *-- Particle
+    Room o-- SlowMeowHandler
+    Room o-- RoomHandler
+    Room o-- RoomGenerator
     Sprite <|-- Player
     Sprite <|-- Mob
     Sprite <|-- Item
-    Sprite <|-- Projectile
-    Mob <|-- Dog
-    Mob <|-- Mouse
-    Player o-- Projectile
-    Room o-- RoomType
+    Mob <|-- MeleeMob
+    Mob <|-- RangedMob
+    Mob <|-- BlinkMob
+    Mob <|-- BuffMob
+    MeleeMob <|-- DashMob
+    RangedMob <|-- RapidFireMob
     GameObject <|-- Tile
-    Tile <|-- Wall
-    Room o-- Tile
-    Item <|-- Weapon
-    Item <|-- Potion
-  
+    GameObject <|-- Sprite
+    GameObject <|-- Projectile
+    GameObject <|-- Particle
+    Item <|-- Heart
+    Item <|-- Energy
