@@ -1,154 +1,136 @@
+---
+config:
+  theme: neo
+  layout: elk
+  look: neo
+---
 classDiagram
     class Game {
-        +currentRoom
-        +player
+        +currentRoom : Room
+        +player : Player
         +difficulty
-        +score
+        +score : number
         +slowMeowHandler
         +nextRoom()
         +update()
         +draw()
         +handleInput()
     }
-
     class GameObject {
         <<abstract>>
-        +pos
-        +vel
-        +widthHitBox
-        +heightHitBox
-        +widthModel
-        +heightModel
-        +isActive
+        +pos : vector
+        +vel : vector
+        +widthHitBox : number
+        +heightHitBox : number
+        +widthModel : number
+        +heightModel : number
+        +isActive : boolean
         +update()
         +draw()
     }
-
     class Sprite {
         <<abstract>>
-        +health
-        +speed
-        +direction
+        +health : number
+        +speed : number
+        +direction : vector
         +activeEffects
         +takeDamage(amount)
         +draw()
     }
-
     class Player {
-        +fireRate
-        +lastShot
-        +inventory
+        +fireRate : number
+        +lastShot : number
         +shoot()
         +move()
         +pickupItem()
         +handleInput()
     }
-
     class Mob {
         <<abstract>>
-        +health
-        +hitBoxWidth
-        +hitBoxHeight
+        +hitBoxWidth : number
+        +hitBoxHeight : number
         +image
         +damage
         +moveTowardsPlayer()
     }
-
     class MeleeMob {
     }
-
     class RangedMob {
         +fire()
     }
-
     class BlinkMob {
         +blink()
     }
-
     class BuffMob {
         +handleIdleState()
         +moveToPosition()
     }
-
     class DashMob {
         +updateTrail()
         +prepareToDash()
         +dash()
     }
-
     class RapidFireMob {
-        +rapidFireCooldown
-        +rapidFireCooldownLimit
+        +rapidFireCooldown : number
+        +rapidFireCooldownLimit : number
         +beginRapidFire()
         +handleRapidFire()
     }
-
     class Item {
-        +image
+        +image 
     }
-
     class Heart {
         +draw()
     }
-
     class Energy {
         +draw()
     }
-
     class Projectile {
         +damage
         +lifetime
         +update()
         +checkCollisions()
     }
-
     class Room {
         +width
         +height
-        +mobs
-        +projectiles
-        +items
-        +doors
-        +tiles
+        +mobs : Mob[]
+        +projectiles : Projectile[]
+        +items : Item[]
+        +door : Door
+        +tiles : Tile[][]
         +update()
         +draw()
         +addMob()
         +removMob()
     }
-
     class Door {
-        +isOpen
+        +isOpen : boolean
         +direction
         +targetRoom
         +open()
         +close()
     }
-
     class Tile {
         +tileType
         +draw()
     }
-
-
     class RoomHandler {
-        +currentRoom
+        +currentRoom : Room
         +handleCollisions(GameObject)
         +updateProjectiles()
     }
-
     class RoomGenerator {
-        +currentRoom
+        +currentRoom : Room
         +initRoom()
         +addTraps()
         +addWalls()
         +addDoors()
     }
-
     class SlowMeowHandler {
         +currentRoom
         +applySlowMeow()
     }
-
     Game o-- Player
     Game *-- Room
     Room *-- Door
@@ -174,5 +156,3 @@ classDiagram
     GameObject <|-- Particle
     Item <|-- Heart
     Item <|-- Energy
-  
-
