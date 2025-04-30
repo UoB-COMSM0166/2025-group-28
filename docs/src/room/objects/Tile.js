@@ -8,7 +8,9 @@ class Tile extends GameObject {
       this.position.x = tileSize * x + arena_offset;
       this.position.y = tileSize * y + arena_offset;
       if (this.type == tileTypes.TRAP) {
-        this.damage = game.difficultySettings.trapDamage;
+        if (!pvpMode) {
+          this.damage = game.difficultySettings.trapDamage;
+        } else this.damage = 25;
       }
     }
   }
