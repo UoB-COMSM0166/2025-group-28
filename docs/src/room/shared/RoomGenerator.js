@@ -46,8 +46,8 @@ class RoomGenerator {
       Array(roomWidth).fill(false)
     );
     
-    for (let j = wallBuffer; j < roomHeight - wallBuffer; j++) {
-      for (let i = wallBuffer; i < roomWidth - wallBuffer; i++) {
+    for (let j = wallBuffer; j < roomHeight - wallBuffer - 1 ; j++) {
+      for (let i = wallBuffer; i < roomWidth - wallBuffer - 1; i++) {
         if (skipTiles[j][i]) continue;
   
         const tile = this.room.roomLayout[j][i];
@@ -109,7 +109,10 @@ class RoomGenerator {
       for (let i = 0; i < trapSize; i++) {
         const tx = x + i;
         const ty = y + j;
-        this.room.roomLayout[ty][tx] = new Tile(tileTypes.TRAP, tx, ty);
+        const currentTile = this.room.roomLayout[ty][tx];
+        if (currentTile.type !== tileTypes.WALL) {
+          this.room.roomLayout[ty][tx] = new Tile(tileTypes.TRAP, tx, ty);
+        }
       }
     }
   }
@@ -140,7 +143,10 @@ class RoomGenerator {
     ];
 
     for (const [tx, ty] of positions) {
-      this.room.roomLayout[ty][tx] = new Tile(tileTypes.TRAP, tx, ty);
+      const currentTile = this.room.roomLayout[ty][tx];
+      if (currentTile.type !== tileTypes.WALL) {
+        this.room.roomLayout[ty][tx] = new Tile(tileTypes.TRAP, tx, ty);
+      }
     }
   }
 
@@ -171,10 +177,10 @@ class RoomGenerator {
       return Math.random() < 0.0025;
     }
     else if ((game && game.difficulty != difficultyLevels.EASY) && (game && game.difficulty != difficultyLevels.HARD)){
-      return Math.random()  < 0.002
+      return Math.random()  < 0.002;
     }
     else if (game && game.difficulty == difficultyLevels.EASY){
-      return Math.random() < 0.0015
+      return Math.random() < 0.0015;
     }
   }
 

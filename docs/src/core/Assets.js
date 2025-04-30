@@ -17,7 +17,7 @@ function preload() {
   tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
 
 
-  trapTile = loadImage("assets/TrapWblood.png");
+  trapTile = loadImage("assets/TrapAlt.png");
   doorImg = loadImage("assets/spacedoor.gif");
   doorOpenImg = loadImage("assets/spacedoorOpen.gif");
   bullet = loadImage("assets/projectileM1.gif");
