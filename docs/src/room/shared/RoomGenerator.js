@@ -44,8 +44,8 @@ class RoomGenerator {
     const skipTiles = Array.from({ length: roomHeight }, () =>
       Array(roomWidth).fill(false)
     );
-    for (let j = wallBuffer; j < roomHeight - wallBuffer - 1 ; j++) {
-      for (let i = wallBuffer; i < roomWidth - wallBuffer - 1; i++) {
+    for (let j = trapBuffer; j < roomHeight - trapBuffer; j++) {
+      for (let i = trapBuffer; i < roomWidth - trapBuffer; i++) {
         if (skipTiles[j][i]) continue;
         const tile = this.room.roomLayout[j][i];
         if (tile.type === tileTypes.FLOOR && this.rollTileTrapChance()) {

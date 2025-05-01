@@ -7,7 +7,7 @@ class Mob extends Sprite {
     this.widthModel = 65;
     this.heightModel = 65;
     this.fireCooldown = 50;
-    this.fireCooldownLimit = 100;
+    this.fireCooldownLimit = 100 * difficultySettings.mobCooldownMult;
     this.fireReady = false;
     this.difficultySettings = difficultySettings
     this.speed = 1; // Slightly slower than players
