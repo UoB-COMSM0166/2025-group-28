@@ -9,7 +9,7 @@ let controlsToggle;
 let helpTextToggle;
 
 let instruction_set = [instr_1, instr_2, instr_3, instr_4,
-                      instr_5, instr_6, instr_7, instr_8];
+                      instr_5, instr_6, instr_7, instr_8, instr_9];
 let instr_count = 0;
 
 let instNext;
