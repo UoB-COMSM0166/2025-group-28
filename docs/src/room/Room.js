@@ -49,7 +49,7 @@ class Room {
       this.flickerP2Offset = 1000;
       this.flickerMobOffset = 2000;
       // Decrease transparency of lighting layer as rooms progress
-      this.transparency = Math.min(240, 160 + (roomsCleared / 5));
+      this.transparency = Math.min(240, 160 + (roomsCleared * 1.3));
     } else this.addLighting = false;
 
     this.generator = new RoomGenerator(this);
