@@ -12,7 +12,7 @@ class RangedMob extends Mob {
     this.projectileSpeed = 4;
     this.bloodColour = color(255, 215, 80, 255);
     this.projectileColour = color(255, 132, 93, 255);
-    this.fireCooldownLimit = 100;
+    this.fireCooldownLimit = 100 * difficultySettings.mobCooldownMult;
     this.deathSound = rangedMobDeathSound;
     this.checkIfSlowMeowActive();
   }

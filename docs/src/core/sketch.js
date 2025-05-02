@@ -260,7 +260,7 @@ function playSound(sound, rate, randomVolume = false) {
 
 // Command system to improve debugging/testing experience
 function processCommand() {
-  if (!inGame || !commandPrompt) return;
+  if (!inGame || !game || !commandPrompt) return;
 
   // For mob spawning commands (needs to be here instead of Constants.js)
   const mobCommands = {
@@ -290,7 +290,7 @@ function processCommand() {
     if (playerB) playerB.heatGain = 0;
   // Maxing slow meow level only takes 1 kill
   } else if (command == "fastmeow") {
-    if (game && game.slowMeowHandler) {
+    if (game.slowMeowHandler) {
       game.difficultySettings.slowMeowGainMult = 20;
     }
   // Players kill everything in 1 shot
@@ -302,14 +302,18 @@ function processCommand() {
     drawCollisions = !drawCollisions;
   // Toggle mob buff effect
   } else if (command == "buffmobs") {
-    if (!pvpMode && game && game.currentRoom) {
+    if (!pvpMode && game.currentRoom) {
       game.currentRoom.mobBuffActive = !game.currentRoom.mobBuffActive;
     }
   // Spawn desired mob type in top left corner of room
-  } else if (mobCommands[command] && game && game.currentRoom && !pvpMode) {
+  } else if (mobCommands[command] && game.currentRoom && !pvpMode) {
     let { type, img } = mobCommands[command];
     let newMob = new type(img, 150, 150, game.difficultySettings);
     game.currentRoom.mobs.push(newMob);
+  } else if (command == "clearroom" && game.currentRoom && !pvpMode) {
+    game.currentRoom.threatLevel = game.currentRoom.threatCap;
+    game.currentRoom.threatCapReached = true;
+    game.currentRoom.mobs = [];
   }
   inputField.value(""); // Clear input field after command entered
 }

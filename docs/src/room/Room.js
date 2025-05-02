@@ -100,10 +100,11 @@ class Room {
 
   checkDeadMobs() {
     for (let i = this.mobs.length - 1; i >= 0; i--) {
-      if (this.mobs[i].isActive) continue;
-      this.rollItemDrop(this.mobs[i]);
+      let mob = this.mobs[i];
+      if (mob.isActive) continue;
+      this.rollItemDrop(mob);
       this.mobsRemaining -= 1;
-      if (this.mobs[i] instanceof BuffMob) {
+      if (mob instanceof BuffMob) {
         if (this.mobs.length > 1) {
           // If other mobs are in room when BuffMob killed
           this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
@@ -124,8 +125,10 @@ class Room {
               game.slowMeowHandler.level + game.slowMeowHandler.gain
             );
           }
-          let item = new Heart(this.mobs[i].position.x, this.mobs[i].position.y, pixelHeart);
-          this.items.push(item);
+          if (random() < 1 * this.difficultySettings.dropChanceMult) {
+            let item = new Heart(mob.position.x, mob.position.y, pixelHeart);
+            this.items.push(item);
+          }
         }
       } else {
         this.roomScoreAccumaltor += 25;
@@ -532,12 +535,13 @@ class Room {
   rollItemDrop(mob) {
     if (!mob || mob instanceof BuffMob) return;
     let roll = random(0, 200);
+    let mult = this.difficultySettings.dropChanceMult;
     let item;
     if (!this.handler.checkInsideWall(mob.position.x, mob.position.y, true)) {
-      if (roll < 24) {
+      if (roll < 24 * mult) {
         item = new Heart(mob.position.x, mob.position.y, pixelHeart);
         this.items.push(item);
-      } else if (roll > 24 && roll < 59) {
+      } else if (roll > 24 * mult && roll < 59 * mult) {
         item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
         this.items.push(item);
       }
