@@ -1,6 +1,8 @@
 class PlayerHUD {
   static drawPlayerHealthBar() {
     let playerAHealthRatio = playerA.health / playerA.maxHealth;
+    // To stop 'god' command causing console spam
+    if (playerA.health == Infinity) playerAHealthRatio = 1;
     let frame = 13 - Math.ceil(13 * playerAHealthRatio);
     image(healthbar, 50, 220);
     healthbar.pause();
@@ -8,6 +10,7 @@ class PlayerHUD {
 
     if (coop || pvpMode) {
       let playerBHealthRatio = playerB.health / playerB.maxHealth;
+      if (playerB.health == Infinity) playerBHealthRatio = 1;
       let frame = 13 - Math.ceil(13 * playerBHealthRatio);
       image(healthbar_b, 910, 220);
       healthbar_b.pause();

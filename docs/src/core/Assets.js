@@ -1,4 +1,6 @@
 function preload() {
+  tile_darkPurple = loadImage("assets/alternatetile20.png");
+  tile_lightPurple = loadImage("assets/alternatetile21.png");
   tile_darkGrey = loadImage("assets/alternatetile1.png");
   tile_lightGrey = loadImage("assets/alternatetile2.png");
   tile_darkBlue = loadImage("assets/alternatetile3.png");
@@ -10,16 +12,21 @@ function preload() {
   tile_darkdarkBlue = loadImage("assets/alternatetile9.png");
   tile_lightlightBlue = loadImage("assets/alternatetile10.png");
   walltile = loadImage("assets/wall_tile_m3.png");
-  tileColours1 = [tile_darkGrey, tile_lightGrey];
-  tileColours2 = [tile_darkBlue, tile_lightBlue];
-  tileColours3 = [tile_darkYellow, tile_lightYellow];
-  tileColours4 = [tile_lightTurquoise, tile_darkTurquoise];
-  tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue];
+  trapTile = loadImage("assets/Trap.png");
+  trapTileAlt = loadImage("assets/TrapAlt.png");
+
+  tileColours1 = [tile_darkGrey, tile_lightGrey, trapTileAlt];
+  tileColours2 = [tile_darkBlue, tile_lightBlue, trapTileAlt];
+  tileColours3 = [tile_darkYellow, tile_lightYellow,trapTile];
+  tileColours4 = [tile_lightTurquoise, tile_darkTurquoise, trapTile];
+  tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue, trapTileAlt];
+  tileColours5 = [tile_darkPurple, tile_lightPurple, trapTile];
 
   doorImg = loadImage("assets/spacedoor.gif");
   doorOpenImg = loadImage("assets/spacedoorOpen.gif");
   bullet = loadImage("assets/projectileM1.gif");
-  fireball = loadImage("assets/fireballAI.png");
+  mobProjectileA = loadImage("assets/projectileM2v2.gif");
+  mobProjectileB = loadImage("assets/projectileM3.gif");
   buttonPrompt = loadImage("assets/doorprompt.gif");
   pixelHeart = loadImage("assets/heart.gif");
   pixelEnergy = loadImage("assets/energy.gif");
@@ -28,7 +35,9 @@ function preload() {
 
   heartMob_gif = loadImage("assets/HeartMobBossGif.gif");
   dogmob_gif = loadImage("assets/dogmob_v3.gif");
+  dashmob_gif = loadImage("assets/dashmob.gif");
   rangedmob_gif = loadImage("assets/yellowDogMob2.gif");
+  rapidfiremob_gif = loadImage("assets/rapidfiremob.gif");
   blinkMobGif = loadImage("assets/purpleDogMob.gif");
   astrocat_gif = loadImage("assets/astrocatM7.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
@@ -79,7 +88,9 @@ function preload() {
   // Music
   themeMusic = createAudio("assets/theme.mp3");
   gameMusic = createAudio("assets/gamemusic.mp3");
-  pvpMusic = createAudio("assets/pvpmusic.mp3");
+  pvpMusic1 = createAudio("assets/pvpmusic1.mp3");
+  pvpMusic2 = createAudio("assets/pvpmusic2.mp3");
+  pvpMusic3 = createAudio("assets/pvpmusic3.mp3");
 }
 
 // HTML <img> paths (no need to preload):
@@ -98,6 +109,8 @@ let setback = "assets/setback.png";
 
 let wasd_icon = "assets/wasd_icon.png";
 let arrow_icon = "assets/arrowpad_icon.png";
+let wasd_icon_pvp = "assets/wasd_icon_pvp.png";
+let arrow_icon_pvp = "assets/arrowpad_icon_pvp.png";
 
 let add_ctrls = "assets/additional_controls.png";
 
@@ -105,3 +118,10 @@ let instr_1 = "assets/instruction_a.png";
 let instr_2 = "assets/instruction_pickups.png";
 let instr_3 = "assets/instruction_overheat.png";
 let instr_4 = "assets/instruction_sm.png";
+let instr_5 = "assets/instruction_traps.png";
+let instr_6 = "assets/instruction_greendog.gif";
+let instr_7 = "assets/instruction_yellowdog.gif";
+let instr_8 = "assets/instruction_purpledog.gif";
+let instr_9 = "assets/instruction_heartmob.gif";
+let pg_back = "assets/pg_back6.png";
+let pg_gamestart = "assets/pg_gamestart.gif";

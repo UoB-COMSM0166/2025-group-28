@@ -14,7 +14,7 @@ class Projectile extends GameObject {
     this.image = image;
     this.widthHitbox = 5;
     this.heightHitbox = 5;
-    this.sparkColour = color(255, 215, 80, 255);
+    this.sparkColour = this.owner.projectileColour;
     if (this.owner instanceof Player) {
       this.scale = 14;
     } else this.scale = 16;

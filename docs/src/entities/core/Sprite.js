@@ -1,5 +1,4 @@
 class Sprite extends GameObject {
-
   constructor(img, x, y, maxHealth) {
     super(x, y);
 
@@ -71,42 +70,39 @@ class Sprite extends GameObject {
       }
     }
     this.health = Math.max(0, this.health - amount);
-    this.isDead();
+    if (this.health <= 0) this.isDead();
   }
 
   isDead() {
-    if (this.health <= 0) {
-      this.isActive = false;
-      if (!childMode) playSound(bloodSound2, playbackRate, true);
-      if (this.deathSound) {
-        if (this instanceof BuffMob && game.currentRoom.mobs.length <= 1) {
-          playSound(this.deathSound, playbackRate, true);
-        } else if (!(this instanceof BuffMob)) {
-          playSound(this.deathSound, playbackRate, true);
+    if (this.health > 0) return;
+    this.isActive = false;
+    if (this instanceof Player) {
+      this.resetOverheat();
+      if (!pvpMode) {
+        if (!playerA.isActive && (!coop || !playerB.isActive)) {
+          game.slowMeowHandler.reset();
         }
+      }
+    }
+    if (!childMode) playSound(bloodSound2, playbackRate, true);
+    if (this.deathSound) {
+      if ((this instanceof BuffMob && game.currentRoom.mobs.length <= 1) ||
+          (!(this instanceof BuffMob))
+      ) {
+        playSound(this.deathSound, playbackRate, true);
       }
     }
   }
 
-  checkIfSlowMeowActive() {
-    if (!this.isActive) return;
-    if (game && game.slowMeowHandler.occurring) {
-      if (this.isSlowed) return;
-      if (!this.isBuffed) this.originalSpeed = this.speed;
-      this.speed *= game.slowMeowHandler.movementSpeed;
-      if (this.canDash) this.dashSpeed *= game.slowMeowHandler.movementSpeed;
-      this.isSlowed = true;
-    } else this.isSlowed = false;
-  }
-
   // Adds i-frames to the entity
-  makeInvincible() {
+  makeInvincible(duration = 1000) {
     if (this.isInvincible || !this.isActive) return;
     if (this instanceof Player) this.timesHurt++;
     this.isInvincible = true;
     this.invincibilityStartTime = millis();
     this.lastFlashTime = millis();
     this.isFlashing = true;
+    this.invincibilityDuration = duration;
   }
 
   draw() {
@@ -134,7 +130,7 @@ class Sprite extends GameObject {
       pop();
     }
 
-    if (debug) {
+    if (drawCollisions) {
       // TESTING - draw collision boxes
       fill(0, 200, 0, 100);
       rect(

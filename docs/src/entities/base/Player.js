@@ -1,8 +1,8 @@
 class Player extends Sprite {
   constructor(img, x, y, player_x) {
     super(img, x, y, 100);
-    this.widthHitbox = 45;
-    this.heightHitbox = 60;
+    this.widthHitbox = 40;
+    this.heightHitbox = 65;
 
     this.player = player_x;
     this.controls = []; // Player control scheme
@@ -29,14 +29,18 @@ class Player extends Sprite {
     this.startFrame = 7;
     this.endFrame = 9;
     this.slowTimer = 0;
+    this.tintTimer = 0; // For tinting the player when they pick up an item
 
     this.bloodColour = color(210, 0, 0, 0);
+    this.projectileColour = color(255, 215, 80, 255);
 
     this.deathSound = playerDeathSound;
     this.painSound = [playerPainSound1, playerPainSound2];
 
     this.smokeParticles = [];
     this.smokeFrameCounter = 0; // Push smoke particles to array every x frames
+
+    this.warpParticles = [];
 
     // For behaviour monitoring
     this.timesHurt = 0;
@@ -46,11 +50,32 @@ class Player extends Sprite {
 
   update() {
     super.update();
+    if (game.slowMeowHandler && game.slowMeowHandler.occurring &&
+      this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
+      // Slow meow particle burst
+      let offsetX = random(-15, 15);
+      let offsetY = random(-30, 30);
+      this.warpParticles.push(new Warp(this.position.x + offsetX, this.position.y + offsetY));
+    }
+    for (let i = this.warpParticles.length - 1; i >= 0; i--) {
+      this.warpParticles[i].update();
+      if (this.warpParticles[i].isFinished()) {
+        this.warpParticles.splice(i, 1);
+      }
+    }
 
     if (this.fireOverheat && this.isActive) {
       this.smokeFrameCounter++;
       if (this.smokeFrameCounter % 3 == 0) {
-        this.smokeParticles.push(new Smoke(this.position.x, this.position.y - 25));
+        // Create smoke particles from different locations based on direction player is facing
+        if (this.lastDirection == "UP") {
+          this.smokeParticles.push(new Smoke(this.position.x - 4, this.position.y - 1));
+        } else if (this.lastDirection == "DOWN") {
+          this.smokeParticles.push(new Smoke(this.position.x, this.position.y - 25));
+        } else {
+          let xOffset = 14 * this.direction.x;
+          this.smokeParticles.push(new Smoke(this.position.x - xOffset, this.position.y + 1))
+        }
       }
     }
 
@@ -68,11 +93,32 @@ class Player extends Sprite {
   }
 
   draw() {
-    // Draw smoke particles behind player
-    for (let particle of this.smokeParticles) {
-      particle.draw();
+    if (this.tintTimer > 0 && this.isActive) {
+      // Player briefly flashes green when picking up an item
+      if (Math.floor(this.tintTimer / 100) % 3 == 0) {
+        tint(165, 255, 127);
+      }
+      this.tintTimer -= deltaTime;
     }
-    super.draw();
+    // Draw particles in front/behind player based on their direction of movement
+    if (this.lastDirection == "UP") {
+      super.draw();
+      for (let particle of this.smokeParticles) {
+        particle.draw();
+      }
+      for (let warp of this.warpParticles) {
+        warp.draw();
+      }
+    } else {
+      for (let warp of this.warpParticles) {
+        warp.draw();
+      }
+      for (let particle of this.smokeParticles) {
+        particle.draw();
+      }
+      super.draw();
+    }
+    noTint();
   }
 
   overheatSlow() {
@@ -83,9 +129,7 @@ class Player extends Sprite {
       else if (this.slowTimer == 150) this.speed = 1.8;
       else if (this.slowTimer == 200) this.speed = 2.4;
       else if (this.slowTimer > 200) this.speed = 2.75;
-      if (pvpMode || !game.slowMeowHandler.occurring) {
-        this.slowTimer++;
-      }
+      this.slowTimer++;
       this.originalSpeed = this.speed;
     }
   }
@@ -119,13 +163,11 @@ class Player extends Sprite {
 
     // Stops sprite animation when player isn't moving
     if (this.velocity.equals(0) || fadingOut || (pvpMode && fadingIn)) {
-      if (this.lastDirection === "LEFT") {
+      if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
         this.img.setFrame(1);
-      } else if (this.lastDirection === "RIGHT") {
-        this.img.setFrame(1);
-      } else if (this.lastDirection === "UP") {
+      } else if (this.lastDirection == "UP") {
         this.img.setFrame(13);
-      } else if (this.lastDirection === "DOWN") {
+      } else if (this.lastDirection == "DOWN") {
         this.img.setFrame(7);
       }
     }
@@ -203,7 +245,13 @@ class Player extends Sprite {
   }
 
   fire() {
-    if (!this.isActive || fadingOut || (pvpMode && fadingIn)) return;
+    if (
+      !this.isActive ||
+      fadingOut || (pvpMode && fadingIn) ||
+      (!pvpMode && game.slowMeowHandler.occurring)
+    ) {
+      return;
+    }
     if (this.fireOverheat) {
       if (!this.overheatSoundPlayed) {
         playSound(overheatStartSound, playbackRate);
@@ -244,15 +292,12 @@ class Player extends Sprite {
       }
       return;
     }
-    if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
-      this.img.setFrame(0);
-    } else {
-      this.img.setFrame(6);
-    }
+
+    this.setShootingFrame();
     playSound(playerGunSound, playbackRate);
     // Try to adjust starting position of projectile to be closer to player's gun
-    let xOffset = 15 * this.direction.x;
-    let yOffset = 15 * this.direction.y;
+    let xOffset = 40 * this.direction.x;
+    let yOffset = 40 * this.direction.y;
     let projectile = new Projectile(
       this.position.x + xOffset,
       this.position.y + yOffset,
@@ -273,17 +318,49 @@ class Player extends Sprite {
     }
   }
 
+  setShootingFrame() {
+    if (this.lastDirection == "UP") {
+      this.img.setFrame(18);
+    } else if (this.lastDirection == "DOWN") {
+      if (this.direction.x == 0) {
+        this.img.setFrame(6);
+      } else if (this.direction.x != 0) {
+        this.img.setFrame(19);
+      }
+    } else {
+      this.img.setFrame(0);
+    }
+    setTimeout(() => {
+      this.img.setFrame(this.endFrame);
+    }, 60);
+  }
+
   resetOverheat() {
     this.smokeParticles = [];
     this.fireCooldown = 0;
     this.slowTimer = 0;
     this.fireOverheat = false;
     if (!pvpMode && game.slowMeowHandler.occurring) {
-      this.speed = 2.75 * (game.slowMeowHandler.movementSpeed * 1.2);
+      this.speed = 2.75 * 1.2;
     } else {
       this.speed = 2.75;
     }
     this.originalSpeed = 2.75;
+  }
+
+  handleSlowMeow() {
+    if (!game || game.gameState != GameStates.ACTIVE ||
+      transitioning || commandPrompt) {
+      return;
+    }
+    // 'Q' key for player 1
+    if (this.player === playerNumber.PLAYER_1 && playerA.isActive && keyIsDown(p1_slowmeow)) {
+      game.slowMeowHandler.activate();
+    }
+    // '/' key for player 2
+    else if (this.player === playerNumber.PLAYER_2 && playerB.isActive && keyIsDown(p2_slowmeow)) {
+      game.slowMeowHandler.activate();
+    }
   }
 
   // For behaviour monitoring

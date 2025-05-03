@@ -1,5 +1,5 @@
-const pageWidth = 900;
-const pageHeight = 750;
+const pageWidth = 950;
+const pageHeight = 800;
 
 // Displacement from origin to start drawing room etc. - to centre room in new larger canvas
 const arena_offset = 100;
@@ -10,6 +10,7 @@ const roomWidth = 50;
 const tileSize = 16;
 const doorBuffer = 6; // To prevent door spawning too close to edges of room
 const wallBuffer = 7; // To prevent wall shapes spawning too close to outer walls
+const trapBuffer = 9;
 const step = 4;
 
 const knockbackForce = 4;
@@ -25,6 +26,7 @@ const GameStates = Object.freeze({
 const tileTypes = Object.freeze({
   FLOOR: 0,
   WALL: 1,
+  TRAP: 2,
 });
 
 const MoveDirections = Object.freeze({
@@ -60,15 +62,19 @@ const difficultySettings = Object.freeze([
     mobHealthMult: () => healthCalc(0.7),
     mobDamageMult: 0.65,
     mobSpeedMult: 0.85,
+    mobCooldownMult: 1.0,
     totalMobs: () => mobTotalIncrementer(),
     baseThreatMult: 0.5,
     baseAggressiveRating: 7,
     baseDefensiveRating: 5,
     heatGain: 20,
     heatDecay: 0.5,
-    slowMeowGainMult: 1.5,
-    slowMeowLossMult: 1.0,
+    slowMeowGainMult: 1.25,
+    slowMeowLossMult: 0.75,
+    dropChanceMult: 1.0,
     heartHealth: 25,
+    newMobRequirement: 4,
+    trapDamage: 5,
   },
   {
     // Normal mode
@@ -77,7 +83,8 @@ const difficultySettings = Object.freeze([
     maxMobs: 4,
     mobHealthMult: () => healthCalc(1.0),
     mobDamageMult: 1.0,
-    mobSpeedMult: 1.0,
+    mobSpeedMult: 1.1,
+    mobCooldownMult: 1.0,
     totalMobs: () => mobTotalIncrementer(),
     baseThreatMult: 1.0,
     baseAggressiveRating: 10,
@@ -86,25 +93,32 @@ const difficultySettings = Object.freeze([
     heatDecay: 0.55,
     slowMeowGainMult: 1.0,
     slowMeowLossMult: 1.0,
+    dropChanceMult: 1.0,
     heartHealth: 20,
+    newMobRequirement: 2,
+    trapDamage: 10,
   },
   {
     // Hard mode
     playerDamageMult: 1.0,
-    spawnRate: 3000,
+    spawnRate: 2000,
     maxMobs: 5,
-    mobHealthMult: () => healthCalc(1.32),
-    mobDamageMult: 1.75,
-    mobSpeedMult: 1.35,
+    mobHealthMult: () => healthCalc(1.0),
+    mobDamageMult: 2,
+    mobSpeedMult: 1.6,
+    mobCooldownMult: 0.8,
     totalMobs: () => mobTotalIncrementer(),
     baseThreatMult: 1.5,
     baseAggressiveRating: 15,
     baseDefensiveRating: 3,
     heatGain: 18,
     heatDecay: 0.6,
-    slowMeowGainMult: 1.0,
-    slowMeowLossMult: 2.0,
+    slowMeowGainMult: 0.75,
+    slowMeowLossMult: 1.5,
+    dropChanceMult: 0.5,
     heartHealth: 15,
+    newMobRequirement: 0,
+    trapDamage: 15,
   },
 ]);
 
