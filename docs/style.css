@@ -34,3 +34,7 @@ body {
   font-size: 18px;
   font-family: "ARCADE_I";
 }
+
+.navigation {
+  cursor: pointer;
+}
