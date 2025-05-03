@@ -1,3 +1,5 @@
+let menu_hover_caption;
+
 class Menu {
   static renderMenu() {
     menuContainer = createDiv();
@@ -28,6 +30,15 @@ class Menu {
     sp_button.attribute("draggable", "false");
     sp_button.mouseOver(Menu.singlePlayerHover);
     sp_button.mouseOut(Menu.singlePlayerEndHover);
+
+    menu_hover_caption = createP("-");
+    menu_hover_caption.parent(menuContainer);
+    menu_hover_caption.position(pageWidth / 2 - 200, pageHeight * 0.62 + 130);
+    menu_hover_caption.size(400, 50);
+    menu_hover_caption.style("font-family", "ARCADE_I");
+    menu_hover_caption.style("color", "white");
+    menu_hover_caption.style("display", "none");
+    menu_hover_caption.style("text-align", "center");
 
     coop_button = createImg(coopIcon);
     coop_button.parent(menuContainer);
@@ -100,34 +111,46 @@ class Menu {
   }
 
   static singlePlayerHover() {
+    menu_hover_caption.html("Explore the spaceship alone");
     sp_button.style("opacity", "1");
+    menu_hover_caption.style("display", "inline");
   }
 
   static coopHover() {
+    menu_hover_caption.html("Explore the spaceship together");
+    menu_hover_caption.style("display", "inline");
     coop_button.style("opacity", "1");
   }
 
   static stngHover() {
+    menu_hover_caption.html("Settings and How-to-play");
+    menu_hover_caption.style("display", "inline");
     stng_button.style("opacity", "1");
   }
 
   static pvpHover() {
+    menu_hover_caption.html("Fight each other in a deathmatch");
+    menu_hover_caption.style("display", "inline");
     pvp_button.style("opacity", "1");
   }
 
   static singlePlayerEndHover() {
     sp_button.style("opacity", "0.5");
+    menu_hover_caption.style("display", "none");
   }
 
   static coopEndHover() {
     coop_button.style("opacity", "0.5");
+    menu_hover_caption.style("display", "none");
   }
 
   static stngEndHover() {
     stng_button.style("opacity", "0.5");
+    menu_hover_caption.style("display", "none");
   }
 
   static pvpEndHover() {
     pvp_button.style("opacity", "0.5");
+    menu_hover_caption.style("display", "none");
   }
 }
