@@ -32,8 +32,6 @@ class Room {
       this.canSpawnBlinkMob = true;
     } else this.canSpawnBlinkMob = false;
 
-    this.dashMobCount = 0;
-
     // bonus point vars
     this.damageTakenP1 = 0;
     this.damageDealtP1 = 0;
@@ -44,9 +42,14 @@ class Room {
     if (
       (game && game.difficulty != difficultyLevels.EASY) &&
       roomsCleared >= 10 &&
-      random() < Math.min(0.75, roomsCleared / 100)
+      random() < Math.min(0.75, roomsCleared / 50)
     ) {
-       this.addLighting = true;
+      this.addLighting = true;
+      this.flickerP1Offset = 0;
+      this.flickerP2Offset = 1000;
+      this.flickerMobOffset = 2000;
+      // Decrease transparency of lighting layer as rooms progress
+      this.transparency = Math.min(240, 160 + (roomsCleared * 1.3));
     } else this.addLighting = false;
 
     this.generator = new RoomGenerator(this);
@@ -84,6 +87,9 @@ class Room {
       }
     }
 
+    // Handle trap collisions
+    this.handler.handleTrapCollisions();
+
     // Handle wall collisions
     this.handler.checkWallCollisions();
 
@@ -94,10 +100,11 @@ class Room {
 
   checkDeadMobs() {
     for (let i = this.mobs.length - 1; i >= 0; i--) {
-      if (this.mobs[i].isActive) continue;
-      this.rollItemDrop(this.mobs[i]);
+      let mob = this.mobs[i];
+      if (mob.isActive) continue;
+      this.rollItemDrop(mob);
       this.mobsRemaining -= 1;
-      if (this.mobs[i] instanceof BuffMob) {
+      if (mob instanceof BuffMob) {
         if (this.mobs.length > 1) {
           // If other mobs are in room when BuffMob killed
           this.roomScoreAccumaltor += 5; // Give smaller score as player activated buff
@@ -118,8 +125,10 @@ class Room {
               game.slowMeowHandler.level + game.slowMeowHandler.gain
             );
           }
-          let item = new Heart(this.mobs[i].position.x, this.mobs[i].position.y, pixelHeart);
-          this.items.push(item);
+          if (random() < 1 * this.difficultySettings.dropChanceMult) {
+            let item = new Heart(mob.position.x, mob.position.y, pixelHeart);
+            this.items.push(item);
+          }
         }
       } else {
         this.roomScoreAccumaltor += 25;
@@ -142,6 +151,52 @@ class Room {
     }
   }
 
+  drawLighting() {
+    lightingLayer.clear();
+
+    // Draw a semi-transparent black rectangle over the playable area
+    lightingLayer.fill(0, this.transparency);
+    lightingLayer.rect(0, 0, lightingLayer.width, lightingLayer.height);
+
+    // Cut out transparent circles for light sources
+    lightingLayer.erase();
+
+    if (playerA.isActive) {
+      let flickerP1 = noise(this.flickerP1Offset) * 20 - 10;
+      this.drawLightGradient(playerA.position.x, playerA.position.y, 160, flickerP1);
+    }
+    if (coop && playerB.isActive) {
+      let flickerP2 = noise(this.flickerP2Offset) * 20 - 10;
+      this.drawLightGradient(playerB.position.x, playerB.position.y, 160, flickerP2);
+    }
+    for (let i = 0; i < this.mobs.length; i++) {
+      let mob = this.mobs[i];
+      if (mob.isActive) {
+        let flickerMob = noise(this.flickerMobOffset + i * 100) * 15 - 5;
+        this.drawLightGradient(mob.position.x, mob.position.y, 140, flickerMob);
+      }
+    }
+
+    lightingLayer.noErase();
+
+    image(lightingLayer, 0, 0);
+    this.flickerP1Offset += random(0.03, 0.06);
+    this.flickerP2Offset += random(0.03, 0.06);
+    this.flickerMobOffset += random(0.03, 0.06);
+    if (this.flickerP1Offset > 10000) this.flickerP1Offset = 0;
+    if (this.flickerP2Offset > 10000) this.flickerP2Offset = 1000;
+    if (this.flickerMobOffset > 10000) this.flickerMobOffset = 2000;
+  }
+
+  drawLightGradient(x, y, radius, flicker) {
+    for (let r = radius; r > 0; r -= 5) {
+      // Gradually reduce alpha around edge of circle
+      let alpha = map(r, 0, radius, 255, 0);
+      lightingLayer.fill(0, 0, 0, alpha);
+      lightingLayer.ellipse(x, y, r + flicker, r + flicker);
+    }
+  }
+
   draw() {
     this.handler.drawRoomTiles();
     this.door.draw();
@@ -155,9 +210,11 @@ class Room {
     }
 
     playerA.fire();
+    playerA.handleSlowMeow();
     playerA.draw();
     if (coop) {
       playerB.fire();
+      playerB.handleSlowMeow();
       playerB.draw();
     }
 
@@ -177,7 +234,7 @@ class Room {
 
     this.handleProjectileCollisions();
 
-    if (this.addLighting) drawLighting();
+    if (this.addLighting) this.drawLighting();
 
     PlayerHUD.drawPlayerHealthBar();
 
@@ -389,30 +446,21 @@ class Room {
     // This is here instead of Constants.js as assets and mobs need initialising before this accesses them
     let mobTypes = [
       { type: MeleeMob, gif: dogmob_gif, threat: 3, counters: ["defensive"], spawnChance: 1.1 },
-      { type: DashMob, gif: dashmob_gif, threat: 3, counters: ["defensive"], spawnChance: 0 },
+      { type: DashMob, gif: dashmob_gif, threat: 5, counters: ["defensive"], spawnChance: 0 },
       { type: RangedMob, gif: rangedmob_gif, threat: 5, counters: ["aggressive"], spawnChance: 1 },
-      { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.7 },
+      { type: RapidFireMob, gif: rapidfiremob_gif, threat: 5, counters: ["aggressive"], spawnChance: 0 },
+      { type: BlinkMob, gif: blinkMobGif, threat: 12, counters: ["defensive"], spawnChance: 0.65 },
       { type: BuffMob, gif: heartMob_gif, threat: 0, counters: ["aggressive"], spawnChance: 0.3 }
     ];
-  
-    // Gradually adjust spawn chances based on rooms cleared
+
+    // Gradually adjust certain spawn chances based on rooms cleared
     const roomsCleared = behaviourMonitor.getRoomsCleared();
-    
-    // Decrease MeleeMob chance and increase DashMob chance as rooms increase
-    if (roomsCleared > 0) {
-      // Find the MeleeMob and DashMob in the array
-      const meleeMobIndex = mobTypes.findIndex(mob => mob.type === MeleeMob);
-      const dashMobIndex = mobTypes.findIndex(mob => mob.type === DashMob);
-      
-      if (meleeMobIndex !== -1 && dashMobIndex !== -1) {
-        // decrease MeleeMob spawn chance by 0.1 per room
-        mobTypes[meleeMobIndex].spawnChance = Math.max(0.3, 1.2 - (roomsCleared * 0.1));
-        
-        // increase DashMob spawn chance by 0.1 per room
-        mobTypes[dashMobIndex].spawnChance = Math.min(0.8, 0.0 + (roomsCleared * 0.1));
-      }
+
+    // Decrease MeleeMob/RangedMob chance & increase DashMob/RapidFireMob chance as rooms increase
+    if (roomsCleared > this.difficultySettings.newMobRequirement) {
+      this.updateSpawnChances(mobTypes, roomsCleared);
     }
-  
+
     let playerBehaviour = behaviourMonitor.getBehaviourProfile();
     let behaviourKeys = Object.keys(playerBehaviour).filter(
       (key) => playerBehaviour[key]
@@ -462,15 +510,38 @@ class Room {
     }
   }
 
+  updateSpawnChances(mobTypes, roomsCleared) {
+    // Find the MeleeMob and DashMob in the array
+    const meleeMobIndex = mobTypes.findIndex(mob => mob.type === MeleeMob);
+    const dashMobIndex = mobTypes.findIndex(mob => mob.type === DashMob);
+
+    if (meleeMobIndex != -1 && dashMobIndex != -1) {
+      // Decrease MeleeMob spawn chance by 0.05 per room
+      mobTypes[meleeMobIndex].spawnChance = Math.max(0.6, 1.1 - (roomsCleared * 0.05));
+
+      // Increase DashMob spawn chance by 0.1 per room
+      mobTypes[dashMobIndex].spawnChance = Math.min(0.5, 0 + (roomsCleared * 0.1));
+    }
+
+    const rangedMobIndex = mobTypes.findIndex(mob => mob.type === RangedMob);
+    const rapidFireMobIndex = mobTypes.findIndex(mob => mob.type === RapidFireMob);
+
+    if (rangedMobIndex != -1 && rapidFireMobIndex != -1) {
+      mobTypes[rangedMobIndex].spawnChance = Math.max(0.5, 1 - (roomsCleared * 0.05));
+      mobTypes[rapidFireMobIndex].spawnChance = Math.min(0.5, 0 + (roomsCleared * 0.1));
+    }
+  }
+
   rollItemDrop(mob) {
     if (!mob || mob instanceof BuffMob) return;
     let roll = random(0, 200);
+    let mult = this.difficultySettings.dropChanceMult;
     let item;
-    if (!this.handler.checkInsideWall(mob.position.x, mob.position.y)) {
-      if (roll < 29) {
+    if (!this.handler.checkInsideWall(mob.position.x, mob.position.y, true)) {
+      if (roll < 24 * mult) {
         item = new Heart(mob.position.x, mob.position.y, pixelHeart);
         this.items.push(item);
-      } else if (roll > 29 && roll < 64) {
+      } else if (roll > 24 * mult && roll < 59 * mult) {
         item = new Energy(mob.position.x, mob.position.y, pixelEnergy);
         this.items.push(item);
       }
@@ -480,18 +551,25 @@ class Room {
   applyItemBuff(item, player) {
     if (!item || !item.isActive || !player || !player.isActive) return;
     if (item instanceof Heart) {
-      if (!muted) {
-        if (player.health >= player.maxHealth) itemSound1.play();
-        else itemSound2.play();
+      if (player.health >= player.maxHealth) {
+        if (!muted) itemSound1.play();
+      } else {
+        if (!muted) itemSound2.play();
+        player.tintTimer = 700;
+        player.health = Math.min(
+          player.maxHealth,
+          player.health + this.difficultySettings.heartHealth
+        );
       }
-      player.health = Math.min(player.maxHealth, player.health + this.difficultySettings.heartHealth);
     } else if (item instanceof Energy) {
-      if (!muted) {
-        if (player.fireCooldown <= 0) itemSound1.play();
-        else itemSound2.play();
+      if (player.fireCooldown <= 0) {
+        if (!muted) itemSound1.play();
+      } else {
+        if (!muted) itemSound2.play();
+        player.tintTimer = 700;
+        if (player.fireOverheat) playSound(overheatEndSound, playbackRate);
+        player.resetOverheat();
       }
-      if (player.fireOverheat) playSound(overheatEndSound, playbackRate);
-      player.resetOverheat();
     }
     item.isActive = false;
   }

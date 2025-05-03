@@ -4,8 +4,10 @@ classDiagram
     class Game {
         +currentRoom
         +player
-        +gameState
-        +setup()
+        +difficulty
+        +score
+        +slowMeowHandler
+        +nextRoom()
         +update()
         +draw()
         +handleInput()
@@ -19,7 +21,6 @@ classDiagram
         +heightHitBox
         +widthModel
         +heightModel
-        +color
         +isActive
         +update()
         +draw()
@@ -31,8 +32,6 @@ classDiagram
         +speed
         +direction
         +activeEffects
-        +move()
-        +isColliding(Sprite)
         +takeDamage(amount)
         +draw()
     }
@@ -42,33 +41,60 @@ classDiagram
         +lastShot
         +inventory
         +shoot()
+        +move()
         +pickupItem()
         +handleInput()
     }
 
     class Mob {
         <<abstract>>
-        +behaviorType
+        +health
+        +hitBoxWidth
+        +hitBoxHeight
+        +image
         +damage
-        +followPlayer()
-        +attack()
-        +applyDifficulty(Level.getDifficulty)
+        +moveTowardsPlayer()
     }
 
-    class Dog {
-        +type
-        +biteAtPlayer()
+    class MeleeMob {
     }
 
-    class Mouse {
-        +mouseAbility
-        +useAbility()
+    class RangedMob {
+        +fire()
+    }
+
+    class BlinkMob {
+        +blink()
+    }
+
+    class BuffMob {
+        +handleIdleState()
+        +moveToPosition()
+    }
+
+    class DashMob {
+        +updateTrail()
+        +prepareToDash()
+        +dash()
+    }
+
+    class RapidFireMob {
+        +rapidFireCooldown
+        +rapidFireCooldownLimit
+        +beginRapidFire()
+        +handleRapidFire()
     }
 
     class Item {
-        +effect
-        +isPickedUp
-        +apply(player)
+        +image
+    }
+
+    class Heart {
+        +draw()
+    }
+
+    class Energy {
+        +draw()
     }
 
     class Projectile {
@@ -82,11 +108,12 @@ classDiagram
         +width
         +height
         +mobs
+        +projectiles
         +items
         +doors
         +tiles
         +update()
-        +draw(RoomType)
+        +draw()
         +addMob()
         +removMob()
     }
@@ -100,72 +127,58 @@ classDiagram
     }
 
     class Tile {
-        +isWalkable
-        +isDestructible
-        +draw()
-    }
-
-    class Wall {
-        +isWalkable = false
-        +isDestructible
+        +tileType
         +draw()
     }
 
 
-
-    class Level {
-        +number
-        +rooms
+    class RoomHandler {
         +currentRoom
-        +isCleared
-        +difficultyMultiplier
-        +generateRooms()
-        +connectRooms()
-        +moveToRoom(direction)
-        +checkClear()
-        +getDifficulty()
+        +handleCollisions(GameObject)
+        +updateProjectiles()
     }
 
-    class RoomType {
-        <<Enumeration>>
-        +ARMOURY
-        +CARGOBAY
-        +ENGINEERINGBAY
-        +CANTEEN
-        +BARRACKS
-        +HANGAR
-        +BRIDGE
-
+    class RoomGenerator {
+        +currentRoom
+        +initRoom()
+        +addTraps()
+        +addWalls()
+        +addDoors()
     }
 
-    class Weapon {
-
+    class SlowMeowHandler {
+        +currentRoom
+        +applySlowMeow()
     }
 
-    class Potion {
-
-    }
-
-    Game *-- Level
-    Game *-- Player
-    Level *-- Room
+    Game o-- Player
+    Game *-- Room
     Room *-- Door
-    Room o-- Mob
-    Room o-- Item
-    GameObject <|-- Sprite
+    Room *-- Mob
+    Room *-- Item
+    Room *-- Tile
+    Room *-- Particle
+    Room o-- SlowMeowHandler
+    Room o-- RoomHandler
+    Room o-- RoomGenerator
     Sprite <|-- Player
     Sprite <|-- Mob
     Sprite <|-- Item
-    Sprite <|-- Projectile
-    Mob <|-- Dog
-    Mob <|-- Mouse
-    Player o-- Projectile
-    Room o-- RoomType
+    Mob <|-- MeleeMob
+    Mob <|-- RangedMob
+    Mob <|-- BlinkMob
+    Mob <|-- BuffMob
+    MeleeMob <|-- DashMob
+    RangedMob <|-- RapidFireMob
     GameObject <|-- Tile
-    Tile <|-- Wall
-    Room o-- Tile
-    Item <|-- Weapon
-    Item <|-- Potion
+    GameObject <|-- Sprite
+    GameObject <|-- Projectile
+    GameObject <|-- Particle
+    Item <|-- Heart
+    Item <|-- Energy
+  
+
+
 
 ```
   

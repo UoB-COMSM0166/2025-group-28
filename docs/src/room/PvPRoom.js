@@ -47,6 +47,9 @@ class PvPRoom {
       announcementPlayed = true;
     }
 
+    // Handle trap collisions
+    this.handler.handleTrapCollisions();
+
     // Handles wall collisions
     this.handler.checkWallCollisions();
 
@@ -159,7 +162,7 @@ class PvPRoom {
       );
       if (
         distanceFromEnemy > 300 &&
-        !this.handler.checkInsideWall(spawnX, spawnY)
+        !this.handler.checkInsideWall(spawnX, spawnY, true)
       ) {
         validSpawn = true;
         break;
@@ -170,10 +173,10 @@ class PvPRoom {
     if (validSpawn) {
       if (player === playerB) {
         playerB = new Player(player.img, spawnX, spawnY, player.player);
-        playerB.makeInvincible();
+        playerB.makeInvincible(500);
       } else {
         playerA = new Player(player.img, spawnX, spawnY, player.player);
-        playerA.makeInvincible();
+        playerA.makeInvincible(500);
       }
     }
   }

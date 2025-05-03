@@ -17,8 +17,8 @@ let pvpTrack;
 
 let coop = false;
 let inGame = false;
+let inPauseMenu = false;
 let childMode = false;
-let debug = false;
 let sp_button;
 let coop_button;
 let stng_button;
@@ -43,13 +43,7 @@ let pause_stng_overlay = false;
 
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
-
 let difficultyTints = ["#52BB36", "#969190", "#D14042"];
-
-//77,99,68
-//166,171,164
-//186,41,34
-
 let diffTint = difficultyTints[0];
 let difficultyButton;
 
@@ -77,19 +71,25 @@ let slowMeowLoss = slowMeowGain / 3;
 
 let playbackRate = 1; // For adjusting SFX speed in slow mo
 
-let wasd_control = true;
-let pvp_rounds = 1; //var for 'best of x' system
+let pvp_rounds = 1; // Var for 'best of x' system
 
+let wasd_control = true;
+
+// Player control key codes
 let p1_up = 87;
 let p1_down = 83;
 let p1_left = 65;
 let p1_right = 68;
 let p1_shoot = 32;
+let p1_slowmeow = 81;
 
 let p2_up = 38;
 let p2_down = 40;
 let p2_left = 37;
 let p2_right = 39;
 let p2_shoot = 13;
+let p2_slowmeow = 191;
 
-let frame = 0;
+// Debugging vars
+let commandPrompt = false;
+let drawCollisions = false;

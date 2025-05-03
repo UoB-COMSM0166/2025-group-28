@@ -190,8 +190,10 @@ Using Wilcoxon Signed-Rank Test, both test results got W test statistic of 7.5. 
 
 ### Design
 
-- 15% ~750 words 
-- System architecture. [Class diagrams](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/Design%20Artefacts/class-diagram), behavioural diagrams.
+## Class Design
+<img width="1180" alt="image" src="https://github.com/user-attachments/assets/c3675008-9ef7-49b8-99fc-34f1edc8496e" />
+
+
 - [Design documents](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/DesignDoc.md) 
 
 ### Implementation

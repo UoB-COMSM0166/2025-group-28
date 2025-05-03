@@ -27,7 +27,10 @@ class SlowMeowHandler {
   reset() {
     if (this.occurring) this.level = 0;
     // Slow mo end sound should only play if slow meow was active when moving rooms
-    let playSounds = this.occurring;
+    let playSounds;
+    if (playerA.isActive || (coop && playerB.isActive)) {
+      playSounds = this.occurring;
+    } else playSounds = false;
     this.occurring = false;
     this.apply(this.occurring, playSounds);
   }
@@ -137,7 +140,9 @@ class SlowMeowHandler {
           } else {
             mob.speed = mob.originalSpeed;
             mob.isSlowed = false;
-            if (mob.canDash) mob.dashSpeed = mob.originalDashSpeed;
+            if (mob instanceof DashMob) {
+             mob.dashSpeed = mob.originalDashSpeed;
+            }
           }
         }
       }

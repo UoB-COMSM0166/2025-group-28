@@ -6,6 +6,7 @@ class RoomHandler {
 
   updateProjectiles() {
     for (let p of projectileManager.projectilesFired) {
+      if (!p.isActive) continue;
       if (
         p.position.x < (tileSize * 2.75) + arena_offset ||
         p.position.x > (roomWidth * tileSize) - (tileSize * 2.75) + arena_offset ||
@@ -26,6 +27,7 @@ class RoomHandler {
   }
 
   handleWallCollision(player, wall) {
+    if (!player || !player.isActive || !wall) return;
     // Calculate the boundaries of both objects
     const playerLeft = player.position.x - player.widthHitbox / 2;
     const playerRight = player.position.x + player.widthHitbox / 2;
@@ -92,10 +94,32 @@ class RoomHandler {
     }
   }
 
-  checkInsideWall(x, y) {
+  handleTrapCollisions() {
+    for (let tileArr of this.room.roomLayout) {
+      for (let tile of tileArr) {
+        if (tile.type != tileTypes.TRAP) continue;
+        for (let player of [playerA, playerB]) {
+          if (player === playerB && (!coop || !pvpMode)) continue;
+          if (player.isCollidingWith(tile)) {
+            if (player.isInvincible) continue;
+            player.takeDamage(tile.damage);
+            this.room.generator.createParticles(Blood, player.position.x,
+                                  player.position.y, player.bloodColour);
+            player.applyKnockback(tile.position.x, tile.position.y);
+            player.makeInvincible();
+          }
+        }
+      }
+    }
+  }
+
+  // Also checks if inside trap tiles
+  checkInsideWall(x, y, checkTraps = false) {
     for (let j = 0; j < roomHeight; j++) {
       for (let i = 0; i < roomWidth; i++) {
-        if (this.room.roomLayout[j][i].type == tileTypes.WALL) {
+        if (this.room.roomLayout[j][i].type == tileTypes.WALL ||
+          (checkTraps && this.room.roomLayout[j][i].type == tileTypes.TRAP)
+        ) {
           let wallX = this.room.roomLayout[j][i].position.x;
           let wallY = this.room.roomLayout[j][i].position.y;
           let wallWidth = this.room.roomLayout[j][i].widthHitbox;
@@ -126,7 +150,7 @@ class RoomHandler {
             tileSize,
             tileSize
           );
-          if (debug) {
+          if (drawCollisions) {
             // TESTING - draw collision box
             fill(0, 200, 0, 100);
             rect(
@@ -136,13 +160,22 @@ class RoomHandler {
               this.room.roomLayout[j][i].heightHitbox
             );
           }
-        } else {
+        } else if (this.room.roomLayout[j][i].type == tileTypes.FLOOR) {
           let tiledex = 1;
           if (j % 2 == 0 && i % 2 == 0) {
             tiledex = 0;
           }
           image(
             this.room.currentTileColours[tiledex],
+            tileSize * i + arena_offset,
+            tileSize * j + arena_offset,
+            tileSize,
+            tileSize
+          );
+        }
+        else if (this.room.roomLayout[j][i].type == tileTypes.TRAP) {
+          image(
+            this.room.currentTileColours[2],
             tileSize * i + arena_offset,
             tileSize * j + arena_offset,
             tileSize,

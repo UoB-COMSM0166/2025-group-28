@@ -8,7 +8,17 @@ let gameOrange = "rgb(255, 109, 0)";
 let controlsToggle;
 let helpTextToggle;
 
-let instruction_set = [instr_1, instr_2, instr_3, instr_4];
+let instruction_set = [
+  instr_1,
+  instr_2,
+  instr_3,
+  instr_4,
+  instr_5,
+  instr_6,
+  instr_7,
+  instr_8,
+  instr_9,
+];
 let instr_count = 0;
 
 let instNext;
@@ -100,14 +110,14 @@ class Settings {
       controlDisplay = createImg(arrow_icon);
     }
     controlDisplay.parent(howtopanel);
-    controlDisplay.position(20, 310);
-    controlDisplay.size(200, 230);
+    controlDisplay.position(0, 310);
+    controlDisplay.size(230, 250);
     controlDisplay.attribute("draggable", "false");
 
     let slowmeowhelp = createImg(add_ctrls);
     slowmeowhelp.parent(howtopanel);
-    slowmeowhelp.position(240, 320);
-    slowmeowhelp.size(140, 170);
+    slowmeowhelp.position(210, 325);
+    slowmeowhelp.size(120, 75);
     slowmeowhelp.attribute("draggable", "false");
 
     instBack = createP("<<");
@@ -115,6 +125,7 @@ class Settings {
     instBack.style("background-color", "gray");
     instBack.parent(howtopanel);
     instBack.attribute("draggable", "false");
+    instBack.class("navigation");
     instBack.mouseClicked(() => {
       if (!muted && instr_count > 0) {
         menuClickSound.play();
@@ -130,6 +141,7 @@ class Settings {
     objectiveHeader.attribute("draggable", "false");
 
     instNext = createP(">>");
+    instNext.class("navigation");
     instNext.position(820, 250);
     instNext.style("background-color", gameOrange);
     instNext.parent(howtopanel);
@@ -143,7 +155,7 @@ class Settings {
 
     instr = createImg(instr_1);
     instr.parent(howtopanel);
-    instr.position(455, 310);
+    instr.position(475, 310);
     instr.size(360, 360);
     instr.attribute("draggable", "false");
   }
@@ -157,7 +169,7 @@ class Settings {
     instr.remove();
     instr = createImg(instruction_set[instr_count]);
     instr.parent(howtopanel);
-    instr.position(455, 310);
+    instr.position(475, 310);
     instr.size(360, 360);
     instr.attribute("draggable", "false");
     Settings.updateArrowColours();
@@ -185,11 +197,11 @@ class Settings {
     set_back = createImg(setback);
     set_back.size(pageWidth, pageHeight);
     set_back.parent(stng_div);
-    //   set_back.position(0, 0);
     set_back.attribute("draggable", "false");
 
     let exit = createP("X");
     exit.parent(stng_div);
+    exit.class("navigation");
     exit.position(10, 10);
     exit.style("color", "white");
     exit.style("background-color", "red");
@@ -203,6 +215,7 @@ class Settings {
     toggle_settings.parent(stng_div);
     toggle_settings.position(200, 10);
     toggle_settings.attribute("draggable", "false");
+    toggle_settings.class("navigation");
     toggle_settings.mouseClicked(() => {
       if (!muted) menuClickSound.play();
       if (!settingsMode) switchToStngs();
@@ -210,6 +223,7 @@ class Settings {
     toggle_settings.style("background-color", "rgb(255, 109, 0)");
 
     toggle_help = createP("How to Play");
+    toggle_help.class("navigation");
     toggle_help.parent(stng_div);
     toggle_help.position(500, 10);
     toggle_help.attribute("draggable", "false");
@@ -240,7 +254,8 @@ class Settings {
     wasd = createImg(wasd_icon);
     wasd.parent(settingpanel);
     wasd.position(320, 100);
-    wasd.size(150, 160);
+    wasd.class("navigation");
+    wasd.size(170, 180);
     wasd.attribute("draggable", "false");
     wasd.mouseClicked(() => {
       if (!muted) menuClickSound.play();
@@ -248,9 +263,10 @@ class Settings {
     });
 
     arrow = createImg(arrow_icon);
+    arrow.class("navigation");
     arrow.parent(settingpanel);
     arrow.position(500, 100);
-    arrow.size(150, 160);
+    arrow.size(160, 180);
     arrow.attribute("draggable", "false");
     arrow.mouseClicked(() => {
       if (!muted) menuClickSound.play();
@@ -268,6 +284,7 @@ class Settings {
     sound_on = createP("ON");
     sound_on.parent(settingpanel);
     sound_on.position(320, 370);
+    sound_on.class("navigation");
     sound_on.mouseClicked(() => {
       menuClickSound.play();
       if (muted) Settings.soundToggle();
@@ -276,6 +293,7 @@ class Settings {
     sound_off = createP("OFF");
     sound_off.parent(settingpanel);
     sound_off.position(360, 370);
+    sound_off.class("navigation");
     sound_off.mouseClicked(() => {
       if (!muted) Settings.soundToggle();
     });
@@ -301,6 +319,7 @@ class Settings {
 
     wpc_on = createP("ON");
     wpc_on.parent(settingpanel);
+    wpc_cap.class("navigation");
     wpc_on.position(320, 440);
     wpc_on.mouseClicked(() => {
       if (!muted) menuClickSound.play();
@@ -309,6 +328,7 @@ class Settings {
 
     wpc_off = createP("OFF");
     wpc_off.parent(settingpanel);
+    wpc_off.class("navigation");
     wpc_off.position(360, 440);
     wpc_off.mouseClicked(() => {
       if (!muted) menuClickSound.play();
@@ -328,6 +348,7 @@ class Settings {
     disableBlood.position(20, 300);
 
     disabBlood_on = createP("ON");
+    disabBlood_on.class("navigation");
     disabBlood_on.parent(settingpanel);
     disabBlood_on.position(320, 300);
     disabBlood_on.mouseClicked(() => {
@@ -337,6 +358,7 @@ class Settings {
 
     disabBlood_off = createP("OFF");
     disabBlood_off.parent(settingpanel);
+    disabBlood_off.class("navigation");
     disabBlood_off.position(360, 300);
     disabBlood_off.mouseClicked(() => {
       if (!muted) menuClickSound.play();
@@ -392,24 +414,28 @@ class Settings {
       p1_left = 65;
       p1_right = 68;
       p1_shoot = 32;
+      p1_slowmeow = 81;
 
       p2_up = 38;
       p2_down = 40;
       p2_left = 37;
       p2_right = 39;
       p2_shoot = 13;
+      p2_slowmeow = 191;
     } else {
       p1_up = 38;
       p1_down = 40;
       p1_left = 37;
       p1_right = 39;
       p1_shoot = 13;
+      p1_slowmeow = 191;
 
       p2_up = 87;
       p2_down = 83;
       p2_left = 65;
       p2_right = 68;
       p2_shoot = 32;
+      p2_slowmeow = 81;
     }
   }
 }

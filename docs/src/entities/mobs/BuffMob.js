@@ -14,6 +14,7 @@ class BuffMob extends Mob {
     this.bloodColour = color(210, 0, 75, 0);
     this.target = null;
     this.isIdle = false;
+    this.collided = false;
     this.idleTime = null;
     this.deathSound = buffMobDeathSound;
     this.checkIfSlowMeowActive();
@@ -21,39 +22,58 @@ class BuffMob extends Mob {
 
   update() {
     if (!this.isActive) return;
+    super.update();
     let nearestPlayer = this.findNearestPlayer();
     // If a player is nearby, move towards them
     if (nearestPlayer && nearestPlayer.position.dist(this.position) < 150) {
-      this.target = nearestPlayer.position.copy();
-      this.isIdle = false;
-      this.idleTime = null;
+      if (!this.isCollidingWith(nearestPlayer) && !this.collided) {
+        this.target = nearestPlayer.position.copy();
+        this.isIdle = false;
+        this.idleTime = null;
+      } else {
+        this.velocity.set(0, 0);
+        this.collided = true;
+        this.target = null;
+        this.handleKnockback();
+        setTimeout(() => {
+          this.collided = false;
+        }, 500);
+      }
     // Otherwise, move towards a random position in the room
     } else {
-      if (!this.target || this.position.dist(this.target) < 5) {
-        if (!this.isIdle && random(1) < 0.1) { // 10% chance to enter idle state
-          this.isIdle = true;
-          this.idleTime = millis();
-          return;
-        }
-        if (this.isIdle && millis() - this.idleTime > 2000) { // Stop idling after 2 seconds
-          this.isIdle = false;
-          this.idleTime = null;
-        }
-        if (!this.isIdle) {
-          let xPos = random(
-            (tileSize * 3) + (this.widthHitbox / 2) + arena_offset,
-            (roomWidth * tileSize) - (tileSize * 3) - (this.widthHitbox / 2) + arena_offset
-            );
-          let yPos = random(
-            (tileSize * 3) + (this.heightHitbox / 2) + arena_offset,
-            (roomHeight * tileSize) - (tileSize * 3) - (this.heightHitbox / 2) + arena_offset
-            );
-          this.target = createVector(xPos, yPos);
-        }
-      }
+      this.handleIdleState();
     }
     if (!this.isIdle && this.target) {
       this.moveToPosition(this.target);
+    }
+  }
+
+  handleIdleState() {
+    if (!this.target || this.position.dist(this.target) < 5) {
+      if (!this.isIdle && random(1) < 0.1) { // 10% chance to enter idle state
+        this.isIdle = true;
+        this.idleTime = millis();
+        return;
+      }
+      if (this.isIdle && millis() - this.idleTime > 2000) { // Stop idling after 2 seconds
+        this.isIdle = false;
+        this.idleTime = null;
+      }
+      this.chooseTarget();
+    }
+  }
+
+  chooseTarget() {
+    if (!this.isIdle) {
+      let xPos = random(
+        (tileSize * 3) + (this.widthHitbox / 2) + arena_offset,
+        (roomWidth * tileSize) - (tileSize * 3) - (this.widthHitbox / 2) + arena_offset
+        );
+      let yPos = random(
+        (tileSize * 3) + (this.heightHitbox / 2) + arena_offset,
+        (roomHeight * tileSize) - (tileSize * 3) - (this.heightHitbox / 2) + arena_offset
+        );
+      this.target = createVector(xPos, yPos);
     }
   }
 

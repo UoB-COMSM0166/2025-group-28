@@ -29,8 +29,10 @@ class Player extends Sprite {
     this.startFrame = 7;
     this.endFrame = 9;
     this.slowTimer = 0;
+    this.tintTimer = 0; // For tinting the player when they pick up an item
 
     this.bloodColour = color(210, 0, 0, 0);
+    this.projectileColour = color(255, 215, 80, 255);
 
     this.deathSound = playerDeathSound;
     this.painSound = [playerPainSound1, playerPainSound2];
@@ -48,12 +50,13 @@ class Player extends Sprite {
 
   update() {
     super.update();
-    if (game.slowMeowHandler && game.slowMeowHandler.occurring && this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
-      // slow meow particle burst
+    if (game.slowMeowHandler && game.slowMeowHandler.occurring &&
+      this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
+      // Slow meow particle burst
       let offsetX = random(-15, 15);
       let offsetY = random(-30, 30);
       this.warpParticles.push(new Warp(this.position.x + offsetX, this.position.y + offsetY));
-    } 
+    }
     for (let i = this.warpParticles.length - 1; i >= 0; i--) {
       this.warpParticles[i].update();
       if (this.warpParticles[i].isFinished()) {
@@ -90,7 +93,14 @@ class Player extends Sprite {
   }
 
   draw() {
-    // Draw smoke in front/behind player based on their direction of movement
+    if (this.tintTimer > 0 && this.isActive) {
+      // Player briefly flashes green when picking up an item
+      if (Math.floor(this.tintTimer / 100) % 3 == 0) {
+        tint(165, 255, 127);
+      }
+      this.tintTimer -= deltaTime;
+    }
+    // Draw particles in front/behind player based on their direction of movement
     if (this.lastDirection == "UP") {
       super.draw();
       for (let particle of this.smokeParticles) {
@@ -108,6 +118,7 @@ class Player extends Sprite {
       }
       super.draw();
     }
+    noTint();
   }
 
   overheatSlow() {
@@ -234,7 +245,13 @@ class Player extends Sprite {
   }
 
   fire() {
-    if (!this.isActive || fadingOut || (pvpMode && fadingIn) || (!pvpMode && game.slowMeowHandler.occurring)) return;
+    if (
+      !this.isActive ||
+      fadingOut || (pvpMode && fadingIn) ||
+      (!pvpMode && game.slowMeowHandler.occurring)
+    ) {
+      return;
+    }
     if (this.fireOverheat) {
       if (!this.overheatSoundPlayed) {
         playSound(overheatStartSound, playbackRate);
@@ -329,6 +346,21 @@ class Player extends Sprite {
       this.speed = 2.75;
     }
     this.originalSpeed = 2.75;
+  }
+
+  handleSlowMeow() {
+    if (!game || game.gameState != GameStates.ACTIVE ||
+      transitioning || commandPrompt) {
+      return;
+    }
+    // 'Q' key for player 1
+    if (this.player === playerNumber.PLAYER_1 && playerA.isActive && keyIsDown(p1_slowmeow)) {
+      game.slowMeowHandler.activate();
+    }
+    // '/' key for player 2
+    else if (this.player === playerNumber.PLAYER_2 && playerB.isActive && keyIsDown(p2_slowmeow)) {
+      game.slowMeowHandler.activate();
+    }
   }
 
   // For behaviour monitoring

@@ -5,15 +5,16 @@ class BlinkMob extends Mob {
     this.heightHitbox = 60;
     this.widthModel = 75;
     this.heightModel = 75;
-    this.maxHealth = 50 * difficultySettings.mobHealthMult();
+    this.maxHealth = 55 * difficultySettings.mobHealthMult();
     this.health = this.maxHealth;
     this.speed = 0;
     this.originalSpeed = this.speed;
     this.attackDamage = 6 * difficultySettings.mobDamageMult;
     this.projectileSpeed = 2;
     this.bloodColour = color(135, 20, 103, 255);
+    this.projectileColour = color(216, 132, 255, 255);
     this.fireCooldown = Math.floor(random(35, 50));
-    this.fireCooldownLimit = Math.floor(random(160, 175));
+    this.fireCooldownLimit = Math.floor(random(160, 175)) * difficultySettings.mobCooldownMult;
     this.blinkCooldown = this.fireCooldown;
     this.blinkCooldownLimit = this.fireCooldownLimit;
     this.deathSound = blinkMobDeathSound;
@@ -28,9 +29,13 @@ class BlinkMob extends Mob {
     }
     let nearestPlayer = this.findNearestPlayer();
     let distanceToPlayer = this.findDistanceToPlayer(nearestPlayer);
-    if (nearestPlayer && distanceToPlayer < 125 && !game.slowMeowHandler.occuring) {
-      this.blinkCooldown = this.blinkCooldownLimit;
-      this.blink();
+    if (nearestPlayer) {
+      if ((!game.slowMeowHandler.occurring && distanceToPlayer < 125) ||
+          (game.slowMeowHandler.occurring && this.isCollidingWith(nearestPlayer))
+      ) {
+        this.blinkCooldown = this.blinkCooldownLimit;
+        this.blink();
+      }
     }
   }
 
@@ -65,7 +70,7 @@ class BlinkMob extends Mob {
   }
 
   blink() {
-    if (this.blinkCooldown < this.blinkCooldownLimit || game.slowMeowHandler.occurring) return;
+    if (this.blinkCooldown < this.blinkCooldownLimit) return;
     let spawnX, spawnY;
     let spawnAttempts = 0;
     while (spawnAttempts < 100) {
