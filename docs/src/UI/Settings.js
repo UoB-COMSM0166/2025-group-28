@@ -316,10 +316,12 @@ class Settings {
     wpc_cap.position(20, 500);
     wpc_cap.style("font-size", "10px");
     wpc_cap.style("opacity", "0.6");
+    wpc_cap.class("navigation");
 
     wpc_on = createP("ON");
     wpc_on.parent(settingpanel);
-    wpc_cap.class("navigation");
+    
+    wpc_on.class("navigation");
     wpc_on.position(320, 440);
     wpc_on.mouseClicked(() => {
       if (!muted) menuClickSound.play();

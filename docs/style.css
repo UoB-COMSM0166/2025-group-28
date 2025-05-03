@@ -38,3 +38,110 @@ body {
 .navigation {
   cursor: pointer;
 }
+
+#settings_content {
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 2px solid rgb(255, 109, 0);
+  box-shadow: 0 0 20px rgba(255, 109, 0, 0.3);
+}
+
+#settingpanel, #howtopanel {
+  background-color: rgba(20, 20, 20, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.navigation {
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.navigation:hover {
+  transform: scale(1.02);
+}
+
+#settingpanel p, #howtopanel p {
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+#settingpanel img, #howtopanel img {
+  transition: transform 0.3s ease;
+}
+
+#settingpanel img:hover, #howtopanel img:hover {
+  transform: scale(1.03);
+}
+
+.toggle-option {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 5px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-option.active {
+  background-color: rgb(255, 109, 0) !important;
+  color: white;
+}
+
+.toggle-option.inactive {
+  background-color: rgb(50, 50, 50);
+  color: rgb(150, 150, 150);
+}
+
+.control-option {
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  margin: 10px;
+}
+
+.control-option.active {
+  border-color: rgb(255, 109, 0) !important;
+  box-shadow: 0 0 15px rgba(255, 109, 0, 0.4);
+}
+
+.control-option:hover {
+  transform: scale(1.05);
+}
+
+.section-header {
+  color: rgb(255, 109, 0);
+  font-size: 22px !important;
+  margin-bottom: 15px !important;
+  border-bottom: 1px solid rgb(255, 109, 0);
+  padding-bottom: 5px;
+}
+
+.caption-text {
+  font-size: 14px !important;
+  color: rgb(180, 180, 180) !important;
+  line-height: 1.3 !important;
+}
+
+.exit-button {
+  font-weight: bold;
+  padding: 5px 10px !important;
+  border-radius: 50% !important;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.instruction-nav {
+  padding: 5px 15px !important;
+  font-size: 20px !important;
+  border-radius: 5px !important;
+  min-width: 50px;
+  text-align: center;
+}
+
+.instruction-nav:hover {
+  background-color: rgba(255, 109, 0, 0.7) !important;
+}
