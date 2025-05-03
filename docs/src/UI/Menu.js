@@ -30,6 +30,7 @@ class Menu {
     sp_button.attribute("draggable", "false");
     sp_button.mouseOver(Menu.singlePlayerHover);
     sp_button.mouseOut(Menu.singlePlayerEndHover);
+    sp_button.class("navigation");
 
     menu_hover_caption = createP("-");
     menu_hover_caption.parent(menuContainer);
@@ -52,6 +53,7 @@ class Menu {
     coop_button.attribute("draggable", "false");
     coop_button.mouseOver(Menu.coopHover);
     coop_button.mouseOut(Menu.coopEndHover);
+    coop_button.class("navigation");
 
     pvp_button = createImg(pvpIcon);
     pvp_button.parent(menuContainer);
@@ -65,6 +67,7 @@ class Menu {
     pvp_button.attribute("draggable", "false");
     pvp_button.mouseOver(Menu.pvpHover);
     pvp_button.mouseOut(Menu.pvpEndHover);
+    pvp_button.class("navigation");
 
     stng_button = createImg(helpIcon);
     stng_button.parent(menuContainer);
@@ -74,6 +77,7 @@ class Menu {
     stng_button.attribute("draggable", "false");
     stng_button.mouseOver(Menu.stngHover);
     stng_button.mouseOut(Menu.stngEndHover);
+    stng_button.class("navigation");
     stng_button.mouseClicked(() => {
       if (!muted) menuClickSound.play();
       Settings.gotoSettings();

@@ -58,6 +58,7 @@ class PreGameInterface {
 
     exit.parent(pregameWindow);
     exit.position(toolLineX, toolLineY);
+    exit.class("navigation");
 
     let title = createP(" New " + gameType);
     title.style("color", "white");
@@ -73,6 +74,7 @@ class PreGameInterface {
     go.position(750, footerY - 30);
     go.attribute("draggable", "false");
     go.mouseClicked(PreGameInterface.startGame);
+    go.class("navigation");
 
     let diff = createP(pvpMode ? "Rounds" : "Difficulty");
     diff.style("color", "black");
@@ -118,6 +120,7 @@ class PreGameInterface {
     linkto.parent(pregameWindow);
     linkto.style("font-size", "16px");
     linkto.style("padding", "2px");
+    linkto.class("navigation");
 
     linkto.style("font-family", "ARCADE_I");
     linkto.style("color", "white");
@@ -231,6 +234,7 @@ class PreGameInterface {
         diff_lvl.style("opacity", "0.35");
       }
       diff_lvl.position(100 + offset * i, footerY);
+      diff_lvl.class("navigation");
       diff_lvl.mouseClicked(() => {
         if (!muted) menuClickSound.play();
         if (pvp) {
@@ -264,6 +268,7 @@ class PreGameInterface {
     pvpBestOfCount.style("font-family", "ARCADE_I");
     pvpBestOfCount.parent(pregameWindow);
     pvpBestOfCount.position(root_x + 50, footerY);
+    pvpBestOfCount.class("navigation");
 
     let back = UniversalUI.backStepper(pregameWindow);
     back.position(root_x, footerY - 20);
