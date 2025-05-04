@@ -43,7 +43,7 @@ let pause_stng_overlay = false;
 
 let difficulty = difficultyLevels.EASY;
 let difficultyNames = ["Kitten", "Hunter", "Apex"];
-let difficultyTints = ["#52BB36", "#969190", "#D14042"];
+let difficultyTints = ["#52BB36", "#f5bc36", "#D14042"];
 let diffTint = difficultyTints[0];
 let difficultyButton;
 

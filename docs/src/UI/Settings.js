@@ -248,8 +248,7 @@ class Settings {
     let p2control = createP("Player 2 will use <br> non-default controls");
     p2control.parent(settingpanel);
     p2control.position(20, 137);
-    p2control.style("font-size", "10px");
-    p2control.style("opacity", "0.6");
+    p2control.class("caption-text");
 
     wasd = createImg(wasd_icon);
     wasd.parent(settingpanel);
@@ -314,12 +313,12 @@ class Settings {
     );
     wpc_cap.parent(settingpanel);
     wpc_cap.position(20, 500);
-    wpc_cap.style("font-size", "10px");
-    wpc_cap.style("opacity", "0.6");
+    wpc_cap.class("caption-text");
 
     wpc_on = createP("ON");
     wpc_on.parent(settingpanel);
-    wpc_cap.class("navigation");
+    
+    wpc_on.class("navigation");
     wpc_on.position(320, 440);
     wpc_on.mouseClicked(() => {
       if (!muted) menuClickSound.play();
@@ -370,8 +369,7 @@ class Settings {
     );
     childModeCap.parent(settingpanel);
     childModeCap.position(20, 335);
-    childModeCap.style("font-size", "10px");
-    childModeCap.style("opacity", "0.6");
+    childModeCap.class("caption-text");
 
     if (childMode) {
       disabBlood_on.style("background-color", "rgb(255, 109, 0)");

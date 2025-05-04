@@ -21,20 +21,38 @@ body {
   position: relative;
 }
 
-#settings_content,
-#settingpanel {
+#settings_content {
+  background-color: rgba(15, 15, 15, 0.95);
+  border: 3px solid rgb(255, 109, 0);
   color: white;
-  font-size: 25px;
   font-family: "ARCADE_I";
+  font-size: 22px;
+  
 }
 
-#settingpanel,
-#howtopanel {
-  color: white;
+#settingpanel, #howtopanel {
+  background-color: rgba(30, 30, 30, 0.9);
+  margin: 0;
+  width: 900px;
   font-size: 18px;
-  font-family: "ARCADE_I";
+  border-radius: 2px;
 }
 
 .navigation {
   cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 2px;
 }
+
+.navigation:hover {
+  transform: scale(1.03);
+}
+
+.caption-text {
+  font-size: 10px;
+  color: rgba(200, 200, 200);
+  opacity: 0.6;
+  line-height: 1.4;
+  margin-top: 5px;
+}
+
