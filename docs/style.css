@@ -54,8 +54,8 @@ body {
 }
 
 .navigation {
-  transition: all 0.3s ease;
-  border-radius: 4px;
+  transition: all 0.2s ease;
+  border-radius: 2px;
 }
 
 .navigation:hover {
