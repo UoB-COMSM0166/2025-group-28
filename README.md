@@ -7,7 +7,7 @@
 
 ## Your Game
 
-[PLAY ASTRO CAT HERE](https://uob-comsm0166.github.io/2025-group-28/)
+[<img src="https://github.com/user-attachments/assets/bd98ef6e-f613-4d44-b601-7af35172aa4f">](https://uob-comsm0166.github.io/2025-group-28/)
 
 
 ## Your Group
@@ -15,12 +15,15 @@
 
 ![grouppic](https://github.com/user-attachments/assets/ec5b17da-6882-42b0-a55c-42023ebdaffb)
 
-- Luke Remus Elliot, pm24104@bristol.ac.uk, whileLuke, role (Chrollo)
-- Fred Clamp-Gray, ey24984@bristol.ac.uk, fred1778, role (Julius Caesar)
-- Matt Matloubi, dv24149@bristol.ac.uk, mattmatloubi, role (Sully)
-- Yoda Monplub, ds24614@bristol.ac.uk, Yoda-Yothada, role (Yoda)
-- Will Nixon, zk24610@bristol.ac.uk, spockthewok, role (tiger/tigger)
-- Dylan Haye, jk24742@bristol.ac.uk, dxlxnhxxe, role (No.5)
+|Name|Email|GitHub|Role|Halloween costume in group image|
+|----|-----|------|----|--------------------------------------|
+|Luke Remus Elliot |pm24104@bristol.ac.uk | whileLuke |role  |Chrollo|
+| Fred Clamp-Gray | ey24984@bristol.ac.uk | fred1778 | Scrum Master & Front-End developer | Julius Caesar |
+|Matt Matloubi |dv24149@bristol.ac.uk |mattmatloubi |role | Sully |
+|Yoda Monplub | ds24614@bristol.ac.uk | Yoda-Yothada | role | Yoda |
+|Will Nixon | zk24610@bristol.ac.uk | spockthewok | role | tiger/tigger|
+|Dylan Haye | jk24742@bristol.ac.uk | dxlxnhxxe |role |No.5|
+
 
 ## Project Report
 
@@ -38,9 +41,12 @@ The game can be played with one or two players using the two control sets on the
 However, AstroCat has a special ability that gives the gameplay a unique twist: Slow Meow. This slows the enemies and the projectiles down, but AstroCat can still move around like a cat on a hot tin roof! This ability is rechardged through killing enemies.  
 
  
-AstroCat is based on 2D rogue-like games, featuring distinct procedurally-generated game environments and a ‘permanent death approach’.  especially the game ‘Binding of Isaac’,  from which we took a lot of inspiration from in terms of gameplay, such as the playing environment being confined to small rooms seen by the player from a top-down perspective.  The game also takes aesthetic cues from arcade and early video games, with a  retro-style soundscape and pixel-art based design assets and fonts.  
+AstroCat is based on 2D rogue-like games, featuring distinct procedurally-generated game environments and a ‘permanent death approach’. especially the game ‘Binding of Isaac’,  from which we took a lot of inspiration from in terms of gameplay, such as the playing environment being confined to small rooms seen by the player from a top-down perspective.  The game also takes aesthetic cues from arcade and early video games, with a  retro-style soundscape and pixel-art based design assets and fonts.  
 
-### Requirements 
+
+
+## Requirements 
+
 The first stage of our requirements-gathering process was to identify what kind of game AstroCat was going to be. Initially, we had two game ideas: a tower-defence style game, and a 2D shooter style game. From an early stage, we decided on the theme of the game (a cat protagonist in a space environment), and that a challenge we wanted to integrate would be co-operative play.  
 
  
@@ -61,19 +67,10 @@ Idea Development
 | :--: | :--: |
 | *'Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
 
-We paper-prototyped our takes on the these two genres - both themed around a cat in space (the space environment allows us the most freedom in terms of fun new game mechanics/physics). Despite going in to the session with the tower-defence game most developed, the prototyping of our 2D shooter game flowed more readily  and also recieved the most positive feedback from our test users.
-
-///link to pp video///
 
 
 
-
-[what we did for reqs, pp etc.]
-
-
-
-
-## Stakeholders and Users
+# Stakeholders and Users
 
 <onion model> 
 
