@@ -114,7 +114,7 @@ Following our paper protyping session and our requirement gathering, we held sev
 ## Further Evaluations
 
 ### HCI Evaluation
-(conducted at week 7 with 6 participants)
+(conducted at week 7 with 5 participants)
 
 Heuristic Evaluation
 | Interface | Issue | Heuristics | Frequency (0=rare, 4=common) | Impact | Persistence | Severity ((F+I+P)/3) | Our fix |
@@ -125,7 +125,6 @@ Heuristic Evaluation
 | Only one kind of enemy | Need more type of mobs, with standardize artwork style | consistency and standards | 1 | 1 | 3 | 1.67 | https://github.com/UoB-COMSM0166/2025-group-28/issues/112, https://github.com/UoB-COMSM0166/2025-group-28/issues/127, https://github.com/UoB-COMSM0166/2025-group-28/issues/54 |
 | Single player keyboard | We are using standard ASWD key to move, but some players might want to use an the arrow keys instead. | recognition rather than recall, user control and freedom | 2 | 2 | 1 | 1.67 | TBC |
 | After death experience | Bugs in game over screen | help users recognise, diagnose and recover from errors | 1 | 1 | 1 | 1 | https://github.com/UoB-COMSM0166/2025-group-28/issues/116 |
-| What is the main twist? | Multiplayer mode enhancement |  |   |   |   |   |
 
 
 ### NASA TLX and System Usability Scale (SUS) Evaluation
@@ -145,6 +144,9 @@ NASA TLX Result
 | 9 | 53.33 | 54.17 |
 | 10 | 38.33 | 48.33 |
 
+![image](https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104)
+
+
 The table above is showing raw TLX scores, where the six dimensions are not weighted. To dive in further, our game scored well for Mental and Physical Demand but scored slightly worse in terms of Fustration and Temporal Demand. Which we collected further comments from participants to be implemented further.
 
 SUS Result
@@ -160,6 +162,9 @@ SUS Result
 | 8 | 100 | 85 |	
 | 9 | 55 | 57.5 |	
 | 10 | 80 | 62.5 |	
+
+![image](https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a)
+
 
 Based on studies, SUS score above 68 is considered the average. In our game, 80% of participants rated our game above average in easy mode and 30% did for medium difficulty. Which suggests more room for improvements, especially for medium difficulty.
 
