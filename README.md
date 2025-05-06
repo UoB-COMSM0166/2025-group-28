@@ -340,7 +340,7 @@ Sprint 3.5: 29th of April to 5th May
 
 A short sprint to resolve technical debt and ensure the code remained readable and concise. We removed redundant assets, refactored overcomplicated methods, and cleaned up the project’s structure so that the game would be in a good state to move forwards for our future plans. The layout is clear for any future developers’ benefit. 
 
- 
+
 
 Agile Methods 
 
@@ -354,7 +354,7 @@ We decided to have our daily standup meetings every other day. They were another
  <img width="315" alt="image" src="https://github.com/user-attachments/assets/8bd66aec-57a7-449e-90b8-ff3fab9a78e2" />
 
 
-We equally prioritised a close collaborative environment. Pair programming was a technique we used regularly- sharing knowledge, catching bugs early, and just generally write better code. Pull requests were also essential. Thanks to this, we didn’t simply merge code but also gave everyone a chance to review and suggest improvements before anything hit the main branch. 
+We equally prioritised a close collaborative environment. Pair programming was a technique we used regularly to share knowledge, catch bugs early, and just generally write better code. Pull requests were also essential. Thanks to this, we didn’t simply merge code but also gave everyone a chance to review and suggest improvements before anything hit the main branch. 
 
 Our commit messages remained thorough and expansive, with enough detail to tell the story of our work. Through this, we facilitated understanding as to what was done and why. This was beneficial whenever someone needed to revisit the logs or debug an error. 
 
