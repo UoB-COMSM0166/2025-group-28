@@ -1,16 +1,15 @@
 # 2025-group-28
 2025 COMSM0166 group 28
+# Our Game: AstroCat
+<div align="center">
+ 
+<img src="Requirements/banner.gif" width="10000">
 
-![pp](Requirements/banner.gif)
+[<img src="https://github.com/user-attachments/assets/bd98ef6e-f613-4d44-b601-7af35172aa4f" width="550">](https://uob-comsm0166.github.io/2025-group-28/)
+</div>
 
 
-
-## Your Game
-
-[<img src="https://github.com/user-attachments/assets/bd98ef6e-f613-4d44-b601-7af35172aa4f">](https://uob-comsm0166.github.io/2025-group-28/)
-
-
-## Your Group
+## Our Group
 
 
 ![grouppic](https://github.com/user-attachments/assets/ec5b17da-6882-42b0-a55c-42023ebdaffb)
