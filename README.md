@@ -332,7 +332,13 @@ While these features significantly enhance the inclusivity and usability of the 
 
 ### Contribution Statement
 
-- Provide a table of everyone's contribution, which may be used to weight individual grades. We expect that the contribution will be split evenly across team-members in most cases. Let us know as soon as possible if there are any issues with teamwork as soon as they are apparent. 
+| Team Member | Contribution |
+| Luke Remus Elliot | 1.0 |
+| Fred Clamp-Gray | 1.0 |
+| Matt Matloubi | 1.0 |
+| Yoda Monplub | 1.0 |
+| Will Nixon | 1.0 |
+| Dylan Haye | 1.0 |
 
 ### Additional Marks
 
