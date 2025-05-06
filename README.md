@@ -252,6 +252,21 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 
 ### Sustainability, Ethics and Accessiilty
 
+# Social Sustainability and Accessibility
+
+
+AstroCat was developed with social sustainability at its core, aiming to create an inclusive gaming experience that caters to users with diverse backgrounds, needs, and preferences. The game's design ensures that individuals across various user profiles can access and enjoy its features without barriers.
+
+To accommodate visually impaired users, AstroCat avoids relying on color-based cues. All in-game mobs are uniquely designed in both appearance and sound, allowing players to distinguish between them using auditory and visual differences rather than color alone. This enhances accessibility for players with limited or no color perception.
+The game also supports social gameplay through modes tailored for paired users, such as siblings or friends. The inclusion of Co-op and Player vs. Player (PVP) modes promotes shared experiences and interactive fun. Additionally, AstroCat addresses varying skill levels and player engagement styles by offering multiple difficulty settings. Competitive gamers can challenge themselves with the intense "Apex" difficulty, while casual players can enjoy a more relaxed experience through the "Kitten" difficulty.
+For younger audiences, particularly users under 13 years old, a dedicated “Child Mode” is available. This mode disables blood effects and gore sounds to ensure a more age-appropriate, family-friendly gaming environment.
+
+**Future Possibilities to Increase Accessibility**
+
+Looking ahead, AstroCat is being considered for further expansion in accessibility and convenience. Future plans include making the game available on mobile platforms to support users who prefer gaming on the go. Additionally, a colorblind-friendly mode is being explored to better serve players with specific visual challenges.
+While these features significantly enhance the inclusivity and usability of the game, they may contribute to increased energy consumption in order to maintain performance across all platforms and modes.
+
+
 # Environmental Sustainability 
 
 
