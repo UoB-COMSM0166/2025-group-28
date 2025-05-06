@@ -188,7 +188,7 @@ Using Wilcoxon Signed-Rank Test, both test results got W test statistic of 7.5. 
 - 15% ~750 words
 - Use case diagrams, user stories. Early stages design. Ideation process. How did you decide as a team what to develop? 
 
-### Design
+## Design
 
 Having completed our initial requirements analysis, identifying key stakeholders, generating initiatives, epics and a collection of user stories, we were able to design the game itself, applying our initial vision to the needs and requirements of potential users. 
 
@@ -202,7 +202,7 @@ By performing a grammatical parse of the description above, we identified the co
 - Enemies 
 - Rooms 
 
-## Class Design
+### Class Design
 
 A class diagram provided us a way to formally apply the ideas listed above in an object-oriented manner, plan our development work and build a high-level blueprint of how we wanted the system to behave and be structured.  
 
@@ -232,7 +232,7 @@ In the following development sprints, this base design was extended to accommoda
 **Figure X+1**: Class Diagram as at final sprint 
 ![image](https://github.com/user-attachments/assets/6fd5b006-6e27-4417-a278-2b17352c75d8)
 
-##Behavioural Diagrams 
+###Behavioural Diagrams 
 
 Following on from the class diagram, drawing up a sequence diagram allowed us to model the interactions between different objects in the game and the order in which they occurred.  
 
