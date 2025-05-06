@@ -297,11 +297,11 @@ This leads into our commit history diagram, with our three and a half sprints cl
 
  
 
-A graph with blue squares
+!(https://i.imgur.com/example.png)
 
-AI-generated content may be incorrect., PicturePicture 677591981, Picture 
 
 Sprint Breakdown 
+
 
 Sprint 1: 16th January to 12th February 
 
