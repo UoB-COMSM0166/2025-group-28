@@ -44,6 +44,9 @@ AstroCat is based on 2D rogue-like games, featuring distinct procedurally-genera
 
 
 
+
+ 
+
 ## Requirements 
 
 The first stage of our requirements-gathering process was to identify what kind of game AstroCat was going to be. Initially, we had two game ideas: a tower-defence style game, and a 2D shooter style game. From an early stage, we decided on the theme of the game (a cat protagonist in a space environment), and that a challenge we wanted to integrate would be co-operative play.  
@@ -71,40 +74,69 @@ Idea Development
 
 # Stakeholders and Users
 
-<onion model> 
+AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game does not. The onion model for AstroCat below captures some of the diverse range of stakeholders that can exist - from users, to the organisation we're part of, to regulators such as Ofcom who could potentially interact with AstroCat if the game threatened online saftey. As the assets and source code for the game are publically visible on GitHub, negative stakeholders include AI bots and other more malicious scrapers who could harvest our hard work!
 
-Next, we thought about who might play AstroCat, and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs in to epics and user stories. Our personas and their user stories were as follows: 
+<div align="center">
+ <img src="https://github.com/user-attachments/assets/4cc95c6b-237f-459a-bc03-f70a3bfb47e4" width="500">
+
+</div>
+
+</br>
+</br>
+Next, we thought about who might (theoretically) play AstroCat - the 'Gaming public' captured in our onion model -  and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs in to epics and user stories. Our personas and their user stories were as follows: 
+
+</br>
+</br>
+
+
+ <div align="center">
+  <img width = "49%" src="https://github.com/user-attachments/assets/ab434d34-8bac-4127-a74d-5db559f04a1a">
+<img width = "49%" src="https://github.com/user-attachments/assets/406f429f-dcab-4993-b946-4bebbf84a59b">
+</div>
+
+<div align="center">
+ <img width = "49%" src="https://github.com/user-attachments/assets/22324163-6374-4635-8f0b-ad37120e649e">
+  <img width = "49%" src="https://github.com/user-attachments/assets/aa030010-7bee-4502-b5eb-f8583447d855">
+</div>
+
+<div align="center">
+<img  width = "49%" src="https://github.com/user-attachments/assets/e4f3b648-5a21-4536-828a-753f6f0451c0">
+</div>
+ 
+
+
+
+Requirements engineering involves making decisions about what requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans.  We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort: 
 
  
 
-<user personas> 
-
- 
-
-Requirements engineering involves making decisions about what requirements you can meet and which you can’t. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort: 
-
- 
-
-Feasibility study 
+**Feasibility studies**
  
 
 We had more technical-focussed whiteboard sessions to help identify the technical feasibility of different ideas. 
 We want everybody to experience AstroCat, so we thought about our game from the perspective of different user profiles, each with different needs and wants. We evaluated the user stories based on need, timeframe, and techncial complexity (e.g. through feasibility studies in our Sandbox), and created corresponding epics/stories in our backlog, waiting to be candidates for future sprints if we have the resources:
 
 
-
-## Feasibility Studies
-
-For some feautures that came out of our requirements gathering, we conducted feasibility studies in parallel to our MVP development to assess whether these features were technically possible within the timeframe and tech stack avaialble to us. Below are the features we experimented with and our assesment of their possibility. We have a 'Sandbox' folder to store this experimental code.
-
 | Feature | Study Details | Outcome |
 | :--: | :--: | :--: |
-| Co-op local multiplayer | Tested how p5.js would handle executing two sets of keyboard gameplay commands in parallel to move two sprites and <br> whether this would cause lag/overload the update() function and reduce the FPS | Platform is able to handle two parallel sets of gameplay inputs with no observable degradation of performance, <br> co-op local multiplayer included in MVP |
+| Same-device multiplayer | Tested how p5.js would handle executing two sets of keyboard gameplay commands in parallel to move two sprites and <br> whether this would cause lag/overload the update() function and reduce the FPS | Platform is able to handle two parallel sets of gameplay inputs with no observable degradation of performance, <br> co-op on-device multiplayer included in MVP |
 | Online multiplayer | Integrated a BaaS (backend-as-a-service) connection and used realtime database to track positions of players and reflect these on other client | We found it was possible to integrate a Supabase database and track changes, challenges would be <br> (a) avoiding rate-limiting by rationing position updates <br> (b) creating and managing multiple 2-player online sessions <br> (c) mirroring behaviour of AI/environment across clients. Will be explored further if time permits. |
-| Procedural graphics generation | We experimented with algorithmicly generating different 'rooms'. | This proved feasible and was included in the MVP | 
+| Procedural graphics generation | We experimented with algorithmically generating different 'rooms'. | This proved feasible and was included in the MVP | 
 
 
-Following our paper protyping session and our requirement gathering, we held several workshops to refine the game design in terms of both story/aesthetics, and also finalsing our twist.
+**Requirement Prioritisation**
+
+We asessed  the effort required to implement versus the projected benefit of the different feautures:
+| Feauture | Effort | Value | MoSCoW bucket |
+|------------|--------|-------|---------------|
+| Offline multiplayer | Medium | Very High | Must Have |
+| Online multiplayer  | Extremeley High | High | Won't Do |
+| Audible cues | Low | Medium | Should Have |
+| Child Mode | Low | Low | Could Have |
+| Difficulty Ranges (causual player to pro players) | High | Very High | Must Have|
+| Customisable Controls | Medium | Medium | Could Have |
+
+
 
 
 ## Further Evaluations
