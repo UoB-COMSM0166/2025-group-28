@@ -346,23 +346,28 @@ Agile Methods
 
 We kept things simple and effective when it came to communication. In person meetings were our go-to for deeper discussion and reflective decision-making. Outside of working hours, we leaned heavily on WhatsApp. It was our main space to share updates, quick questions and check in with each other. We would often update the Kanban board whenever anything significant was to be fixed, implemented or changed. When we couldn’t meet in person, FaceTime helped fill in the gaps with personal, real-time conversations. 
 
+<img width="452" alt="image" src="https://github.com/user-attachments/assets/90b7e975-649f-4d87-b87a-86d111189c06" />
+
+
 We decided to have our daily standup meetings every other day. They were another key part of staying on the same page while enabling us to squeeze in outside priorities. It gave us a chance to share what we were implementing and listen to what the rest of the team was focused on. This always kept everyone in the loop and helped move things forward. 
 
- 
+ <img width="315" alt="image" src="https://github.com/user-attachments/assets/8bd66aec-57a7-449e-90b8-ff3fab9a78e2" />
+
 
 We equally prioritised a close collaborative environment. Pair programming was a technique we used regularly- sharing knowledge, catching bugs early, and just generally write better code. Pull requests were also essential. Thanks to this, we didn’t simply merge code but also gave everyone a chance to review and suggest improvements before anything hit the main branch. 
 
 Our commit messages remained thorough and expansive, with enough detail to tell the story of our work. Through this, we facilitated understanding as to what was done and why. This was beneficial whenever someone needed to revisit the logs or debug an error. 
 
- 
+ <img width="411" alt="image" src="https://github.com/user-attachments/assets/3d1e2bde-6ece-465b-8858-12a763bc4aeb" />
+
 
 We structured our work around 4 sprints, though the length of each sprint varied depending on personal commitments outside of the project. This flexibility worked well for us as we stayed committed without overworking ourselves. In terms of task management, we used Planning Poker to estimate task complexity, which always sparked a good conversation, helping us align expectations and appropriately update the Kanban board. 
 
- 
 
 Kanban was the backbone of our task management system. Every task had a clear place whether it was in the backlog, in progress, in testing or already merged. It gave us visibility into what was happening at any given time, assuring ourselves nothing was missed or forgotten. 
 
- 
+<img width="401" alt="image" src="https://github.com/user-attachments/assets/8ca37f67-7435-4efe-9dc8-e5f60312cda5" />
+
 
 ### Sustainability, Ethics and Accessiilty
 
