@@ -4,26 +4,11 @@
 ![pp](Requirements/banner.gif)
 
 
-## Quick Links
-Weclome to AstroCat! Here are some key resources elsewhere in our repo to sink your paws in to:
-
-Our Kanban board can be found [here](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4).
-Other docs to explore:
-- Our [Agile Methodology documentation](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Guides%20%26%20Methodologies/AgileApproach.md)
-- Our [coding House Style guide](https://github.com/UoB-COMSM0166/2025-group-28/blob/0b117a29b753fcb3a977b6115e14fc687edeecb2/projdocs/Guides%20%26%20Methodologies/HouseStyle.md)
-- [Project Wireframe](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Design%20Artefacts/Wireframe.md)
-- The AstroCat [Pinterest Board](https://pin.it/1VpPiL6jl)
-
-
-
 
 ## Your Game
 
-Link to your game [PLAY HERE](https://uob-comsm0166.github.io/2025-group-28/)
+[PLAY ASTRO CAT HERE](https://uob-comsm0166.github.io/2025-group-28/)
 
-Your game lives in the [/docs](/docs) folder, and is published using Github pages to the link above.
-
-Include a demo video of your game here (you don't have to wait until the end, you can insert a work in progress video)
 
 ## Your Group
 
@@ -41,9 +26,8 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 
 ### Introduction
 
-‘Time spent with cats is never wasted’ 
+![Untitled-4](https://github.com/user-attachments/assets/4e9927a0-c3e3-43a6-b144-0e3dbb921435)
 
-Unkown/Everyone who’s ever played AstroCat 
 
  
 
