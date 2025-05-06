@@ -16,12 +16,12 @@
 
 |Name|Email|GitHub|Role|Halloween costume in group image|
 |----|-----|------|----|--------------------------------------|
-|Luke Remus Elliot |pm24104@bristol.ac.uk | whileLuke |role  |Chrollo|
+|Luke Remus Elliot |pm24104@bristol.ac.uk | whileLuke | Back-End developer  |Chrollo|
 | Fred Clamp-Gray | ey24984@bristol.ac.uk | fred1778 | Scrum Master & Front-End developer | Julius Caesar |
-|Matt Matloubi |dv24149@bristol.ac.uk |mattmatloubi |role | Sully |
-|Yoda Monplub | ds24614@bristol.ac.uk | Yoda-Yothada | role | Yoda |
-|Will Nixon | zk24610@bristol.ac.uk | spockthewok | role | tiger/tigger|
-|Dylan Haye | jk24742@bristol.ac.uk | dxlxnhxxe |role |No.5|
+|Matt Matloubi |dv24149@bristol.ac.uk |mattmatloubi | Back-End developer | Sully |
+|Yoda Monplub | ds24614@bristol.ac.uk | Yoda-Yothada | Front-End developer & arts and design | Yoda |
+|Will Nixon | zk24610@bristol.ac.uk | spockthewok | Back-End developer & sound design | tiger/tigger|
+|Dylan Haye | jk24742@bristol.ac.uk | dxlxnhxxe | Front-End developer & arts and design |No.5|
 
 
 ## Project Report
