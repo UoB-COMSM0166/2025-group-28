@@ -275,19 +275,22 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 
 During the development of AstroCat, we became conscious of how the decisions we made had an impact on our environment. In some cases, performance issues we encountered with our game turned out to also be environmental issues, due to the relationship between memory consumption and both user experience and energy usage. This resulted in us considering how changing our use of assets (images, gifs, etc.) could reduce the environmental impact of our game, and improve game performance. We consulted Green Software Patterns catalogue, and decided to incorporate the following in to the design of our game: 
 
+
+
+Minimising use of GIFs - as highlighted here, GIFs are an outdated and memory-hungry means of displaying animated content – more modern formats such as MP4s etc consume less memory for the same quality and are therefore more energy efficient. The Green Software Foundation's Green Software Patterns recommened [depreacting GIFs in favour of MP4s](https://patterns.greensoftware.foundation/catalog/web/deprecate-gifs).
+
+We converted our looping main menu animation from a GIF to a mp4 video. Our initial menu backgrond was a gif of nearly 90 MB, whilst an equivalent length and resolution MP4 occipied less than a quarter of that size (18 MB).  We used a Fireforx plugin (Carbonanalyser) to estimate the energy consumption of our game with our original menu background as a GIF, and then did the same with the MP4. Our results below show how this change reduced energy consumption: 
  
 
-Minimising use of GIFs - as highlighted here, GIFs are an outdated and memory-hungry means of displaying animated content – more modern formats such as MP4s etc consume less memory for the same quality and are therefore more energy efficient. 
-We converted our looping main menu animation from a GIF to a mp4 video.  
-The GIF took around 20MB of memory, which caused a delay in the menu loading. The mp4 occupied just 1.1 MB. 
-We used a Fireforx plugin (Carbonanalyser) to estimate the energy consumption of our game. Our results below show how this change reduced energy consumption: 
- 
+![Carbon Usage](https://github.com/user-attachments/assets/051f7e57-63e7-4996-a6e7-712ba6e497d8)
 
->>>> insert <<<< 
 
  
+This has a postive impact on Astro Cats Software Carbon Intensity score by reducing the 'E' (energy) component in the score's formula (SCI = (E * I) + M per R). Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further  we created a smaller background video more inline with the game's style (using around 1.5 MB).
+
 
 Trade-off: GIFs versus native animation: 
+
 
 Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat, by manipulated the portion of the GIF that is being looped through to represent different movements. This enabled us to have a fully animatable sprite using just one asset (a 16-frame GIF). In this circumstance, we found GIFs to be more memory efficient than implementing animation in code or CSS.  
 
