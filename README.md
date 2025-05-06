@@ -270,7 +270,7 @@ This leads into our commit history diagram, with our three and a half sprints cl
 ![image](https://github.com/user-attachments/assets/8207dca6-cbf7-4a72-ba9a-d1ec0aec8bd2)
 
 
-##### Sprint Breakdown 
+#### Sprint Breakdown 
 
 
 Sprint 1 (Green): 16th January to 12th February 
@@ -299,7 +299,7 @@ Sprint 3.5 (Orange): 29th of April to 5th May
 
 A short sprint to resolve technical debt and ensure the code remained readable and concise. We removed redundant assets, refactored overcomplicated methods, and cleaned up the project’s structure so that the game would be in a good state to move forwards for our future plans. The layout is clear for any future developers’ benefit. 
 
-##### Agile Methods 
+#### Agile Methods 
 
 We kept things simple and effective when it came to communication. In person meetings were our go-to for deeper discussion and reflective decision-making. Outside of working hours, we leaned heavily on WhatsApp. It was our main space to share updates, quick questions and check in with each other. We would often update the Kanban board whenever anything significant was to be fixed, implemented or changed. When we couldn’t meet in person, FaceTime helped fill in the gaps with personal, real-time conversations. 
 
