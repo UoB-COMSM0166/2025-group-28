@@ -268,7 +268,7 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 
 ### Sustainability, Ethics and Accessiilty
 
-#Environmental Sustainability 
+# Environmental Sustainability 
 
 
 
@@ -289,14 +289,19 @@ We converted our looping main menu animation from a GIF to a mp4 video. Our init
 This has a postive impact on Astro Cats Software Carbon Intensity score by reducing the 'E' (energy) component in the score's formula (SCI = (E * I) + M per R). Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further  we created a smaller background video more inline with the game's style (using around 1.5 MB).
 
 
-Trade-off: GIFs versus native animation: 
+**Trade-off: GIFs versus native animation:**
 
 
-Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat, by manipulated the portion of the GIF that is being looped through to represent different movements. This enabled us to have a fully animatable sprite using just one asset (a 16-frame GIF). In this circumstance, we found GIFs to be more memory efficient than implementing animation in code or CSS.  
+Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat. AstroCat's responsive animation is implemented by manipulating the frame range being played of a single 20-frame GIF of AstroCat, which contains all the sprite's possible movements. This proved to be an effective way of having AstroCat's movement and appearence respond to user inputs, only requiring a few lines of code to implement movements:
 
- 
+ <img width="585" alt="Screenshot 2025-05-06 at 17 04 16" src="https://github.com/user-attachments/assets/48cfbcfe-7d30-4e9a-8dda-96d0ccd47770" />
 
-++ example 
+The AstroCat gif requires 10 KB of memory. To implement the same complexity of animation using PNGs would require 16 KB of memory used for PNGs, and additional energy consumption from increased code complexity to implement the animation:
+
+
+![astrocatM7](https://github.com/user-attachments/assets/f2dbe04f-eea6-4367-b13c-3b2c781a4a34)![astrocatM7-1 png](https://github.com/user-attachments/assets/c1dbc72e-8185-40e6-98b1-30c9542dc621)
+
+  
 
  
 
