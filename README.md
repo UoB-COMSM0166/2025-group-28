@@ -296,8 +296,7 @@ Our sprint velocity varied greatly due to members having other commitments over 
 This leads into our commit history diagram, with our three and a half sprints clearly shown by colour: 
 
  
-
-!(https://i.imgur.com/example.png)
+![image](https://github.com/user-attachments/assets/8207dca6-cbf7-4a72-ba9a-d1ec0aec8bd2)
 
 
 Sprint Breakdown 
