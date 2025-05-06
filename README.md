@@ -1,15 +1,13 @@
 # 2025-group-28
-# AstroCat
-
 2025 COMSM0166 group 28
 
+![pp](Requirements/banner.gif)
 
 
 ## Quick Links
 Weclome to AstroCat! Here are some key resources elsewhere in our repo to sink your paws in to:
 
 Our Kanban board can be found [here](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4).
-
 Other docs to explore:
 - Our [Agile Methodology documentation](https://github.com/UoB-COMSM0166/2025-group-28/blob/main/projdocs/Guides%20%26%20Methodologies/AgileApproach.md)
 - Our [coding House Style guide](https://github.com/UoB-COMSM0166/2025-group-28/blob/0b117a29b753fcb3a977b6115e14fc687edeecb2/projdocs/Guides%20%26%20Methodologies/HouseStyle.md)
@@ -43,14 +41,36 @@ Include a demo video of your game here (you don't have to wait until the end, yo
 
 ### Introduction
 
-- 5% ~250 words 
-- Describe your game, what is based on, what makes it novel?
+‘Time spent with cats is never wasted’ 
 
-- +
+Unkown/Everyone who’s ever played AstroCat 
+
+ 
+
+Our game is called AstroCat. It is the story of cats have found themselves on a spaceship and have to defeat hoards of Space Dogs in order to explore the endless rooms of their new galactic home.  
+
+The game can be played with one or two players using the two control sets on the same keyboard. The objective is to kill the  evil enemy space dogs and progress to the next room.  There are a range of these Space Dogs – some can fire projectiles, and some can teleport around the room.  AstroCat’s gun can overheat and stop working if you’re too trigger-happy, but defeated enemies can leave health and energy powerups to be collected to recover.  There is no endgame –  the aim is simply to get as far as you can, because once you’re dead, it’s back to room 1!  
+
+However, AstroCat has a special ability that gives the gameplay a unique twist: Slow Meow. This slows the enemies and the projectiles down, but AstroCat can still move around like a cat on a hot tin roof! This ability is rechardged through killing enemies.  
+
+ 
+AstroCat is based on 2D rogue-like games, featuring distinct procedurally-generated game environments and a ‘permanent death approach’.  especially the game ‘Binding of Isaac’,  from which we took a lot of inspiration from in terms of gameplay, such as the playing environment being confined to small rooms seen by the player from a top-down perspective.  The game also takes aesthetic cues from arcade and early video games, with a  retro-style soundscape and pixel-art based design assets and fonts.  
 
 ### Requirements 
+The first stage of our requirements-gathering process was to identify what kind of game AstroCat was going to be. Initially, we had two game ideas: a tower-defence style game, and a 2D shooter style game. From an early stage, we decided on the theme of the game (a cat protagonist in a space environment), and that a challenge we wanted to integrate would be co-operative play.  
 
-Our first game idea was inspired by tower-defence games (such as >>>[perosn who knows about games]<<<), with potential twists on this game mechanic being the ability to control the towers as opposed to just the players. Our second idea was inspired by room-based 2D-shooter games, principally 'Binding of Isaac', with the twist based on playing with relations health/resources/difficulty. A requirement we agreed on from the outset was that our game should be playable by two users on the same keyboard to provide a single-screen 'co-op' mode.
+ 
+
+At first, we were most inspired by the idea of creating a tower-defence game, taking inspiration from titles such as Bloons2D. However, undertaking  our first stage of requirements engineering using paper-prototypes  (the first time we had exposed our ideas to others ), caused us to reconsider our direction. 
+
+![pp](Requirements/Untitled.gif)
+
+
+When we translated our ideas to physical paper, we found that the 2D shooter ‘AstroCat’ flowed much better, and this was echoed by our test users to whom we showed the paper prototypes, who indicated a preference for the 2D shooter variant over the tower-defence variant.  
+
+ 
+
+Idea Development 
 
 
 | ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
@@ -62,7 +82,6 @@ We paper-prototyped our takes on the these two genres - both themed around a cat
 ///link to pp video///
 
 
-![pp](Requirements/Untitled.gif)
 
 
 [what we did for reqs, pp etc.]
@@ -72,46 +91,25 @@ We paper-prototyped our takes on the these two genres - both themed around a cat
 
 ## Stakeholders and Users
 
+<onion model> 
+
+Next, we thought about who might play AstroCat, and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs in to epics and user stories. Our personas and their user stories were as follows: 
+
+ 
+
+<user personas> 
+
+ 
+
+Requirements engineering involves making decisions about what requirements you can meet and which you can’t. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort: 
+
+ 
+
+Feasibility study 
+ 
+
+We had more technical-focussed whiteboard sessions to help identify the technical feasibility of different ideas. 
 We want everybody to experience AstroCat, so we thought about our game from the perspective of different user profiles, each with different needs and wants. We evaluated the user stories based on need, timeframe, and techncial complexity (e.g. through feasibility studies in our Sandbox), and created corresponding epics/stories in our backlog, waiting to be candidates for future sprints if we have the resources:
-
-
-| User Profile  | Requirements | Evaluation |
-| :--: | :--: | :--: |
-| Colourblind User | Epic: As a colourblind player, I want to apply to be able to play AstroCat effectively, being able to distinguish between players, objects, and HUD components.<br>User Story A: As a colourblind player, I want to able to toggle a high-contrast mode to make the game easier to see. <br>User Story B: As a colourblind player, I want to be informed of game state changes by visual cues (shapes, movement) other than colour. | [Epic: Visual Accessibility Options](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=98543333&issue=UoB-COMSM0166%7C2025-group-28%7C55)
-| Siblings/Friends | Epic: As a user, I want to play the same game with my friends. <br> User Story A: As a pair of users, we want to play a game of AstroCat on the same computer sharing the same I/O devices. <br> User Story B: As a user, I want to be able to play AstroCat with another person remotely (online two-player co-op). | MVP includes [Co-Op multiplayer epic](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) <br> Feasability test for online multiplayer conducted - potentially include post-MVP delivery. 
-| Competitive Gamer | Epic: As a competitive user, I want to be able to monitor and enhance my performance. <br> User Story A: As a competitive gamer, I want to be able to see my performance stats at the end of each game. <br> User Story A: As a competitive gamer, I want to be able to see my performance stats at the end of each game. <br> User Story B: As a competitive gamer, I want the option to the change key-mappings to enable me to optimise my performance. |
-| Casual Gamer | Epic: As a casual gamer, I want a game that can be played casually - in short bursts, engaging without requiring my full attention, and playable e.g. at night/in bed. <br> User Story A: As a casual gamer, I want a game mode (e.g. survival/easy) that enables me to enjoy the gameplay without worrying about progression. <br> User Story B: As a casual gamer, I want a game mode that has a softer colours/soundscape, to enable me to play relaxingly in the evening before I go to bed, without compromising my sleep.|
-
-
-### Under 13s (Will)
-Epic - have options to disable gore etc./profanity from the game
-User Story: As a 12 year old whose parents are strict about games, I want to be able to play the game in a mode that will not cause me to get in to trouble.
-AC: Given I am playing the game, 
-User Story: Given I am a parent of a child who plays the game, I want to be able to use  prohibit objectionable content on the game, to stop my child being able to see nasty stuff. 
-
-User story
- - As siblings/a couple/close friends we want to be able to play together online. So that we can enjoy the game together when we both want to play
-
-Acceptance
-Given that we are friends/dating etc
-When we want to play games together online
-Then we can play together
-
-
-###  Competitive Gamer (Dylan)
-User story
-  - As a competitive gamer, I want to be able to see my performance stats at the end of each game.
-  - As a competitive gamer, I want the option to the change key-mappings to enable me to optimise my performance.
-
-### Casual Gamer (Yoda)
-User story
-  - As a gamer who plays the game at night, I would like soft sound/dark theme to be an option, so that the game does not keeo me awake.
-- As a user who enjoys less intense games, I would like a simpler survival/easy mode to enable me to enjoy the gameplay without worrying about progression.
-
-###  On The Go Gamers (Fred)
-User story
-  - As a user who games on my commute, I want the game to be able to be played on a mobile device in portrait mode.
-  - As a user who games on the go, I want the game to function offline with as many feautures as possible, so I can enjoy the game where I have no internet connection.
 
 
 
@@ -267,6 +265,40 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 - 15% ~750 words
 
 - Teamwork. How did you work together, what tools did you use. Did you have team roles? Reflection on how you worked together. 
+
+### Sustainability, Ethics and Accessiilty
+
+#Environmental Sustainability 
+
+
+
+
+During the development of AstroCat, we became conscious of how the decisions we made had an impact on our environment. In some cases, performance issues we encountered with our game turned out to also be environmental issues, due to the relationship between memory consumption and both user experience and energy usage. This resulted in us considering how changing our use of assets (images, gifs, etc.) could reduce the environmental impact of our game, and improve game performance. We consulted Green Software Patterns catalogue, and decided to incorporate the following in to the design of our game: 
+
+ 
+
+Minimising use of GIFs - as highlighted here, GIFs are an outdated and memory-hungry means of displaying animated content – more modern formats such as MP4s etc consume less memory for the same quality and are therefore more energy efficient. 
+We converted our looping main menu animation from a GIF to a mp4 video.  
+The GIF took around 20MB of memory, which caused a delay in the menu loading. The mp4 occupied just 1.1 MB. 
+We used a Fireforx plugin (Carbonanalyser) to estimate the energy consumption of our game. Our results below show how this change reduced energy consumption: 
+ 
+
+>>>> insert <<<< 
+
+ 
+
+Trade-off: GIFs versus native animation: 
+
+Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat, by manipulated the portion of the GIF that is being looped through to represent different movements. This enabled us to have a fully animatable sprite using just one asset (a 16-frame GIF). In this circumstance, we found GIFs to be more memory efficient than implementing animation in code or CSS.  
+
+ 
+
+++ example 
+
+ 
+
+
+
 
 ### Conclusion
 
