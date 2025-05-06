@@ -232,7 +232,7 @@ In the following development sprints, this base design was extended to accommoda
 **Figure X+1**: Class Diagram as at final sprint 
 ![image](https://github.com/user-attachments/assets/6fd5b006-6e27-4417-a278-2b17352c75d8)
 
-###Behavioural Diagrams 
+### Behavioural Diagrams 
 
 Following on from the class diagram, drawing up a sequence diagram allowed us to model the interactions between different objects in the game and the order in which they occurred.  
 
