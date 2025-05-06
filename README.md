@@ -333,6 +333,7 @@ While these features significantly enhance the inclusivity and usability of the 
 ### Contribution Statement
 
 | Team Member | Contribution |
+|-------------------|--------------|
 | Luke Remus Elliot | 1.0 |
 | Fred Clamp-Gray | 1.0 |
 | Matt Matloubi | 1.0 |
