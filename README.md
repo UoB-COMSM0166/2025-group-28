@@ -221,10 +221,10 @@ In the following development sprints, this base design was extended to accommoda
 - ***Tile**: represented each square block in the room, this facilitated our random generation of walls and traps 
 - **Handler/Generator** classes: this delegated responsibility from the Room class to facilitate more flexible behaviour across rooms. 
 - **Utility/Static** classes: allowed us to split UI and non-game elements such as the menu/settings/transitions away from the gameplay logic code. These included: 
- - **GameOver**: creates the game over screen 
- - **Menu**: game menu screen and logic 
- - **Settings**: settings and how to play pages 
- - **GameUI**: drew enemy health bars and scores
+  - **GameOver**: creates the game over screen 
+  - **Menu**: game menu screen and logic 
+  - **Settings**: settings and how to play pages 
+  - **GameUI**: drew enemy health bars and scores
 
 **Figure X**: Class Diagram at week 4 workshop 
 ![image](https://github.com/user-attachments/assets/7c23e660-87e8-4131-a0c0-dd7190344273)
