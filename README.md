@@ -224,7 +224,7 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 ![image](https://github.com/user-attachments/assets/84e29cdf-692c-44ec-8789-52366a62b0a4)
 
 
-## 
+
 
 ### Implementation
 
@@ -252,22 +252,21 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 
 ### Sustainability, Ethics and Accessiilty
 
-# Social Sustainability and Accessibility
+### Technical Sustainability
+
+AstroCat demonstrates technical sustainability through key software quality dimensions. In terms of maintainability, the game benefits from its modular structure where gameplay logic, UI, and procedural generation are separated, making it easier to debug, update, and refine specific systems without impacting the whole game. The retro aesthetic and pixel-art assets also reduce complexity, easing asset management and modification.
+
+Usability is addressed with simple, intuitive controls for one or two players using the same keyboard. The consistent visual design and clear gameplay mechanics, such as overheating and the Slow Meow feature, contribute to a smooth user experience. For further improvement, future iterations could include brief in-game tutorials or customizable controls.
+
+Extensibility and adaptability is supported through the game’s rogue-like structure. Our enemy generation process and their behavior (e.g., teleporting or firing) enables easy development for future content like new enemy types, room styles, or gameplay modifiers. Similarly, the game could be adapted to different platforms, control schemes, or accessibility modes with reasonable development effort.
+
+Finally, scalability is achieved by our design choice of procedurally generated rooms and endless progression. This ensures the game remains challenging without requiring linear level design, allowing for potentially infinite expansion without heavy overhead.
+
+Overall, AstroCat’s, modular design, and procedural mechanics provide a sustainable technical base that supports both current functionality and future growth.
 
 
-AstroCat was developed with social sustainability at its core, aiming to create an inclusive gaming experience that caters to users with diverse backgrounds, needs, and preferences. The game's design ensures that individuals across various user profiles can access and enjoy its features without barriers.
 
-To accommodate visually impaired users, AstroCat avoids relying on color-based cues. All in-game mobs are uniquely designed in both appearance and sound, allowing players to distinguish between them using auditory and visual differences rather than color alone. This enhances accessibility for players with limited or no color perception.
-The game also supports social gameplay through modes tailored for paired users, such as siblings or friends. The inclusion of Co-op and Player vs. Player (PVP) modes promotes shared experiences and interactive fun. Additionally, AstroCat addresses varying skill levels and player engagement styles by offering multiple difficulty settings. Competitive gamers can challenge themselves with the intense "Apex" difficulty, while casual players can enjoy a more relaxed experience through the "Kitten" difficulty.
-For younger audiences, particularly users under 13 years old, a dedicated “Child Mode” is available. This mode disables blood effects and gore sounds to ensure a more age-appropriate, family-friendly gaming environment.
-
-**Future Possibilities to Increase Accessibility**
-
-Looking ahead, AstroCat is being considered for further expansion in accessibility and convenience. Future plans include making the game available on mobile platforms to support users who prefer gaming on the go. Additionally, a colorblind-friendly mode is being explored to better serve players with specific visual challenges.
-While these features significantly enhance the inclusivity and usability of the game, they may contribute to increased energy consumption in order to maintain performance across all platforms and modes.
-
-
-# Environmental Sustainability 
+### Environmental Sustainability 
 
 
 
@@ -301,6 +300,19 @@ The AstroCat gif requires 10 KB of memory. To implement the same complexity of a
 ![astrocatM7](https://github.com/user-attachments/assets/f2dbe04f-eea6-4367-b13c-3b2c781a4a34)![astrocatM7-1 png](https://github.com/user-attachments/assets/c1dbc72e-8185-40e6-98b1-30c9542dc621)
 
   
+### Social Sustainability and Accessibility
+
+
+AstroCat was developed with social sustainability at its core, aiming to create an inclusive gaming experience that caters to users with diverse backgrounds, needs, and preferences. The game's design ensures that individuals across various user profiles can access and enjoy its features without barriers.
+
+To accommodate visually impaired users, AstroCat avoids relying on color-based cues. All in-game mobs are uniquely designed in both appearance and sound, allowing players to distinguish between them using auditory and visual differences rather than color alone. This enhances accessibility for players with limited or no color perception.
+The game also supports social gameplay through modes tailored for paired users, such as siblings or friends. The inclusion of Co-op and Player vs. Player (PVP) modes promotes shared experiences and interactive fun. Additionally, AstroCat addresses varying skill levels and player engagement styles by offering multiple difficulty settings. Competitive gamers can challenge themselves with the intense "Apex" difficulty, while casual players can enjoy a more relaxed experience through the "Kitten" difficulty.
+For younger audiences, particularly users under 13 years old, a dedicated “Child Mode” is available. This mode disables blood effects and gore sounds to ensure a more age-appropriate, family-friendly gaming environment.
+
+**Future Possibilities to Increase Accessibility**
+
+Looking ahead, AstroCat is being considered for further expansion in accessibility and convenience. Future plans include making the game available on mobile platforms to support users who prefer gaming on the go. Additionally, a colorblind-friendly mode is being explored to better serve players with specific visual challenges.
+While these features significantly enhance the inclusivity and usability of the game, they may contribute to increased energy consumption in order to maintain performance across all platforms and modes.
 
  
 
