@@ -279,9 +279,11 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 
 ### Process 
 
-Our team cohesion was very high, and we have had an amazing time working together as a group. We have all brought unique and intelligent suggestions to the game and have all been switched on and willing to give both positive and negative feedback on gameplay ideas. No one took negative feedback harshly and we fostered a strongly positive working environment. The team fell quite naturally into roles: 
+Our team cohesion was very high, and we have had an amazing time working together as a group. We have each brought unique and intelligent comments to the game and have all been highly motivated, willing to give both positive and negative feedback on gameplay ideas. No one took negative feedback harshly and we fostered a strongly positive working environment. The team fell quite naturally into their respective roles.
+ 
+Fred’s prior Agile experience made him well-suited to be our Scrum Master, where he kept the team organised and accountable. Yoda and Dylan took the lead on visual design, leveraging their artistic skills. Matt, Luke, and Will formed the backbone of our development team, with Will also taking charge of sound design thanks to his background in music and modding.
 
-Fred is organised and good at holding people accountable, with previous Agile experience in his past job, so it made most sense to give him the role of Scrum Master. Yoda and Dylan are talented artists with a strong eye for detail, so they became our Lead Designers. Matt, Luke and Will are strong coders with the knowledge and drive necessary to lead the Backend Development. Will was also responsible for the Sound Design of the game, as his previous experience as a Music degree graduate and an audio mod creator came in handy. All our team brought unique ideas and perspectives as we come from a wide variety of undergraduate backgrounds and this wide range of knowledge really helped us excel. Our team are all astute, hard-working and each of us were responsible for several of the ideas that made it to the final game design. We have loved working together as a team. 
+Coming from varied academic backgrounds, our team had a diverse range of perspectives. This mix of skills, along with a shared commitment to quality, made collaboration smooth and effective. Each team member was responsible for several of the final design elements that made it into the game.
 
 We followed the Agile Manifesto, focusing on the agile principles: 
 - We used face to face communication, asking our friends and families to play the game and taking on board any feedback. 
@@ -291,7 +293,7 @@ We followed the Agile Manifesto, focusing on the agile principles:
 - We built our team around motivated individuals. We are all high achieving students, and we all listed our effort as 100% for the team building exercise. We are like minded in our commitment to making the game as good as it can possibly be and have all been very devoted to it throughout. 
 - We also took care to reduce unnecessary work and technical debt. Code was refactored where appropriate, such as adapting makeInvincible from a hard-coded value to a flexible, reusable function depending on the game mode.!
 - We paid continual attention to technical efforts. Where relevant, the team refactored code, adding functionalities to methods, adapting them to be reused for other features. For example, makeInvincible was originally hard coded to last 1 second, but with a slight tweak, it was then possible to adapt how long the sprites were invincible depending on the game mode. 
-- We worked at a steady, sustainable pace. Members of the team were consistently adding code or assets during sprints, aligning our tasks to realistic timelines and structuring them around personal or common commitments. 
+- We worked at a sustainable and adaptive pace. Members of the team were consistently adding code or assets during sprints, aligning our tasks to realistic timelines and structuring them around personal or common commitments. 
 
 This leads into our commit history diagram, with our three and a half sprints clearly shown by colour: 
 
@@ -331,22 +333,27 @@ A short sprint to resolve technical debt and ensure the code remained readable a
 #### Agile Methods 
 
 Communication was simple and effective. In person meetings were our go-to for deeper discussion and reflective decision-making. Outside of working hours, we leaned heavily on WhatsApp. It was our main space to share updates, quick questions and check in with each other. When we couldn’t meet in person, FaceTime helped fill in the gaps with personal, real-time conversations.
+
 <img width="452" alt="image" src="https://github.com/user-attachments/assets/81bcbe5b-3058-4e55-b980-eafbc5a67994" />
 
 
 We held our daily standup meetings every other day to keep everyone aligned while accommodating external responsibilities. It gave us a chance to share what we were implementing and listen to what the rest of the team was focused on. Quick check-ins like these kept us on track and helped us prioritise.
+
 <img width="315" alt="image" src="https://github.com/user-attachments/assets/c4ed5789-a786-4e96-8aba-52f3626cc0e0" />
 
 
 Kanban was the backbone of our task management system. Every task had a clear place whether it was in the backlog, in progress, in testing or already merged. It gave us visibility into what was happening at any given time, assuring ourselves nothing was missed or forgotten.
+
 <img width="401" alt="image" src="https://github.com/user-attachments/assets/cdef9ade-dc39-4ae0-8fa4-2eeb0f8c2c2b" />
 
 
 Collaboration was nested into our development workflow. Pair programming was a technique we used regularly- sharing knowledge, catching bugs early, and just generally improving code quality. Pull requests were an essential part of this process. Thanks to this, we didn’t simply merge code but also gave everyone a chance to review and suggest improvements before anything hit the main branch.
+
 ![image](https://github.com/user-attachments/assets/ced0d7fc-652f-4df7-86a0-527c4391cc4c)
 
 
 Our commit messages remained very detailed to tell the story of our work. Through this, we facilitated understanding as to what was done and why. This was beneficial whenever someone needed to revisit the logs or debug an error.
+
 <img width="411" alt="image" src="https://github.com/user-attachments/assets/2e084f6d-30f5-4a38-ac12-6b3dbe9ff146" />
 
 We used Planning Poker to estimate the complexity of tasks, encouraging healthy discussions and helping us align expectations. Combined with Kanban, it enabled us to prioritise effectively and adapt our backlog accordingly
