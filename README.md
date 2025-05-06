@@ -251,13 +251,12 @@ Our team cohesion was very high, and we have had an amazing time working togethe
 
 Fred is organised and good at holding people accountable, with previous Agile experience in his past job, so it made most sense to give him the role of Scrum Master. Yoda and Dylan are talented artists with a strong eye for detail, so they became our Lead Designers. Matt, Luke and Will are strong coders with the knowledge and drive necessary to lead the Backend Development. Will was also responsible for the Sound Design of the game, as his previous experience as a Music degree graduate and an audio mod creator came in handy. All our team brought unique ideas and perspectives as we come from a wide variety of undergraduate backgrounds and this wide range of knowledge really helped us excel. Our team are all astute, hard-working and each of us were responsible for several of the ideas that made it to the final game design. We have loved working together as a team. 
 
-Fred – Frontend Developer + Scrum Master 
-
-Matt, Luke – Backend Developer 
-
-Yoda, Dylan – Frontend Developers + arts & design 
-
-Will – Backend Developer + sound design 
+| Team Member | Role |
+|-----------|---------------------------------|
+| Fred | Frontend Developer + Scrum Master |
+| Matt, Luke | Backend Developers |
+| Yoda, Dylan | – Frontend Developers + arts & design |
+| Will | Backend Developer + sound design |
 
  
 
