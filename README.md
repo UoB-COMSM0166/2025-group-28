@@ -302,11 +302,11 @@ This leads into our commit history diagram, with our three and a half sprints cl
 Sprint Breakdown 
 
 
-Sprint 1: 16th January to 12th February 
+Sprint 1 (Green): 16th January to 12th February 
 
 The main goal of this sprint was to develop a Minimum Viable Product (MVP). We focused on getting the core gameplay mechanics working. By the end of this sprint, we had a working prototype with basic functionality and temporary assets, ready for us to expand upon in sprint 2. 
 
-Sprint 2: 13th February to 2nd April  
+Sprint 2 (Blue): 13th February to 2nd April  
 
 Over the course of this sprint, the team focused on expanding the game’s scope and perfecting its visual style. We also first introduced the game’s main twist, “Slow Meow”, a slow-motion ability that AstroCat can use. We introduced the following features: 
 
@@ -318,7 +318,7 @@ New mob types, adding variety and challenge to the gameplay
 
 The goal of this sprint was to improve the MVP and focus on creating a complete feeling and visually engaging game. 
 
-Sprint 3: 3rd of April to the 28th of April 
+Sprint 3 (Purple): 3rd of April to the 28th of April 
 
 In this sprint, we updated the “Slow Meow” mechanic, the defining twist of our game. We focused on:  
 
@@ -334,9 +334,7 @@ PvP mode as user feedback suggested it would be fun for players to compete again
 
 Player score, so that progressing through rooms and killing mobs felt more meaningful 
 
- 
-
-Sprint 3.5: 29th of April to 5th May   
+Sprint 3.5 (Orange): 29th of April to 5th May   
 
 A short sprint to resolve technical debt and ensure the code remained readable and concise. We removed redundant assets, refactored overcomplicated methods, and cleaned up the project’s structure so that the game would be in a good state to move forwards for our future plans. The layout is clear for any future developers’ benefit. 
 
