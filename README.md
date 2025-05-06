@@ -251,43 +251,15 @@ Our team cohesion was very high, and we have had an amazing time working togethe
 
 Fred is organised and good at holding people accountable, with previous Agile experience in his past job, so it made most sense to give him the role of Scrum Master. Yoda and Dylan are talented artists with a strong eye for detail, so they became our Lead Designers. Matt, Luke and Will are strong coders with the knowledge and drive necessary to lead the Backend Development. Will was also responsible for the Sound Design of the game, as his previous experience as a Music degree graduate and an audio mod creator came in handy. All our team brought unique ideas and perspectives as we come from a wide variety of undergraduate backgrounds and this wide range of knowledge really helped us excel. Our team are all astute, hard-working and each of us were responsible for several of the ideas that made it to the final game design. We have loved working together as a team. 
 
-| Team Member | Role |
-|-----------|---------------------------------|
-| Fred | Frontend Developer + Scrum Master |
-| Matt, Luke | Backend Developers |
-| Yoda, Dylan | – Frontend Developers + arts & design |
-| Will | Backend Developer + sound design |
-
- 
-
 We followed the Agile Manifesto, focusing on the agile principles: 
-
-We used face to face communication, asking our friends and families to play the game and taking on board any feedback. 
-
-We embraced change and have been consistently willing to update and change features that have received negative feedback. 
-
-We delivered working software frequently, from our MVP to our many updated versions, AstroCat has existed in playable form since early February and has had many updates over the weeks. Often, we would end up releasing new features and new working versions of the product multiple times per week. 
-
- 
-
-We have reflected regularly on our performance. We did so throughout sprints during stand-up meetings and by having sprint retrospective meetings at the end of each sprint.  
-
- 
-
-We built our team around motivated individuals. We are all high achieving students, and we all listed our effort as 100% for the team building exercise. We are like minded in our commitment to making the game as good as it can possibly be and have all been very devoted to it throughout. 
-
- 
-
-We minimised the amount of unnecessary work. 
-
- 
-
-We paid continual attention to technical efforts. Where relevant, the team refactored code, adding functionalities to methods, adapting them to be reused for other features. For example, makeInvincible was originally hard coded to last 1 second, but with a slight tweak, it was then possible to adapt how long the sprites were invincible depending on the game mode. 
-
- 
-
-We worked at a steady, sustainable pace. Everyone’s rhythm was adapted to their needs.  
-
+- We used face to face communication, asking our friends and families to play the game and taking on board any feedback. 
+- We embraced change and have been consistently willing to update and change features that have received negative feedback. 
+- We delivered working software frequently, from our MVP to our many updated versions, AstroCat has existed in playable form since early February and has had many updates over the weeks. Often, we would end up releasing new features and new working versions of the product multiple times per week. 
+- We have reflected regularly on our performance. We did so throughout sprints during stand-up meetings and by having sprint retrospective meetings at the end of each sprint.  
+- We built our team around motivated individuals. We are all high achieving students, and we all listed our effort as 100% for the team building exercise. We are like minded in our commitment to making the game as good as it can possibly be and have all been very devoted to it throughout. 
+- We minimised the amount of unnecessary work. 
+- We paid continual attention to technical efforts. Where relevant, the team refactored code, adding functionalities to methods, adapting them to be reused for other features. For example, makeInvincible was originally hard coded to last 1 second, but with a slight tweak, it was then possible to adapt how long the sprites were invincible depending on the game mode. 
+- We worked at a steady, sustainable pace. Members of the team were consistently adding code or assets during sprints and because of our longer sprints, the pace was sustainable and we were able to balance working on the game with our schedules.
  
 
 Our sprint velocity varied greatly due to members having other commitments over the course of the term. As a result, our sprints varied in length.  
@@ -298,7 +270,7 @@ This leads into our commit history diagram, with our three and a half sprints cl
 ![image](https://github.com/user-attachments/assets/8207dca6-cbf7-4a72-ba9a-d1ec0aec8bd2)
 
 
-Sprint Breakdown 
+# Sprint Breakdown 
 
 
 Sprint 1 (Green): 16th January to 12th February 
@@ -308,38 +280,26 @@ The main goal of this sprint was to develop a Minimum Viable Product (MVP). We f
 Sprint 2 (Blue): 13th February to 2nd April  
 
 Over the course of this sprint, the team focused on expanding the game’s scope and perfecting its visual style. We also first introduced the game’s main twist, “Slow Meow”, a slow-motion ability that AstroCat can use. We introduced the following features: 
-
-Multiple rooms with doors as transitions between them 
-
-Custom assets 
-
-New mob types, adding variety and challenge to the gameplay 
-
+- Multiple rooms with doors as transitions between them.
+- Custom assets.
+- New mob types, adding variety and challenge to the gameplay. 
 The goal of this sprint was to improve the MVP and focus on creating a complete feeling and visually engaging game. 
 
 Sprint 3 (Purple): 3rd of April to the 28th of April 
 
 In this sprint, we updated the “Slow Meow” mechanic, the defining twist of our game. We focused on:  
-
-Slow meow balance, ultimately tweaking the twist several times until it felt rewarding, useful and fun to use 
-
-General gameplay balance for better pacing, making sure to start with easier rooms and increase difficulty as the player progresses 
-
-Updating mob AI for better pathing, with unique mob patterns for variety 
-
-Overall polish, focusing on UI tweaks, animations and quality-of-life improvements for the user (such as being able to change keybinds or view clear instructions in game), 
-
-PvP mode as user feedback suggested it would be fun for players to compete against each other 
-
-Player score, so that progressing through rooms and killing mobs felt more meaningful 
+- Slow meow balance, ultimately tweaking the twist several times until it felt rewarding, useful and fun to use. 
+- General gameplay balance for better pacing, making sure to start with easier rooms and increase difficulty as the player progresses. 
+- Updating mob AI for better pathing, with unique mob patterns for variety. 
+- Overall polish, focusing on UI tweaks, animations and quality-of-life improvements for the user (such as being able to change keybinds or view clear instructions in game).
+- PvP mode as user feedback suggested it would be fun for players to compete against each other.
+- Player score, so that progressing through rooms and killing mobs felt more rewarding. 
 
 Sprint 3.5 (Orange): 29th of April to 5th May   
 
 A short sprint to resolve technical debt and ensure the code remained readable and concise. We removed redundant assets, refactored overcomplicated methods, and cleaned up the project’s structure so that the game would be in a good state to move forwards for our future plans. The layout is clear for any future developers’ benefit. 
 
-
-
-Agile Methods 
+# Agile Methods 
 
 We kept things simple and effective when it came to communication. In person meetings were our go-to for deeper discussion and reflective decision-making. Outside of working hours, we leaned heavily on WhatsApp. It was our main space to share updates, quick questions and check in with each other. We would often update the Kanban board whenever anything significant was to be fixed, implemented or changed. When we couldn’t meet in person, FaceTime helped fill in the gaps with personal, real-time conversations. 
 
