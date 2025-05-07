@@ -444,7 +444,14 @@ Our commit messages remained very detailed to tell the story of our work. Throug
 
 We used Planning Poker to estimate the complexity of tasks, encouraging healthy discussions and helping us align expectations. Combined with Kanban, it enabled us to prioritise effectively and adapt our backlog accordingly.
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 30px 0;"> <img width="100%" alt="WhatsApp communication" src="https://github.com/user-attachments/assets/81bcbe5b-3058-4e55-b980-eafbc5a67994" /> <img width="100%" alt="Standup meetings" src="https://github.com/user-attachments/assets/c4ed5789-a786-4e96-8aba-52f3626cc0e0" /> <img width="100%" alt="Kanban board" src="https://github.com/user-attachments/assets/cdef9ade-dc39-4ae0-8fa4-2eeb0f8c2c2b" /> <img width="100%" alt="Pair programming" src="https://github.com/user-attachments/assets/ced0d7fc-652f-4df7-86a0-527c4391cc4c" /> <img width="100%" alt="Detailed commit messages" src="https://github.com/user-attachments/assets/2e084f6d-30f5-4a38-ac12-6b3dbe9ff146" /> </div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/81bcbe5b-3058-4e55-b980-eafbc5a67994" width="200" />
+  <img src="https://github.com/user-attachments/assets/9fdfe4d9-146e-4a13-b595-010c6a898bff" width="200" />
+  <img src="https://github.com/user-attachments/assets/c4ed5789-a786-4e96-8aba-52f3626cc0e0" width="200" />
+  <img src="https://github.com/user-attachments/assets/cdef9ade-dc39-4ae0-8fa4-2eeb0f8c2c2b" width="200" />
+  <img src="https://github.com/user-attachments/assets/ced0d7fc-652f-4df7-86a0-527c4391cc4c" width="200" />
+  <img src="https://github.com/user-attachments/assets/2e084f6d-30f5-4a38-ac12-6b3dbe9ff146" width="200" />
+</p>
 
 ## Sustainability, Ethics and Accessibilty
 
