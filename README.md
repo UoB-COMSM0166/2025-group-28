@@ -382,20 +382,20 @@ Since our obtained W value (7.5) is less than the critical value (8), we can rej
 
 ## Process 
 
-Our team cohesion was very high, and we have had an amazing time working together as a group. We have each brought unique and intelligent comments to the game and have all been highly motivated, willing to give both positive and negative feedback on gameplay ideas. No one took negative feedback harshly and we fostered a strongly positive working environment. The team fell quite naturally into their respective roles.
+Our team cohesion was very high, and we have had an amazing time working together as a group. We have each brought unique and intelligent comments to the game and have all been highly motivated, willing to give both positive and negative feedback on gameplay ideas. No one took negative feedback harshly and we fostered a highly positive working environment. The team fell quite naturally into their respective roles.
  
-Fred’s prior Agile experience made him well-suited to be our Scrum Master, where he kept the team organised and accountable. Yoda and Dylan took the lead on visual design, leveraging their artistic skills. Matt, Luke, and Will formed the backbone of our development team, with Will also taking charge of sound design thanks to his background in music and modding games.
+Fred’s prior Agile experience made him well-suited to be our Scrum Master, where he kept the team organised and accountable. Yoda and Dylan took the lead on visual design, leveraging their artistic skills. Matt, Luke, and Will formed the backbone of our development team, with Will also taking charge of sound design thanks to his background in music and experience modding games.
 
 Coming from varied academic backgrounds, our team had a diverse range of perspectives. This mix of skills, along with a shared commitment to quality, made collaboration smooth and effective. Each team member was responsible for several of the final design elements that made it into the game.
 
 We followed the Agile Manifesto, focusing on the agile principles: 
 - We used face to face communication, asking our friends and families to play the game and taking on board any feedback. 
-- We embraced change and have consistently updated feature that have received negative feedback. 
-- We delivered working software frequently, from our MVP to our many updated versions, AstroCat has existed in playable form since early February and has had many updates over the weeks. Often, we would end up releasing new features and new working versions of the product multiple times per week. 
+- We embraced change and have consistently updated features that have received negative feedback. 
+- We delivered working software frequently, from our MVP to our many updated versions, AstroCat has existed in playable form since early February and has had many updates over the weeks. Often, we would end up releasing new working versions of the product multiple times a week, each with visionary features. 
 - We have reflected regularly on our performance. We did so throughout sprints during stand-up meetings and by having sprint retrospective meetings at the end of each sprint.  
 - We built our team around motivated individuals. We are all high achieving students, and we all listed our effort as 100% for the team building exercise. We are like minded in our commitment to making the game as good as it can possibly be and have all been very devoted to it throughout. 
-- We also took care to reduce unnecessary work and technical debt. Code was refactored where appropriate, such as adapting ```makeInvincible``` from a hard-coded value to a flexible, reusable function depending on the game mode.!
-- We paid continual attention to technical efforts. Where relevant, the team refactored code, adding functionalities to methods, adapting them to be reused for other features. For example, ```makeInvincible``` was originally hard coded to last 1 second, but with a slight tweak, it was then possible to adapt how long the sprites were invincible depending on the game mode. 
+- We also took care to reduce unnecessary work and technical debt. Code was refactored where appropriate, such as adapting ```makeInvincible``` from a hard-coded value to a flexible, reusable function depending on the game mode.
+- We paid continual attention to technical efforts. Where relevant, the team refactored code, adding functionalities to methods, adapting them to be reused for other features.
 - We worked at a sustainable and adaptive pace. Members of the team were consistently adding code or assets during sprints, aligning our tasks to realistic timelines and structuring them around personal or common commitments. 
 
 This leads into our commit history diagram, with our three and a half sprints clearly shown by colour: 
@@ -438,7 +438,7 @@ We held our daily standup meetings every other day to keep everyone aligned whil
 
 Kanban was the backbone of our task management system. Every task had a clear place whether it was in the backlog, in progress, in testing or already merged. It gave us visibility into what was happening at any given time, assuring ourselves nothing was missed or forgotten.
 
-Collaboration was nested into our development workflow. Pair programming was a technique we used regularly- sharing knowledge, catching bugs early, and just generally improving code quality. Pull requests were an essential part of this process. Thanks to this, we didn’t simply merge code but also gave everyone a chance to review and suggest improvements before anything hit the main branch.
+Collaboration was nested into our development workflow. Pair programming was a technique we used regularly - sharing knowledge, catching bugs early, and just generally improving code quality. Pull requests were an essential part of this process. Thanks to this, we didn’t simply merge code but also gave everyone a chance to review and suggest improvements before anything hit the main branch.
 
 Our commit messages remained very detailed to tell the story of our work. Through this, we facilitated understanding as to what was done and why. This was beneficial whenever someone needed to revisit the logs or debug an error.
 
