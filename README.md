@@ -256,7 +256,7 @@ We also implemented a difficulty scaling system, which affects various aspects o
 | Name | Visual | Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
 | **Slow Meow** | <img src="https://github.com/user-attachments/assets/506c1a83-a826-444a-b25c-6de851866f39" width="250" height="250" /> | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Increase<br>• Time Of Effect |
-| **Overheat** | <img src="(https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d" width="250" height="250" /> | • Overheat Gain Rate<br>• Overheat Decay<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
+| **Overheat** | <img src="https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d" width="250" height="250" /> | • Overheat Gain Rate<br>• Overheat Decay<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
 
 
 
