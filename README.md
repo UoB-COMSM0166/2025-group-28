@@ -135,6 +135,11 @@ We assessed the effort required to implement versus the projected benefit of the
 | Customisable Controls | Medium | Medium | Could Have |
 
 
+With our feautures prioritised, we can visualise the boundaries and functionality of AstroCat, using our five personas to create use case diagram:
+
+
+<img src="https://github.com/user-attachments/assets/11fa5103-e973-4d0b-a781-7b7a661ba79d">
+
 
 ## Design
 
