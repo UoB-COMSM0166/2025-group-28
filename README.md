@@ -228,9 +228,10 @@ These players felt more comfortable using arrow keys, and to accommodate this, w
 
 We also implemented a difficulty scaling system, which affects various aspects of gameplay, such as mob speed, damage and health, the amount of health items provide, as well as how quickly the player’s Slow Meow ability charges. For example, on the easiest difficulty, mob speeds are multiplied by 0.85, giving weaker players greater time react to enemy attacks. The tables below displays all the objects/effects in the game, with their corresponding attributes that required adjusting to achieve balanced gameplay:
 
+
 #### Sprites
 
-| Object | Visual | Balancing Attributes |
+| Object | Visual |  Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
 | **AstroCat** | ![astrocatM7](https://github.com/user-attachments/assets/3db7a317-9fe1-4c03-840b-a99b4cbde4dc) | • Health<br>• Fire Rate<br>• Damage<br>• Speed |
 | **MeleeMob** | ![dogmob_v3](https://github.com/user-attachments/assets/5b25ba86-b6ba-4c6b-8312-7f27141e604c) | • Health<br>• Damage<br>• Speed |
@@ -240,20 +241,23 @@ We also implemented a difficulty scaling system, which affects various aspects o
 | **DashMob** | ![dashmob](https://github.com/user-attachments/assets/d6ebad86-dbae-4c9d-8718-d31c03a47479) | • Health<br>• Damage<br>• Speed<br>• Dash Cooldown |
 | **RapidFireMob** | ![rapidfiremob](https://github.com/user-attachments/assets/4637e6b1-14e7-47de-99c6-828e2d0c8e1f) | • Health<br>• Damage<br>• Speed<br>• Rapid Fire Cooldown |
 
+
 #### Items/Traps
 
-| Object | Visual | Balancing Attributes |
+| Object | Visual | Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
 | **Heart** | ![heart](https://github.com/user-attachments/assets/4e5aae1d-4d9b-4e7b-91ad-e1afaf0b1ecd) | • Health Added<br>• Drop Rate |
 | **Fish** | ![energy](https://github.com/user-attachments/assets/7ffd8c09-a20b-4a3c-87a0-1495ac2b5299) | • Drop Rate |
 | **Trap** | ![Trap](https://github.com/user-attachments/assets/905d1297-b55f-41a0-8454-2d3159a3225a) | • Damage<br>• Patterns<br>• Spawn Rate |
 
+
 #### Effects
 
-| Name | Visual | Balancing Attributes |
+| Name | Visual | Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
 | **Slow Meow** | <img src="https://github.com/user-attachments/assets/506c1a83-a826-444a-b25c-6de851866f39" width="250" height="250" /> | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Increase<br>• Time Of Effect |
-| **Overheat** |  | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
+| **Overheat** | ![Screen Recording 2025-05-07 at 18 00 18](https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d)
+ | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
 
 
 
