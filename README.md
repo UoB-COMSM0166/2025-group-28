@@ -226,7 +226,37 @@ A consistent and surprising piece of feedback we received from playtesting, was 
 
 These players felt more comfortable using arrow keys, and to accommodate this, we added the ability for them to switch between both control schemes in the game's settings. 
 
-We also implemented a difficulty scaling system, which affects various aspects of gameplay, such as mob speed, damage and health, the amount of health items provide, as well as how quickly the player’s Slow Meow ability charges. For example, on the easiest difficulty, mob speeds are multiplied by 0.85, giving weaker players greater time react to enemy attacks. 
+We also implemented a difficulty scaling system, which affects various aspects of gameplay, such as mob speed, damage and health, the amount of health items provide, as well as how quickly the player’s Slow Meow ability charges. For example, on the easiest difficulty, mob speeds are multiplied by 0.85, giving weaker players greater time react to enemy attacks. The tables below displays all the objects/effects in the game, with their corresponding attributes that required adjusting to achieve balanced gameplay:
+
+#### Sprites
+
+| Object | Visual | Balancing Attributes |
+|:---------------------|:---------------------:|:---------------------|
+| **AstroCat** | | • health<br>• fire rate<br>• damage<br>• speed |
+| **MeleeMob** | | • health<br>• damage<br>• speed |
+| **RangedMob** | | • health<br>• fire rate<br>• damage<br>• speed |
+| **BlinkMob** | | • health<br>• fire rate<br>• damage<br>• number of projectiles fired<br>• teleport cooldown |
+| **HeartMob** | | • health<br>• item drop rate<br>• spawn rate |
+| **DashMob** | | • health<br>• damage<br>• speed<br>• dash cooldown |
+| **RapidFireMob** | | • health<br>• damage<br>• speed<br>• rapid fire cooldown |
+
+
+#### Items/Traps
+
+| Object | Visual | Balancing Attributes |
+|:---------------------|:---------------------:|:---------------------|
+| **Heart** | | • health added<br>• drop rate |
+| **Fish** | | • drop rate |
+| **Trap** | | • damage<br>• patterns<br>• spawn rate |
+
+
+#### Effects
+
+| Name | Visual | Balancing Attributes |
+|:---------------------|:---------------------:|:---------------------|
+| **Slow Meow** | | • build up rate<br>• reduction rate<br>• AstroCat speed increase<br>• time of effect |
+| **Overheat** | | • build up rate<br>• reduction rate<br>• AstroCat speed decrease<br>• speed regeneration rate |
+
 
 Another interesting aspect of AstroCat's gameplay is its adaptive difficulty and mob spawning system. 
 
