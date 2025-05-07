@@ -217,13 +217,15 @@ Finally, in non-PvP rooms, a door is placed at a random position along the outer
 
 ### Challenge 2: Game Balance
 
-Our second challenge, one we didn't initially anticipate, was the issue of game balance and making the game accessible to players of all skill levels. 
+Our second challenge, one we didn't initially anticipate, was the issue of game balance and making the game accessible to players of all skill levels.
 
-A consistent and surprising piece of feedback we received from playtesting, was the number of people completely unfamiliar with PC gaming, who struggled with the default WASD control scheme. 
+A consistent and surprising piece of feedback we received from playtesting, was the number of people completely unfamiliar with PC gaming, who struggled with the default WASD control scheme.
 
-These players felt more comfortable using arrow keys, and to accommodate this, we added the ability for them to switch between both control schemes in the game's settings. 
+These players felt more comfortable using arrow keys, and to accommodate this, we added the ability for them to switch between both control schemes in the game's settings.
 
-We also implemented a difficulty scaling system, which affects various aspects of gameplay, such as mob speed, damage and health, the amount of health items provide, as well as how quickly the player’s Slow Meow ability charges. For example, on the easiest difficulty, mob speeds are multiplied by 0.85, giving weaker players greater time to react to enemy attacks. 
+We also implemented a difficulty scaling system, which affects various aspects of gameplay, such as mob speed, damage and health, the amount of health items provide, as well as how quickly the player’s Slow Meow ability charges. For example, on the easiest difficulty, mob speeds are multiplied by 0.85, giving weaker players greater time to react to enemy attacks.
+
+Certain features are also disabled on lower difficulties, such as the 'BuffMob' (which dramatically increases the speed and damage of enemies if it is killed while other mobs are present in the room), or the lighting system, where the player's visibility is decreased the further they progress, to simulate moving further into the depths of the spaceship.
 
 The tables below display all the objects/effects in the game, with their corresponding attributes that required adjusting to achieve balanced gameplay:
 
@@ -235,7 +237,7 @@ The tables below display all the objects/effects in the game, with their corresp
 | **MeleeMob** | ![dogmob_v3](https://github.com/user-attachments/assets/5b25ba86-b6ba-4c6b-8312-7f27141e604c) | • Health<br>• Damage<br>• Speed |
 | **RangedMob** | ![yellowDogMob2](https://github.com/user-attachments/assets/a1300eae-7f60-471c-a82f-78d39dc46b7b) | • Health<br>• Fire Rate<br>• Damage<br>• Speed |
 | **BlinkMob** | ![purpleDogMob](https://github.com/user-attachments/assets/67fd0a77-c8e1-44e1-ab35-2825d8d8527e) | • Health<br>• Fire Rate<br>• Damage<br>• Number of Projectiles Fired<br>• Teleport Cooldown |
-| **BuffMob** | ![HeartMobBossGif](https://github.com/user-attachments/assets/02aaf745-c6ab-4abf-b7f3-a72b022ef430) | • Health<br>• Item Drop Rate<br>• Spawn Rate |
+| **BuffMob** | ![HeartMobBossGif](https://github.com/user-attachments/assets/02aaf745-c6ab-4abf-b7f3-a72b022ef430) | • Health<br>• Item Drop Chance<br>• Spawn Chance |
 | **DashMob** | ![dashmob](https://github.com/user-attachments/assets/d6ebad86-dbae-4c9d-8718-d31c03a47479) | • Health<br>• Damage<br>• Speed<br>• Dash Cooldown <br>• Dash Distance |
 | **RapidFireMob** | ![rapidfiremob](https://github.com/user-attachments/assets/4637e6b1-14e7-47de-99c6-828e2d0c8e1f) | • Health<br>• Damage<br>• Speed<br>• Rapid Fire Cooldown <br>• Rapid Fire Time |
 
@@ -243,8 +245,8 @@ The tables below display all the objects/effects in the game, with their corresp
 
 | Object | Visual | Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
-| **Heart** | ![heart](https://github.com/user-attachments/assets/4e5aae1d-4d9b-4e7b-91ad-e1afaf0b1ecd) | • Health Added<br>• Drop Rate |
-| **Fish** | ![energy](https://github.com/user-attachments/assets/7ffd8c09-a20b-4a3c-87a0-1495ac2b5299) | • Drop Rate |
+| **Heart** | ![heart](https://github.com/user-attachments/assets/4e5aae1d-4d9b-4e7b-91ad-e1afaf0b1ecd) | • Health Added<br>• Drop Chance |
+| **Fish** | ![energy](https://github.com/user-attachments/assets/7ffd8c09-a20b-4a3c-87a0-1495ac2b5299) | • Drop Chance |
 | **Trap** | ![Trap](https://github.com/user-attachments/assets/905d1297-b55f-41a0-8454-2d3159a3225a) | • Damage<br>• Patterns<br>• Spawn Chance |
 
 #### Effects
