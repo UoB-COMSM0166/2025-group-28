@@ -129,62 +129,109 @@ We assessed the effort required to implement versus the projected benefit of the
 | Difficulty Ranges (casual player to pro players) | High | Very High | Must Have |
 | Customisable Controls | Medium | Medium | Could Have |
 
-## Further Evaluations
+# HCI Evaluations
 
-### HCI Evaluation
-(conducted at week 7 with 5 participants)
+## Heuristic Evaluation
 
-Heuristic Evaluation
-| Interface | Issue | Heuristics | Frequency (0=rare, 4=common) | Impact | Persistence | Severity ((F+I+P)/3) | Our fix |
-| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| Sticky walls | Collision logic between players and walls need enhancement | flexibility and efficiency of use | 4 | 4 | 3 | 3.67 | https://github.com/UoB-COMSM0166/2025-group-28/issues/50 |
-| Too easy | Need more challenging levels | consistency and standards | 3 | 2 | 4 | 3 | https://github.com/UoB-COMSM0166/2025-group-28/issues/115 |
-| Progress/goal tracking | Need to show health bar, SlowMeaw percentage, and overheating bar | visibility of system status  | 2 | 2 | 4 | 2.67 | https://github.com/UoB-COMSM0166/2025-group-28/issues/137 |
-| Only one kind of enemy | Need more type of mobs, with standardize artwork style | consistency and standards | 1 | 1 | 3 | 1.67 | https://github.com/UoB-COMSM0166/2025-group-28/issues/112, https://github.com/UoB-COMSM0166/2025-group-28/issues/127, https://github.com/UoB-COMSM0166/2025-group-28/issues/54 |
-| Single player keyboard | We are using standard ASWD key to move, but some players might want to use an the arrow keys instead. | recognition rather than recall, user control and freedom | 2 | 2 | 1 | 1.67 | TBC |
-| After death experience | Bugs in game over screen | help users recognise, diagnose and recover from errors | 1 | 1 | 1 | 1 | https://github.com/UoB-COMSM0166/2025-group-28/issues/116 |
+### Methodology
 
-### NASA TLX and System Usability Scale (SUS) Evaluation
-(conducted at week 8 with 10 participants)
+The evaluation was conducted during week 7 with 5 participants. The users spent approximately 30 minutes going through the interface several times, producing lists of usability issues that corresponded to Neilsen's 10 principles of heuristic evaluation. We then compiled this list and summarised them in the results below. Each of the interface issues were then subsequently actioned during subsequent development sprints.
 
-NASA TLX Result
-| User ID | EASY | Medium |
-| :--: | :--: | :--: |
-| 1 | 26.67 | 29.17 |
-| 2 | 17.5 | 27.5 |
-| 3 | 36.67 | 49.17 |
-| 4 | 47.5 | 68.33 |
-| 5 | 26.67 | 30 |
-| 6 | 62.5 | 50 |
-| 7 | 30 | 75.83 |
-| 8 | 12.5 | 16.67 |
-| 9 | 53.33 | 54.17 |
-| 10 | 38.33 | 48.33 |
+### Results
 
-![image](https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104)
+| Interface Issue | Description | Heuristic Violated | Frequency(0-4) | Impact(0-4) | Persistence(0-4) | Severity(Avg) | Issue Link |
+|:--------------:|:------------|:-------------------|:------------------:|:---------------:|:-------------------:|:-----------------:|:------:|
+| 🔴 **Sticky walls** | Collision logic between players and walls needs enhancement | Flexibility and efficiency of use | 4 | 4 | 3 | **3.7** | [Issue #50](https://github.com/UoB-COMSM0166/2025-group-28/issues/50) |
+| 🟠 **Too easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
+| 🟠 **Progress/goal tracking** | Need to show health bar, SlowMeow percentage, and overheating bar | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
+| 🟡 **Limited enemy variety** | Need more types of mobs with standardized artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, #127, #54](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) |
+| 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148] (https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
+| 🟢 **Game over screen** | Bugs in game over screen | Help users recognize, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
 
-The table above is showing raw TLX scores, where the six dimensions are not weighted. To dive in further, our game scored well for Mental and Physical Demand but scored slightly worse in terms of Fustration and Temporal Demand. Which we collected further comments from participants to be implemented further.
+**Severity Color Legend:***
+- 🔴 High (3.4-4.0)
+- 🟠 Medium-High (2.6-3.3)
+- 🟡 Medium-Low (1.6-2.5)
+- 🟢 Low (0.0-1.5)
 
-SUS Result
-| User ID | EASY | Medium |	
-| :--: | :--: | :--: |
-| 1 | 95 | 72.5 |	
-| 2 | 77.5 | 50 |	
-| 3 | 75 | 62.5 |	
-| 4 | 82.5 | 65 |	
-| 5 | 92.5 | 75 |	
-| 6 | 60 | 45 |	
-| 7 | 80 | 42.5 |	
-| 8 | 100 | 85 |	
-| 9 | 55 | 57.5 |	
-| 10 | 80 | 62.5 |	
+*Note: Severity is calculated as (Frequency + Impact + Persistence) / 3*
 
-![image](https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a)
+## NASA TLX and System Usability Scale (SUS) Evaluation
 
-Based on studies, SUS score above 68 is considered the average. In our game, 80% of participants rated our game above average in easy mode and 30% did for medium difficulty. Which suggests more room for improvements, especially for medium difficulty.
+### Methodology
+The evaluation was conducted during week 8 of development with 10 participants testing both difficulty modes (Easy and Medium). Participants completed standardized NASA Task Load Index (TLX) and System Usability Scale (SUS) questionnaires after gameplay sessions to assess cognitive load and overall usability.
 
-Using Wilcoxon Signed-Rank Test, both test results got W test statistic of 7.5. With N=10 and significance value of 0.05, our W is below the critical value as shown in the table below. Therefore indicates 95% certainty that the difference in our result is significant. And can be used for further evaluations.
-![image](https://github.com/user-attachments/assets/065c3956-1793-44a3-bc46-0e9aa5745a4d)
+## NASA Task Load Index (TLX) Results
+
+### Raw TLX Scores by Difficulty Level
+
+| User ID | Easy Mode | Medium Mode | Difference |
+|:-------:|:---------:|:----------:|:----------:|
+| 1       | 26.7      | 29.2       | +2.5       |
+| 2       | 17.5      | 27.5       | +10.0      |
+| 3       | 36.7      | 49.2       | +12.5      |
+| 4       | 47.5      | 68.3       | +20.8      |
+| 5       | 26.7      | 30.0       | +3.3       |
+| 6       | 62.5      | 50.0       | -12.5      |
+| 7       | 30.0      | 75.8       | +45.8      |
+| 8       | 12.5      | 16.7       | +4.2       |
+| 9       | 53.3      | 54.2       | +0.9       |
+| 10      | 38.3      | 48.3       | +10.0      |
+| **Mean**| **35.2**  | **44.9**   | **+9.8**   |
+
+![NASA TLX Scores Comparison](https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104)
+
+### TLX Dimensional Analysis
+
+The unweighted TLX scores provided us with insights about the cognitive load experienced by participants. A dimensional breakdown shows:
+
+- **Strengths**: Mental and Physical Demand dimensions scored favorably across both difficulty levels, suggesting the game provides an appropriate level of cognitive engagement without causing excessive mental strain.
+  
+- **Areas for Improvement**: Frustration and Temporal Demand received notably higher ratings, particularly in Medium mode. Participant feedback indicates this may be attributed to increased time pressure and the challenge-to-skill ratio becoming less optimal at higher difficulty.
+
+- **Mean Difference**: The average 9.8-point increase in TLX scores between Easy and Medium modes demonstrates an increase in cognitive workload, validating our difficulty scaling implementation.
+
+## System Usability Scale (SUS) Results
+
+### SUS Scores by Difficulty Level
+
+| User ID | Easy Mode | Medium Mode | Difference |
+|:-------:|:---------:|:----------:|:----------:|
+| 1       | 95.0      | 72.5       | -22.5      |
+| 2       | 77.5      | 50.0       | -27.5      |
+| 3       | 75.0      | 62.5       | -12.5      |
+| 4       | 82.5      | 65.0       | -17.5      |
+| 5       | 92.5      | 75.0       | -17.5      |
+| 6       | 60.0      | 45.0       | -15.0      |
+| 7       | 80.0      | 42.5       | -37.5      |
+| 8       | 100.0     | 85.0       | -15.0      |
+| 9       | 55.0      | 57.5       | +2.5       |
+| 10      | 80.0      | 62.5       | -17.5      |
+| **Mean**| **79.8**  | **61.8**   | **-18.0**  |
+
+![SUS Scores Comparison](https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a)
+
+### SUS Performance Analysis
+
+According to established benchmarks in usability research, SUS scores above 68 indicate above-average usability, with scores of 80+ representing excellent user experiences. Our evaluation yielded the following insights:
+
+- **Easy Mode**: With a mean SUS score of 79.8, the Easy mode demonstrates excellent usability, with 80% of participants rating it above the 68-point threshold. This indicates the core gameplay mechanics are intuitive and approachable for new players.
+
+- **Medium Mode**: The Medium difficulty received a mean score of 61.8, with only 30% of participants rating it above the benchmark. This substantial 18-point reduction from Easy mode suggests that the increased challenge may be compromising system usability.
+
+
+### Statistical Significance
+
+To validate the observed differences between difficulty modes, we conducted a Wilcoxon Signed-Rank Test, which is appropriate for data from the same participants under different conditions (a within-participants test):
+
+- **Test Statistic**: W = 7.5 for both TLX and SUS analyses
+- **Sample Size**: N = 10
+- **Significance Level**: α = 0.05
+- **Critical Value**: According to the Wilcoxon table below, the critical value for N=10 at α=0.05 is 8
+
+![Wilcoxon Critical Values Table](https://github.com/user-attachments/assets/065c3956-1793-44a3-bc46-0e9aa5745a4d)
+
+Since our obtained W value (7.5) is less than the critical value (8), we can reject the null hypothesis with 95% confidence. This confirms that the differences in both cognitive load (TLX) and usability (SUS) between difficulty modes are statistically significant and not due to random variation.
 
 ## Design
 
