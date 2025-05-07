@@ -179,7 +179,8 @@ The evaluation was conducted during week 8 of development with 10 participants t
 | 10      | 38.3      | 48.3       | +10.0      |
 | **Mean**| **35.2**  | **44.9**   | **+9.8**   |
 
-![NASA TLX Scores Comparison](https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104)
+<img width = "40%" src="https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104">
+
 
 ### TLX Dimensional Analysis
 
@@ -209,7 +210,8 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 | 10      | 80.0      | 62.5       | -17.5      |
 | **Mean**| **79.8**  | **61.8**   | **-18.0**  |
 
-![SUS Scores Comparison](https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a)
+
+<img width = "40%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
 
 ### SUS Performance Analysis
 
@@ -229,7 +231,7 @@ To validate the observed differences between difficulty modes, we conducted a Wi
 - **Significance Level**: α = 0.05
 - **Critical Value**: According to the Wilcoxon table below, the critical value for N=10 at α=0.05 is 8
 
-![Wilcoxon Critical Values Table](https://github.com/user-attachments/assets/065c3956-1793-44a3-bc46-0e9aa5745a4d)
+<img width = "35%" src="https://github.com/user-attachments/assets/065c3956-1793-44a3-bc46-0e9aa5745a4d">
 
 Since our obtained W value (7.5) is less than the critical value (8), we can reject the null hypothesis with 95% confidence. This confirms that the differences in both cognitive load (TLX) and usability (SUS) between difficulty modes are statistically significant and not due to random variation.
 
