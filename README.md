@@ -89,7 +89,7 @@ AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game
 
 <br>
 <br>
-Next, we thought about who might (theoretically) play AstroCat - the 'Gaming public' captured in our onion model -  and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs in to epics and user stories.
+Next, we thought about who might (theoretically) play AstroCat - the 'Gaming public' captured in our onion model - and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs in to epics and user stories.
 
 Our personas and their user stories were as follows: 
 <br>
@@ -109,18 +109,18 @@ Our personas and their user stories were as follows:
 </div>
 <br>
 
-Requirements engineering involves making decisions about what requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans.  We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort: 
+Requirements engineering involves making decisions about which requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort: 
  
 ### Feasibility Studies
 
 We had more technical-focused whiteboard sessions to help identify the technical feasibility of different ideas. 
-We want everybody to experience AstroCat, so we thought about our game from the perspective of different user profiles, each with different needs and wants. We evaluated the user stories based on need, timeframe, and techncial complexity (e.g. through feasibility studies in our Sandbox), and created corresponding epics/stories in our backlog, waiting to be candidates for future sprints if we had the resources:
+We want everybody to experience AstroCat, so we thought about our game from the perspective of different user profiles, each with different needs and wants. We evaluated the user stories based on need, timeframe, and technical complexity (e.g. through feasibility studies in our Sandbox), and created corresponding epics/stories in our backlog, waiting to be candidates for future sprints if we had the resources:
 
 | Feature | Study Details | Outcome |
 | :--: | :--: | :--: |
-| Same-device multiplayer | Tested how p5.js would handle executing two sets of keyboard gameplay commands in parallel to move two sprites and <br> whether this would cause lag/overload the update() function and reduce the FPS | Platform is able to handle two parallel sets of gameplay inputs with no observable degradation of performance, <br> co-op on-device multiplayer included in MVP |
-| Online multiplayer | Integrated a BaaS (backend-as-a-service) connection and used realtime database to track positions of players and reflect these on other client | We found it was possible to integrate a Supabase database and track changes, challenges would be <br> (a) avoiding rate-limiting by rationing position updates <br> (b) creating and managing multiple 2-player online sessions <br> (c) mirroring behaviour of AI/environment across clients. Will be explored further if time permits. |
-| Procedural graphics generation | We experimented with algorithmically generating different 'rooms'. | This proved feasible and was included in the MVP | 
+| Same-device multiplayer | Tested how p5.js would handle executing two sets of keyboard gameplay commands in parallel to move two sprites and <br> whether this would cause lag/overload the update() function and reduce performance | Platform is able to handle two parallel sets of gameplay inputs with no observable degradation of performance, <br> co-op on-device multiplayer included in MVP |
+| Online multiplayer | Integrated a BaaS (backend-as-a-service) connection and used a realtime database to track positions of players and reflect these on other client | We found it was possible to integrate a Supabase database and track changes, challenges would be: <br> (a) Avoiding rate-limiting by rationing position updates <br> (b) Creating and managing multiple 2-player online sessions <br> (c) Mirroring behaviour of AI/environment across clients. Will be explored further if time permits |
+| Procedural graphics generation | We experimented with algorithmically generating different 'rooms' | This proved feasible and was included in the MVP | 
 
 ### Requirement Prioritisation
 
@@ -134,12 +134,9 @@ We assessed the effort required to implement versus the projected benefit of the
 | Difficulty Ranges (casual player to pro players) | High | Very High | Must Have |
 | Customisable Controls | Medium | Medium | Could Have |
 
-
-With our feautures prioritised, we can visualise the boundaries and functionality of AstroCat, using our five personas to create use case diagram:
-
+With our feautures prioritised, we were able to visualise the boundaries and functionality of AstroCat, using our five personas to create use case diagram:
 
 <img src="https://github.com/user-attachments/assets/11fa5103-e973-4d0b-a781-7b7a661ba79d">
-
 
 ## Design
 
@@ -157,18 +154,18 @@ By performing a grammatical parse of the description above, we identified the co
 
 ### Class Design
 
-A class diagram provided us a way to formally apply the ideas listed above in an object-oriented manner, plan our development work and build a high-level blueprint of how we wanted the system to behave and be structured.  
+A class diagram provided us a way to formally apply the ideas listed above in an object-oriented manner, plan our development work and build a high-level blueprint of how we wanted the system to behave and be structured.
 
-The initial design revolved around the following key classes (See Fig X): 
+The initial design revolved around the following key classes (See Fig X):
 
-- **Game**: this would be composed of the player(s), current room and score 
-- **Sprite**: this is our abstract game character class 
-- **Room**: this represented instances of an arena or level 
-- **Player**: the playable character, AstroCat, extending Sprite 
-- **Mob**: enemy characters, extending Sprite 
+- **Game**: this would be composed of the player(s), current room and score
+- **Sprite**: this is our abstract game character class
+- **Room**: this represented instances of an arena or level
+- **Player**: the playable character, AstroCat, extending Sprite
+- **Mob**: enemy characters, extending Sprite
 
 
-In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (See Fig X+1): 
+In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (See Fig X+1):
 
 - **GameObject**: our core abstract class that represents any “thing” in the game – supplying them with a hitbox and position 
 - **Tile**: represented each square block in the room, this facilitated our random generation of walls and traps 
@@ -187,9 +184,9 @@ In the following development sprints, this base design was extended to accommoda
 
 ### Behavioural Diagrams
 
-Following on from the class diagram, drawing up a sequence diagram allowed us to model the interactions between different objects in the game and the order in which they occurred.  
+Following on from the class diagram, drawing up a sequence diagram allowed us to model the interactions between different objects in the game and the order in which they occurred.
 
-In a typical gameplay loop, a room would be created, which would spawn mobs. The player would then have to shoot at the mobs and kill them. Once the player had killed all the mobs in the room, the game would then generate a new room, repeating this sequence. This is visualised in the diagram below (See Fig X+2) – where Game and Player are global variables persisting through the runtime states, interacting with the different objects of finite lifetimes. 
+In a typical gameplay loop, a room would be created, which would spawn mobs. The player would then have to shoot at the mobs and kill them. Once the player had killed all the mobs in the room, the game would then generate a new room, repeating this sequence. This is visualised in the diagram below (See Fig X+2) – where Game and Player are global variables persisting through the runtime states, interacting with the different objects of finite lifetimes.
 
 **Figure X+2**: Example combat & room progression sequence 
 ![image](https://github.com/user-attachments/assets/84e29cdf-692c-44ec-8789-52366a62b0a4)
@@ -210,7 +207,7 @@ Having shared helper classes was something we implemented during one of our refa
 
 Upon initialization, the room generator populates the empty ```roomLayout``` array, placing walls around the two outer edges. It then moves through ```x``` and ```y``` positions in increments of four, determining whether walls should be placed and rolling a random number to set the number of wall shapes in each sector. If a wall is added, another probability check determines its shape: square, 'L', or upside-down 'L'. To avoid rooms being too symmetrical, each shape is given a random width, height, and positional offset.
 
-A 'buffer' zone prevents walls from being added too close to the outer boundaries, ensuring players can access the exit. If a wall overlaps this buffer, its position is further adjusted until the full shape can be fully placed within the room.
+A 'buffer' zone prevents walls from being added too close to the outer boundaries, ensuring players can access the exit. If a wall overlaps this buffer, its position is further adjusted until the full shape can be placed within the room.
 
 Finally, in non-PvP rooms, a door is placed at a random position along the outer wall. To create a sense of continuity, the previous room's door position is stored and compared to the potential placement within the new room. For example, if a door was previously placed on the right side of the room, the position in the next room cannot be on the left. This prevents disorienting layouts where a player enters from the left only to find the next exit on the right, preserving a consistent progression through the game world.
 
@@ -230,7 +227,6 @@ We also implemented a difficulty scaling system, which affects various aspects o
 
 The tables below display all the objects/effects in the game, with their corresponding attributes that required adjusting to achieve balanced gameplay:
 
-
 #### Sprites
 
 | Object | Visual |  Key Balancing Attributes |
@@ -238,11 +234,10 @@ The tables below display all the objects/effects in the game, with their corresp
 | **AstroCat** | ![astrocatM7](https://github.com/user-attachments/assets/3db7a317-9fe1-4c03-840b-a99b4cbde4dc) | • Health<br>• Fire Rate<br>• Damage<br>• Speed |
 | **MeleeMob** | ![dogmob_v3](https://github.com/user-attachments/assets/5b25ba86-b6ba-4c6b-8312-7f27141e604c) | • Health<br>• Damage<br>• Speed |
 | **RangedMob** | ![yellowDogMob2](https://github.com/user-attachments/assets/a1300eae-7f60-471c-a82f-78d39dc46b7b) | • Health<br>• Fire Rate<br>• Damage<br>• Speed |
-| **BlinkMob** | ![purpleDogMob](https://github.com/user-attachments/assets/67fd0a77-c8e1-44e1-ab35-2825d8d8527e) | • Health<br>• Fire Rate<br>• Damage<br>• Number Of Projectiles Fired<br>• Teleport Cooldown |
+| **BlinkMob** | ![purpleDogMob](https://github.com/user-attachments/assets/67fd0a77-c8e1-44e1-ab35-2825d8d8527e) | • Health<br>• Fire Rate<br>• Damage<br>• Number of Projectiles Fired<br>• Teleport Cooldown |
 | **BuffMob** | ![HeartMobBossGif](https://github.com/user-attachments/assets/02aaf745-c6ab-4abf-b7f3-a72b022ef430) | • Health<br>• Item Drop Rate<br>• Spawn Rate |
 | **DashMob** | ![dashmob](https://github.com/user-attachments/assets/d6ebad86-dbae-4c9d-8718-d31c03a47479) | • Health<br>• Damage<br>• Speed<br>• Dash Cooldown <br>• Dash Distance |
 | **RapidFireMob** | ![rapidfiremob](https://github.com/user-attachments/assets/4637e6b1-14e7-47de-99c6-828e2d0c8e1f) | • Health<br>• Damage<br>• Speed<br>• Rapid Fire Cooldown <br>• Rapid Fire Time |
-
 
 #### Items/Traps
 
@@ -250,14 +245,13 @@ The tables below display all the objects/effects in the game, with their corresp
 |:---------------------|:---------------------:|:---------------------|
 | **Heart** | ![heart](https://github.com/user-attachments/assets/4e5aae1d-4d9b-4e7b-91ad-e1afaf0b1ecd) | • Health Added<br>• Drop Rate |
 | **Fish** | ![energy](https://github.com/user-attachments/assets/7ffd8c09-a20b-4a3c-87a0-1495ac2b5299) | • Drop Rate |
-| **Trap** | ![Trap](https://github.com/user-attachments/assets/905d1297-b55f-41a0-8454-2d3159a3225a) | • Damage<br>• Patterns<br>• Spawn Rate |
-
+| **Trap** | ![Trap](https://github.com/user-attachments/assets/905d1297-b55f-41a0-8454-2d3159a3225a) | • Damage<br>• Patterns<br>• Spawn Chance |
 
 #### Effects
 
 | Name | Visual | Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
-| **Slow Meow** | <img src="https://github.com/user-attachments/assets/506c1a83-a826-444a-b25c-6de851866f39" width="250" height="250" /> | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Increase<br>• Time Of Effect |
+| **Slow Meow** | <img src="https://github.com/user-attachments/assets/506c1a83-a826-444a-b25c-6de851866f39" width="250" height="250" /> | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Increase<br>• Time of Effect |
 | **Overheat** | <img src="https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d" width="250" height="250" /> | • Overheat Gain Rate<br>• Overheat Decay<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
 
 Another interesting aspect of AstroCat's gameplay is its adaptive difficulty and mob spawning system. 
@@ -274,7 +268,7 @@ This creates a much more dynamic, tactical and strategic style of gameplay, and 
 
 ### Think-Aloud User Evaluation
 
-Two main tasks were evaluated to assess player experience across different game modes and control configurations. Players were encouraged to express their thoughts as they play, which were noted down. Results are summarised below:
+Two main tasks were evaluated to assess player experience across different game modes and control configurations. Players were encouraged to express their thoughts as they played, which were noted down. Results are summarised below:
 
 #### Task 1: Single-Player Mode
 - Navigate menu and select single-player option
@@ -296,7 +290,7 @@ Two main tasks were evaluated to assess player experience across different game 
 | **Collision Detection** | "Get stuck on wall", "Easy to get stuck" - collision handling needs major refinement |
 | **Navigation** | Players struggled with precise movement and frequently collided with environmental objects |
 
-*Two-Player Experience*
+*Two-Player/Co-op Experience*
 
 | Observation Category | Participant Feedback |
 |:---------------------|:---------------------|
@@ -333,7 +327,7 @@ The evaluation was conducted during week 7 with 5 participants. The users spent 
 | 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
 | 🟢 **Game over screen** | Bugs in game over screen | Help users recognize, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
 
-**Severity Color Legend:***
+**Severity Colour Legend:**
 - 🔴 High (3.4-4.0)
 - 🟠 Medium-High (2.6-3.3)
 - 🟡 Medium-Low (1.6-2.5)
@@ -370,7 +364,7 @@ The evaluation was conducted during week 8 of development with 10 participants t
 
 The unweighted TLX scores provided us with insights about the cognitive load experienced by participants. A dimensional breakdown shows:
 
-- **Strengths**: Mental and Physical Demand dimensions scored favorably across both difficulty levels, suggesting the game provides an appropriate level of cognitive engagement without causing excessive mental strain.
+- **Strengths**: Mental and Physical Demand dimensions scored favourably across both difficulty levels, suggesting the game provides an appropriate level of cognitive engagement without causing excessive mental strain.
   
 - **Areas for Improvement**: Frustration and Temporal Demand received notably higher ratings, particularly in Medium mode. Participant feedback indicates this may be due to increased time pressure and the fact that the game may have just been too hard.
 
@@ -469,7 +463,7 @@ A short sprint to resolve technical debt and ensure the code remained readable a
 
 ### Agile Methods
 
-Communication was simple and effective. In person meetings were our go-to for deeper discussion and reflective decision-making. Outside of working hours, we leaned heavily on WhatsApp. It was our main space to share updates, quick questions and check in with each other. When we couldn’t meet in person, FaceTime helped fill in the gaps with personal, real-time conversations.
+Communication was simple and effective. In person meetings were our go-to for deeper discussion and reflective decision-making. Outside of working hours, we leaned heavily on WhatsApp. It was our main space to share updates, quick questions and check in with each other. When we couldn’t meet in person, video calls helped fill in the gaps with personal, real-time conversations.
 
 We held our daily standup meetings every other day to keep everyone aligned while accommodating external responsibilities. It gave us a chance to share what we were implementing and listen to what the rest of the team was focused on. Quick check-ins like these kept us on track and helped us prioritise.
 
@@ -496,9 +490,9 @@ We used Planning Poker to estimate the complexity of tasks, encouraging healthy 
 
 AstroCat demonstrates technical sustainability through key software quality dimensions. In terms of maintainability, the game benefits from its modular structure where gameplay logic, UI, and procedural generation are separated, making it easier to debug, update, and refine specific systems without impacting the whole game. The retro aesthetic and pixel-art assets also reduce complexity, easing asset management and modification.
 
-Usability is addressed with simple, intuitive controls for one or two players using the same keyboard. The consistent visual design and clear gameplay mechanics, such as overheating and the Slow Meow feature, contribute to a smooth user experience. For further improvement, future iterations could include brief in-game tutorials or customizable controls.
+Usability is addressed with simple, intuitive controls for one or two players using the same keyboard. The consistent visual design and clear gameplay mechanics, such as overheating and the 'Slow Meow' feature, contribute to a smooth user experience. For further improvement, future iterations could include brief in-game tutorials or customisable controls.
 
-Extensibility and adaptability is supported through the game’s rogue-like structure. Our enemy generation process and their behavior (e.g., teleporting or firing) enables easy development for future content like new enemy types, room styles, or gameplay modifiers. Similarly, the game could be adapted to different platforms, control schemes, or accessibility modes with reasonable development effort.
+Extensibility and adaptability is supported through the game’s roguelike structure. Our enemy generation process and their behavior (e.g. teleporting or firing) enables easy development for future content like new enemy types, room styles, or gameplay modifiers. Similarly, the game could be adapted to different platforms, control schemes, or accessibility modes with reasonable development effort.
 
 Finally, scalability is achieved by our design choice of procedurally generated rooms and endless progression. This ensures the game remains challenging without requiring linear level design, allowing for potentially infinite expansion without heavy overhead.
 
@@ -514,15 +508,15 @@ We converted our looping main menu animation from a GIF to a mp4 video. Our init
 
 ![Carbon Usage](https://github.com/user-attachments/assets/051f7e57-63e7-4996-a6e7-712ba6e497d8)
 
-This has a postive impact on AstroCat's Software Carbon Intensity score by reducing the 'E' (energy) component in the score's formula (SCI = (E * I) + M per R). Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further, we created a smaller background video more inline with the game's style (using around 1.5 MB).
+This has a postive impact on AstroCat's Software Carbon Intensity score by reducing the 'E' (energy) component in the score's formula **(SCI = (E * I) + M per R)**. Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further, we created a smaller background video more inline with the game's style (using around 1.5 MB).
 
 #### Trade-off: GIFs versus native animation:
 
-Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat. AstroCat's responsive animation is implemented by manipulating the frame range being played of a single 20-frame GIF of AstroCat, which contains all the sprite's possible movements. This proved to be an effective way of having AstroCat's movement and appearence respond to user inputs, only requiring a few lines of code to implement movements:
+Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat. AstroCat's responsive animation is implemented by manipulating the frame range being played of a single 20-frame GIF of AstroCat, which contains all the sprite's possible movements. This proved to be an effective way of having AstroCat's movement and appearence respond to user inputs, only requiring a few lines of code to implement:
 
 <img width="585" alt="Screenshot 2025-05-06 at 17 04 16" src="https://github.com/user-attachments/assets/48cfbcfe-7d30-4e9a-8dda-96d0ccd47770" />
 
-The AstroCat gif requires 10 KB of memory. To implement the same complexity of animation using PNGs would require 16 KB of memory used for PNGs, and additional energy consumption from increased code complexity to implement the animation:
+The AstroCat gif requires 10 KB of memory. To implement the same complexity of animation using PNGs would require 16 KB of memory, and additional energy consumption from increased code complexity to implement the animation:
 
 ![astrocatM7](https://github.com/user-attachments/assets/f2dbe04f-eea6-4367-b13c-3b2c781a4a34)![astrocatM7-1 png](https://github.com/user-attachments/assets/c1dbc72e-8185-40e6-98b1-30c9542dc621)
   
@@ -530,15 +524,15 @@ The AstroCat gif requires 10 KB of memory. To implement the same complexity of a
 
 AstroCat was developed with social sustainability at its core, aiming to create an inclusive gaming experience that caters to users with diverse backgrounds, needs, and preferences. The game's design ensures that individuals across various user profiles can access and enjoy its features without barriers.
 
-To accommodate visually impaired users, AstroCat avoids relying on colour-based cues. All in-game mobs are uniquely designed in both appearance and sound, allowing players to distinguish between them using auditory and visual differences rather than colour alone. This enhances accessibility for players with limited or no color perception.
+To accommodate visually impaired users, AstroCat avoids relying on colour-based cues. All in-game mobs are uniquely designed in both appearance and sound, allowing players to distinguish between them using auditory and visual differences rather than colour alone. This enhances accessibility for players with limited or no colour perception.
 
 The game also supports social gameplay through modes tailored for paired users, such as siblings or friends. The inclusion of Co-op and Player vs. Player (PvP) modes promotes shared experiences and interactive fun. Additionally, AstroCat addresses varying skill levels and player engagement styles by offering multiple difficulty settings. Competitive gamers can challenge themselves with the intense "Apex" difficulty, while casual players can enjoy a more relaxed experience through the "Kitten" difficulty.
 
-For younger audiences, particularly users under the age of 13, a dedicated “Child Mode” is available. This mode disables blood effects and gore sounds to ensure a more age-appropriate, family-friendly gaming environment.
+For younger audiences, particularly users under the age of 13, a dedicated 'Child Mode' is available. This mode disables blood effects and gore sounds to ensure a more age-appropriate, family-friendly gaming environment.
 
 #### Future Possibilities to Increase Accessibility
 
-Looking ahead, AstroCat is being considered for further expansion in accessibility and convenience. Future plans include making the game available on mobile platforms to support users who prefer gaming on the go. Additionally, a colorblind-friendly mode is being explored to better serve players with specific visual challenges.
+Looking ahead, AstroCat is being considered for further expansion in accessibility and convenience. Future plans include making the game available on mobile platforms to support users who prefer gaming on the go. Additionally, a colourblind-friendly mode is being explored to better serve players with specific visual challenges.
 While these features significantly enhance the inclusivity and usability of the game, they may contribute to increased energy consumption in order to maintain performance across all platforms and modes.
 
 ## Conclusion
