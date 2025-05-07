@@ -131,6 +131,50 @@ We assessed the effort required to implement versus the projected benefit of the
 
 # HCI Evaluations
 
+## Think-Aloud User Evaluation
+
+Two main tasks were evaluated to assess player experience across different game modes and control configurations. Players were encouraged to express their thoughts as they play, which were noted down. Results are summarised below:
+
+### Task 1: Single-Player Mode
+- Navigate menu and select single-player option
+- Avoid mobs for several minutes
+- Complete level objectives
+
+### Task 2: Two-Player Mode
+- Play cooperatively using different keyboard configurations:
+  - Laptop keyboard (compact layout)
+  - Full-sized keyboard
+
+## Results
+
+### Single-Player Experience
+
+| Observation Category | Participant Feedback |
+|:---------------------|:---------------------|
+| **Game Speed** | "Too fast" - AstroCat movement speed was too high for comfortable control |
+| **Collision Detection** | "Get stuck on wall", "Easy to get stuck" - collision handling needs major refinement |
+| **Navigation** | Players struggled with precise movement and frequently collided with environmental objects |
+
+### Two-Player Experience
+
+| Observation Category | Participant Feedback |
+|:---------------------|:---------------------|
+| **Control Intuitiveness** | "If you've played games before you would know, but you can't assume that" - controls not immediately intuitive to non-gamers |
+| **AI Behavior** | "The dog is following me" - mob AI behavior was acknowledged |
+| **Movement Comparison** | "The mob is a lot more fluid than me" - perceived discrepancy between player and mob movement mechanics |
+| **Engagement** | "I'm kinda bored now" - engagement declined after initial exploration |
+| **Objectives** | "Oh yeah, you have to get to the door" - goal clarity issues noted |
+| **Game Balance** | "Annoying that the enemy can go through walls but not me" - perceived unfairness in movement restrictions |
+| **Hardware** | "Seemed fine on laptop keyboard" - compact keyboard layout did not significantly impact playability |
+
+## Key Issues Identified
+
+1. **Wall Collision**: Players frequently get stuck on walls
+2. **Movement Speed**: Character speed may be too high for precise control
+3. **Mechanics Consistency**: Enemies can traverse walls that block players, creating perceived unfairness
+4. **Objective Clarity**: Players don't know what the goal is
+5. **Engagement**: Initial interest deteriorates during extended play
+
 ## Heuristic Evaluation
 
 ### Methodology
