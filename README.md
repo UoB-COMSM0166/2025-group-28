@@ -208,10 +208,10 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 | 8       | 100.0     | 85.0       | -15.0      |
 | 9       | 55.0      | 57.5       | +2.5       |
 | 10      | 80.0      | 62.5       | -17.5      |
-| **Mean**| **79.8**  | **61.8**   | **-18.0**  |
+| **Mean**| **79.8**  | **61.8**   | **-18.0**  |<img width = "40%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
 
 
-<img width = "40%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
+
 
 ### SUS Performance Analysis
 
