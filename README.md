@@ -179,8 +179,7 @@ The evaluation was conducted during week 8 of development with 10 participants t
 | 10      | 38.3      | 48.3       | +10.0      |
 | **Mean**| **35.2**  | **44.9**   | **+9.8**   |
 
-<img width = "40%" src="https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104">
-
+<img width = "45%" src="https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104">
 
 ### TLX Dimensional Analysis
 
@@ -208,10 +207,9 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 | 8       | 100.0     | 85.0       | -15.0      |
 | 9       | 55.0      | 57.5       | +2.5       |
 | 10      | 80.0      | 62.5       | -17.5      |
-| **Mean**| **79.8**  | **61.8**   | **-18.0**  |<img width = "40%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
+| **Mean**| **79.8**  | **61.8**   | **-18.0**  |
 
-
-
+<img width = "45%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
 
 ### SUS Performance Analysis
 
