@@ -232,22 +232,22 @@ We also implemented a difficulty scaling system, which affects various aspects o
 
 | Object | Visual | Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
-| **AstroCat** | | • health<br>• fire rate<br>• damage<br>• speed |
-| **MeleeMob** | | • health<br>• damage<br>• speed |
-| **RangedMob** | | • health<br>• fire rate<br>• damage<br>• speed |
-| **BlinkMob** | | • health<br>• fire rate<br>• damage<br>• number of projectiles fired<br>• teleport cooldown |
-| **HeartMob** | | • health<br>• item drop rate<br>• spawn rate |
-| **DashMob** | | • health<br>• damage<br>• speed<br>• dash cooldown |
-| **RapidFireMob** | | • health<br>• damage<br>• speed<br>• rapid fire cooldown |
+| **AstroCat** | ![image](https://github.com/user-attachments/assets/4410570a-a157-4a75-bf1c-1951105cb0ad) | • health<br>• fire rate<br>• damage<br>• speed |
+| **MeleeMob** | ![dogmob_v3](https://github.com/user-attachments/assets/5b25ba86-b6ba-4c6b-8312-7f27141e604c) | • health<br>• damage<br>• speed |
+| **RangedMob** | ![yellowDogMob2](https://github.com/user-attachments/assets/a1300eae-7f60-471c-a82f-78d39dc46b7b) | • health<br>• fire rate<br>• damage<br>• speed |
+| **BlinkMob** | ![purpleDogMob](https://github.com/user-attachments/assets/67fd0a77-c8e1-44e1-ab35-2825d8d8527e) | • health<br>• fire rate<br>• damage<br>• number of projectiles fired<br>• teleport cooldown |
+| **HeartMob** | ![HeartMobBossGif](https://github.com/user-attachments/assets/02aaf745-c6ab-4abf-b7f3-a72b022ef430) | • health<br>• item drop rate<br>• spawn rate |
+| **DashMob** | ![dashmob](https://github.com/user-attachments/assets/d6ebad86-dbae-4c9d-8718-d31c03a47479) | • health<br>• damage<br>• speed<br>• dash cooldown |
+| **RapidFireMob** | ![rapidfiremob](https://github.com/user-attachments/assets/4637e6b1-14e7-47de-99c6-828e2d0c8e1f) | • health<br>• damage<br>• speed<br>• rapid fire cooldown |
 
 
 #### Items/Traps
 
 | Object | Visual | Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
-| **Heart** | | • health added<br>• drop rate |
-| **Fish** | | • drop rate |
-| **Trap** | | • damage<br>• patterns<br>• spawn rate |
+| **Heart** | ![heart](https://github.com/user-attachments/assets/4e5aae1d-4d9b-4e7b-91ad-e1afaf0b1ecd) | • health added<br>• drop rate |
+| **Fish** | ![energy](https://github.com/user-attachments/assets/7ffd8c09-a20b-4a3c-87a0-1495ac2b5299) | • drop rate |
+| **Trap** | ![Trap](https://github.com/user-attachments/assets/905d1297-b55f-41a0-8454-2d3159a3225a) | • damage<br>• patterns<br>• spawn rate |
 
 
 #### Effects
