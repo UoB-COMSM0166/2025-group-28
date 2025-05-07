@@ -42,7 +42,7 @@ function preload() {
 
   // special 'talking astrocat'
 
-  astrocat_gif = loadImage("assets/astrocatM11.gif");
+  astrocat_gif = loadImage("assets/astrocat_hw2.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
 
   healthbar = loadImage("assets/healthbar.gif");

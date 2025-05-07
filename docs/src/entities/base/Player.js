@@ -1,9 +1,12 @@
+let pres_toggle = false;
+
 class Player extends Sprite {
   constructor(img, x, y, player_x) {
     super(img, x, y, 100);
     this.widthHitbox = 40;
     this.heightHitbox = 65;
 
+    this.talking = false;
     this.player = player_x;
     this.controls = []; // Player control scheme
 
@@ -176,13 +179,15 @@ class Player extends Sprite {
     }
 
     // Stops sprite animation when player isn't moving
-    if (this.velocity.equals(0) || fadingOut || (pvpMode && fadingIn)) {
-      if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
-        this.img.setFrame(1);
-      } else if (this.lastDirection == "UP") {
-        this.img.setFrame(13);
-      } else if (this.lastDirection == "DOWN") {
-        this.img.setFrame(7);
+    if (!pres_toggle) {
+      if (this.velocity.equals(0) || fadingOut || (pvpMode && fadingIn)) {
+        if (this.lastDirection == "LEFT" || this.lastDirection == "RIGHT") {
+          this.img.setFrame(1);
+        } else if (this.lastDirection == "UP") {
+          this.img.setFrame(13);
+        } else if (this.lastDirection == "DOWN") {
+          this.img.setFrame(7);
+        }
       }
     }
 
@@ -210,25 +215,41 @@ class Player extends Sprite {
   }
 
   handleMovement(controls) {
+    // *** HOLLYWOOD *** press T to talk :)
+    if (keyIsDown(84)) {
+      if (!this.talking) {
+        console.log("talk");
+        this.talking = true;
+        this.img.setFrame(11);
+        this.startFrame = 11;
+        this.endFrame = 17;
+      } else {
+        this.talking = false;
+      }
+    }
+
     let movingVertically = false;
     // Up/down directions are prioritised for diagonal animations to work
     if (keyIsDown(controls[0])) {
+      // HW adapt
       movingVertically = true;
       if (this.lastDirection != "UP") {
-        this.img.setFrame(13);
-        this.startFrame = 13;
-        this.endFrame = 17;
+        this.img.setFrame(19);
+        this.startFrame = 19;
+        this.endFrame = 23;
       }
       this.velocity.y = -this.speed;
       this.direction = createVector(0, -1);
       this.lastDirection = "UP";
     }
+
     if (keyIsDown(controls[1])) {
+      // HW adapt
       movingVertically = true;
       if (this.lastDirection != "DOWN") {
         this.img.setFrame(7);
         this.startFrame = 7;
-        this.endFrame = 12;
+        this.endFrame = 11;
       }
       this.velocity.y = this.speed;
       this.direction = createVector(0, 1);
@@ -405,5 +426,11 @@ class Player extends Sprite {
     return (
       this.timesOverheated / Math.max(1, behaviourMonitor.getRoomsCleared())
     );
+  }
+}
+
+function keyPressed() {
+  if (key === "p") {
+    pres_toggle = !pres_toggle;
   }
 }

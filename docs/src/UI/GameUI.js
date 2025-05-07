@@ -10,7 +10,7 @@ class GameUI {
     if (!pvpMode) {
       roomNumber = "Room " + game.roomSeq;
     } else {
-      roomNumber = "Round " + game.roomSeq;
+      ("");
     }
 
     if (pvpMode) {
@@ -20,7 +20,7 @@ class GameUI {
       textFont(gameFont);
       textAlign(CENTER);
       fill(gameOrange);
-      text("Best of " + pvp_rounds + " round(s)", 245, 40);
+      text("** Hollywood Mode **", 245, 40);
       pop();
       push();
       textSize(28);
@@ -46,9 +46,9 @@ class GameUI {
         var divider = "|";
         text(divider, 312, 85);
         pop();
-        scoreNumber = "Kills A:" + game.currScoreP1;
+        scoreNumber = "(1) P to enter pres_mode";
         text(scoreNumber, 400, 65);
-        scoreNumber = "Kills B:" + game.currScoreP2;
+        scoreNumber = "(2) T to talk, hold to pause";
         text(scoreNumber, 400, 85);
         scoreNumber = "Total A:" + game.p1PVPTotal;
         text(scoreNumber, 825, 65);
