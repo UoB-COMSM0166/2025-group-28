@@ -145,7 +145,7 @@ The evaluation was conducted during week 7 with 5 participants. The users spent 
 | 🟠 **Too easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
 | 🟠 **Progress/goal tracking** | Need to show health bar, SlowMeow percentage, and overheating bar | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
 | 🟡 **Limited enemy variety** | Need more types of mobs with standardized artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, #127, #54](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) |
-| 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148] (https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
+| 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
 | 🟢 **Game over screen** | Bugs in game over screen | Help users recognize, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
 
 **Severity Color Legend:***
@@ -187,7 +187,7 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 
 - **Strengths**: Mental and Physical Demand dimensions scored favorably across both difficulty levels, suggesting the game provides an appropriate level of cognitive engagement without causing excessive mental strain.
   
-- **Areas for Improvement**: Frustration and Temporal Demand received notably higher ratings, particularly in Medium mode. Participant feedback indicates this may be attributed to increased time pressure and the challenge-to-skill ratio becoming less optimal at higher difficulty.
+- **Areas for Improvement**: Frustration and Temporal Demand received notably higher ratings, particularly in Medium mode. Participant feedback indicates this may be due to increased time pressure and the fact that the game may have just been too hard.
 
 - **Mean Difference**: The average 9.8-point increase in TLX scores between Easy and Medium modes demonstrates an increase in cognitive workload, validating our difficulty scaling implementation.
 
