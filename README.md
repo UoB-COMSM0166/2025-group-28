@@ -433,10 +433,6 @@ A short sprint to resolve technical debt and ensure the code remained readable a
 ### Agile Methods
 
 Communication was simple and effective. In person meetings were our go-to for deeper discussion and reflective decision-making. Outside of working hours, we leaned heavily on WhatsApp. It was our main space to share updates, quick questions and check in with each other. When we couldn’t meet in person, FaceTime helped fill in the gaps with personal, real-time conversations.
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/81bcbe5b-3058-4e55-b980-eafbc5a67994" width="400" />
-  <img src="https://github.com/user-attachments/assets/ced0d7fc-652f-4df7-86a0-527c4391cc4c" width="400" />
-</p>
 
 We held our daily standup meetings every other day to keep everyone aligned while accommodating external responsibilities. It gave us a chance to share what we were implementing and listen to what the rest of the team was focused on. Quick check-ins like these kept us on track and helped us prioritise.
 
@@ -449,6 +445,8 @@ Our commit messages remained very detailed to tell the story of our work. Throug
 We used Planning Poker to estimate the complexity of tasks, encouraging healthy discussions and helping us align expectations. Combined with Kanban, it enabled us to prioritise effectively and adapt our backlog accordingly.
 
 <p align="center">
+  <img src="https://github.com/user-attachments/assets/7280437d-a15c-4bf4-8648-65ba71f06c45" width="400"/>
+  <img src="https://github.com/user-attachments/assets/4a872e5d-3868-41e3-88d1-60400e5cd1e3" width="400" />
   <img src="https://github.com/user-attachments/assets/9fdfe4d9-146e-4a13-b595-010c6a898bff" width="400" />
   <img src="https://github.com/user-attachments/assets/c4ed5789-a786-4e96-8aba-52f3626cc0e0" width="400" />
   <img src="https://github.com/user-attachments/assets/cdef9ade-dc39-4ae0-8fa4-2eeb0f8c2c2b" width="400" />
