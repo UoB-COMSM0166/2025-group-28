@@ -20,7 +20,12 @@
   - [Class Design](#class-design)
   - [Behavioural Diagrams](#behavioural-diagrams)
 - [Implementation](#implementation)
+  - [Challenge 1: Procedurally Generated Rooms](#challenge-1-procedurally-generated-rooms)
+  - [Challenge 2: Game Balance](#challenge-2-game-balance)
 - [Evaluation](#evaluation)
+   - [Think-Aloud User Evaluation](#think-aloud-user-evaluation)
+   - [Heuristic Evaluation](#heuristic-evaluation)
+   - [NASA TLX and System Usability Scale (SUS) Evaluation](#nasa-tlx-and-system-usability-scale-sus-evaluation)
 - [Process](#process)
   - [Sprint Breakdown](#sprint-breakdown)
   - [Agile Methods](#agile-methods)
@@ -129,153 +134,7 @@ We assessed the effort required to implement versus the projected benefit of the
 | Difficulty Ranges (casual player to pro players) | High | Very High | Must Have |
 | Customisable Controls | Medium | Medium | Could Have |
 
-# HCI Evaluations
 
-## Think-Aloud User Evaluation
-
-Two main tasks were evaluated to assess player experience across different game modes and control configurations. Players were encouraged to express their thoughts as they play, which were noted down. Results are summarised below:
-
-### Task 1: Single-Player Mode
-- Navigate menu and select single-player option
-- Avoid mobs for several minutes
-- Complete level objectives
-
-### Task 2: Two-Player Mode
-- Play cooperatively using different keyboard configurations:
-  - Laptop keyboard (compact layout)
-  - Full-sized keyboard
-
-## Results
-
-### Single-Player Experience
-
-| Observation Category | Participant Feedback |
-|:---------------------|:---------------------|
-| **Game Speed** | "Too fast" - AstroCat movement speed was too high for comfortable control |
-| **Collision Detection** | "Get stuck on wall", "Easy to get stuck" - collision handling needs major refinement |
-| **Navigation** | Players struggled with precise movement and frequently collided with environmental objects |
-
-### Two-Player Experience
-
-| Observation Category | Participant Feedback |
-|:---------------------|:---------------------|
-| **Control Intuitiveness** | "If you've played games before you would know, but you can't assume that" - controls not immediately intuitive to non-gamers |
-| **AI Behavior** | "The dog is following me" - mob AI behavior was acknowledged |
-| **Movement Comparison** | "The mob is a lot more fluid than me" - perceived discrepancy between player and mob movement mechanics |
-| **Engagement** | "I'm kinda bored now" - engagement declined after initial exploration |
-| **Objectives** | "Oh yeah, you have to get to the door" - goal clarity issues noted |
-| **Game Balance** | "Annoying that the enemy can go through walls but not me" - perceived unfairness in movement restrictions |
-| **Hardware** | "Seemed fine on laptop keyboard" - compact keyboard layout did not significantly impact playability |
-
-## Key Issues Identified
-
-1. **Wall Collision**: Players frequently get stuck on walls
-2. **Movement Speed**: Character speed may be too high for precise control
-3. **Mechanics Consistency**: Enemies can traverse walls that block players, creating perceived unfairness
-4. **Objective Clarity**: Players don't know what the goal is
-5. **Engagement**: Initial interest deteriorates during extended play
-
-## Heuristic Evaluation
-
-### Methodology
-
-The evaluation was conducted during week 7 with 5 participants. The users spent approximately 30 minutes going through the interface several times, producing lists of usability issues that corresponded to Neilsen's 10 principles of heuristic evaluation. We then compiled this list and summarised them in the results below. Each of the interface issues were then subsequently actioned during subsequent development sprints.
-
-### Results
-
-| Interface Issue | Description | Heuristic Violated | Frequency(0-4) | Impact(0-4) | Persistence(0-4) | Severity(Avg) | Issue Link |
-|:--------------:|:------------|:-------------------|:-------------:|:-----------:|:--------------:|:-----------------:|:-------------:|
-| 🔴 **Sticky walls** | Collision logic between players and walls needs enhancement | Flexibility and efficiency of use | 4 | 4 | 3 | **3.7** | [Issue #50](https://github.com/UoB-COMSM0166/2025-group-28/issues/50) |
-| 🟠 **Too easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
-| 🟠 **Progress/goal tracking** | Need to show health bar, SlowMeow percentage, and overheating bar | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
-| 🟡 **Limited enemy variety** | Need more types of mobs with standardized artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, #127, #54](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) |
-| 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
-| 🟢 **Game over screen** | Bugs in game over screen | Help users recognize, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
-
-**Severity Color Legend:***
-- 🔴 High (3.4-4.0)
-- 🟠 Medium-High (2.6-3.3)
-- 🟡 Medium-Low (1.6-2.5)
-- 🟢 Low (0.0-1.5)
-
-*Note: Severity is calculated as (Frequency + Impact + Persistence) / 3*
-
-## NASA TLX and System Usability Scale (SUS) Evaluation
-
-### Methodology
-The evaluation was conducted during week 8 of development with 10 participants testing both difficulty modes (Easy and Medium). Participants completed standardized NASA Task Load Index (TLX) and System Usability Scale (SUS) questionnaires after gameplay sessions to assess cognitive load and overall usability.
-
-## NASA Task Load Index (TLX) Results
-
-### Raw TLX Scores by Difficulty Level
-
-| User ID | Easy Mode | Medium Mode | Difference |
-|:-------:|:---------:|:----------:|:----------:|
-| 1       | 26.7      | 29.2       | +2.5       |
-| 2       | 17.5      | 27.5       | +10.0      |
-| 3       | 36.7      | 49.2       | +12.5      |
-| 4       | 47.5      | 68.3       | +20.8      |
-| 5       | 26.7      | 30.0       | +3.3       |
-| 6       | 62.5      | 50.0       | -12.5      |
-| 7       | 30.0      | 75.8       | +45.8      |
-| 8       | 12.5      | 16.7       | +4.2       |
-| 9       | 53.3      | 54.2       | +0.9       |
-| 10      | 38.3      | 48.3       | +10.0      |
-| **Mean**| **35.2**  | **44.9**   | **+9.8**   |
-
-<img width = "45%" src="https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104">
-
-### TLX Dimensional Analysis
-
-The unweighted TLX scores provided us with insights about the cognitive load experienced by participants. A dimensional breakdown shows:
-
-- **Strengths**: Mental and Physical Demand dimensions scored favorably across both difficulty levels, suggesting the game provides an appropriate level of cognitive engagement without causing excessive mental strain.
-  
-- **Areas for Improvement**: Frustration and Temporal Demand received notably higher ratings, particularly in Medium mode. Participant feedback indicates this may be due to increased time pressure and the fact that the game may have just been too hard.
-
-- **Mean Difference**: The average 9.8-point increase in TLX scores between Easy and Medium modes demonstrates an increase in cognitive workload, validating our difficulty scaling implementation.
-
-## System Usability Scale (SUS) Results
-
-### SUS Scores by Difficulty Level
-
-| User ID | Easy Mode | Medium Mode | Difference |
-|:-------:|:---------:|:----------:|:----------:|
-| 1       | 95.0      | 72.5       | -22.5      |
-| 2       | 77.5      | 50.0       | -27.5      |
-| 3       | 75.0      | 62.5       | -12.5      |
-| 4       | 82.5      | 65.0       | -17.5      |
-| 5       | 92.5      | 75.0       | -17.5      |
-| 6       | 60.0      | 45.0       | -15.0      |
-| 7       | 80.0      | 42.5       | -37.5      |
-| 8       | 100.0     | 85.0       | -15.0      |
-| 9       | 55.0      | 57.5       | +2.5       |
-| 10      | 80.0      | 62.5       | -17.5      |
-| **Mean**| **79.8**  | **61.8**   | **-18.0**  |
-
-<img width = "45%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
-
-### SUS Performance Analysis
-
-According to established benchmarks in usability research, SUS scores above 68 indicate above-average usability, with scores of 80+ representing excellent user experiences. Our evaluation yielded the following insights:
-
-- **Easy Mode**: With a mean SUS score of 79.8, the Easy mode demonstrates excellent usability, with 80% of participants rating it above the 68-point threshold. This indicates the core gameplay mechanics are intuitive and approachable for new players.
-
-- **Medium Mode**: The Medium difficulty received a mean score of 61.8, with only 30% of participants rating it above the benchmark. This substantial 18-point reduction from Easy mode suggests that the increased challenge may be compromising system usability.
-
-
-### Statistical Significance
-
-To validate the observed differences between difficulty modes, we conducted a Wilcoxon Signed-Rank Test, which is appropriate for data from the same participants under different conditions (a within-participants test):
-
-- **Test Statistic**: W = 7.5 for both TLX and SUS analyses
-- **Sample Size**: N = 10
-- **Significance Level**: α = 0.05
-- **Critical Value**: According to the Wilcoxon table below, the critical value for N=10 at α=0.05 is 8
-
-<img width = "35%" src="https://github.com/user-attachments/assets/065c3956-1793-44a3-bc46-0e9aa5745a4d">
-
-Since our obtained W value (7.5) is less than the critical value (8), we can reject the null hypothesis with 95% confidence. This confirms that the differences in both cognitive load (TLX) and usability (SUS) between difficulty modes are statistically significant and not due to random variation.
 
 ## Design
 
@@ -330,24 +189,196 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 **Figure X+2**: Example combat & room progression sequence 
 ![image](https://github.com/user-attachments/assets/84e29cdf-692c-44ec-8789-52366a62b0a4)
 
-
 ## Implementation
 
-- 15% ~750 words
+### Challenge 1: Procedurally Generated Rooms
 
-- Describe implementation of your game, in particular highlighting the three areas of challenge in developing your game.
-- Collisions engine
-- Getting the hang of branches/control whilst being agile
+Infinite, procedurally generated rooms are a key aspect of roguelike games (Harris, 2020, p. 1), and this was our initial starting point when beginning development. 
+
+The rooms in AstroCat are created using a 2D array, with each element containing a tile object. The dimensions of the room are defined as constant values: 50 tiles wide and 37 tiles high. The dimensions of the tiles are also constant, with all of them being 16x16 squares. The size of the room on the screen is therefore 800x592, which is as close to the resolution of the game space of 800x600 as possible, without having assets cut off by the room boundaries. 
+
+Each tile also has a defined type, either being a wall, floor or trap tile. As JavaScript does not have native support for enumerated types, the tile variants were defined using plain objects, with integer values representing each (e.g. ```0 = FLOOR```, ```1 = WALL``` etc.). 
+
+There are two separate room classes - one for the main singleplayer/co-operative modes, and another for the PvP game mode, with both classes sharing two common classes; One for generating the rooms, and the other for handling certain events or interactions that occur within the rooms. 
+
+Having shared helper classes was something we implemented during one of our refactoring sessions to make our codebase more DRY, reducing redundant methods across room types. 
+
+Upon initialization, the room generator populates the empty ```roomLayout``` array, placing walls around the two outer edges. It then moves through ```x``` and ```y``` positions in increments of four, determining whether walls should be placed and rolling a random number to set the number of wall shapes in each sector. If a wall is added, another probability check determines its shape: square, 'L', or upside-down 'L'. To avoid rooms being too symmetrical, each shape is given a random width, height, and positional offset.
+
+A 'buffer' zone prevents walls from being added too close to the outer boundaries, ensuring players can access the exit. If a wall overlaps this buffer, its position is further adjusted until the full shape can be fully placed within the room.
+
+Finally, in non-PvP rooms, a door is placed at a random position along the outer wall. To create a sense of continuity, the previous room's door position is stored and compared to the potential placement within the new room. For example, if a door was previously placed on the right side of the room, the position in the next room cannot be on the left. This prevents disorienting layouts where a player enters from the left only to find the next exit on the right, preserving a consistent progression through the game world.
+
+| ![roomgendemo](https://github.com/user-attachments/assets/0ae788c8-5ca3-4351-82bd-d7232add9fcf) |
+| :--: |
+| *Our initial room generation implementation* |
+
+### Challenge 2: Game Balance
+
+Our second challenge, one we didn't initially anticipate, was the issue of game balance and making the game accessible to players of all skill levels. 
+
+A consistent and surprising piece of feedback we received from playtesting, was the number of people completely unfamiliar with PC gaming, who struggled with the default WASD control scheme. 
+
+These players felt more comfortable using arrow keys, and to accommodate this, we added the ability for them to switch between both control schemes in the game's settings. 
+
+We also implemented a difficulty scaling system, which affects various aspects of gameplay, such as mob speed, damage and health, the amount of health items provide, as well as how quickly the player’s Slow Meow ability charges. For example, on the easiest difficulty, mob speeds are multiplied by 0.85, giving weaker players greater time react to enemy attacks. 
+
+Another interesting aspect of AstroCat's gameplay is its adaptive difficulty and mob spawning system. 
+
+To further account for players of all skill levels, we implemented a 'behaviour monitor', which tracks several statistics throughout a user’s playthrough and uses them to create a behaviour profile for the player. 
+
+Players can be classified as either 'aggressive' (measured by how frequently they overheat or get close to overheating), 'defensive' (measured by how often they get hit against the number of projectiles fired by enemies), or 'neutral', for if they fall into neither of the previous categories. 
+
+This profile is then assessed when determining which mobs to spawn within a room, with each mob having a specific playstyle they best counter, which increases the weighting of their spawn probability. 
+
+This creates a much more dynamic, tactical and strategic style of gameplay, and was heavily inspired by the 'chess-like shooter' system found within *'Doom Eternal'* (Jenkins, 2020). 
 
 ## Evaluation
 
-- 15% ~750 words
+### Think-Aloud User Evaluation
 
-- One qualitative evaluation (your choice) 
+Two main tasks were evaluated to assess player experience across different game modes and control configurations. Players were encouraged to express their thoughts as they play, which were noted down. Results are summarised below:
 
-- One quantitative evaluation (of your choice) 
+#### Task 1: Single-Player Mode
+- Navigate menu and select single-player option
+- Avoid mobs for several minutes
+- Complete level objectives
 
-- Description of how code was tested. 
+#### Task 2: Two-Player Mode
+- Play cooperatively using different keyboard configurations:
+  - Laptop keyboard (compact layout)
+  - Full-sized keyboard
+
+#### Results
+
+**Single-Player Experience**
+
+| Observation Category | Participant Feedback |
+|:---------------------|:---------------------|
+| **Game Speed** | "Too fast" - AstroCat movement speed was too high for comfortable control |
+| **Collision Detection** | "Get stuck on wall", "Easy to get stuck" - collision handling needs major refinement |
+| **Navigation** | Players struggled with precise movement and frequently collided with environmental objects |
+
+**Two-Player Experience**
+
+| Observation Category | Participant Feedback |
+|:---------------------|:---------------------|
+| **Control Intuitiveness** | "If you've played games before you would know, but you can't assume that" - controls not immediately intuitive to non-gamers |
+| **AI Behavior** | "The dog is following me" - mob AI behavior was acknowledged |
+| **Movement Comparison** | "The mob is a lot more fluid than me" - perceived discrepancy between player and mob movement mechanics |
+| **Engagement** | "I'm kinda bored now" - engagement declined after initial exploration |
+| **Objectives** | "Oh yeah, you have to get to the door" - goal clarity issues noted |
+| **Game Balance** | "Annoying that the enemy can go through walls but not me" - perceived unfairness in movement restrictions |
+| **Hardware** | "Seemed fine on laptop keyboard" - compact keyboard layout did not significantly impact playability |
+
+#### Key Issues Identified
+
+1. **Wall Collision**: Players frequently get stuck on walls
+2. **Movement Speed**: Character speed may be too high for precise control
+3. **Mechanics Consistency**: Enemies can traverse walls that block players, creating perceived unfairness
+4. **Objective Clarity**: Players don't know what the goal is
+5. **Engagement**: Initial interest deteriorates during extended play
+
+### Heuristic Evaluation
+
+#### Methodology
+
+The evaluation was conducted during week 7 with 5 participants. The users spent approximately 30 minutes going through the interface several times, producing lists of usability issues that corresponded to Neilsen's 10 principles of heuristic evaluation. We then compiled this list and summarised them in the results below. Each of the interface issues were then subsequently actioned during subsequent development sprints.
+
+#### Results
+
+| Interface Issue | Description | Heuristic Violated | Frequency(0-4) | Impact(0-4) | Persistence(0-4) | Severity(Avg) | Issue Link |
+|:--------------:|:------------|:-------------------|:-------------:|:-----------:|:--------------:|:-----------------:|:-------------:|
+| 🔴 **Sticky walls** | Collision logic between players and walls needs enhancement | Flexibility and efficiency of use | 4 | 4 | 3 | **3.7** | [Issue #50](https://github.com/UoB-COMSM0166/2025-group-28/issues/50) |
+| 🟠 **Too easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
+| 🟠 **Progress/goal tracking** | Need to show health bar, SlowMeow percentage, and overheating bar | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
+| 🟡 **Limited enemy variety** | Need more types of mobs with standardized artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, #127, #54](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) |
+| 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
+| 🟢 **Game over screen** | Bugs in game over screen | Help users recognize, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
+
+**Severity Color Legend:***
+- 🔴 High (3.4-4.0)
+- 🟠 Medium-High (2.6-3.3)
+- 🟡 Medium-Low (1.6-2.5)
+- 🟢 Low (0.0-1.5)
+
+*Note: Severity is calculated as (Frequency + Impact + Persistence) / 3*
+
+### NASA TLX and System Usability Scale (SUS) Evaluation
+
+#### Methodology
+The evaluation was conducted during week 8 of development with 10 participants testing both difficulty modes (Easy and Medium). Participants completed standardized NASA Task Load Index (TLX) and System Usability Scale (SUS) questionnaires after gameplay sessions to assess cognitive load and overall usability.
+
+#### NASA Task Load Index (TLX) Results
+
+**Raw TLX Scores by Difficulty Level**
+
+| User ID | Easy Mode | Medium Mode | Difference |
+|:-------:|:---------:|:----------:|:----------:|
+| 1       | 26.7      | 29.2       | +2.5       |
+| 2       | 17.5      | 27.5       | +10.0      |
+| 3       | 36.7      | 49.2       | +12.5      |
+| 4       | 47.5      | 68.3       | +20.8      |
+| 5       | 26.7      | 30.0       | +3.3       |
+| 6       | 62.5      | 50.0       | -12.5      |
+| 7       | 30.0      | 75.8       | +45.8      |
+| 8       | 12.5      | 16.7       | +4.2       |
+| 9       | 53.3      | 54.2       | +0.9       |
+| 10      | 38.3      | 48.3       | +10.0      |
+| **Mean**| **35.2**  | **44.9**   | **+9.8**   |
+
+<img width = "45%" src="https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104">
+
+#### TLX Dimensional Analysis
+
+The unweighted TLX scores provided us with insights about the cognitive load experienced by participants. A dimensional breakdown shows:
+
+- **Strengths**: Mental and Physical Demand dimensions scored favorably across both difficulty levels, suggesting the game provides an appropriate level of cognitive engagement without causing excessive mental strain.
+  
+- **Areas for Improvement**: Frustration and Temporal Demand received notably higher ratings, particularly in Medium mode. Participant feedback indicates this may be due to increased time pressure and the fact that the game may have just been too hard.
+
+- **Mean Difference**: The average 9.8-point increase in TLX scores between Easy and Medium modes demonstrates an increase in cognitive workload, validating our difficulty scaling implementation.
+
+#### System Usability Scale (SUS) Results
+
+**SUS Scores by Difficulty Level**
+
+| User ID | Easy Mode | Medium Mode | Difference |
+|:-------:|:---------:|:----------:|:----------:|
+| 1       | 95.0      | 72.5       | -22.5      |
+| 2       | 77.5      | 50.0       | -27.5      |
+| 3       | 75.0      | 62.5       | -12.5      |
+| 4       | 82.5      | 65.0       | -17.5      |
+| 5       | 92.5      | 75.0       | -17.5      |
+| 6       | 60.0      | 45.0       | -15.0      |
+| 7       | 80.0      | 42.5       | -37.5      |
+| 8       | 100.0     | 85.0       | -15.0      |
+| 9       | 55.0      | 57.5       | +2.5       |
+| 10      | 80.0      | 62.5       | -17.5      |
+| **Mean**| **79.8**  | **61.8**   | **-18.0**  |
+
+<img width = "45%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
+
+#### SUS Performance Analysis
+
+According to established benchmarks in usability research, SUS scores above 68 indicate above-average usability, with scores of 80+ representing excellent user experiences. Our evaluation yielded the following insights:
+
+- **Easy Mode**: With a mean SUS score of 79.8, the Easy mode demonstrates excellent usability, with 80% of participants rating it above the 68-point threshold. This indicates the core gameplay mechanics are intuitive and approachable for new players.
+
+- **Medium Mode**: The Medium difficulty received a mean score of 61.8, with only 30% of participants rating it above the benchmark. This substantial 18-point reduction from Easy mode suggests that the increased challenge may be compromising system usability.
+
+#### Statistical Significance
+
+To validate the observed differences between difficulty modes, we conducted a Wilcoxon Signed-Rank Test, which is appropriate for data from the same participants under different conditions (a within-participants test):
+
+- **Test Statistic**: W = 7.5 for both TLX and SUS analyses
+- **Sample Size**: N = 10
+- **Significance Level**: α = 0.05
+- **Critical Value**: According to the Wilcoxon table below, the critical value for N=10 at α=0.05 is 8
+
+<img width = "35%" src="https://github.com/user-attachments/assets/065c3956-1793-44a3-bc46-0e9aa5745a4d">
+
+Since our obtained W value (7.5) is less than the critical value (8), we can reject the null hypothesis with 95% confidence. This confirms that the differences in both cognitive load (TLX) and usability (SUS) between difficulty modes are statistically significant and not due to random variation.
 
 ## Process 
 
@@ -492,3 +523,7 @@ While these features significantly enhance the inclusivity and usability of the 
 | Dylan Haye | 1.0 |
 
 ## References
+
+Harris, J. (2020) *Exploring Roguelike Games*. Boca Raton: CRC Press.
+
+Jenkins, D. (2020) *Doom Eternal hands-on preview and interview – if chess was an arcade shooter*. Available at: https://metro.co.uk/2020/01/21/doom-eternal-preview-interview-chess-arcade-shooter-12095644/ (Accessed: 2 May 2025).
