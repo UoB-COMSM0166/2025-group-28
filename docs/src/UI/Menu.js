@@ -133,7 +133,7 @@ class Menu {
   }
 
   static pvpHover() {
-    menu_hover_caption.html("Fight each other in a deathmatch");
+    menu_hover_caption.html("*** HOLLYWOOD MODE *** ");
     menu_hover_caption.style("display", "inline");
     pvp_button.style("opacity", "1");
   }

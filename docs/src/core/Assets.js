@@ -17,7 +17,7 @@ function preload() {
 
   tileColours1 = [tile_darkGrey, tile_lightGrey, trapTileAlt];
   tileColours2 = [tile_darkBlue, tile_lightBlue, trapTileAlt];
-  tileColours3 = [tile_darkYellow, tile_lightYellow,trapTile];
+  tileColours3 = [tile_darkYellow, tile_lightYellow, trapTile];
   tileColours4 = [tile_lightTurquoise, tile_darkTurquoise, trapTile];
   tileColours5 = [tile_lightlightBlue, tile_darkdarkBlue, trapTileAlt];
   tileColours5 = [tile_darkPurple, tile_lightPurple, trapTile];
@@ -39,7 +39,10 @@ function preload() {
   rangedmob_gif = loadImage("assets/yellowDogMob2.gif");
   rapidfiremob_gif = loadImage("assets/rapidfiremob.gif");
   blinkMobGif = loadImage("assets/purpleDogMob.gif");
-  astrocat_gif = loadImage("assets/astrocatM7.gif");
+
+  // special 'talking astrocat'
+
+  astrocat_gif = loadImage("assets/astrocatM11.gif");
   astrocat_gif_p2 = loadImage("assets/astrocatp2_m7.gif");
 
   healthbar = loadImage("assets/healthbar.gif");

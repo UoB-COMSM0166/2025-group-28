@@ -28,7 +28,7 @@ class PvPRoom {
     // Resets every cycle - stops two announcements being played in the same update cycle
     let announcementPlayed = false;
 
-    if (!playerA.isActive) {
+    /*if (!playerA.isActive) {
       this.handlePlayerScores(
         playerA,
         "p2Score",
@@ -45,7 +45,7 @@ class PvPRoom {
         announcementPlayed
       );
       announcementPlayed = true;
-    }
+    } */
 
     // Handle trap collisions
     this.handler.handleTrapCollisions();
@@ -55,7 +55,10 @@ class PvPRoom {
 
     // Players
     playerA.update();
+
     playerB.update();
+    // HW - disable p2
+    playerB.isActive = false;
   }
 
   handlePlayerScores(player, playerScore, scoreIncreased, announcementPlayed) {

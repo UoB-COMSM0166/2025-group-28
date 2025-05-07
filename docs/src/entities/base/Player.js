@@ -7,9 +7,11 @@ class Player extends Sprite {
     this.player = player_x;
     this.controls = []; // Player control scheme
 
-    this.widthModel = 70;
-    this.heightModel = 70;
-    this.speed = 2.75;
+    // * * * * Hollywood config * * * *
+    this.widthModel = 100;
+    this.heightModel = 100; // looks sharper on screen
+    this.speed = 2; // slightly slower
+
     this.originalSpeed = this.speed;
     this.attackDamage = 10 * difficultySettings[difficulty].playerDamageMult;
     this.fireRate = 200; // 200ms between shots
@@ -50,12 +52,18 @@ class Player extends Sprite {
 
   update() {
     super.update();
-    if (game.slowMeowHandler && game.slowMeowHandler.occurring &&
-      this.isActive && (this.velocity.x != 0.0 || this.velocity.y != 0.0)) {
+    if (
+      game.slowMeowHandler &&
+      game.slowMeowHandler.occurring &&
+      this.isActive &&
+      (this.velocity.x != 0.0 || this.velocity.y != 0.0)
+    ) {
       // Slow meow particle burst
       let offsetX = random(-15, 15);
       let offsetY = random(-30, 30);
-      this.warpParticles.push(new Warp(this.position.x + offsetX, this.position.y + offsetY));
+      this.warpParticles.push(
+        new Warp(this.position.x + offsetX, this.position.y + offsetY)
+      );
     }
     for (let i = this.warpParticles.length - 1; i >= 0; i--) {
       this.warpParticles[i].update();
@@ -69,12 +77,18 @@ class Player extends Sprite {
       if (this.smokeFrameCounter % 3 == 0) {
         // Create smoke particles from different locations based on direction player is facing
         if (this.lastDirection == "UP") {
-          this.smokeParticles.push(new Smoke(this.position.x - 4, this.position.y - 1));
+          this.smokeParticles.push(
+            new Smoke(this.position.x - 4, this.position.y - 1)
+          );
         } else if (this.lastDirection == "DOWN") {
-          this.smokeParticles.push(new Smoke(this.position.x, this.position.y - 25));
+          this.smokeParticles.push(
+            new Smoke(this.position.x, this.position.y - 25)
+          );
         } else {
           let xOffset = 14 * this.direction.x;
-          this.smokeParticles.push(new Smoke(this.position.x - xOffset, this.position.y + 1))
+          this.smokeParticles.push(
+            new Smoke(this.position.x - xOffset, this.position.y + 1)
+          );
         }
       }
     }
@@ -247,7 +261,8 @@ class Player extends Sprite {
   fire() {
     if (
       !this.isActive ||
-      fadingOut || (pvpMode && fadingIn) ||
+      fadingOut ||
+      (pvpMode && fadingIn) ||
       (!pvpMode && game.slowMeowHandler.occurring)
     ) {
       return;
@@ -284,7 +299,8 @@ class Player extends Sprite {
 
   handleFiring(currentTime) {
     if (this.fireOverheat) {
-      if (this.canPlayOverheatFireSound &&
+      if (
+        this.canPlayOverheatFireSound &&
         currentTime - this.lastOverheatSoundTime > 750
       ) {
         playSound(overheatFireSound, playbackRate);
@@ -310,7 +326,10 @@ class Player extends Sprite {
     projectile.lastDirection = this.lastDirection; // Ensures projectile inherits direction
     projectileManager.addProjectile(projectile);
     this.lastShot = currentTime;
-    this.fireCooldown = Math.min(200 + this.heatGain, this.fireCooldown + this.heatGain);
+    this.fireCooldown = Math.min(
+      200 + this.heatGain,
+      this.fireCooldown + this.heatGain
+    );
     if (this.fireCooldown > 150) this.timesHeatLevelHigh++;
     if (this.fireCooldown > 200) {
       this.fireOverheat = true;
@@ -349,16 +368,28 @@ class Player extends Sprite {
   }
 
   handleSlowMeow() {
-    if (!game || game.gameState != GameStates.ACTIVE ||
-      transitioning || commandPrompt) {
+    if (
+      !game ||
+      game.gameState != GameStates.ACTIVE ||
+      transitioning ||
+      commandPrompt
+    ) {
       return;
     }
     // 'Q' key for player 1
-    if (this.player === playerNumber.PLAYER_1 && playerA.isActive && keyIsDown(p1_slowmeow)) {
+    if (
+      this.player === playerNumber.PLAYER_1 &&
+      playerA.isActive &&
+      keyIsDown(p1_slowmeow)
+    ) {
       game.slowMeowHandler.activate();
     }
     // '/' key for player 2
-    else if (this.player === playerNumber.PLAYER_2 && playerB.isActive && keyIsDown(p2_slowmeow)) {
+    else if (
+      this.player === playerNumber.PLAYER_2 &&
+      playerB.isActive &&
+      keyIsDown(p2_slowmeow)
+    ) {
       game.slowMeowHandler.activate();
     }
   }
