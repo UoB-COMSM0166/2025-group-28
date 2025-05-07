@@ -226,7 +226,9 @@ A consistent and surprising piece of feedback we received from playtesting, was 
 
 These players felt more comfortable using arrow keys, and to accommodate this, we added the ability for them to switch between both control schemes in the game's settings. 
 
-We also implemented a difficulty scaling system, which affects various aspects of gameplay, such as mob speed, damage and health, the amount of health items provide, as well as how quickly the player’s Slow Meow ability charges. For example, on the easiest difficulty, mob speeds are multiplied by 0.85, giving weaker players greater time react to enemy attacks. The tables below displays all the objects/effects in the game, with their corresponding attributes that required adjusting to achieve balanced gameplay:
+We also implemented a difficulty scaling system, which affects various aspects of gameplay, such as mob speed, damage and health, the amount of health items provide, as well as how quickly the player’s Slow Meow ability charges. For example, on the easiest difficulty, mob speeds are multiplied by 0.85, giving weaker players greater time to react to enemy attacks. 
+
+The tables below display all the objects/effects in the game, with their corresponding attributes that required adjusting to achieve balanced gameplay:
 
 
 #### Sprites
@@ -237,7 +239,7 @@ We also implemented a difficulty scaling system, which affects various aspects o
 | **MeleeMob** | ![dogmob_v3](https://github.com/user-attachments/assets/5b25ba86-b6ba-4c6b-8312-7f27141e604c) | • Health<br>• Damage<br>• Speed |
 | **RangedMob** | ![yellowDogMob2](https://github.com/user-attachments/assets/a1300eae-7f60-471c-a82f-78d39dc46b7b) | • Health<br>• Fire Rate<br>• Damage<br>• Speed |
 | **BlinkMob** | ![purpleDogMob](https://github.com/user-attachments/assets/67fd0a77-c8e1-44e1-ab35-2825d8d8527e) | • Health<br>• Fire Rate<br>• Damage<br>• Number Of Projectiles Fired<br>• Teleport Cooldown |
-| **HeartMob** | ![HeartMobBossGif](https://github.com/user-attachments/assets/02aaf745-c6ab-4abf-b7f3-a72b022ef430) | • Health<br>• Item Drop Rate<br>• Spawn Rate |
+| **BuffMob** | ![HeartMobBossGif](https://github.com/user-attachments/assets/02aaf745-c6ab-4abf-b7f3-a72b022ef430) | • Health<br>• Item Drop Rate<br>• Spawn Rate |
 | **DashMob** | ![dashmob](https://github.com/user-attachments/assets/d6ebad86-dbae-4c9d-8718-d31c03a47479) | • Health<br>• Damage<br>• Speed<br>• Dash Cooldown <br>• Dash Distance |
 | **RapidFireMob** | ![rapidfiremob](https://github.com/user-attachments/assets/4637e6b1-14e7-47de-99c6-828e2d0c8e1f) | • Health<br>• Damage<br>• Speed<br>• Rapid Fire Cooldown <br>• Rapid Fire Time |
 
@@ -257,8 +259,6 @@ We also implemented a difficulty scaling system, which affects various aspects o
 |:---------------------|:---------------------:|:---------------------|
 | **Slow Meow** | <img src="https://github.com/user-attachments/assets/506c1a83-a826-444a-b25c-6de851866f39" width="250" height="250" /> | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Increase<br>• Time Of Effect |
 | **Overheat** | <img src="https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d" width="250" height="250" /> | • Overheat Gain Rate<br>• Overheat Decay<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
-
-
 
 Another interesting aspect of AstroCat's gameplay is its adaptive difficulty and mob spawning system. 
 
@@ -288,7 +288,7 @@ Two main tasks were evaluated to assess player experience across different game 
 
 #### Results
 
-**Single-Player Experience**
+*Single-Player Experience*
 
 | Observation Category | Participant Feedback |
 |:---------------------|:---------------------|
@@ -296,7 +296,7 @@ Two main tasks were evaluated to assess player experience across different game 
 | **Collision Detection** | "Get stuck on wall", "Easy to get stuck" - collision handling needs major refinement |
 | **Navigation** | Players struggled with precise movement and frequently collided with environmental objects |
 
-**Two-Player Experience**
+*Two-Player Experience*
 
 | Observation Category | Participant Feedback |
 |:---------------------|:---------------------|
@@ -329,7 +329,7 @@ The evaluation was conducted during week 7 with 5 participants. The users spent 
 | 🔴 **Sticky walls** | Collision logic between players and walls needs enhancement | Flexibility and efficiency of use | 4 | 4 | 3 | **3.7** | [Issue #50](https://github.com/UoB-COMSM0166/2025-group-28/issues/50) |
 | 🟠 **Too easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
 | 🟠 **Progress/goal tracking** | Need to show health bar, SlowMeow percentage, and overheating bar | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
-| 🟡 **Limited enemy variety** | Need more types of mobs with standardized artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, #127, #54](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) |
+| 🟡 **Limited enemy variety** | Need more types of mobs with standardized artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) [#127, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/127) [#54](https://github.com/UoB-COMSM0166/2025-group-28/issues/54) |
 | 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
 | 🟢 **Game over screen** | Bugs in game over screen | Help users recognize, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
 
@@ -348,7 +348,7 @@ The evaluation was conducted during week 8 of development with 10 participants t
 
 #### NASA Task Load Index (TLX) Results
 
-**Raw TLX Scores by Difficulty Level**
+*Raw TLX Scores by Difficulty Level*
 
 | User ID | Easy Mode | Medium Mode | Difference |
 |:-------:|:---------:|:----------:|:----------:|
@@ -378,7 +378,7 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 
 #### System Usability Scale (SUS) Results
 
-**SUS Scores by Difficulty Level**
+*SUS Scores by Difficulty Level*
 
 | User ID | Easy Mode | Medium Mode | Difference |
 |:-------:|:---------:|:----------:|:----------:|
@@ -447,7 +447,7 @@ The main goal of this sprint was to develop a Minimum Viable Product (MVP). We f
 
 #### Sprint 2 (Blue): 13th February to 2nd April
 
-Over the course of this sprint, the team focused on expanding the game’s scope and perfecting its visual style. We also first introduced the game’s main twist, “Slow Meow”, a slow-motion ability that AstroCat can use. We introduced the following features: 
+Over the course of this sprint, the team focused on expanding the game’s scope and perfecting its visual style. We also first introduced the game’s main twist, 'Slow Meow', a slow-motion ability that AstroCat can use. We introduced the following features: 
 - Multiple rooms with doors as transitions between them.
 - Custom assets.
 - New mob types, adding variety and challenge to the gameplay. 
@@ -455,8 +455,8 @@ The goal of this sprint was to improve the MVP and focus on creating a complete 
 
 #### Sprint 3 (Purple): 3rd of April to the 28th of April
 
-In this sprint, we updated the “Slow Meow” mechanic, the defining twist of our game. We focused on:  
-- Slow meow balance, ultimately tweaking the twist several times until it felt rewarding, useful and fun to use. 
+In this sprint, we updated the 'Slow Meow' mechanic, the defining twist of our game. We focused on:  
+- 'Slow Meow' balance, ultimately tweaking the twist several times until it felt rewarding, useful and fun to use. 
 - General gameplay balance for better pacing, making sure to start with easier rooms and increase difficulty as the player progresses. 
 - Updating mob AI for better pathing, with unique mob patterns for variety. 
 - Overall polish, focusing on UI tweaks, animations and quality-of-life improvements for the user (such as being able to change keybinds or view clear instructions in game).
