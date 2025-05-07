@@ -238,8 +238,8 @@ We also implemented a difficulty scaling system, which affects various aspects o
 | **RangedMob** | ![yellowDogMob2](https://github.com/user-attachments/assets/a1300eae-7f60-471c-a82f-78d39dc46b7b) | • Health<br>• Fire Rate<br>• Damage<br>• Speed |
 | **BlinkMob** | ![purpleDogMob](https://github.com/user-attachments/assets/67fd0a77-c8e1-44e1-ab35-2825d8d8527e) | • Health<br>• Fire Rate<br>• Damage<br>• Number Of Projectiles Fired<br>• Teleport Cooldown |
 | **HeartMob** | ![HeartMobBossGif](https://github.com/user-attachments/assets/02aaf745-c6ab-4abf-b7f3-a72b022ef430) | • Health<br>• Item Drop Rate<br>• Spawn Rate |
-| **DashMob** | ![dashmob](https://github.com/user-attachments/assets/d6ebad86-dbae-4c9d-8718-d31c03a47479) | • Health<br>• Damage<br>• Speed<br>• Dash Cooldown |
-| **RapidFireMob** | ![rapidfiremob](https://github.com/user-attachments/assets/4637e6b1-14e7-47de-99c6-828e2d0c8e1f) | • Health<br>• Damage<br>• Speed<br>• Rapid Fire Cooldown |
+| **DashMob** | ![dashmob](https://github.com/user-attachments/assets/d6ebad86-dbae-4c9d-8718-d31c03a47479) | • Health<br>• Damage<br>• Speed<br>• Dash Cooldown <br>• Dash Distance |
+| **RapidFireMob** | ![rapidfiremob](https://github.com/user-attachments/assets/4637e6b1-14e7-47de-99c6-828e2d0c8e1f) | • Health<br>• Damage<br>• Speed<br>• Rapid Fire Cooldown <br>• Rapid Fire Time |
 
 
 #### Items/Traps
@@ -256,8 +256,7 @@ We also implemented a difficulty scaling system, which affects various aspects o
 | Name | Visual | Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
 | **Slow Meow** | <img src="https://github.com/user-attachments/assets/506c1a83-a826-444a-b25c-6de851866f39" width="250" height="250" /> | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Increase<br>• Time Of Effect |
-| **Overheat** | ![Screen Recording 2025-05-07 at 18 00 18](https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d)
- | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
+| **Overheat** | <img src="(https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d" width="250" height="250" /> | • Overheat Gain Rate<br>• Overheat Decay<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
 
 
 
