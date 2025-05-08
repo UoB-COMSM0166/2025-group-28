@@ -467,23 +467,23 @@ A short sprint to resolve technical debt and ensure the code remained readable a
 
 Communication was simple and effective. In person meetings were our go-to for deeper discussion and reflective decision-making. Outside of working hours, we leaned heavily on WhatsApp. It was our main space to share updates, quick questions and check in with each other. When we couldn’t meet in person, video calls helped fill in the gaps with personal, real-time conversations.
 
-We held our daily standup meetings every other day to keep everyone aligned while accommodating external responsibilities. It gave us a chance to share what we were implementing and listen to what the rest of the team was focused on. Quick check-ins like these kept us on track and helped us prioritise.
+We held our daily standup meetings multiple times a week to keep everyone aligned while accommodating external responsibilities. It gave us a chance to share what we were implementing and listen to what the rest of the team was focused on. Quick check-ins like these kept us on track and helped us prioritise.
 
 Kanban was the backbone of our task management system. Every task had a clear place whether it was in the backlog, in progress, in testing or already merged. It gave us visibility into what was happening at any given time, assuring ourselves nothing was missed or forgotten.
 
 Collaboration was nested into our development workflow. Pair programming was a technique we used regularly - sharing knowledge, catching bugs early, and just generally improving code quality. Pull requests were an essential part of this process. Thanks to this, we didn’t simply merge code but also gave everyone a chance to review and suggest improvements before anything hit the main branch.
 
-Our commit messages remained very detailed to tell the story of our work. Through this, we facilitated understanding as to what was done and why. This was beneficial whenever someone needed to revisit the logs or debug an error.
+Our commit messages remained detailed to tell the story of our work. Through this, we facilitated understanding as to what was done and why. This was beneficial whenever someone needed to revisit the logs or debug an error.
 
 We used Planning Poker to estimate the complexity of tasks, encouraging healthy discussions and helping us align expectations. Combined with Kanban, it enabled us to prioritise effectively and adapt our backlog accordingly.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4a872e5d-3868-41e3-88d1-60400e5cd1e3" width="330" />
-  <img src="https://github.com/user-attachments/assets/7280437d-a15c-4bf4-8648-65ba71f06c45" width="330" />
-  <img src="https://github.com/user-attachments/assets/c4ed5789-a786-4e96-8aba-52f3626cc0e0" width="330" />
-  <img src="https://github.com/user-attachments/assets/cdef9ade-dc39-4ae0-8fa4-2eeb0f8c2c2b" width="330" />
-  <img src="https://github.com/user-attachments/assets/2e084f6d-30f5-4a38-ac12-6b3dbe9ff146" width="330" />
-  <img src="https://github.com/user-attachments/assets/9fdfe4d9-146e-4a13-b595-010c6a898bff" width="330" />
+  <img src="https://github.com/user-attachments/assets/4a872e5d-3868-41e3-88d1-60400e5cd1e3" width="300" />
+  <img src="https://github.com/user-attachments/assets/7280437d-a15c-4bf4-8648-65ba71f06c45" width="300" />
+  <img src="https://github.com/user-attachments/assets/c4ed5789-a786-4e96-8aba-52f3626cc0e0" width="300" />
+  <img src="https://github.com/user-attachments/assets/cdef9ade-dc39-4ae0-8fa4-2eeb0f8c2c2b" width="300" />
+  <img src="https://github.com/user-attachments/assets/2e084f6d-30f5-4a38-ac12-6b3dbe9ff146" width="300" />
+  <img src="https://github.com/user-attachments/assets/9fdfe4d9-146e-4a13-b595-010c6a898bff" width="300" />
 </p>
 
 ## Sustainability, Ethics and Accessibilty
