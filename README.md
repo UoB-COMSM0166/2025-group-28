@@ -144,13 +144,13 @@ Having completed our initial requirements analysis, identifying key stakeholders
 
 As a light, client-side only browser game, our development stack consists of JavaScript (p5.js) for the core game logic, and HTML/CSS for supplementary webpage design. 
 
-In the simplest form, the game itself centres around AstroCat, the main playable character that ventures through an infinite number of rooms, killing enemies to score points.  
+In the simplest form, the game itself centres around *AstroCat*, the main playable character that ventures through an infinite number of *rooms*, killing *enemies* to score points.  
 
 By performing a grammatical parse of the description above, we identified the core components of the game to build around: 
 
-- AstroCat 
-- Enemies 
-- Rooms 
+- **AstroCat**
+- **Enemies** 
+- **Rooms** 
 
 ### Class Design
 
@@ -158,23 +158,23 @@ A class diagram provided us a way to formally apply the ideas listed above in an
 
 The initial design revolved around the following key classes (See Fig X):
 
-- **Game**: this would be composed of the player(s), current room and score
-- **Sprite**: this is our abstract game character class
-- **Room**: this represented instances of an arena or level
-- **Player**: the playable character, AstroCat, extending Sprite
-- **Mob**: enemy characters, extending Sprite
+- `Game`: this would be composed of the player(s), current room and score
+- `Sprite`: this is our abstract game character class
+- `Room`: this represented instances of an arena or level
+- `Player`: the playable character, AstroCat, extending Sprite
+- `Mob`: enemy characters, extending Sprite
 
 
 In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (See Fig X+1):
 
-- **GameObject**: our core abstract class that represents any “thing” in the game – supplying them with a hitbox and position 
-- **Tile**: represented each square block in the room, this facilitated our random generation of walls and traps 
-- **Handler/Generator** classes: this delegated responsibility from the Room class to facilitate more flexible behaviour across rooms. 
-- **Utility/Static** classes: allowed us to split UI and non-game elements such as the menu/settings/transitions away from the gameplay logic code. These included: 
-  - **GameOver**: creates the game over screen 
-  - **Menu**: game menu screen and logic 
-  - **Settings**: settings and how to play pages 
-  - **GameUI**: drew enemy health bars and scores
+- `GameObject`: our core abstract class that represents any “thing” in the game – supplying them with a hitbox and position 
+- `Tile`: represented each square block in the room, this facilitated our random generation of walls and traps 
+- `Handler`/`Generator` classes: this delegated responsibility from the Room class to facilitate more flexible behaviour across rooms. 
+- `Utility`/`Static` classes: allowed us to split UI and non-game elements such as the menu/settings/transitions away from the gameplay logic code. These included: 
+  - `GameOver`: creates the game over screen 
+  - `Menu`: game menu screen and logic 
+  - `Settings`: settings and how to play pages 
+  - `GameUI`: drew enemy health bars and scores
 
 **Figure X**: Class Diagram at week 4 workshop 
 ![image](https://github.com/user-attachments/assets/7c23e660-87e8-4131-a0c0-dd7190344273)
