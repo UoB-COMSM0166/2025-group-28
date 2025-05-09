@@ -2,10 +2,13 @@
  
 <img src="Requirements/banner.gif" width="10000">
 
-[<img src="https://github.com/user-attachments/assets/bd98ef6e-f613-4d44-b601-7af35172aa4f" width="550">](https://uob-comsm0166.github.io/2025-group-28/)
+[<img src="https://github.com/user-attachments/assets/bd98ef6e-f613-4d44-b601-7af35172aa4f" width="49%">](https://uob-comsm0166.github.io/2025-group-28/)
+
+[<img src="https://github.com/user-attachments/assets/2b87e0e2-1ad3-4e5e-8f21-2f8ad740ac19" width="49%">](https://uob-comsm0166.github.io/2025-group-28/)
 </div>
 
 ---
+
 
 ## Table of Contents
 
@@ -67,21 +70,33 @@ AstroCat is based on 2D roguelike games, featuring distinct procedurally-generat
 
 The first stage of our requirements-gathering process was to identify what kind of game AstroCat was going to be. Initially, we had two game ideas: a tower-defence style game, and a 2D shooter style game. From an early stage, we decided on the theme of the game (a cat protagonist in a space environment), and that a challenge we wanted to integrate would be co-operative play.  
 
-At first, we were most inspired by the idea of creating a tower-defence game, taking inspiration from titles such as *'Bloons TD'*. However, undertaking our first stage of requirements engineering using paper-prototypes (the first time we had exposed our ideas to others), caused us to reconsider our direction. 
-
-![pp](Requirements/Untitled.gif)
-
-When we translated our ideas to physical paper, we found that the 2D shooter 'AstroCat' flowed much better, and this was echoed by our test users to whom we showed the paper prototypes, who indicated a preference for the 2D shooter variant over the tower-defence variant.  
 
 ### Idea Development
+
+
+
+
 
 | ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
 | :--: | :--: |
 | *'The Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
 
+At first, we were most inspired by the idea of creating a tower-defence game, taking inspiration from titles such as *'Bloons TD'*. However, undertaking our first stage of requirements engineering using paper-prototypes (the first time we had exposed our ideas to others), caused us to reconsider our direction. Translating these two ideas to paper and stepping through the gameplay gave us greater insights into what the gameplay for each of our ideas felt like. We found that the Roguelike 2D shooter option came together much more readily to us, and was more enjoyable to prototype. This was rattified by other groups who we demonstrated the game ideas to - the 2D shooter game flowed much better than the tower-defence game. Therefore, by paper-prototyping our ideas, we were able to decide upon a 2D shooter game - which was not the outcome we expected! With this idea in hand, the key aspects of our game inherited from the Roguelike genre and specifically *The Binding of Isaac*:
+
+- Room-based levels with a top-down point of view
+- Permadeath (return to start of the game when killed)
+- Procedural generation of new rooms
+
+
+| ![pp](Requirements/Untitled.gif) |
+|--|
+|*Footage from our paper prototyping session, a pivotal moment in our requirements engineering*|
+
+
+
 ### Stakeholders and Users
 
-AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game does not. The onion model for AstroCat below captures some of the diverse range of stakeholders that can exist - from users, to the organisation we're part of, to regulators such as Ofcom who could potentially interact with AstroCat if the game threatened online saftey. As the assets and source code for the game are publically visible on GitHub, negative stakeholders include AI bots and other more malicious scrapers who could harvest our hard work!
+AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game does not. With our basic game idea decided upon, we went on to consider the users and stakeholders. The onion model for AstroCat below captures some of the diverse range of stakeholders that can exist - from users, to the organisation we're part of, to regulators such as Ofcom who could potentially interact with AstroCat if the game threatened online saftey. As the assets and source code for the game are publically visible on GitHub, negative stakeholders include AI bots and other more malicious scrapers who could harvest our hard work!
 
 <div align="center">
  <img src="https://github.com/user-attachments/assets/4cc95c6b-237f-459a-bc03-f70a3bfb47e4" width="500">
@@ -109,12 +124,24 @@ Our personas and their user stories were as follows:
 </div>
 <br>
 
-Requirements engineering involves making decisions about which requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort: 
+Requirements engineering involves making decisions about which requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort.
  
 ### Feasibility Studies
 
-We had more technical-focused whiteboard sessions to help identify the technical feasibility of different ideas. 
-We want everybody to experience AstroCat, so we thought about our game from the perspective of different user profiles, each with different needs and wants. We evaluated the user stories based on need, timeframe, and technical complexity (e.g. through feasibility studies in our Sandbox), and created corresponding epics/stories in our backlog, waiting to be candidates for future sprints if we had the resources:
+We had more technical-focused whiteboard sessions to help identify the technical feasibility of different ideas. In particular, we explored whether the challenge of online multiplayer was feasible to implement, and tested how procedural graphics generation could be implemented. In these earlier stages, we used a seperate portion of our repository - the [Sandbox](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/Code%20Sandbox) - to store our explorations of these challenges.
+
+
+| ![p](https://github.com/user-attachments/assets/96154fd5-7352-4b71-8e96-8b859d78ad50) |
+|--|
+|*Early experiments included integrated a Backend-as-a-Service (Supabase) to support online multiplayer* |
+
+<br>
+<br>
+
+
+**Summary of Feasability Studies**
+
+<br>
 
 | Feature | Study Details | Outcome |
 | :--: | :--: | :--: |
@@ -125,18 +152,29 @@ We want everybody to experience AstroCat, so we thought about our game from the 
 ### Requirement Prioritisation
 
 We assessed the effort required to implement versus the projected benefit of the different features:
-| Feauture | Effort | Value | MoSCoW bucket |
-|------------|--------|-------|---------------|
-| Offline multiplayer | Medium | Very High | Must Have |
-| Online multiplayer  | Extremely High | High | Won't Do |
-| Audible cues | Low | Medium | Should Have |
-| Child Mode | Low | Low | Could Have |
-| Difficulty Ranges (casual player to pro players) | High | Very High | Must Have |
-| Customisable Controls | Medium | Medium | Could Have |
+| Feauture | Effort | Value | MoSCoW bucket | Related Epic | 
+|------------|--------|-------|---------------|------------------|
+| Offline multiplayer | Medium | Very High | Must Have 🟢| [MVP Multiplayer](https://github.com/orgs/UoB-COMSM0166/projects/102?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) |
+| Online multiplayer  | Extremely High | High | Won't Do 🔴| N/A|
+| Audible cues | Low | Medium | Should Have ⚪| [Audio Integration](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103521777&issue=UoB-COMSM0166%7C2025-group-28%7C119)|
+| Child Mode | Low | Low | Could Have 🟡| [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
+| Difficulty Ranges (casual player to pro players) | High | Very High | Must Have 🟢| [Progressive Difficulty](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103507450&issue=UoB-COMSM0166%7C2025-group-28%7C115), 
+| Customisable Controls | Medium | Medium | Could Have 🟡| [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
+|Player vs Player mode | Medium | High | Should Have ⚪ | [PVP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107) |
 
 With our feautures prioritised, we were able to visualise the boundaries and functionality of AstroCat, using our five personas to create use case diagram:
 
 <img src="https://github.com/user-attachments/assets/11fa5103-e973-4d0b-a781-7b7a661ba79d">
+
+
+<br> 
+**Evolving Requirements**
+
+Our Agile approach to development meant we were responsive to change. Requirement engineering continued throughout our development, and we made some major changes in response to further user feedback. For example:
+ - During the second sprint, feedback from younger plays (personified by Astrid and Sven) indicated that a player-versus-player mode would be enjoyable, and the team quickly converted this in to a new epic ([Epic: PvP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107)) that was delivered successfully.
+ - One requirement that we did not confirm until later on in the process was our 'twist' to make our game unique. This was not decided upon until around midway through the development timeframe, when we decided upon and implemented 'Slow Meow' ([Epic: Slow Meow](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=99330360&issue=UoB-COMSM0166%7C2025-group-28%7C62))
+
+<br>
 
 ## Design
 
@@ -559,7 +597,30 @@ While these features significantly enhance the inclusivity and usability of the 
 
 - 10% ~500 words
 
-- Reflect on project as a whole. Lessons learned. Reflect on challenges. Future work. 
+- Reflect on project as a whole. Lessons learned. Reflect on challenges. Future work.
+
+We greatly enjoyed working together to deliver AstroCat, and we're proud of the game we have created - each one of us have our own ideas, designs, and technical breaktrhoughs woven in to the code of the game. None of us had any real experience in creating web-based games, so the development process was full of learning-through-doing and working together to find out - often through trial and error - how to acheieve the functionality we wanted.
+
+<br>
+
+This was the first time any of us had worked collaboratively on software, and a key lesson we took away was the importance of both technical and organisational processes in creating software as a team. For example, we initally found using git and branches confusing, and in the early days we were using a seperate directory to seperatley commit code, before one person worked to integrate it into /docs. However, as we got the hang of git and using branches, we all became great advocates as it helped us avoid breaking changes in production, and enabled us to try out feautures without having to commit them to our main branch. We implemented change control policies for our GitHub repo which meant someone else had to approve our code before a pull request could be merged - because we had learnt how effective change control had enabled us to deliver a great product collaborativley. Equally, we learnt how important managing our work was. At first, it was easy to see Kanban and user stories as somehwat overkill, but  as the complexity of the system grew and we started to find defects or think of enhancements, having a system to record, assign, and track these items using our Kanban board became essential for us to able to address them.
+
+In our other units (C and Java), we'd all been taught about the importance of good code structure/well designed classes, DRY code, informative variable/function names, and comments - and when completing small, indvidual assignments the neccisity of these principles was quite abstract. However, working together on this larger proejct in which none of us understood all of the code meant these development principles now seemed utterly essential for us to work together on the same codebase and read each others code. 
+
+<br>
+
+* * **  Reflect on challenges * * *
+ 
+Future work on AstroCat would involve integrating some of the feautures that we considered but assessed to be too complex to deliver in our limited timerame. For example, our online multiplayer feasability showed that it was possible to implement given enough time, and this would be a logical next step. Designing a greater range of AstroCat designs and equipment weapons, as well as more diverse challenges and shapes of room (e.g. non-square rooms, rooms with 'final bosses') would also be a plan for the future. 
+
+
+
+
+
+
+
+
+
 
 ## Contribution Statement
 
