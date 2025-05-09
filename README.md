@@ -156,7 +156,7 @@ By performing a grammatical parse of the description above, we identified the co
 
 A class diagram provided us a way to formally apply the ideas listed above in an object-oriented manner, plan our development work and build a high-level blueprint of how we wanted the system to behave and be structured.
 
-The initial design revolved around the following key classes (See Fig X):
+The initial design revolved around the following key classes (See Fig A):
 
 - `Game`: this would be composed of the player(s), current room and score
 - `Sprite`: this is our abstract game character class
@@ -165,7 +165,7 @@ The initial design revolved around the following key classes (See Fig X):
 - `Mob`: enemy characters, extending Sprite
 
 
-In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (See Fig X+1):
+In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (See Fig B):
 
 - `GameObject`: our core abstract class that represents any “thing” in the game – supplying them with a hitbox and position 
 - `Tile`: represented each square block in the room, this facilitated our random generation of walls and traps 
@@ -176,20 +176,38 @@ In the following development sprints, this base design was extended to accommoda
   - `Settings`: settings and how to play pages 
   - `GameUI`: drew enemy health bars and scores
 
-**Figure X**: Class Diagram at week 4 workshop 
-![image](https://github.com/user-attachments/assets/7c23e660-87e8-4131-a0c0-dd7190344273)
 
-**Figure X+1**: Class Diagram as at final sprint 
-![image](https://github.com/user-attachments/assets/6fd5b006-6e27-4417-a278-2b17352c75d8)
+<div align="center">
+
+**Figure A**: Class Diagram at week 4 workshop
+<img src="https://github.com/user-attachments/assets/7c23e660-87e8-4131-a0c0-dd7190344273" width="700">
+
+</div>
+
+<br>
+
+<div align="center">
+
+**Figure B**: Class Diagram as at final sprint
+<img src="https://github.com/user-attachments/assets/6fd5b006-6e27-4417-a278-2b17352c75d8" width="1400">
+
+</div>
+
+
 
 ### Behavioural Diagrams
 
 Following on from the class diagram, drawing up a sequence diagram allowed us to model the interactions between different objects in the game and the order in which they occurred.
 
-In a typical gameplay loop, a room would be created, which would spawn mobs. The player would then have to shoot at the mobs and kill them. Once the player had killed all the mobs in the room, the game would then generate a new room, repeating this sequence. This is visualised in the diagram below (See Fig X+2) – where Game and Player are global variables persisting through the runtime states, interacting with the different objects of finite lifetimes.
+In a typical gameplay loop, a room would be created, which would spawn mobs. The player would then have to shoot at the mobs and kill them. Once the player had killed all the mobs in the room, the game would then generate a new room, repeating this sequence. This is visualised in the diagram below (See Fig C) – where Game and Player are global variables persisting through the runtime states, interacting with the different objects of finite lifetimes.
 
-**Figure X+2**: Example combat & room progression sequence 
-![image](https://github.com/user-attachments/assets/84e29cdf-692c-44ec-8789-52366a62b0a4)
+<div align="center">
+
+**Figure C**: Example combat & room progression sequence
+<img src="https://github.com/user-attachments/assets/84e29cdf-692c-44ec-8789-52366a62b0a4" width="1400">
+
+</div>
+
 
 ## Implementation
 
