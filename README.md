@@ -48,7 +48,7 @@
 <div align="center">
  
 | Name | Email | GitHub | Role | Halloween Costume in Group Image |
-| ---- | ----- | ------ | ---- | -------------------------------------- |
+| :----: | :-----: | :------: | :----: | :--------------------------------------: |
 | Luke Remus Elliot | pm24104@bristol.ac.uk | whileLuke | Back-End Developer | Chrollo |
 | Fred Clamp-Gray | ey24984@bristol.ac.uk | fred1778 | Scrum Master & Front-End Developer | Julius Caesar |
 | Matt Matloubi | dv24149@bristol.ac.uk | mattmatloubi | Back-End Developer | Sully |
@@ -95,11 +95,11 @@ The first stage of our requirements gathering process was to identify the kind o
 
 | ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
 | :--: | :--: |
-| *'The Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
+| *'The Binding of Isaac' - Note the top-down viewpoint and room game space* | *'Bloons TD' - A typical tower defence game* |
 
 At first, we were most inspired by the idea of creating a tower-defence game, taking inspiration from titles such as *'Bloons TD'*. However, undertaking our first stage of requirements engineering using paper-prototypes (the first time we had exposed our ideas to others), caused us to reconsider our direction. 
 
-Translating these two concepts to paper and stepping through them gave us a greater insight into what the gameplay for each felt like. We found the 2D shooter option came together much more readily, and was more enjoyable to prototype. This was ratified by the other groups to whom we demonstrated our game ideas - they found the 2D shooter flowed much better than the tower-defence game. Therefore, by paper-prototyping our ideas, we were able to decide upon a 2D shooter game - an outcome we had not anticipated! With this idea in hand, we determined the key aspects of our game should inherit from the roguelike genre, and more specifically, *The Binding of Isaac*:
+Translating these two concepts to paper and stepping through them gave us a greater insight into what the gameplay for each felt like. We found the 2D shooter option came together much more readily, and was more enjoyable to prototype. This was ratified by the other groups to whom we demonstrated our game ideas - they found the 2D shooter flowed much better than the tower-defence game. Therefore, by paper-prototyping our ideas, we were able to decide upon a 2D shooter game - an outcome we had not anticipated! With this idea in hand, we determined the key aspects of our game should inherit from the roguelike genre, and more specifically, from *'The Binding of Isaac'*:
 
 - Room-based levels with a top-down point of view.
 - Permadeath (players return to start of the game when killed).
@@ -108,14 +108,14 @@ Translating these two concepts to paper and stepping through them gave us a grea
 <div align="center">
 
 | ![pp](Requirements/Untitled.gif) |
-| -- |
+| :--: |
 | *Footage from our paper prototyping session, a pivotal moment in our requirements engineering* |
 
 </div>
 
 ### Stakeholders and Users
 
-AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game does not. With our basic game idea decided upon, we went on to consider the users and stakeholders. The onion model for AstroCat below captures some of the diverse range of stakeholders that can exist - from users, to the organisation we're a part of, to regulators such as Ofcom who could potentially interact with AstroCat if the game threatened online safety. As the assets and source code for the game are publically available on GitHub, negative stakeholders include AI bots and other more malicious scrapers who could harvest our hard work!
+AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game does not. With our basic premise decided, we went on to consider the game's possible users and stakeholders. The onion model for AstroCat below captures some of the diverse range of stakeholders that can exist - from users, to the organisation we're a part of, to regulators such as Ofcom who could potentially interact with AstroCat if the game threatened online safety. As the assets and source code for the game are publically available on GitHub, negative stakeholders include AI bots and other more malicious scrapers who could harvest our hard work!
 
 <br>
 <div align="center">
@@ -124,7 +124,7 @@ AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game
 <br>
 
 <br>
-Next, we thought about who might (theoretically) play AstroCat (the 'Gaming public' captured in our onion model), and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs into epics and user stories. 
+Next, we thought about who might play AstroCat (the 'Gaming public' captured in our onion model), and what differing requirements they could have. We conceptualised diverse user types using a set of personas, translating their needs into epics and user stories. 
 <br>
 Our personas and their user stories were as follows: 
 <br>
@@ -145,31 +145,29 @@ Our personas and their user stories were as follows:
 </div>
 <br>
 
-As seen above/right, our personas can be mapped on to the 'Bartle Taxonomy of Player Types' - a way of categorising video game players based on character theory, derived from a 1996 paper from Richard Bartle (Bartle, 1996). This can help us understand how requirements interact with different playstyles, and highlights how some user requirements (for instance, Lucy) are unrelated to gameplay features and are therefore important to be evenly implemented across the game (for example, we cannot assume that Lucy is not also a 'Achiever' gamer like Hans, and so must ensure accessibility requirements are extant, even at the most challenging levels of the game). 
+As seen above, our personas can be mapped to the 'Bartle Taxonomy of Player Types' - a way of categorising video game players based on character theory (Bartle, 1996). This helped us understand how requirements interact with different playstyles, and highlights how some user requirements (for instance, Lucy) are unrelated to gameplay features and are therefore important to be evenly implemented across the game (for example, we cannot assume that Lucy is not also a 'Achiever' gamer like Hans, and so must ensure accessibility requirements are extant, even at the most challenging levels of the game). 
 
-<br>
-
-Requirements engineering involves making decisions about which requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort.
+Requirements engineering involves making decisions about which requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by ility studies to understand which requirements would require a lot of time and effort.
  
 ### Feasibility Studies
 
-We had more technical-focused whiteboard sessions to help identify the technical feasibility of different ideas. In particular, we explored whether the challenge of online multiplayer was feasible to implement, and tested how procedural graphics generation could be implemented. In these earlier stages, we used a seperate portion of our repository - the [Sandbox](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/Code%20Sandbox) - to store our explorations of these challenges.
+We had more technical-focused whiteboard sessions to help identify the technical feasibility of different ideas. In particular, we explored whether the challenge of online multiplayer was feasible to implement, and tested how procedural graphics generation could be implemented. In these earlier stages, we used a separate portion of our repository - the [Sandbox](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/Code%20Sandbox) - to store our explorations of these challenges.
 
 <div align="center">
 
 | ![p](https://github.com/user-attachments/assets/96154fd5-7352-4b71-8e96-8b859d78ad50) |
-|--|
-|*Early experiments included integrated a Backend-as-a-Service (Supabase) to support online multiplayer* |
+| :--: |
+| *Early experiments included integrated a Backend-as-a-Service (Supabase) to support online multiplayer* |
 
 </div>
 
-**Summary of Feasability Studies**
+**Summary of Feasibility Studies**
 
 | Feature | Study Details | Outcome |
 | :--: | :--: | :--: |
-| Same-device multiplayer | Tested how p5.js would handle executing two sets of keyboard gameplay commands in parallel to move two sprites and <br> whether this would cause lag/overload the update() function and reduce performance | Platform is able to handle two parallel sets of gameplay inputs with no observable degradation of performance, <br> co-op on-device multiplayer included in MVP |
-| Online multiplayer | Integrated a BaaS (backend-as-a-service) connection and used a realtime database to track positions of players and reflect these on other client | We found it was possible to integrate a Supabase database and track changes, challenges would be: <br> (a) Avoiding rate-limiting by rationing position updates <br> (b) Creating and managing multiple 2-player online sessions <br> (c) Mirroring behaviour of AI/environment across clients. Will be explored further if time permits |
-| Procedural graphics generation | We experimented with algorithmically generating different 'rooms' | This proved feasible and was included in the MVP | 
+| **Same-Device Multiplayer** | Tested how p5.js would handle executing two sets of keyboard gameplay commands in parallel to move two sprites and <br> whether this would cause lag/overload the update() function and reduce performance | Platform is able to handle two parallel sets of gameplay inputs with no observable degradation of performance, <br> co-op on-device multiplayer included in MVP |
+| **Online Multiplayer** | Integrated a BaaS (backend-as-a-service) connection and used a realtime database to track positions of players and reflect these on other client | We found it was possible to integrate a Supabase database and track changes, challenges would be: <br> (a) Avoiding rate-limiting by rationing position updates <br> (b) Creating and managing multiple 2-player online sessions <br> (c) Mirroring behaviour of AI/environment across clients. Will be explored further if time permits |
+| **Procedural Graphics Generation** | We experimented with algorithmically generating different 'rooms' | This proved feasible and was included in the MVP | 
 
 ### Requirement Prioritisation
 
@@ -179,13 +177,13 @@ We assessed the effort required to implement versus the projected benefit of the
 
 | Feature | Effort | Value | MoSCoW bucket | Related Epic | 
 |------------|--------|-------|---------------|------------------|
-| Offline multiplayer | Medium | Very High | Must Have 🟢| [MVP Multiplayer](https://github.com/orgs/UoB-COMSM0166/projects/102?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) |
-| Online multiplayer  | Extremely High | High | Won't Do 🔴| N/A|
-| Audible cues | Low | Medium | Should Have ⚪| [Audio Integration](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103521777&issue=UoB-COMSM0166%7C2025-group-28%7C119)|
-| Child Mode | Low | Low | Could Have 🟡| [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
-| Difficulty Ranges (casual player to pro players) | High | Very High | Must Have 🟢| [Progressive Difficulty](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103507450&issue=UoB-COMSM0166%7C2025-group-28%7C115), 
-| Customisable Controls | Medium | Medium | Could Have 🟡| [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148) |
-|Player vs Player mode | Medium | High | Should Have ⚪ | [PVP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107) |
+| **Offline Multiplayer** | Medium | Very High | 🟢 Must Have | [MVP Multiplayer](https://github.com/orgs/UoB-COMSM0166/projects/102?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) |
+| **Online Multiplayer**  | Extremely High | High | 🔴 Won't Do | N/A|
+| **Audio Cues** | Low | Medium | ⚪ Should Have | [Audio Integration](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103521777&issue=UoB-COMSM0166%7C2025-group-28%7C119)|
+| **Child Mode** | Low | Low | 🟡 Could Have | [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
+| **Difficulty Ranges *(Casual Players to Pro Players)*** | High | Very High | 🟢 Must Have | [Progressive Difficulty](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103507450&issue=UoB-COMSM0166%7C2025-group-28%7C115), 
+| **Customisable Controls** | Medium | Medium | 🟡 Could Have | [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148) |
+| **Player vs Player Mode** | Medium | High | ⚪ Should Have | [PVP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107) |
 
 </div>
 <br>
@@ -209,7 +207,7 @@ Having completed our initial requirements analysis, identifying key stakeholders
 
 As a light, client-side only browser game, our development stack consists of JavaScript (p5.js) for the core game logic, and HTML/CSS for supplementary webpage design. 
 
-In the simplest form, the game itself centres around *AstroCat*, the main playable character that ventures through an infinite number of *rooms*, killing *enemies* to score points.  
+In its simplest form, the game centres around *AstroCat*, the main playable character that ventures through an infinite number of *rooms*, killing *enemies* to score points.  
 
 By performing a grammatical parse of the description above, we identified the core components of the game to build around: 
 
@@ -221,19 +219,19 @@ By performing a grammatical parse of the description above, we identified the co
 
 A class diagram provided us a way to formally apply the ideas listed above in an object-oriented manner, plan our development work and build a high-level blueprint of how we wanted the system to behave and be structured.
 
-The initial design revolved around the following key classes (See Fig. A):
+The initial design revolved around the following key classes (see Fig. A):
 
 - `Game`: This would be composed of the player(s), current room and score.
 - `Sprite`: This is our abstract game character class.
 - `Room`: This represented instances of an arena or level.
-- `Player`: The playable character, AstroCat, extending Sprite.
-- `Mob`: Enemy characters, extending Sprite.
+- `Player`: The playable character, AstroCat, extending `Sprite`.
+- `Mob`: Enemy characters, extending `Sprite`.
 
 
-In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (See Fig. B):
+In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (see Fig. B):
 
-- `GameObject`: Our core abstract class that represents any “thing” in the game – supplying them with a hitbox and position.
-- `Tile`: Represented each square block in the room, this facilitated our random generation of walls and traps.
+- `GameObject`: Our core abstract class that represents any 'thing' in the game, supplying them with a hitbox and position.
+- `Tile`: Represented each square block in the room - this facilitated our random generation of walls and traps.
 - `Handler`/`Generator` classes: This delegated responsibility from the Room class to facilitate more flexible behaviour across rooms. 
 - `Utility`/`Static` classes: Allowed us to split UI and non-game elements such as the menu/settings/transitions away from the gameplay logic code. These included: 
   - `GameOver`: Creates the game over screen.
@@ -262,7 +260,7 @@ In the following development sprints, this base design was extended to accommoda
 
 Following on from the class diagram, drawing up a sequence diagram allowed us to model the interactions between different objects in the game and the order in which they occurred.
 
-In a typical gameplay loop, a room would be created, which would spawn mobs. The player would then have to shoot at the mobs and kill them. Once the player had killed all the mobs in the room, the game would then generate a new room, repeating this sequence. This is visualised in the diagram below (See Fig. C) – where Game and Player are global variables persisting through the runtime states, interacting with the different objects of finite lifetimes.
+In a typical gameplay loop, a room would be created, which would spawn mobs. The player would then have to shoot at the mobs and kill them. Once the player had killed all the mobs in the room, the game would then generate a new room, repeating this sequence. This is visualised in the diagram below (see Fig. C) – where Game and Player are global variables persisting through the runtime states, interacting with the different objects of finite lifetimes.
 
 <div align="center">
 
@@ -370,23 +368,23 @@ This creates a much more dynamic, tactical and strategic style of gameplay, and 
 Two main tasks were evaluated to assess player experience across different game modes and control configurations. Players were encouraged to express their thoughts as they played, which were noted down. Results are summarised below:
 
 #### Task 1: Single-Player Mode
-- Navigate menu and select single-player option
-- Avoid mobs for several minutes
-- Complete level objectives
+- Navigate menu and select single-player option.
+- Avoid mobs for several minutes.
+- Complete level objectives.
 
 #### Task 2: Two-Player Mode
 - Play cooperatively using different keyboard configurations:
-  - Laptop keyboard (compact layout)
-  - Full-sized keyboard
+  - Laptop keyboard (compact layout).
+  - Full-sized keyboard.
 
 #### Results
 
 <div align="center">
 
-*Single-Player Experience*
+**Single-Player Experience**
 
 | Observation Category | Participant Feedback |
-|:---------------------|:---------------------|
+|:---------------------:|:---------------------:|
 | **Game Speed** | "Too fast" - AstroCat movement speed was too high for comfortable control |
 | **Collision Detection** | "Get stuck on wall", "Easy to get stuck" - collision handling needs major refinement |
 | **Navigation** | Players struggled with precise movement and frequently collided with environmental objects |
@@ -396,10 +394,10 @@ Two main tasks were evaluated to assess player experience across different game 
 
 <div align="center">
 
-*Two-Player/Co-op Experience*
+**Two-Player/Co-op Experience**
 
 | Observation Category | Participant Feedback |
-|:---------------------|:---------------------|
+|:---------------------:|:---------------------:|
 | **Control Intuitiveness** | "If you've played games before you would know, but you can't assume that" - controls not immediately intuitive to non-gamers |
 | **AI Behavior** | "The dog is following me" - mob AI behavior was acknowledged |
 | **Movement Comparison** | "The mob is a lot more fluid than me" - perceived discrepancy between player and mob movement mechanics |
@@ -422,28 +420,28 @@ Two main tasks were evaluated to assess player experience across different game 
 
 #### Methodology
 
-The evaluation was conducted during week 7 with 5 participants. The users spent approximately 30 minutes going through the interface several times, producing lists of usability issues that corresponded to Neilsen's 10 principles of heuristic evaluation. We then compiled this list and summarised them in the results below. Each of the interface issues were then subsequently actioned during subsequent development sprints.
+The evaluation was conducted during week 7 with five participants. The users spent approximately 30 minutes going through the interface several times, producing lists of usability issues that corresponded to Neilsen's 10 principles of heuristic evaluation. We then compiled this list and summarised them in the results below. Each of the interface issues were then subsequently actioned during subsequent development sprints.
 
 #### Results
 
 <div align="center">
 
-| Interface Issue | Description | Heuristic Violated | Frequency(0-4) | Impact(0-4) | Persistence(0-4) | Severity(Avg) | Issue Link |
-|:--------------:|:------------|:-------------------|:-------------:|:-----------:|:--------------:|:-----------------:|:-------------:|
-| 🔴 **Sticky walls** | Collision logic between players and walls needs enhancement | Flexibility and efficiency of use | 4 | 4 | 3 | **3.7** | [Issue #50](https://github.com/UoB-COMSM0166/2025-group-28/issues/50) |
-| 🟠 **Too easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
-| 🟠 **Progress/goal tracking** | Need to show health bar, Slow Meow percentage, and weapon heat meter | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
-| 🟡 **Limited enemy variety** | Need more types of mobs with standardised artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) [#127, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/127) [#54](https://github.com/UoB-COMSM0166/2025-group-28/issues/54) |
-| 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
-| 🟢 **Game over screen** | Bugs in game over screen | Help users recognise, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
+| Interface Issue | Description | Heuristic(s) Violated | Frequency (0 - 4) | Impact (0 - 4) | Persistence (0 - 4) | Severity (Avg.) | Issue Link |
+|:--------------:|:------------:|:-------------------:|:-------------:|:-----------:|:--------------:|:-----------------:|:-------------:|
+| 🔴<br> **Sticky Walls** | Collision logic between players and walls needs enhancement | Flexibility and efficiency of use | 4 | 4 | 3 | **3.7** | [Issue #50](https://github.com/UoB-COMSM0166/2025-group-28/issues/50) |
+| 🟠<br> **Too Easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
+| 🟠<br> **Progress/Goal Tracking** | Need to show health bar, Slow Meow percentage, and weapon heat meter | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
+| 🟡<br> **Limited Enemy Variety** | Need more types of mobs with standardised artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/112)<br> [#127, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/127)<br> [#54](https://github.com/UoB-COMSM0166/2025-group-28/issues/54) |
+| 🟡<br> **Single Control Scheme** | Using standard WASD to move, but some players may prefer arrow keys | Recognition rather than recall, <br>User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
+| 🟢<br> **Game Over Screen** | Bugs in game over screen | Help users recognise, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
 
 </div>
 
 **Severity Colour Legend:**
-- 🔴 High (3.4-4.0)
-- 🟠 Medium-High (2.6-3.3)
-- 🟡 Medium-Low (1.6-2.5)
-- 🟢 Low (0.0-1.5)
+- 🔴 High (3.4 - 4.0)
+- 🟠 Medium - High (2.6 - 3.3)
+- 🟡 Medium - Low (1.6 - 2.5)
+- 🟢 Low (0.0 - 1.5)
 
 *Note: Severity is calculated as (Frequency + Impact + Persistence) / 3*
 
@@ -457,7 +455,7 @@ The evaluation was conducted during week 8 of development with ten participants 
 
 <div align="center">
 
-*Raw TLX Scores by Difficulty Level*
+**Raw TLX Scores by Difficulty Level**
 
 | User ID | Easy Mode | Medium Mode | Difference |
 |:-------:|:---------:|:----------:|:----------:|
@@ -492,7 +490,7 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 
 <div align="center">
 
-*SUS Scores by Difficulty Level*
+**SUS Scores by Difficulty Level**
 
 | User ID | Easy Mode | Medium Mode | Difference |
 |:-------:|:---------:|:----------:|:----------:|
@@ -506,7 +504,7 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 | 8       | 100.0     | 85.0       | -15.0      |
 | 9       | 55.0      | 57.5       | +2.5       |
 | 10      | 80.0      | 62.5       | -17.5      |
-| **Mean**| **79.8**  | **61.8**   | **-18.0**  |
+| **Mean** | **79.8** | **61.8**   | **-18.0**  |
 
 <img width = "45%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
 
@@ -666,8 +664,8 @@ The AstroCat gif requires 10 KB of memory. To implement the same complexity of a
 <div align="center">
  
 | <img src="https://github.com/user-attachments/assets/f2dbe04f-eea6-4367-b13c-3b2c781a4a34"/> |
-|--|
-|10 KB AstroCat gif, the only AstroCat asset required |
+| :--: |
+| *10 KB AstroCat gif, the only AstroCat asset required* |
 
 </div>
 
@@ -707,14 +705,14 @@ In our other programming-centric units (e.g. C and Java), we'd been taught about
 
 Throughout the course of the project, we encountered numerous difficulties and challenges, such as those highlighted in the [Implementation](#implementation) section above. While some of these took multiple sprints to address, thanks to our efficient collaborative workflow, we were able to solve everything we identified by the end of development. This resulted in a final product that we believe to be well-polished, bug-free and mostly feature-complete.
  
-Future work on AstroCat would involve integrating some of the features we considered, but assessed to be too complex to deliver in our limited timeframe. For example, our online multiplayer feasability study showed that it was possible to implement given enough time, and this would be a logical next step. Creating a greater variety of AstroCat designs and usable weapons, as well as more diverse challenges and shapes of room (e.g. non-square rooms, rooms with 'final bosses') would also be a plan for the future. 
+Future work on AstroCat would involve integrating some of the features we considered, but assessed to be too complex to deliver in our limited timeframe. For example, our online multiplayer feasibility study showed that it was possible to implement given enough time, and this would be a logical next step. Creating a greater variety of AstroCat designs and usable weapons, as well as more diverse challenges and shapes of room (e.g. non-square rooms, rooms with 'final bosses') would also be a plan for the future. 
 
 ## Contribution Statement
 
 <div align="center">
 
 | Team Member | Contribution |
-|-------------------|--------------|
+| :------------: | :--------------: |
 | Luke Remus Elliot | 1.0 |
 | Fred Clamp-Gray | 1.0 |
 | Matt Matloubi | 1.0 |
@@ -731,4 +729,3 @@ Bartle, R. (1996) *Hearts, Clubs, Diamonds, Spades: Players Who suit MUDS*. Avai
 Harris, J. (2020) *Exploring Roguelike Games*. Boca Raton: CRC Press.
 
 Jenkins, D. (2020) *Doom Eternal hands-on preview and interview – if chess was an arcade shooter*. Available at: https://metro.co.uk/2020/01/21/doom-eternal-preview-interview-chess-arcade-shooter-12095644/ (Accessed: 2 May 2025).
-
