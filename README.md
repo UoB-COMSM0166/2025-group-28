@@ -614,9 +614,9 @@ We used Planning Poker to estimate the complexity of tasks, encouraging healthy 
 
 ## Sustainability, Ethics and Accessibilty
 
-<p align="center">
-![image](https://github.com/user-attachments/assets/64a8902a-75ae-4097-bea0-19dc410050f5)
-</p>
+<div align="center">
+ <img width = "80%" src="https://github.com/user-attachments/assets/64a8902a-75ae-4097-bea0-19dc410050f5">
+</div>
 
 ### Technical Sustainability
 
