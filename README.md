@@ -614,6 +614,10 @@ We used Planning Poker to estimate the complexity of tasks, encouraging healthy 
 
 ## Sustainability, Ethics and Accessibilty
 
+<p align="center">
+![image](https://github.com/user-attachments/assets/64a8902a-75ae-4097-bea0-19dc410050f5)
+</p>
+
 ### Technical Sustainability
 
 AstroCat demonstrates technical sustainability through key software quality dimensions. In terms of maintainability, the game benefits from its modular structure where gameplay logic, UI, and procedural generation are separated, making it easier to debug, update, and refine specific systems without impacting the whole game. The retro aesthetic and pixel-art assets also reduce complexity, easing asset management and modification.
