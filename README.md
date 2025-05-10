@@ -1,15 +1,15 @@
- 
-<img src="Requirements/banner.gif" width="10000">
+ <img src="Requirements/banner.gif" width="10000">
 
+<div align="center">
 <a href="https://uob-comsm0166.github.io/2025-group-28/">
 <img src="https://github.com/user-attachments/assets/bd98ef6e-f613-4d44-b601-7af35172aa4f" width="49%">
 </a>
 <a href="https://www.youtube.com/watch?v=-AkBSAz69rQ">
 <img src="https://github.com/user-attachments/assets/2b87e0e2-1ad3-4e5e-8f21-2f8ad740ac19" width="49%">
 </a>
+</div>
 
 ---
-
 
 ## Table of Contents
 
@@ -45,88 +45,86 @@
 
 ![grouppic](https://github.com/user-attachments/assets/ec5b17da-6882-42b0-a55c-42023ebdaffb)
 
-|Name|Email|GitHub|Role|Halloween costume in group image|
-|----|-----|------|----|--------------------------------------|
-|Luke Remus Elliot |pm24104@bristol.ac.uk | whileLuke | Back-End developer | Chrollo |
-| Fred Clamp-Gray | ey24984@bristol.ac.uk | fred1778 | Scrum Master & Front-End developer | Julius Caesar |
-|Matt Matloubi |dv24149@bristol.ac.uk |mattmatloubi | Back-End developer | Sully |
-|Yoda Monplub | ds24614@bristol.ac.uk | Yoda-Yothada | Front-End developer & arts and design | Yoda |
-|Will Nixon | zk24610@bristol.ac.uk | spockthewok | Back-End developer & sound design | Tiger |
-|Dylan Haye | jk24742@bristol.ac.uk | dxlxnhxxe | Front-End developer & arts and design | No.5 |
+<div align="center">
+ 
+| Name | Email | GitHub | Role | Halloween Costume in Group Image |
+| ---- | ----- | ------ | ---- | -------------------------------------- |
+| Luke Remus Elliot | pm24104@bristol.ac.uk | whileLuke | Back-End Developer | Chrollo |
+| Fred Clamp-Gray | ey24984@bristol.ac.uk | fred1778 | Scrum Master & Front-End Developer | Julius Caesar |
+| Matt Matloubi | dv24149@bristol.ac.uk | mattmatloubi | Back-End Developer | Sully |
+| Yoda Monplub | ds24614@bristol.ac.uk | Yoda-Yothada | Front-End Developer & Art Design | Yoda |
+| Will Nixon | zk24610@bristol.ac.uk | spockthewok | Back-End Developer & Sound Design | Tiger |
+| Dylan Haye | jk24742@bristol.ac.uk | dxlxnhxxe | Front-End Developer & Art Design | No. 5 |
 
+</div>
 
 ## Introduction
 
 ![Untitled-4](https://github.com/user-attachments/assets/4e9927a0-c3e3-43a6-b144-0e3dbb921435)
 
-Our game is called AstroCat. It is the story of cats who have found themselves on a spaceship and have to defeat hoards of Space Dogs in order to explore the endless rooms of their new galactic home.  
+Our game, 'AstroCat', follows a rather adventurous cat who finds themself aboard a spaceship. To explore the endless rooms of their new galactic home, they must battle the relentless hordes of space dogs that stand in their way...
 
-The game can be played with one or two players using the two control sets on the same keyboard. The objective is to kill the evil enemy space dogs and progress to the next room. There are a range of these Space Dogs – some can fire projectiles, and some can teleport around the room. AstroCat’s gun can overheat and stop working if you’re too trigger-happy, but defeated enemies can leave health and energy powerups to be collected to recover. There is no endgame – the aim is simply to get as far as you can, because once you’re dead, it’s back to room 1!  
+The game can be played with either one or two players using two control schemes on the same keyboard. Your objective is to kill all of the evil enemy space dogs and progress to the next room. These canine foes come in various forms – some can fire projectiles, while others can unpredictably teleport around the room. AstroCat’s gun will overheat and temporarily stop working if you’re too trigger-happy, but defeated enemies can drop health and energy items that can be collected to restore vitality and your weapon's condition. There is no endgame – the aim is simply to get as far as you can, because once you’re dead, it’s straight back to the beginning!
 
-However, AstroCat has a special ability that gives the gameplay a unique twist: Slow Meow. This slows the enemies and the projectiles down, but AstroCat can still move around like a cat on a hot tin roof! This ability is recharged through killing enemies.  
+Despite this, AstroCat has a special ability that gives the gameplay a unique twist: 'Slow Meow'. This slows down all enemies and projectiles for a short period of time, but AstroCat can still move around like a cat on a hot tin roof! Once used, charge is gained towards the ability through each enemy killed.
 
 <br>
+<div align="center">
+<img src="https://github.com/user-attachments/assets/04f677c2-40ac-4979-93c4-b7132b96fe08">
+</div>
+<br>
+
+AstroCat draws inspiration from 2D roguelike games, particularly *'The Binding of Isaac'*, incorporating procedurally-generated environments and a ‘permanent death’ mechanic. A key gameplay influence is the confined, small-room structure, presented from a top-down perspective. 
+
+Beyond gameplay, AstroCat embraces a retro aesthetic, taking cues from classic arcade and early video games, featuring pixel-art assets and fonts, as well as a nostalgic soundscape, such as that found in the namesake of the roguelike genre - Rogue:
 
 <div align="center">
+ 
+| <img src="https://github.com/user-attachments/assets/c82de817-ed26-4977-a3ad-9957ed648ab6" width="600"> |
+| :--: |
+| *Screenshot of Atari ST version of Rogue (1986) from [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)* |
 
-<img src="https://github.com/user-attachments/assets/04f677c2-40ac-4979-93c4-b7132b96fe08">
-
- </div>
-
-
+</div>
 <br>
-
-
-AstroCat is based on 2D roguelike games, featuring distinct procedurally-generated game environments and a 'permanent death approach', especially the game *'The Binding of Isaac'*, from which we took a lot of inspiration from in terms of gameplay, such as the playing environment being confined to small rooms seen by the player from a top-down perspective. The game also takes aesthetic cues from arcade and early video games, with a retro-style soundscape and pixel-art based design assets and fonts.  
 
 ## Requirements 
 
-The first stage of our requirements-gathering process was to identify what kind of game AstroCat was going to be. Initially, we had two game ideas: a tower-defence style game, and a 2D shooter style game. From an early stage, we decided on the theme of the game (a cat protagonist in a space environment), and that a challenge we wanted to integrate would be co-operative play.  
-
+The first stage of our requirements gathering process was to identify the kind of game AstroCat was going to be. Initially, we had two ideas: a tower-defence style game, and a 2D shooter style game. From an early stage, we decided on the theme of the game (a cat protagonist in a space environment), and that a challenge we wanted to integrate would be co-operative play.  
 
 ### Idea Development
 
 | ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
 | :--: | :--: |
-|*'The Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
+| *'The Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
 
-At first, we were most inspired by the idea of creating a tower-defence game, taking inspiration from titles such as *'Bloons TD'*. However, undertaking our first stage of requirements engineering using paper-prototypes (the first time we had exposed our ideas to others), caused us to reconsider our direction. Translating these two ideas to paper and stepping through the gameplay gave us greater insights into what the gameplay for each of our ideas felt like. We found that the Roguelike 2D shooter option came together much more readily to us, and was more enjoyable to prototype. This was rattified by other groups who we demonstrated the game ideas to - the 2D shooter game flowed much better than the tower-defence game. Therefore, by paper-prototyping our ideas, we were able to decide upon a 2D shooter game - which was not the outcome we expected! With this idea in hand, the key aspects of our game inherited from the Roguelike genre and specifically *The Binding of Isaac*:
+At first, we were most inspired by the idea of creating a tower-defence game, taking inspiration from titles such as *'Bloons TD'*. However, undertaking our first stage of requirements engineering using paper-prototypes (the first time we had exposed our ideas to others), caused us to reconsider our direction. 
 
-- Room-based levels with a top-down point of view
-- Permadeath (return to start of the game when killed)
-- Procedural generation of new rooms
+Translating these two concepts to paper and stepping through them gave us a greater insight into what the gameplay for each felt like. We found the 2D shooter option came together much more readily, and was more enjoyable to prototype. This was ratified by the other groups to whom we demonstrated our game ideas - they found the 2D shooter flowed much better than the tower-defence game. Therefore, by paper-prototyping our ideas, we were able to decide upon a 2D shooter game - an outcome we had not anticipated! With this idea in hand, we determined the key aspects of our game should inherit from the roguelike genre, and more specifically, *The Binding of Isaac*:
 
-We also took some aestehtic inspiration from the namesake of the Roguelike genere (Rogue), by using tiled-based rooms and a lo-fi 1980s arcade-style feel to the assets, including the fonts and menus:
-
-<div align="center">
- 
-|<img src="https://github.com/user-attachments/assets/c82de817-ed26-4977-a3ad-9957ed648ab6" width="600">|
-|:--:|
-|*Screenshot of Atari ST version of Rogue (1986) from [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)*|
-
-</div>
-
-<br> 
+- Room-based levels with a top-down point of view.
+- Permadeath (players return to start of the game when killed).
+- Procedural generation of new rooms.
 
 <div align="center">
 
 | ![pp](Requirements/Untitled.gif) |
-|--|
-|*Footage from our paper prototyping session, a pivotal moment in our requirements engineering*|
+| -- |
+| *Footage from our paper prototyping session, a pivotal moment in our requirements engineering* |
 
 </div>
 
 ### Stakeholders and Users
 
-AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game does not. With our basic game idea decided upon, we went on to consider the users and stakeholders. The onion model for AstroCat below captures some of the diverse range of stakeholders that can exist - from users, to the organisation we're part of, to regulators such as Ofcom who could potentially interact with AstroCat if the game threatened online saftey. As the assets and source code for the game are publically visible on GitHub, negative stakeholders include AI bots and other more malicious scrapers who could harvest our hard work!
+AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game does not. With our basic game idea decided upon, we went on to consider the users and stakeholders. The onion model for AstroCat below captures some of the diverse range of stakeholders that can exist - from users, to the organisation we're a part of, to regulators such as Ofcom who could potentially interact with AstroCat if the game threatened online safety. As the assets and source code for the game are publically available on GitHub, negative stakeholders include AI bots and other more malicious scrapers who could harvest our hard work!
 
+<br>
 <div align="center">
  <img src="https://github.com/user-attachments/assets/4cc95c6b-237f-459a-bc03-f70a3bfb47e4" width="500">
 </div>
+<br>
 
 <br>
-<br>
-Next, we thought about who might (theoretically) play AstroCat - the 'Gaming public' captured in our onion model - and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs in to epics and user stories. 
+Next, we thought about who might (theoretically) play AstroCat (the 'Gaming public' captured in our onion model), and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs into epics and user stories. 
 <br>
 Our personas and their user stories were as follows: 
 <br>
@@ -144,10 +142,10 @@ Our personas and their user stories were as follows:
 <div align="center">
 <img  width = "49%" src="https://github.com/user-attachments/assets/e4f3b648-5a21-4536-828a-753f6f0451c0">
  <img  width = "45%" height= "45%"  src="https://github.com/user-attachments/assets/dd2a8936-edbe-4a44-943e-4a1df5993847">
-
 </div>
 <br>
-As seen above/right, our personas can be mapped on to the Bartle Taxonomy of Player Types, a way of categorising video game players based on character theory, derived from a 1996 paper from Richard Bartle (Bartle, 1996). This can help us understand how requirments interactw with different play styles, and highlights how some user requirements (for instance, Lucy) are unrealted from gameplay feautures and are therefore important to be evenly implemented across the game (for example, we cannot assume that Lucy is not also a 'Achiever' gamer like Hans, and so must ensure accessibility requirments are extant even at the most challenging levels of the game). 
+
+As seen above/right, our personas can be mapped on to the 'Bartle Taxonomy of Player Types' - a way of categorising video game players based on character theory, derived from a 1996 paper from Richard Bartle (Bartle, 1996). This can help us understand how requirements interact with different playstyles, and highlights how some user requirements (for instance, Lucy) are unrelated to gameplay features and are therefore important to be evenly implemented across the game (for example, we cannot assume that Lucy is not also a 'Achiever' gamer like Hans, and so must ensure accessibility requirements are extant, even at the most challenging levels of the game). 
 
 <br>
 
@@ -164,7 +162,6 @@ We had more technical-focused whiteboard sessions to help identify the technical
 |*Early experiments included integrated a Backend-as-a-Service (Supabase) to support online multiplayer* |
 
 </div>
-<br>
 
 **Summary of Feasability Studies**
 
@@ -193,7 +190,7 @@ We assessed the effort required to implement versus the projected benefit of the
 </div>
 <br>
 
-With our feautures prioritised, we were able to visualise the boundaries and functionality of AstroCat, using our five personas to create use case diagram. This helped us to see the relative significance of different use-cases within our game - for example, as can be seen below, many of our persona's use cases involve configuring the game, validating the effort we put in to making the settings panel as usable as possible:
+With our features prioritised, we were able to visualise the boundaries and functionality of AstroCat, using our five personas to create a use case diagram. This helped us to see the relative significance of different use cases within our game - for example, as can be seen below, many of our personas' use cases involve configuring the game, validating the effort we put in to making the settings panel as usable as possible:
 
 <img src="https://github.com/user-attachments/assets/11fa5103-e973-4d0b-a781-7b7a661ba79d">
 
@@ -202,9 +199,9 @@ With our feautures prioritised, we were able to visualise the boundaries and fun
 
 **Evolving Requirements**
 
-Our Agile approach to development meant we were responsive to change. Requirement engineering continued throughout our development, and we made some major changes in response to further user feedback. For example:
- - During the second sprint, feedback from younger plays (personified by Astrid and Sven) indicated that a player-versus-player mode would be enjoyable, and the team quickly converted this in to a new epic ([Epic: PvP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107)) that was delivered successfully.
- - One requirement that we did not confirm until later on in the process was our 'twist' to make our game unique. This was not decided upon until around midway through the development timeframe, when we decided upon and implemented 'Slow Meow' ([Epic: Slow Meow](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=99330360&issue=UoB-COMSM0166%7C2025-group-28%7C62))
+Our Agile approach to development meant we were responsive to change. Requirement engineering continued throughout our development, and we made some major changes in response to user feedback. For example:
+ - During the second sprint, feedback from younger players (personified by Astrid and Sven) indicated that a player-versus-player mode would be enjoyable, and the team quickly converted this into a new epic ([Epic: PvP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107)) that was delivered successfully.
+ - One requirement we did not confirm until later on in the process, was our 'twist' to make our game unique. This was not decided upon until around midway through the development timeframe, when we decided upon and implemented 'Slow Meow' ([Epic: Slow Meow](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=99330360&issue=UoB-COMSM0166%7C2025-group-28%7C62))
 
 ## Design
 
@@ -224,25 +221,25 @@ By performing a grammatical parse of the description above, we identified the co
 
 A class diagram provided us a way to formally apply the ideas listed above in an object-oriented manner, plan our development work and build a high-level blueprint of how we wanted the system to behave and be structured.
 
-The initial design revolved around the following key classes (See Fig A):
+The initial design revolved around the following key classes (See Fig. A):
 
-- `Game`: this would be composed of the player(s), current room and score
-- `Sprite`: this is our abstract game character class
-- `Room`: this represented instances of an arena or level
-- `Player`: the playable character, AstroCat, extending Sprite
-- `Mob`: enemy characters, extending Sprite
+- `Game`: This would be composed of the player(s), current room and score.
+- `Sprite`: This is our abstract game character class.
+- `Room`: This represented instances of an arena or level.
+- `Player`: The playable character, AstroCat, extending Sprite.
+- `Mob`: Enemy characters, extending Sprite.
 
 
-In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (See Fig B):
+In the following development sprints, this base design was extended to accommodate additional requirements identified in sprint reviews and continuous user testing. Notable additions were (See Fig. B):
 
-- `GameObject`: our core abstract class that represents any “thing” in the game – supplying them with a hitbox and position 
-- `Tile`: represented each square block in the room, this facilitated our random generation of walls and traps 
-- `Handler`/`Generator` classes: this delegated responsibility from the Room class to facilitate more flexible behaviour across rooms. 
-- `Utility`/`Static` classes: allowed us to split UI and non-game elements such as the menu/settings/transitions away from the gameplay logic code. These included: 
-  - `GameOver`: creates the game over screen 
-  - `Menu`: game menu screen and logic 
-  - `Settings`: settings and how to play pages 
-  - `GameUI`: drew enemy health bars and scores
+- `GameObject`: Our core abstract class that represents any “thing” in the game – supplying them with a hitbox and position.
+- `Tile`: Represented each square block in the room, this facilitated our random generation of walls and traps.
+- `Handler`/`Generator` classes: This delegated responsibility from the Room class to facilitate more flexible behaviour across rooms. 
+- `Utility`/`Static` classes: Allowed us to split UI and non-game elements such as the menu/settings/transitions away from the gameplay logic code. These included: 
+  - `GameOver`: Creates the game over screen.
+  - `Menu`: Game menu screen and logic.
+  - `Settings`: Settings and 'How to Play' pages.
+  - `GameUI`: Draws enemy health bars and score.
 
 
 <div align="center">
@@ -261,13 +258,11 @@ In the following development sprints, this base design was extended to accommoda
 
 </div>
 
-
-
 ### Behavioural Diagrams
 
 Following on from the class diagram, drawing up a sequence diagram allowed us to model the interactions between different objects in the game and the order in which they occurred.
 
-In a typical gameplay loop, a room would be created, which would spawn mobs. The player would then have to shoot at the mobs and kill them. Once the player had killed all the mobs in the room, the game would then generate a new room, repeating this sequence. This is visualised in the diagram below (See Fig C) – where Game and Player are global variables persisting through the runtime states, interacting with the different objects of finite lifetimes.
+In a typical gameplay loop, a room would be created, which would spawn mobs. The player would then have to shoot at the mobs and kill them. Once the player had killed all the mobs in the room, the game would then generate a new room, repeating this sequence. This is visualised in the diagram below (See Fig. C) – where Game and Player are global variables persisting through the runtime states, interacting with the different objects of finite lifetimes.
 
 <div align="center">
 
@@ -275,7 +270,6 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 <img src="https://github.com/user-attachments/assets/84e29cdf-692c-44ec-8789-52366a62b0a4" width="1400">
 
 </div>
-
 
 ## Implementation
 
@@ -285,13 +279,13 @@ Infinite, procedurally generated rooms are a key aspect of roguelike games (Harr
 
 The rooms in AstroCat are created using a 2D array, with each element containing a tile object. The dimensions of the room are defined as constant values: 50 tiles wide and 37 tiles high. The dimensions of the tiles are also constant, with all of them being 16x16 squares. The size of the room on the screen is therefore 800x592, which is as close to the resolution of the game space of 800x600 as possible, without having assets cut off by the room boundaries. 
 
-Each tile also has a defined type, either being a wall, floor or trap tile. As JavaScript does not have native support for enumerated types, the tile variants were defined using plain objects, with integer values representing each (e.g. ```0 = FLOOR```, ```1 = WALL``` etc.). 
+Each tile also has a defined type, either being a wall, floor or trap tile. As JavaScript does not have native support for enumerated types, the tile variants were defined using plain objects, with integer values representing each (e.g. `0 = FLOOR`, `1 = WALL` etc.). 
 
 There are two separate room classes - one for the main singleplayer/co-operative modes, and another for the PvP game mode, with both classes sharing two common classes; One for generating the rooms, and the other for handling certain events or interactions that occur within the rooms. 
 
 Having shared helper classes was something we implemented during one of our refactoring sessions to make our codebase more DRY, reducing redundant methods across room types. 
 
-Upon initialization, the room generator populates the empty ```roomLayout``` array, placing walls around the two outer edges. It then moves through ```x``` and ```y``` positions in increments of four, determining whether walls should be placed and rolling a random number to set the number of wall shapes in each sector. If a wall is added, another probability check determines its shape: square, 'L', or upside-down 'L'. To avoid rooms being too symmetrical, each shape is given a random width, height, and positional offset.
+Upon initialization, the room generator populates the empty `roomLayout` array, placing walls around the two outer edges. It then moves through `x` and `y` positions in increments of four, determining whether walls should be placed and rolling a random number to set the number of wall shapes in each sector. If a wall is added, another probability check determines its shape: square, 'L', or upside-down 'L'. To avoid rooms being too symmetrical, each shape is given a random width, height, and positional offset.
 
 A 'buffer' zone prevents walls from being added too close to the outer boundaries, ensuring players can access the exit. If a wall overlaps this buffer, its position is further adjusted until the full shape can be placed within the room.
 
@@ -357,6 +351,7 @@ The tables below display all the objects/effects in the game, with their corresp
 | **Overheat** | <img src="https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d" width="250" height="250" /> | • Overheat Gain Rate<br>• Overheat Decay<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
 
 </div>
+<br>
 
 Another interesting aspect of AstroCat's gameplay is its adaptive difficulty and mob spawning system. 
 
@@ -366,7 +361,7 @@ Players can be classified as either 'aggressive' (measured by how frequently the
 
 This profile is then assessed when determining which mobs to spawn within a room, with each mob having a specific playstyle they best counter, which increases the weighting of their spawn probability. 
 
-This creates a much more dynamic, tactical and strategic style of gameplay, and was heavily inspired by the 'chess-like shooter' system found within *'Doom Eternal'* (Jenkins, 2020). 
+This creates a much more dynamic, tactical and strategic style of gameplay, and was heavily inspired by the 'chess-like shooter' system found within *'Doom Eternal'* (Jenkins, 2020).
 
 ## Evaluation
 
@@ -397,6 +392,7 @@ Two main tasks were evaluated to assess player experience across different game 
 | **Navigation** | Players struggled with precise movement and frequently collided with environmental objects |
 
 </div>
+<br>
 
 <div align="center">
 
@@ -416,11 +412,11 @@ Two main tasks were evaluated to assess player experience across different game 
 
 #### Key Issues Identified
 
-1. **Wall Collision**: Players frequently get stuck on walls
-2. **Movement Speed**: Character speed may be too high for precise control
-3. **Mechanics Consistency**: Enemies can traverse walls that block players, creating perceived unfairness
-4. **Objective Clarity**: Players don't know what the goal is
-5. **Engagement**: Initial interest deteriorates during extended play
+1. **Wall Collision**: Players frequently get stuck on walls.
+2. **Movement Speed**: Character speed may be too high for precise control.
+3. **Mechanics Consistency**: Enemies can traverse walls that block players, creating perceived unfairness.
+4. **Objective Clarity**: Players don't know what the goal is.
+5. **Engagement**: Initial interest deteriorates during extended play.
 
 ### Heuristic Evaluation
 
@@ -430,14 +426,18 @@ The evaluation was conducted during week 7 with 5 participants. The users spent 
 
 #### Results
 
+<div align="center">
+
 | Interface Issue | Description | Heuristic Violated | Frequency(0-4) | Impact(0-4) | Persistence(0-4) | Severity(Avg) | Issue Link |
 |:--------------:|:------------|:-------------------|:-------------:|:-----------:|:--------------:|:-----------------:|:-------------:|
 | 🔴 **Sticky walls** | Collision logic between players and walls needs enhancement | Flexibility and efficiency of use | 4 | 4 | 3 | **3.7** | [Issue #50](https://github.com/UoB-COMSM0166/2025-group-28/issues/50) |
 | 🟠 **Too easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
-| 🟠 **Progress/goal tracking** | Need to show health bar, SlowMeow percentage, and overheating bar | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
-| 🟡 **Limited enemy variety** | Need more types of mobs with standardized artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) [#127, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/127) [#54](https://github.com/UoB-COMSM0166/2025-group-28/issues/54) |
+| 🟠 **Progress/goal tracking** | Need to show health bar, Slow Meow percentage, and weapon heat meter | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
+| 🟡 **Limited enemy variety** | Need more types of mobs with standardised artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/112) [#127, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/127) [#54](https://github.com/UoB-COMSM0166/2025-group-28/issues/54) |
 | 🟡 **Single control scheme** | Using standard WASD to move, but some players might prefer arrow keys | Recognition rather than recall, User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
-| 🟢 **Game over screen** | Bugs in game over screen | Help users recognize, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
+| 🟢 **Game over screen** | Bugs in game over screen | Help users recognise, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
+
+</div>
 
 **Severity Colour Legend:**
 - 🔴 High (3.4-4.0)
@@ -450,7 +450,8 @@ The evaluation was conducted during week 7 with 5 participants. The users spent 
 ### NASA TLX and System Usability Scale (SUS) Evaluation
 
 #### Methodology
-The evaluation was conducted during week 8 of development with 10 participants testing both difficulty modes (Easy and Medium). Participants completed standardized NASA Task Load Index (TLX) and System Usability Scale (SUS) questionnaires after gameplay sessions to assess cognitive load and overall usability.
+
+The evaluation was conducted during week 8 of development with ten participants testing two of our three difficulty modes (Easy and Medium). Participants completed standardised NASA Task Load Index (TLX) and System Usability Scale (SUS) questionnaires after gameplay sessions to assess cognitive load and overall usability.
 
 #### NASA Task Load Index (TLX) Results
 
@@ -552,7 +553,7 @@ We followed the Agile Manifesto, focusing on the agile principles:
 - We delivered working software frequently, from our MVP to our many updated versions, AstroCat has existed in playable form since early February and has had many updates over the weeks. Often, we would end up releasing new working versions of the product multiple times a week, each with visionary features. 
 - We have reflected regularly on our performance. We did so throughout sprints during stand-up meetings and by having sprint retrospective meetings at the end of each sprint.  
 - We built our team around motivated individuals. We are all high achieving students, and we all listed our effort as 100% for the team building exercise. We are like minded in our commitment to making the game as good as it can possibly be and have all been very devoted to it throughout. 
-- We also took care to reduce unnecessary work and technical debt. Code was refactored where appropriate, such as adapting ```makeInvincible``` from a hard-coded value to a flexible, reusable function depending on the game mode.
+- We also took care to reduce unnecessary work and technical debt. Code was refactored where appropriate, such as adapting `makeInvincible` from a hard-coded value to a flexible, reusable function depending on the game mode.
 - We paid continual attention to technical efforts. Where relevant, the team refactored code, adding functionalities to methods, adapting them to be reused for other features.
 - We worked at a sustainable and adaptive pace. Members of the team were consistently adding code or assets during sprints, aligning our tasks to realistic timelines and structuring them around personal or common commitments. 
 
@@ -627,11 +628,13 @@ Overall, AstroCat’s, modular design, and procedural mechanics provide a sustai
 
 ### Environmental Sustainability
 
-During the development of AstroCat, we became conscious of how the decisions we made had an impact on our environment. In some cases, performance issues we encountered with our game turned out to also be environmental issues, due to the relationship between memory consumption and both user experience and energy usage. This resulted in us considering how changing our use of assets (images, gifs, etc.) could reduce the environmental impact of our game, and improve game performance. We consulted the Green Software Patterns catalogue, and decided to incorporate the following in to the design of our game: 
+During the development of AstroCat, we became conscious of how the decisions we made had an impact on our environment. In some cases, performance issues we encountered with our game turned out to also be environmental issues, due to the relationship between memory consumption and both user experience and energy usage. This resulted in us considering how changing our use of assets (images, gifs, etc.) could reduce the environmental impact of our game, and improve game performance. We consulted the Green Software Patterns catalogue, and decided to incorporate the following into the design of our game: 
 
-Minimising use of GIFs - as highlighted here, GIFs are an outdated and memory-hungry means of displaying animated content – more modern formats such as MP4s etc. consume less memory for the same quality and are therefore more energy efficient. The Green Software Foundation's Green Software Patterns recommened [deprecating GIFs in favour of MP4s](https://patterns.greensoftware.foundation/catalog/web/deprecate-gifs).
+#### Minimising the Use of GIFs
 
-We converted our looping main menu animation from a GIF to a mp4 video. Our initial menu backgrond was a gif of nearly 90 MB, whilst an equivalent length and resolution MP4 occupied less than a quarter of that size (18 MB). We used a Firefox plugin (Carbonanalyser) to estimate the energy consumption of our game with our original menu background as a GIF, and then did the same with the MP4. Our results below show how this change reduced energy consumption: 
+GIFs are an outdated and memory-hungry means of displaying animated content – more modern formats (such as MP4s etc.) consume less memory for the same quality and are therefore more energy efficient. The Green Software Foundation's 'Green Software Patterns' recommend [deprecating GIFs in favour of MP4s](https://patterns.greensoftware.foundation/catalog/web/deprecate-gifs).
+
+We converted our looping main menu animation from a GIF to a mp4 video. Our initial menu backgrond was a gif of nearly 90 MB, whilst an equivalent length and resolution MP4 occupied less than a quarter of that size (18 MB). We used a Firefox plugin ([Carbonanalyser](https://addons.mozilla.org/fr/firefox/addon/carbonalyser/)) to estimate the energy consumption of our game with our original menu background as a GIF, and then did the same with the MP4. Our results below show how this change reduced energy consumption: 
 
 <br>
 
@@ -641,7 +644,7 @@ We converted our looping main menu animation from a GIF to a mp4 video. Our init
 
 This has a postive impact on AstroCat's [Software Carbon Intensity](https://sci.greensoftware.foundation) score by reducing the 'E' (energy) component in the score's formula (**SCI = (E * I) + M per R**). Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further, we created a smaller background video more inline with the game's style (using around 1.5 MB).
 
-#### Trade-off: GIFs versus native animation:
+**Trade-off: GIFs versus native animation:**
 
 Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat. AstroCat's responsive animation is implemented by manipulating the frame range being played of a single 20-frame GIF of AstroCat, which contains all the sprite's possible movements. This proved to be an effective way of having AstroCat's movement and appearence respond to user inputs, only requiring a few lines of code to implement:
 
@@ -664,17 +667,14 @@ The AstroCat gif requires 10 KB of memory. To implement the same complexity of a
 
 </div>
 
-**Reducing Request Counts** 
+#### Reducing Request Counts
 
-Because of our technique of manipulating GIFs to provide animation for AstroCat and other game sprites, our game supports another Green Software Foundation pattern - [keeping request counts low](https://patterns.greensoftware.foundation/catalog/web/keep-request-counts-low). Even if the difference in memory size between one GIF and the 20 PNG images it would take to acheieve the same level of animation is not massive, the browser only has to make a single resource request once (to load the GIF), rather than 20 or more requests to load a larger range of smaller images. This has a positive impact on our games SCI score by reducing the engery expended making requests, and also reduces the storage size of the page by reducing the number of files needed to be stored.
+Because of our technique of manipulating GIFs to provide animation for AstroCat and other game sprites, our game supports another Green Software Foundation pattern - [keeping request counts low](https://patterns.greensoftware.foundation/catalog/web/keep-request-counts-low). Even if the difference in memory size between one GIF and the 20 PNG images it would take to acheieve the same level of animation is not massive, the browser only has to make a single resource request once (to load the GIF), rather than 20 or more requests to load a larger range of smaller images. This has a positive impact on our game's SCI score by reducing the energy expended making requests, and also reduces the storage demands of the page by reducing the number of files that need to be stored.
 <br>
 
-**Optimising Image Size**
+#### Optimising Image Size
 
-As demonstrated above, the assets used in AstroCat do not consume more space than required. This is another [web pattern](https://patterns.greensoftware.foundation/catalog/web/properly-sized-images) from the Green Software Foundation catalog.  One way we acheive this is by fixing the canvas size of the game to 950px x 800px, meaning that our assets do not need to be scaled with different device screen resolutions, and are instead designed to be suitable for our fixed canvas size. This avoids creating larger-resolution assets that then have to be scaled down for smaller screens - in fact, some of our less-detailed assets are displayed at a slightly larger resolution than their original dimensions. For instance, the 'heart' pickup is sized to 40 x 40 for display, but the underlying asset is a 20x20 GIF (its good to keep GIFs as small as possible, as discussed above).  The trade-off is that the game cannot be 'full screen', but this is inline with our vsiual style inspired by old Roguelike games. Optimising image size reduces the energy comnsumed by our game, as the browser does not load oversized images it does not require.
-
-
-
+As demonstrated above, the assets used in AstroCat do not consume more space than required. This is another [web pattern](https://patterns.greensoftware.foundation/catalog/web/properly-sized-images) from the Green Software Foundation catalogue. One way we acheive this is by fixing the canvas size of the game to 950px x 800px, meaning our assets do not need to be scaled with different device screen resolutions, and are instead designed to be suitable for our fixed canvas size. This avoids creating larger-resolution assets that then have to be scaled down for smaller screens - in fact, some of our less-detailed assets are displayed at a slightly larger resolution than their original dimensions. For instance, the 'heart' pickup is sized to 40 x 40 for display, but the underlying asset is a 20x20 GIF (it's good practice to keep GIFs as small as possible, as discussed above). The trade-off is that the game cannot be 'fullscreen', but this is inline with our visual style inspired by old roguelike games. Optimising image size reduces the energy consumed by our game, as the browser does not load oversized images it does not require.
   
 ### Social Sustainability and Accessibility
 
@@ -693,7 +693,7 @@ While these features significantly enhance the inclusivity and usability of the 
 
 ## Conclusion
 
-We greatly enjoyed working together to deliver AstroCat, and we're proud of the game we have created - each one of us has our own ideas, designs, and technical breakthroughs woven in to the code of the game. None of us had any real experience in creating web-based games, so the development process was full of learning-through-doing and working together to find out, often through trial and error, how to achieve the functionality we wanted.
+We greatly enjoyed working together to deliver AstroCat, and we're proud of the game we have created - each one of us has our own ideas, designs, and technical breakthroughs woven into the code of the game. None of us had any real experience in creating web-based games, so the development process was full of learning-through-doing and working together to find out, often through trial and error, how to achieve the functionality we wanted.
 
 This was the first time any of us had worked collaboratively on software, and a key lesson we took away was the importance of both technical and organisational processes in creating software as a team. For example, we initally found using git and branches confusing, and in the early days we were each using a separate directory to commit code, before one person worked to integrate it into /docs. However, as we got the hang of git and using branches, we all became great advocates as it helped us avoid breaking changes in production, and enabled us to try out features without having to commit them to our main branch. 
 
