@@ -66,7 +66,9 @@
 
 Our game, *'AstroCat'*, follows a rather adventurous cat who finds themself aboard a spaceship. To explore the endless rooms of their new galactic home, they must battle the relentless hordes of space dogs that stand in their way...
 
-The game can be played with either one or two players using two control schemes on the same keyboard. Your objective is to kill all of the evil enemy space dogs and progress to the next room. These canine foes come in various forms – some can fire projectiles, while others can unpredictably teleport around the room. AstroCat’s gun will overheat and temporarily stop working if you’re too trigger-happy, but defeated enemies can drop health and energy items that can be collected to restore vitality and your weapon's condition. There is no endgame – the aim is simply to get as far as you can, because once you’re dead, it’s straight back to the beginning!
+The game can be played with either one or two players using two control schemes on the same keyboard. Your objective is to kill all of the evil enemy space dogs and progress to the next room. These canine foes come in various forms – some can fire projectiles, while others can unpredictably teleport around the room. 
+
+AstroCat’s gun will overheat and temporarily stop working if you’re too trigger-happy, but defeated enemies can drop health and energy items that can be collected to restore vitality and your weapon's condition. There is no endgame – the aim is simply to get as far as you can, because once you’re dead, it’s straight back to the beginning!
 
 Despite this, AstroCat has a special ability that gives the gameplay a unique twist: 'Slow Meow'. This slows down all enemies and projectiles for a short period of time, but AstroCat can still move around like a cat on a hot tin roof! Once used, charge is gained towards the ability through each enemy killed.
 
@@ -84,7 +86,7 @@ Beyond gameplay, AstroCat embraces a retro aesthetic, taking cues from classic a
  
 | <img src="https://github.com/user-attachments/assets/c82de817-ed26-4977-a3ad-9957ed648ab6" width="600"> |
 | :--: |
-| *Screenshot of Atari ST version of 'Rogue' (1986) from [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)* |
+| *Screenshot of Atari ST version of 'Rogue' (1986) <br>Source: [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)* |
 
 </div>
 
@@ -94,9 +96,13 @@ The first stage of our requirements gathering process was to identify the kind o
 
 ### Idea Development
 
-| ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
+<div align="center">
+
+| <img width = "450" src="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517"> | <img width = "450" src="https://i0.wp.com/scottishgames.net/wp-content/uploads/2012/11/bloons-td-5-screenshot-6.jpg"> |
 | :--: | :--: |
-| *'The Binding of Isaac' - Note the top-down viewpoint and room game space* | *'Bloons TD' - A typical tower defence game* |
+| *'The Binding of Isaac' <br>(Note the top-down viewpoint and room game space)* | *'Bloons TD' <br>(A typical tower defence game)* |
+
+</div>
 
 At first, we were most inspired by the idea of creating a tower-defence game, taking inspiration from titles such as *'Bloons TD'*. However, undertaking our first stage of requirements engineering using paper-prototypes (the first time we had exposed our ideas to others), caused us to reconsider our direction. 
 
@@ -179,13 +185,13 @@ We assessed the effort required to implement versus the projected benefit of the
 
 | Feature | Effort | Value | MoSCoW bucket | Related Epic | 
 | :------------: | :--------: | :-------: | :---------------: | :------------------: |
-| **Offline Multiplayer** | Medium | Very High | 🟢 Must Have | [MVP Multiplayer](https://github.com/orgs/UoB-COMSM0166/projects/102?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) |
-| **Online Multiplayer**  | Extremely High | High | 🔴 Won't Do | N/A|
-| **Audio Cues** | Low | Medium | ⚪ Should Have | [Audio Integration](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103521777&issue=UoB-COMSM0166%7C2025-group-28%7C119)|
-| **Child Mode** | Low | Low | 🟡 Could Have | [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
-| **Difficulty Ranges *(Casual Players to Pro Players)*** | High | Very High | 🟢 Must Have | [Progressive Difficulty](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103507450&issue=UoB-COMSM0166%7C2025-group-28%7C115) 
-| **Customisable Controls** | Medium | Medium | 🟡 Could Have | [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148) |
-| **Player vs Player Mode** | Medium | High | ⚪ Should Have | [PVP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107) |
+| **Offline Multiplayer** | Medium | Very High | 🟢 <br>Must Have | [MVP Multiplayer](https://github.com/orgs/UoB-COMSM0166/projects/102?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) |
+| **Online Multiplayer**  | Extremely High | High | 🔴 <br>Won't Do | N/A|
+| **Audio Cues** | Low | Medium | 🟠 <br>Should Have | [Audio Integration](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103521777&issue=UoB-COMSM0166%7C2025-group-28%7C119)|
+| **Child Mode** | Low | Low | 🟡 <br>Could Have | [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
+| **Difficulty Ranges *(Casual Players to Pro Players)*** | High | Very High | 🟢 <br>Must Have | [Progressive Difficulty](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103507450&issue=UoB-COMSM0166%7C2025-group-28%7C115) 
+| **Customisable Controls** | Medium | Medium | 🟡 <br>Could Have | [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148) |
+| **Player vs Player Mode** | Medium | High | 🟠 <br>Should Have | [PVP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107) |
 
 </div>
 
@@ -368,7 +374,7 @@ This creates a much more dynamic, tactical and strategic style of gameplay, and 
 
 ### Think-Aloud User Evaluation
 
-Two main tasks were evaluated to assess player experience across different game modes and control configurations. Players were encouraged to express their thoughts as they played, which were noted down. Results are summarised below:
+Two main tasks were evaluated to assess player experience across different game modes and control configurations. Players were encouraged to express their thoughts as they played, which were noted down. The results are summarised below:
 
 #### Task 1: Single-Player Mode
 - Navigate menu and select single-player option.
@@ -435,7 +441,7 @@ The evaluation was conducted during week 7 with five participants. The users spe
 | 🟠<br> **Too Easy** | Need more challenging levels | Consistency and standards | 3 | 2 | 4 | **3.0** | [Issue #115](https://github.com/UoB-COMSM0166/2025-group-28/issues/115) |
 | 🟠<br> **Progress/Goal Tracking** | Need to show health bar, Slow Meow percentage, and weapon heat meter | Visibility of system status | 2 | 2 | 4 | **2.7** | [Issue #137](https://github.com/UoB-COMSM0166/2025-group-28/issues/137) |
 | 🟡<br> **Limited Enemy Variety** | Need more types of mobs with standardised artwork style | Consistency and standards | 1 | 1 | 3 | **1.7** | [Issues #112, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/112)<br> [#127, ](https://github.com/UoB-COMSM0166/2025-group-28/issues/127)<br> [#54](https://github.com/UoB-COMSM0166/2025-group-28/issues/54) |
-| 🟡<br> **Single Control Scheme** | Using standard WASD to move, but some players may prefer arrow keys | Recognition rather than recall, <br>User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
+| 🟡<br> **Single Control Scheme** | Using standard WASD to move, but some players may prefer arrow keys | Recognition rather than recall <br><br>User control and freedom | 2 | 2 | 1 | **1.7** | [Issue #148](https://github.com/UoB-COMSM0166/2025-group-28/issues/148)|
 | 🟢<br> **Game Over Screen** | Bugs in game over screen | Help users recognise, diagnose and recover from errors | 1 | 1 | 1 | **1.0** | [Issue #116](https://github.com/UoB-COMSM0166/2025-group-28/issues/116) |
 
 </div>
@@ -529,7 +535,7 @@ To validate the observed differences between difficulty modes, we conducted a Wi
 - **Test Statistic**: W = 7.5 for both TLX and SUS analyses
 - **Sample Size**: N = 10
 - **Significance Level**: α = 0.05
-- **Critical Value**: According to the Wilcoxon table below, the critical value for N=10 at α=0.05 is 8
+- **Critical Value**: According to the Wilcoxon table below, the critical value for N = 10 at α = 0.05 is 8
 
 <div align="center">
 
@@ -641,19 +647,13 @@ GIFs are an outdated and memory-hungry means of displaying animated content – 
 
 We converted our looping main menu animation from a GIF to a mp4 video. Our initial menu backgrond was a gif of nearly 90 MB, whilst an equivalent length and resolution MP4 occupied less than a quarter of that size (18 MB). We used a Firefox plugin ([Carbonanalyser](https://addons.mozilla.org/fr/firefox/addon/carbonalyser/)) to estimate the energy consumption of our game with our original menu background as a GIF, and then did the same with the MP4. Our results below show how this change reduced energy consumption: 
 
-<br>
-
 ![Carbon Usage](https://github.com/user-attachments/assets/4a2e16d4-7e46-42d2-b165-367314c35649)
-
-<br>
 
 This has a postive impact on AstroCat's [Software Carbon Intensity](https://sci.greensoftware.foundation) score by reducing the 'E' (energy) component in the score's formula (**SCI = (E * I) + M per R**). Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further, we created a smaller background video more inline with the game's style (using around 1.5 MB).
 
 **Trade-off: GIFs versus native animation:**
 
 Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat. AstroCat's responsive animation is implemented by manipulating the frame range being played of a single 20-frame GIF of AstroCat, which contains all the sprite's possible movements. This proved to be an effective way of having AstroCat's movement and appearence respond to user inputs, only requiring a few lines of code to implement:
-
-<br>
 
 <div align="center">
 
@@ -687,7 +687,7 @@ AstroCat was developed with social sustainability at its core, aiming to create 
 
 To accommodate visually impaired users, AstroCat avoids relying on colour-based cues. All in-game mobs are uniquely designed in both appearance and sound, allowing players to distinguish between them using auditory and visual differences rather than colour alone. This enhances accessibility for players with limited or no colour perception.
 
-The game also supports social gameplay through modes tailored for paired users, such as siblings or friends. The inclusion of Co-op and Player vs. Player (PvP) modes promotes shared experiences and interactive fun. Additionally, AstroCat addresses varying skill levels and player engagement styles by offering multiple difficulty settings. Competitive gamers can challenge themselves with the intense "Apex" difficulty, while casual players can enjoy a more relaxed experience through the "Kitten" difficulty.
+The game also supports social gameplay through modes tailored for paired users, such as siblings or friends. The inclusion of Co-op and Player vs. Player (PvP) modes promotes shared experiences and interactive fun. Additionally, AstroCat addresses varying skill levels and player engagement styles by offering multiple difficulty settings. Competitive gamers can challenge themselves with the intense 'Apex' difficulty, while casual players can enjoy a more relaxed experience through the 'Kitten' difficulty.
 
 For younger audiences, particularly users under the age of 13, a dedicated 'Child Mode' is available. This mode disables blood effects and gore sounds to ensure a more age-appropriate, family-friendly gaming environment.
 
