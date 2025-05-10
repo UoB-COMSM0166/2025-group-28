@@ -60,7 +60,9 @@
 
 ## Introduction
 
-![Untitled-4](https://github.com/user-attachments/assets/4e9927a0-c3e3-43a6-b144-0e3dbb921435)
+![440873219-4e9927a0-c3e3-43a6-b144-0e3dbb921435](https://github.com/user-attachments/assets/18dc32f5-a289-44cc-bfd8-33cd62654c73)
+
+<br>
 
 Our game, *'AstroCat'*, follows a rather adventurous cat who finds themself aboard a spaceship. To explore the endless rooms of their new galactic home, they must battle the relentless hordes of space dogs that stand in their way...
 
