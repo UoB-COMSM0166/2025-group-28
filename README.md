@@ -62,7 +62,7 @@
 
 ![Untitled-4](https://github.com/user-attachments/assets/4e9927a0-c3e3-43a6-b144-0e3dbb921435)
 
-Our game, 'AstroCat', follows a rather adventurous cat who finds themself aboard a spaceship. To explore the endless rooms of their new galactic home, they must battle the relentless hordes of space dogs that stand in their way...
+Our game, *'AstroCat'*, follows a rather adventurous cat who finds themself aboard a spaceship. To explore the endless rooms of their new galactic home, they must battle the relentless hordes of space dogs that stand in their way...
 
 The game can be played with either one or two players using two control schemes on the same keyboard. Your objective is to kill all of the evil enemy space dogs and progress to the next room. These canine foes come in various forms – some can fire projectiles, while others can unpredictably teleport around the room. AstroCat’s gun will overheat and temporarily stop working if you’re too trigger-happy, but defeated enemies can drop health and energy items that can be collected to restore vitality and your weapon's condition. There is no endgame – the aim is simply to get as far as you can, because once you’re dead, it’s straight back to the beginning!
 
@@ -76,13 +76,13 @@ Despite this, AstroCat has a special ability that gives the gameplay a unique tw
 
 AstroCat draws inspiration from 2D roguelike games, particularly *'The Binding of Isaac'*, incorporating procedurally-generated environments and a ‘permanent death’ mechanic. A key gameplay influence is the confined, small-room structure, presented from a top-down perspective. 
 
-Beyond gameplay, AstroCat embraces a retro aesthetic, taking cues from classic arcade and early video games, featuring pixel-art assets and fonts, as well as a nostalgic soundscape, such as that found in the namesake of the roguelike genre - Rogue:
+Beyond gameplay, AstroCat embraces a retro aesthetic, taking cues from classic arcade and early video games, featuring pixel-art assets and fonts, as well as a nostalgic soundscape, such as that found in the namesake of the roguelike genre - *'Rogue'*:
 
 <div align="center">
  
 | <img src="https://github.com/user-attachments/assets/c82de817-ed26-4977-a3ad-9957ed648ab6" width="600"> |
 | :--: |
-| *Screenshot of Atari ST version of Rogue (1986) from [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)* |
+| *Screenshot of Atari ST version of 'Rogue' (1986) from [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)* |
 
 </div>
 <br>
@@ -695,15 +695,15 @@ While these features significantly enhance the inclusivity and usability of the 
 
 We greatly enjoyed working together to deliver AstroCat, and we're proud of the game we have created - each one of us has our own ideas, designs, and technical breakthroughs woven into the code of the game. None of us had any real experience in creating web-based games, so the development process was full of learning-through-doing and working together to find out, often through trial and error, how to achieve the functionality we wanted.
 
-This was the first time any of us had worked collaboratively on software, and a key lesson we took away was the importance of both technical and organisational processes in creating software as a team. For example, we initally found using git and branches confusing, and in the early days we were each using a separate directory to commit code, before one person worked to integrate it into /docs. However, as we got the hang of git and using branches, we all became great advocates as it helped us avoid breaking changes in production, and enabled us to try out features without having to commit them to our main branch. 
+This was the first time any of us had worked collaboratively on software, and a key lesson we took away was the importance of both technical and organisational processes in creating software as a team. For example, we initally found using git and branches confusing, and in the early days we were each using a separate directory to commit code, before one person worked to integrate it into /docs. However, as we got to grips with git and using branches, we all became great advocates as it helped us avoid breaking changes in production, and enabled us to test potential features locally, without having to commit them to our main branch. 
 
-We implemented change control policies for our GitHub repo, which meant someone else had to approve our code before a pull request could be merged, because we had learnt how effective change control had enabled us to deliver a great product collaboratively. Equally, we learnt how important managing our work was. At first, it was easy to see Kanban and user stories as somehwat overkill, but as the complexity of the system grew and we started to find defects or think of enhancements, having a system to record, assign, and track these items using our Kanban board became essential for us to able to address them.
+We implemented change control policies for our GitHub repo, which meant someone else had to approve our code before a pull request could be merged, because we had learnt how effective change control had enabled us to deliver a great product collaboratively. Equally, we learnt how important managing our work was. At first, it was easy to see Kanban and user stories as somewhat overkill, but as the complexity of the system grew and we started to find defects or think of enhancements, having a system to record, assign, and track these items using our Kanban board became essential for us to able to address them.
 
-In our other units (C and Java), we'd all been taught about the importance of good code structure/well designed classes, DRY code, informative variable/function names, and comments - and when completing small, individual assignments the necessity of these principles was quite abstract. However, working together on this larger project in which none of us understood all of the code, meant these development principles now seemed utterly essential for us to effectively work together on the same codebase. 
+In our other programming-centric units (e.g. C and Java), we'd been taught about the importance of good code structure, well-designed classes, DRY code, informative variable and function names, and comments - and when completing small, individual assignments the necessity of these principles appeared quite abstract. However, working together on this larger project in which some of us had greater understanding of areas of the code than others, meant these development principles now seemed essential for us to effectively work on the same codebase. 
 
-* * **  Reflect on challenges * * *
+Throughout the course of the project, we encountered numerous difficulties and challenges, such as those highlighted in the [Implementation](#implementation) section above. While some of these took multiple sprints to address, thanks to our efficient collaborative workflow, we were able to solve everything we identified by the end of development. This resulted in a final product that we believe to be well-polished, bug-free and mostly feature-complete.
  
-Future work on AstroCat would involve integrating some of the features we considered, but assessed to be too complex to deliver in our limited timeframe. For example, our online multiplayer feasability showed that it was possible to implement given enough time, and this would be a logical next step. Creating a greater range of AstroCat designs and a variety of usable weapons, as well as more diverse challenges and shapes of room (e.g. non-square rooms, rooms with 'final bosses') would also be a plan for the future. 
+Future work on AstroCat would involve integrating some of the features we considered, but assessed to be too complex to deliver in our limited timeframe. For example, our online multiplayer feasability study showed that it was possible to implement given enough time, and this would be a logical next step. Creating a greater variety of AstroCat designs and usable weapons, as well as more diverse challenges and shapes of room (e.g. non-square rooms, rooms with 'final bosses') would also be a plan for the future. 
 
 ## Contribution Statement
 
@@ -722,7 +722,7 @@ Future work on AstroCat would involve integrating some of the features we consid
 
 ## References
 
-Bartle, R. (1996) *Hearts, Clubs, Diamonds, Spades: Players Who suit MUDS*. Availble at: https://mud.co.uk/richard/hcds.htm#1 (Accessed: 10 May 2025)
+Bartle, R. (1996) *Hearts, Clubs, Diamonds, Spades: Players Who suit MUDS*. Available at: https://mud.co.uk/richard/hcds.htm#1 (Accessed: 10 May 2025).
 
 Harris, J. (2020) *Exploring Roguelike Games*. Boca Raton: CRC Press.
 
