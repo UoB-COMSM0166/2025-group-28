@@ -87,7 +87,6 @@ Beyond gameplay, AstroCat embraces a retro aesthetic, taking cues from classic a
 | *Screenshot of Atari ST version of 'Rogue' (1986) from [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)* |
 
 </div>
-<br>
 
 ## Requirements 
 
@@ -128,6 +127,7 @@ AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game
 <br>
 Next, we thought about who might play AstroCat (the 'Gaming public' captured in our onion model), and what differing requirements they could have. We conceptualised diverse user types using a set of personas, translating their needs into epics and user stories. 
 <br>
+<br>
 Our personas and their user stories were as follows: 
 <br>
 <br>
@@ -164,12 +164,12 @@ We had more technical-focused whiteboard sessions to help identify the technical
 </div>
 
 **Summary of Feasibility Studies**
-
+<br>
 | Feature | Study Details | Outcome |
 | :--: | :--: | :--: |
 | **Same-Device Multiplayer** | Tested how p5.js would handle executing two sets of keyboard gameplay commands in parallel to move two sprites and <br> whether this would cause lag/overload the update() function and reduce performance | Platform is able to handle two parallel sets of gameplay inputs with no observable degradation of performance, <br> co-op on-device multiplayer included in MVP |
 | **Online Multiplayer** | Integrated a BaaS (backend-as-a-service) connection and used a realtime database to track positions of players and reflect these on other client | We found it was possible to integrate a Supabase database and track changes, challenges would be: <br> (a) Avoiding rate-limiting by rationing position updates <br> (b) Creating and managing multiple 2-player online sessions <br> (c) Mirroring behaviour of AI/environment across clients. Will be explored further if time permits |
-| **Procedural Graphics Generation** | We experimented with algorithmically generating different 'rooms' | This proved feasible and was included in the MVP | 
+| **Procedural Graphics Generation** | We experimented with algorithmically generating different 'rooms' | This proved feasible and was included in the MVP |
 
 ### Requirement Prioritisation
 
@@ -178,22 +178,20 @@ We assessed the effort required to implement versus the projected benefit of the
 <div align="center">
 
 | Feature | Effort | Value | MoSCoW bucket | Related Epic | 
-|------------|--------|-------|---------------|------------------|
+| :------------: | :--------: | :-------: | :---------------: | :------------------: |
 | **Offline Multiplayer** | Medium | Very High | 🟢 Must Have | [MVP Multiplayer](https://github.com/orgs/UoB-COMSM0166/projects/102?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) |
 | **Online Multiplayer**  | Extremely High | High | 🔴 Won't Do | N/A|
 | **Audio Cues** | Low | Medium | ⚪ Should Have | [Audio Integration](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103521777&issue=UoB-COMSM0166%7C2025-group-28%7C119)|
 | **Child Mode** | Low | Low | 🟡 Could Have | [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
-| **Difficulty Ranges *(Casual Players to Pro Players)*** | High | Very High | 🟢 Must Have | [Progressive Difficulty](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103507450&issue=UoB-COMSM0166%7C2025-group-28%7C115), 
+| **Difficulty Ranges *(Casual Players to Pro Players)*** | High | Very High | 🟢 Must Have | [Progressive Difficulty](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103507450&issue=UoB-COMSM0166%7C2025-group-28%7C115) 
 | **Customisable Controls** | Medium | Medium | 🟡 Could Have | [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148) |
 | **Player vs Player Mode** | Medium | High | ⚪ Should Have | [PVP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107) |
 
 </div>
-<br>
 
 With our features prioritised, we were able to visualise the boundaries and functionality of AstroCat, using our five personas to create a use case diagram. This helped us to see the relative significance of different use cases within our game - for example, as can be seen below, many of our personas' use cases involve configuring the game, validating the effort we put in to making the settings panel as usable as possible:
 
 <img src="https://github.com/user-attachments/assets/11fa5103-e973-4d0b-a781-7b7a661ba79d">
-
 <br>
 <br>
 
@@ -201,7 +199,7 @@ With our features prioritised, we were able to visualise the boundaries and func
 
 Our Agile approach to development meant we were responsive to change. Requirement engineering continued throughout our development, and we made some major changes in response to user feedback. For example:
  - During the second sprint, feedback from younger players (personified by Astrid and Sven) indicated that a player-versus-player mode would be enjoyable, and the team quickly converted this into a new epic ([Epic: PvP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107)) that was delivered successfully.
- - One requirement we did not confirm until later on in the process, was our 'twist' to make our game unique. This was not decided upon until around midway through the development timeframe, when we decided upon and implemented 'Slow Meow' ([Epic: Slow Meow](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=99330360&issue=UoB-COMSM0166%7C2025-group-28%7C62))
+ - One requirement we did not confirm until later on in the process, was our 'twist' to make our game unique. This was not decided upon until around midway through the development timeframe, when we decided upon and implemented 'Slow Meow' ([Epic: Slow Meow](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=99330360&issue=UoB-COMSM0166%7C2025-group-28%7C62)).
 
 ## Design
 
@@ -245,6 +243,7 @@ In the following development sprints, this base design was extended to accommoda
 <div align="center">
 
 **Figure A**: Class Diagram at week 4 workshop
+
 <img src="https://github.com/user-attachments/assets/7c23e660-87e8-4131-a0c0-dd7190344273" width="700">
 
 </div>
@@ -254,6 +253,7 @@ In the following development sprints, this base design was extended to accommoda
 <div align="center">
 
 **Figure B**: Class Diagram as at final sprint
+
 <img src="https://github.com/user-attachments/assets/6fd5b006-6e27-4417-a278-2b17352c75d8" width="1400">
 
 </div>
@@ -267,6 +267,7 @@ In a typical gameplay loop, a room would be created, which would spawn mobs. The
 <div align="center">
 
 **Figure C**: Example combat & room progression sequence
+
 <img src="https://github.com/user-attachments/assets/84e29cdf-692c-44ec-8789-52366a62b0a4" width="1400">
 
 </div>
@@ -678,7 +679,7 @@ Because of our technique of manipulating GIFs to provide animation for AstroCat 
 
 #### Optimising Image Size
 
-As demonstrated above, the assets used in AstroCat do not consume more space than required. This is another [web pattern](https://patterns.greensoftware.foundation/catalog/web/properly-sized-images) from the Green Software Foundation catalogue. One way we acheive this is by fixing the canvas size of the game to 950px x 800px, meaning our assets do not need to be scaled with different device screen resolutions, and are instead designed to be suitable for our fixed canvas size. This avoids creating larger-resolution assets that then have to be scaled down for smaller screens - in fact, some of our less-detailed assets are displayed at a slightly larger resolution than their original dimensions. For instance, the 'heart' pickup is sized to 40 x 40 for display, but the underlying asset is a 20x20 GIF (it's good practice to keep GIFs as small as possible, as discussed above). The trade-off is that the game cannot be 'fullscreen', but this is inline with our visual style inspired by old roguelike games. Optimising image size reduces the energy consumed by our game, as the browser does not load oversized images it does not require.
+As demonstrated above, the assets used in AstroCat do not consume more space than required. This is another [web pattern](https://patterns.greensoftware.foundation/catalog/web/properly-sized-images) from the Green Software Foundation catalogue. One way we achieve this is by fixing the canvas size of the game to 950px x 800px, meaning our assets do not need to be scaled with different device screen resolutions, and are instead designed to be suitable for our fixed canvas size. This avoids creating larger-resolution assets that then have to be scaled down for smaller screens - in fact, some of our less-detailed assets are displayed at a slightly larger resolution than their original dimensions. For instance, the 'heart' pickup is sized to 40 x 40 for display, but the underlying asset is a 20x20 GIF (it's good practice to keep GIFs as small as possible, as discussed above). The trade-off is that the game cannot be 'fullscreen', but this is inline with our visual style inspired by old roguelike games. Optimising image size reduces the energy consumed by our game, as the browser does not load oversized images it does not require.
   
 ### Social Sustainability and Accessibility
 
