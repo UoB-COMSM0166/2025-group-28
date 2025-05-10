@@ -1,11 +1,12 @@
-<div align="center">
  
 <img src="Requirements/banner.gif" width="10000">
 
-[<img src="https://github.com/user-attachments/assets/bd98ef6e-f613-4d44-b601-7af35172aa4f" width="49%">](https://uob-comsm0166.github.io/2025-group-28/)
-
-[<img src="https://github.com/user-attachments/assets/2b87e0e2-1ad3-4e5e-8f21-2f8ad740ac19" width="49%">](https://www.youtube.com/watch?v=-AkBSAz69rQ)
-</div>
+<a href="https://uob-comsm0166.github.io/2025-group-28/">
+<img src="https://github.com/user-attachments/assets/bd98ef6e-f613-4d44-b601-7af35172aa4f" width="49%">
+</a>
+<a href="https://www.youtube.com/watch?v=-AkBSAz69rQ">
+<img src="https://github.com/user-attachments/assets/2b87e0e2-1ad3-4e5e-8f21-2f8ad740ac19" width="49%">
+</a>
 
 ---
 
@@ -75,11 +76,10 @@ The first stage of our requirements-gathering process was to identify what kind 
 
 
 
-
-
-| ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
+|
+  ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
 | :--: | :--: |
-| *'The Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
+|*'The Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
 
 At first, we were most inspired by the idea of creating a tower-defence game, taking inspiration from titles such as *'Bloons TD'*. However, undertaking our first stage of requirements engineering using paper-prototypes (the first time we had exposed our ideas to others), caused us to reconsider our direction. Translating these two ideas to paper and stepping through the gameplay gave us greater insights into what the gameplay for each of our ideas felt like. We found that the Roguelike 2D shooter option came together much more readily to us, and was more enjoyable to prototype. This was rattified by other groups who we demonstrated the game ideas to - the 2D shooter game flowed much better than the tower-defence game. Therefore, by paper-prototyping our ideas, we were able to decide upon a 2D shooter game - which was not the outcome we expected! With this idea in hand, the key aspects of our game inherited from the Roguelike genre and specifically *The Binding of Isaac*:
 
@@ -87,6 +87,16 @@ At first, we were most inspired by the idea of creating a tower-defence game, ta
 - Permadeath (return to start of the game when killed)
 - Procedural generation of new rooms
 
+We also took some aestehtic inspiration from the namesake of the Roguelike genere (Rogue), by using tiled-based rooms and a lo-fi 1980s arcade-style feel to the assets, including the fonts and menus:
+
+<div align="center">
+ 
+|<img src="https://github.com/user-attachments/assets/c82de817-ed26-4977-a3ad-9957ed648ab6" width="600">|
+|:--:|
+|*Screenshot of Atari ST version of Rogue (1986) from [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)*|
+</div>
+
+<br> 
 
 | ![pp](Requirements/Untitled.gif) |
 |--|
@@ -104,8 +114,8 @@ AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game
 
 <br>
 <br>
-Next, we thought about who might (theoretically) play AstroCat - the 'Gaming public' captured in our onion model - and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs in to epics and user stories.
-
+Next, we thought about who might (theoretically) play AstroCat - the 'Gaming public' captured in our onion model - and what differing requirements they might have. We conceptualised diverse user types using a set of personas, translating their needs in to epics and user stories. 
+<br>
 Our personas and their user stories were as follows: 
 <br>
 <br>
@@ -121,8 +131,14 @@ Our personas and their user stories were as follows:
 
 <div align="center">
 <img  width = "49%" src="https://github.com/user-attachments/assets/e4f3b648-5a21-4536-828a-753f6f0451c0">
+ <img  width = "45%" height= "45%"  src="https://github.com/user-attachments/assets/dd2a8936-edbe-4a44-943e-4a1df5993847">
+
 </div>
 <br>
+As seen above/right, our personas can be mapped on to the Bartle Taxonomy of Player Types, a way of categorising video game players based on character theory, derived from a 1996 paper from Richard Bartle (Bartle, 1996). This can help us understand how requirments interactw with different play styles, and highlights how some user requirements (for instance, Lucy) are unrealted from gameplay feautures and are therefore important to be evenly implemented across the game (for example, we cannot assume that Lucy is not also a 'Achiever' gamer like Hans, and so must ensure accessibility requirments are extant even at the most challenging levels of the game). 
+
+<br>
+
 
 Requirements engineering involves making decisions about which requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort.
  
@@ -660,6 +676,9 @@ Future work on AstroCat would involve integrating some of the feautures that we 
 
 ## References
 
+Bartle, R. (1996) *Hearts, Clubs, Diamonds, Spades: Players Who suit MUDS*. Availble at: https://mud.co.uk/richard/hcds.htm#1 (Accessed: 10 May 2025)
+
 Harris, J. (2020) *Exploring Roguelike Games*. Boca Raton: CRC Press.
 
 Jenkins, D. (2020) *Doom Eternal hands-on preview and interview – if chess was an arcade shooter*. Available at: https://metro.co.uk/2020/01/21/doom-eternal-preview-interview-chess-arcade-shooter-12095644/ (Accessed: 2 May 2025).
+
