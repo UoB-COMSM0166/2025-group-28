@@ -162,13 +162,17 @@ We assessed the effort required to implement versus the projected benefit of the
 | Customisable Controls | Medium | Medium | Could Have 🟡| [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
 |Player vs Player mode | Medium | High | Should Have ⚪ | [PVP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107) |
 
-With our feautures prioritised, we were able to visualise the boundaries and functionality of AstroCat, using our five personas to create use case diagram:
+<br>
+
+With our feautures prioritised, we were able to visualise the boundaries and functionality of AstroCat, using our five personas to create use case diagram. This helped us to see the relative significance of different use-cases within our game - for example, as can be seen below, many of our persona's use cases involve configuring the game, validating the effort we put in to making the settings panel as usable as possible:
 
 <img src="https://github.com/user-attachments/assets/11fa5103-e973-4d0b-a781-7b7a661ba79d">
 
 
-<br> 
+<br>
+
 **Evolving Requirements**
+
 
 Our Agile approach to development meant we were responsive to change. Requirement engineering continued throughout our development, and we made some major changes in response to further user feedback. For example:
  - During the second sprint, feedback from younger plays (personified by Astrid and Sven) indicated that a player-versus-player mode would be enjoyable, and the team quickly converted this in to a new epic ([Epic: PvP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107)) that was delivered successfully.
@@ -564,19 +568,40 @@ Minimising use of GIFs - as highlighted here, GIFs are an outdated and memory-hu
 
 We converted our looping main menu animation from a GIF to a mp4 video. Our initial menu backgrond was a gif of nearly 90 MB, whilst an equivalent length and resolution MP4 occupied less than a quarter of that size (18 MB). We used a Firefox plugin (Carbonanalyser) to estimate the energy consumption of our game with our original menu background as a GIF, and then did the same with the MP4. Our results below show how this change reduced energy consumption: 
 
-![Carbon Usage](https://github.com/user-attachments/assets/051f7e57-63e7-4996-a6e7-712ba6e497d8)
+<br>
 
-This has a postive impact on AstroCat's Software Carbon Intensity score by reducing the 'E' (energy) component in the score's formula **(SCI = (E * I) + M per R)**. Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further, we created a smaller background video more inline with the game's style (using around 1.5 MB).
+![Carbon Usage](https://github.com/user-attachments/assets/4a2e16d4-7e46-42d2-b165-367314c35649)
+
+<br>
+
+This has a postive impact on AstroCat's [Software Carbon Intensity](https://sci.greensoftware.foundation) score by reducing the 'E' (energy) component in the score's formula **(SCI = (E * I) + M per R)**. Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further, we created a smaller background video more inline with the game's style (using around 1.5 MB).
 
 #### Trade-off: GIFs versus native animation:
 
 Despite the relative ineffeciency of GIFs, we used them extensively for our in-game sprites, including AstroCat. AstroCat's responsive animation is implemented by manipulating the frame range being played of a single 20-frame GIF of AstroCat, which contains all the sprite's possible movements. This proved to be an effective way of having AstroCat's movement and appearence respond to user inputs, only requiring a few lines of code to implement:
 
+<br>
+
+<div align="center">
+
 <img width="585" alt="Screenshot 2025-05-06 at 17 04 16" src="https://github.com/user-attachments/assets/48cfbcfe-7d30-4e9a-8dda-96d0ccd47770" />
+</div>
+
+<br>
 
 The AstroCat gif requires 10 KB of memory. To implement the same complexity of animation using PNGs would require 16 KB of memory, and additional energy consumption from increased code complexity to implement the animation:
 
-![astrocatM7](https://github.com/user-attachments/assets/f2dbe04f-eea6-4367-b13c-3b2c781a4a34)![astrocatM7-1 png](https://github.com/user-attachments/assets/c1dbc72e-8185-40e6-98b1-30c9542dc621)
+
+<div align="center">
+ 
+| <img src="https://github.com/user-attachments/assets/f2dbe04f-eea6-4367-b13c-3b2c781a4a34"/> |
+|--|
+|10 KB AstroCat gif, the only AstroCat asset required |
+
+</div>
+
+<br>
+
   
 ### Social Sustainability and Accessibility
 
