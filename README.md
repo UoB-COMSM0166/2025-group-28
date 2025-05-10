@@ -65,6 +65,18 @@ The game can be played with one or two players using the two control sets on the
 
 However, AstroCat has a special ability that gives the gameplay a unique twist: Slow Meow. This slows the enemies and the projectiles down, but AstroCat can still move around like a cat on a hot tin roof! This ability is recharged through killing enemies.  
 
+<br>
+
+<div align="center">
+
+<img src="https://github.com/user-attachments/assets/04f677c2-40ac-4979-93c4-b7132b96fe08">
+
+ </div>
+
+
+<br>
+
+
 AstroCat is based on 2D roguelike games, featuring distinct procedurally-generated game environments and a 'permanent death approach', especially the game *'The Binding of Isaac'*, from which we took a lot of inspiration from in terms of gameplay, such as the playing environment being confined to small rooms seen by the player from a top-down perspective. The game also takes aesthetic cues from arcade and early video games, with a retro-style soundscape and pixel-art based design assets and fonts.  
 
 ## Requirements 
@@ -652,9 +664,9 @@ The AstroCat gif requires 10 KB of memory. To implement the same complexity of a
 
 </div>
 
-**Reucing Request Counts** 
+**Reducing Request Counts** 
 
-Becuase of our technique of manipulating GIFs to provide animation for AstroCat and other game sprites, our game supports another Green Software Foundation pattern - [keeping request counts low](https://patterns.greensoftware.foundation/catalog/web/keep-request-counts-low). Even if the difference in memory size between one GIF and the 20 PNG images it would take to acheieve the same level of animation is not massive, the browser only has to make a single resource request once (to load the GIF), rather than 20 or more requests to load a larger range of smaller images. This has a positive impact on our games SCI score by reducing the engery expended making requests, and also reduces the storage size of the page by reducing the number of files needed to be stored.
+Because of our technique of manipulating GIFs to provide animation for AstroCat and other game sprites, our game supports another Green Software Foundation pattern - [keeping request counts low](https://patterns.greensoftware.foundation/catalog/web/keep-request-counts-low). Even if the difference in memory size between one GIF and the 20 PNG images it would take to acheieve the same level of animation is not massive, the browser only has to make a single resource request once (to load the GIF), rather than 20 or more requests to load a larger range of smaller images. This has a positive impact on our games SCI score by reducing the engery expended making requests, and also reduces the storage size of the page by reducing the number of files needed to be stored.
 <br>
 
 **Optimising Image Size**
