@@ -651,7 +651,18 @@ The AstroCat gif requires 10 KB of memory. To implement the same complexity of a
 |10 KB AstroCat gif, the only AstroCat asset required |
 
 </div>
+
+**Reucing Request Counts** 
+
+Becuase of our technique of manipulating GIFs to provide animation for AstroCat and other game sprites, our game supports another Green Software Foundation pattern - [keeping request counts low](https://patterns.greensoftware.foundation/catalog/web/keep-request-counts-low). Even if the difference in memory size between one GIF and the 20 PNG images it would take to acheieve the same level of animation is not massive, the browser only has to make a single resource request once (to load the GIF), rather than 20 or more requests to load a larger range of smaller images. This has a positive impact on our games SCI score by reducing the engery expended making requests, and also reduces the storage size of the page by reducing the number of files needed to be stored.
 <br>
+
+**Optimising Image Size**
+
+As demonstrated above, the assets used in AstroCat do not consume more space than required. This is another [web pattern](https://patterns.greensoftware.foundation/catalog/web/properly-sized-images) from the Green Software Foundation catalog.  One way we acheive this is by fixing the canvas size of the game to 950px x 800px, meaning that our assets do not need to be scaled with different device screen resolutions, and are instead designed to be suitable for our fixed canvas size. This avoids creating larger-resolution assets that then have to be scaled down for smaller screens - in fact, some of our less-detailed assets are displayed at a slightly larger resolution than their original dimensions. For instance, the 'heart' pickup is sized to 40 x 40 for display, but the underlying asset is a 20x20 GIF (its good to keep GIFs as small as possible, as discussed above).  The trade-off is that the game cannot be 'full screen', but this is inline with our vsiual style inspired by old Roguelike games. Optimising image size reduces the energy comnsumed by our game, as the browser does not load oversized images it does not require.
+
+
+
   
 ### Social Sustainability and Accessibility
 
