@@ -74,10 +74,7 @@ The first stage of our requirements-gathering process was to identify what kind 
 
 ### Idea Development
 
-
-
-|
-  ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
+| ![boi](https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/113200/ss_d2dd031f581bcad380ed5a6065c8908329cf1115.1920x1080.jpg?t=1643480517) | ![bh](https://image.api.playstation.com/cdn/EP2575/CUSA08065_00/FREE_CONTENTTnvCkXugey5cdBc7TzX8/1.jpg) |
 | :--: | :--: |
 |*'The Binding of Isaac' - note top-down viewpoint and room game space* | *'Bloons TD' - typical tower defence game* |
 
@@ -94,15 +91,18 @@ We also took some aestehtic inspiration from the namesake of the Roguelike gener
 |<img src="https://github.com/user-attachments/assets/c82de817-ed26-4977-a3ad-9957ed648ab6" width="600">|
 |:--:|
 |*Screenshot of Atari ST version of Rogue (1986) from [oldgames.sk](https://www.oldgames.sk/en/game/rogue/download/6672/)*|
+
 </div>
 
 <br> 
+
+<div align="center">
 
 | ![pp](Requirements/Untitled.gif) |
 |--|
 |*Footage from our paper prototyping session, a pivotal moment in our requirements engineering*|
 
-
+</div>
 
 ### Stakeholders and Users
 
@@ -139,25 +139,22 @@ As seen above/right, our personas can be mapped on to the Bartle Taxonomy of Pla
 
 <br>
 
-
 Requirements engineering involves making decisions about which requirements you can meet and which you can’t. In some cases, our stakeholders have **conflicting requirements**: Emma wants the game to be fully-playable without online multiplayer, but online multiplayer is important to Hans. We used the MoSCoW and value-to-effort approaches to help identify which requirements we would prioritise, informed by feasibility studies to understand which requirements would require a lot of time and effort.
  
 ### Feasibility Studies
 
 We had more technical-focused whiteboard sessions to help identify the technical feasibility of different ideas. In particular, we explored whether the challenge of online multiplayer was feasible to implement, and tested how procedural graphics generation could be implemented. In these earlier stages, we used a seperate portion of our repository - the [Sandbox](https://github.com/UoB-COMSM0166/2025-group-28/tree/main/projdocs/Code%20Sandbox) - to store our explorations of these challenges.
 
+<div align="center">
 
 | ![p](https://github.com/user-attachments/assets/96154fd5-7352-4b71-8e96-8b859d78ad50) |
 |--|
 |*Early experiments included integrated a Backend-as-a-Service (Supabase) to support online multiplayer* |
 
+</div>
 <br>
-<br>
-
 
 **Summary of Feasability Studies**
-
-<br>
 
 | Feature | Study Details | Outcome |
 | :--: | :--: | :--: |
@@ -168,33 +165,34 @@ We had more technical-focused whiteboard sessions to help identify the technical
 ### Requirement Prioritisation
 
 We assessed the effort required to implement versus the projected benefit of the different features:
-| Feauture | Effort | Value | MoSCoW bucket | Related Epic | 
+
+<div align="center">
+
+| Feature | Effort | Value | MoSCoW bucket | Related Epic | 
 |------------|--------|-------|---------------|------------------|
 | Offline multiplayer | Medium | Very High | Must Have 🟢| [MVP Multiplayer](https://github.com/orgs/UoB-COMSM0166/projects/102?pane=issue&itemId=98548558&issue=UoB-COMSM0166%7C2025-group-28%7C56) |
 | Online multiplayer  | Extremely High | High | Won't Do 🔴| N/A|
 | Audible cues | Low | Medium | Should Have ⚪| [Audio Integration](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103521777&issue=UoB-COMSM0166%7C2025-group-28%7C119)|
 | Child Mode | Low | Low | Could Have 🟡| [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
 | Difficulty Ranges (casual player to pro players) | High | Very High | Must Have 🟢| [Progressive Difficulty](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103507450&issue=UoB-COMSM0166%7C2025-group-28%7C115), 
-| Customisable Controls | Medium | Medium | Could Have 🟡| [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148)|
+| Customisable Controls | Medium | Medium | Could Have 🟡| [Settings](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=106412503&issue=UoB-COMSM0166%7C2025-group-28%7C148) |
 |Player vs Player mode | Medium | High | Should Have ⚪ | [PVP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107) |
 
+</div>
 <br>
 
 With our feautures prioritised, we were able to visualise the boundaries and functionality of AstroCat, using our five personas to create use case diagram. This helped us to see the relative significance of different use-cases within our game - for example, as can be seen below, many of our persona's use cases involve configuring the game, validating the effort we put in to making the settings panel as usable as possible:
 
 <img src="https://github.com/user-attachments/assets/11fa5103-e973-4d0b-a781-7b7a661ba79d">
 
-
+<br>
 <br>
 
 **Evolving Requirements**
 
-
 Our Agile approach to development meant we were responsive to change. Requirement engineering continued throughout our development, and we made some major changes in response to further user feedback. For example:
  - During the second sprint, feedback from younger plays (personified by Astrid and Sven) indicated that a player-versus-player mode would be enjoyable, and the team quickly converted this in to a new epic ([Epic: PvP](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=103387925&issue=UoB-COMSM0166%7C2025-group-28%7C107)) that was delivered successfully.
  - One requirement that we did not confirm until later on in the process was our 'twist' to make our game unique. This was not decided upon until around midway through the development timeframe, when we decided upon and implemented 'Slow Meow' ([Epic: Slow Meow](https://github.com/orgs/UoB-COMSM0166/projects/102/views/4?pane=issue&itemId=99330360&issue=UoB-COMSM0166%7C2025-group-28%7C62))
-
-<br>
 
 ## Design
 
@@ -287,9 +285,13 @@ A 'buffer' zone prevents walls from being added too close to the outer boundarie
 
 Finally, in non-PvP rooms, a door is placed at a random position along the outer wall. To create a sense of continuity, the previous room's door position is stored and compared to the potential placement within the new room. For example, if a door was previously placed on the right side of the room, the position in the next room cannot be on the left. This prevents disorienting layouts where a player enters from the left only to find the next exit on the right, preserving a consistent progression through the game world.
 
+<div align="center">
+
 | ![roomgendemo](https://github.com/user-attachments/assets/0ae788c8-5ca3-4351-82bd-d7232add9fcf) |
 | :--: |
 | *Our initial room generation implementation* |
+
+</div>
 
 ### Challenge 2: Game Balance
 
@@ -305,8 +307,10 @@ Certain features are also disabled on lower difficulties, such as the 'BuffMob' 
 
 The tables below display all the objects/effects in the game, with their corresponding attributes that required adjusting to achieve balanced gameplay:
 
-#### Sprites
+<div align="center">
 
+#### Sprites
+ 
 | Object | Visual |  Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
 | **AstroCat** | ![astrocatM7](https://github.com/user-attachments/assets/3db7a317-9fe1-4c03-840b-a99b4cbde4dc) | • Health<br>• Fire Rate<br>• Damage<br>• Speed |
@@ -317,6 +321,10 @@ The tables below display all the objects/effects in the game, with their corresp
 | **DashMob** | ![dashmob](https://github.com/user-attachments/assets/d6ebad86-dbae-4c9d-8718-d31c03a47479) | • Health<br>• Damage<br>• Speed<br>• Dash Cooldown <br>• Dash Distance |
 | **RapidFireMob** | ![rapidfiremob](https://github.com/user-attachments/assets/4637e6b1-14e7-47de-99c6-828e2d0c8e1f) | • Health<br>• Damage<br>• Speed<br>• Rapid Fire Cooldown <br>• Rapid Fire Time |
 
+</div>
+
+<div align="center">
+
 #### Items/Traps
 
 | Object | Visual | Key Balancing Attributes |
@@ -325,12 +333,18 @@ The tables below display all the objects/effects in the game, with their corresp
 | **Fish** | ![energy](https://github.com/user-attachments/assets/7ffd8c09-a20b-4a3c-87a0-1495ac2b5299) | • Drop Chance |
 | **Trap** | ![Trap](https://github.com/user-attachments/assets/905d1297-b55f-41a0-8454-2d3159a3225a) | • Damage<br>• Patterns<br>• Spawn Chance |
 
+</div>
+
+<div align="center">
+
 #### Effects
 
 | Name | Visual | Key Balancing Attributes |
 |:---------------------|:---------------------:|:---------------------|
 | **Slow Meow** | <img src="https://github.com/user-attachments/assets/506c1a83-a826-444a-b25c-6de851866f39" width="250" height="250" /> | • Build Up Rate<br>• Reduction Rate<br>• AstroCat Speed Increase<br>• Time of Effect |
 | **Overheat** | <img src="https://github.com/user-attachments/assets/14c72562-2892-41ae-a4d0-bf054b37aa3d" width="250" height="250" /> | • Overheat Gain Rate<br>• Overheat Decay<br>• AstroCat Speed Decrease<br>• Speed Regeneration Rate |
+
+</div>
 
 Another interesting aspect of AstroCat's gameplay is its adaptive difficulty and mob spawning system. 
 
@@ -360,6 +374,8 @@ Two main tasks were evaluated to assess player experience across different game 
 
 #### Results
 
+<div align="center">
+
 *Single-Player Experience*
 
 | Observation Category | Participant Feedback |
@@ -367,6 +383,10 @@ Two main tasks were evaluated to assess player experience across different game 
 | **Game Speed** | "Too fast" - AstroCat movement speed was too high for comfortable control |
 | **Collision Detection** | "Get stuck on wall", "Easy to get stuck" - collision handling needs major refinement |
 | **Navigation** | Players struggled with precise movement and frequently collided with environmental objects |
+
+</div>
+
+<div align="center">
 
 *Two-Player/Co-op Experience*
 
@@ -379,6 +399,8 @@ Two main tasks were evaluated to assess player experience across different game 
 | **Objectives** | "Oh yeah, you have to get to the door" - goal clarity issues noted |
 | **Game Balance** | "Annoying that the enemy can go through walls but not me" - perceived unfairness in movement restrictions |
 | **Hardware** | "Seemed fine on laptop keyboard" - compact keyboard layout did not significantly impact playability |
+
+</div>
 
 #### Key Issues Identified
 
@@ -420,6 +442,8 @@ The evaluation was conducted during week 8 of development with 10 participants t
 
 #### NASA Task Load Index (TLX) Results
 
+<div align="center">
+
 *Raw TLX Scores by Difficulty Level*
 
 | User ID | Easy Mode | Medium Mode | Difference |
@@ -438,6 +462,9 @@ The evaluation was conducted during week 8 of development with 10 participants t
 
 <img width = "45%" src="https://github.com/user-attachments/assets/545c05d8-5a7e-41d5-97d2-8807a0a70104">
 
+</div>
+<br>
+
 #### TLX Dimensional Analysis
 
 The unweighted TLX scores provided us with insights about the cognitive load experienced by participants. A dimensional breakdown shows:
@@ -449,6 +476,8 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 - **Mean Difference**: The average 9.8-point increase in TLX scores between Easy and Medium modes demonstrates an increase in cognitive workload, validating our difficulty scaling implementation.
 
 #### System Usability Scale (SUS) Results
+
+<div align="center">
 
 *SUS Scores by Difficulty Level*
 
@@ -468,6 +497,9 @@ The unweighted TLX scores provided us with insights about the cognitive load exp
 
 <img width = "45%" src="https://github.com/user-attachments/assets/d59cbe31-9066-43c5-bfbd-b32f7ffee11a">
 
+</div>
+<br>
+
 #### SUS Performance Analysis
 
 According to established benchmarks in usability research, SUS scores above 68 indicate above-average usability, with scores of 80+ representing excellent user experiences. Our evaluation yielded the following insights:
@@ -485,7 +517,12 @@ To validate the observed differences between difficulty modes, we conducted a Wi
 - **Significance Level**: α = 0.05
 - **Critical Value**: According to the Wilcoxon table below, the critical value for N=10 at α=0.05 is 8
 
+<div align="center">
+
 <img width = "35%" src="https://github.com/user-attachments/assets/065c3956-1793-44a3-bc46-0e9aa5745a4d">
+
+</div>
+<br>
 
 Since our obtained W value (7.5) is less than the critical value (8), we can reject the null hypothesis with 95% confidence. This confirms that the differences in both cognitive load (TLX) and usability (SUS) between difficulty modes are statistically significant and not due to random variation.
 
@@ -590,7 +627,7 @@ We converted our looping main menu animation from a GIF to a mp4 video. Our init
 
 <br>
 
-This has a postive impact on AstroCat's [Software Carbon Intensity](https://sci.greensoftware.foundation) score by reducing the 'E' (energy) component in the score's formula **(SCI = (E * I) + M per R)**. Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further, we created a smaller background video more inline with the game's style (using around 1.5 MB).
+This has a postive impact on AstroCat's [Software Carbon Intensity](https://sci.greensoftware.foundation) score by reducing the 'E' (energy) component in the score's formula (**SCI = (E * I) + M per R**). Even the MP4 version of our original background was large, so to reduce the performance impact of our menu further, we created a smaller background video more inline with the game's style (using around 1.5 MB).
 
 #### Trade-off: GIFs versus native animation:
 
@@ -607,7 +644,6 @@ Despite the relative ineffeciency of GIFs, we used them extensively for our in-g
 
 The AstroCat gif requires 10 KB of memory. To implement the same complexity of animation using PNGs would require 16 KB of memory, and additional energy consumption from increased code complexity to implement the animation:
 
-
 <div align="center">
  
 | <img src="https://github.com/user-attachments/assets/f2dbe04f-eea6-4367-b13c-3b2c781a4a34"/> |
@@ -615,9 +651,7 @@ The AstroCat gif requires 10 KB of memory. To implement the same complexity of a
 |10 KB AstroCat gif, the only AstroCat asset required |
 
 </div>
-
 <br>
-
   
 ### Social Sustainability and Accessibility
 
@@ -636,34 +670,21 @@ While these features significantly enhance the inclusivity and usability of the 
 
 ## Conclusion
 
-- 10% ~500 words
+We greatly enjoyed working together to deliver AstroCat, and we're proud of the game we have created - each one of us has our own ideas, designs, and technical breakthroughs woven in to the code of the game. None of us had any real experience in creating web-based games, so the development process was full of learning-through-doing and working together to find out, often through trial and error, how to achieve the functionality we wanted.
 
-- Reflect on project as a whole. Lessons learned. Reflect on challenges. Future work.
+This was the first time any of us had worked collaboratively on software, and a key lesson we took away was the importance of both technical and organisational processes in creating software as a team. For example, we initally found using git and branches confusing, and in the early days we were each using a separate directory to commit code, before one person worked to integrate it into /docs. However, as we got the hang of git and using branches, we all became great advocates as it helped us avoid breaking changes in production, and enabled us to try out features without having to commit them to our main branch. 
 
-We greatly enjoyed working together to deliver AstroCat, and we're proud of the game we have created - each one of us have our own ideas, designs, and technical breaktrhoughs woven in to the code of the game. None of us had any real experience in creating web-based games, so the development process was full of learning-through-doing and working together to find out - often through trial and error - how to acheieve the functionality we wanted.
+We implemented change control policies for our GitHub repo, which meant someone else had to approve our code before a pull request could be merged, because we had learnt how effective change control had enabled us to deliver a great product collaboratively. Equally, we learnt how important managing our work was. At first, it was easy to see Kanban and user stories as somehwat overkill, but as the complexity of the system grew and we started to find defects or think of enhancements, having a system to record, assign, and track these items using our Kanban board became essential for us to able to address them.
 
-<br>
-
-This was the first time any of us had worked collaboratively on software, and a key lesson we took away was the importance of both technical and organisational processes in creating software as a team. For example, we initally found using git and branches confusing, and in the early days we were using a seperate directory to seperatley commit code, before one person worked to integrate it into /docs. However, as we got the hang of git and using branches, we all became great advocates as it helped us avoid breaking changes in production, and enabled us to try out feautures without having to commit them to our main branch. We implemented change control policies for our GitHub repo which meant someone else had to approve our code before a pull request could be merged - because we had learnt how effective change control had enabled us to deliver a great product collaborativley. Equally, we learnt how important managing our work was. At first, it was easy to see Kanban and user stories as somehwat overkill, but  as the complexity of the system grew and we started to find defects or think of enhancements, having a system to record, assign, and track these items using our Kanban board became essential for us to able to address them.
-
-In our other units (C and Java), we'd all been taught about the importance of good code structure/well designed classes, DRY code, informative variable/function names, and comments - and when completing small, indvidual assignments the neccisity of these principles was quite abstract. However, working together on this larger proejct in which none of us understood all of the code meant these development principles now seemed utterly essential for us to work together on the same codebase and read each others code. 
-
-<br>
+In our other units (C and Java), we'd all been taught about the importance of good code structure/well designed classes, DRY code, informative variable/function names, and comments - and when completing small, individual assignments the necessity of these principles was quite abstract. However, working together on this larger project in which none of us understood all of the code, meant these development principles now seemed utterly essential for us to effectively work together on the same codebase. 
 
 * * **  Reflect on challenges * * *
  
-Future work on AstroCat would involve integrating some of the feautures that we considered but assessed to be too complex to deliver in our limited timerame. For example, our online multiplayer feasability showed that it was possible to implement given enough time, and this would be a logical next step. Designing a greater range of AstroCat designs and equipment weapons, as well as more diverse challenges and shapes of room (e.g. non-square rooms, rooms with 'final bosses') would also be a plan for the future. 
-
-
-
-
-
-
-
-
-
+Future work on AstroCat would involve integrating some of the features we considered, but assessed to be too complex to deliver in our limited timeframe. For example, our online multiplayer feasability showed that it was possible to implement given enough time, and this would be a logical next step. Creating a greater range of AstroCat designs and a variety of usable weapons, as well as more diverse challenges and shapes of room (e.g. non-square rooms, rooms with 'final bosses') would also be a plan for the future. 
 
 ## Contribution Statement
+
+<div align="center">
 
 | Team Member | Contribution |
 |-------------------|--------------|
@@ -673,6 +694,8 @@ Future work on AstroCat would involve integrating some of the feautures that we 
 | Yoda Monplub | 1.0 |
 | Will Nixon | 1.0 |
 | Dylan Haye | 1.0 |
+
+</div>
 
 ## References
 
