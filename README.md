@@ -126,9 +126,10 @@ AstroCat the character may exist in a vacuum (i.e. space), but AstroCat the game
 
 <br>
 <div align="center">
- <img src="https://github.com/user-attachments/assets/4cc95c6b-237f-459a-bc03-f70a3bfb47e4" width="500">
+ <img src="https://github.com/user-attachments/assets/6d5669b0-a823-4c6c-a78c-95fb8078f37c" width="500">
 </div>
 <br>
+
 
 <br>
 Next, we thought about who might play AstroCat (the 'Gaming public' captured in our onion model), and what differing requirements they could have. We conceptualised diverse user types using a set of personas, translating their needs into epics and user stories. 
